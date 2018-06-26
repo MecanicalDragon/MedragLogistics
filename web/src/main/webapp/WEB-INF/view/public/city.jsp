@@ -21,7 +21,7 @@
         <div class="text-center">
             <h1>Cities</h1>
 
-            <form:form class="form" method="post" modelAttribute="city" action="${contextPath}/city/dbin">
+            <form:form class="form" method="post" modelAttribute="city" action="/city/dbin">
 
                 <div class="row justify-content-sm-center">
                     <form:input name="name" placeholder="City" path="name" autofocus="true"
@@ -41,13 +41,16 @@
                 <br>
                 <button class="btn btn-success">Add city</button>
                 <br>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/truck">to Trucks</a>
-                </div>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/driver">to Drivers</a>
-                </div>
             </form:form>
+                <div class="text-primary text-right">
+                    <a href="/truck">to Trucks</a>
+                </div>
+                <div class="text-primary text-right">
+                    <a href="/driver">to Drivers</a>
+                </div>
+            <div class="text-primary text-right">
+                <a href="/city/printCity">print City</a>
+            </div>
 
         </div>
     </div>

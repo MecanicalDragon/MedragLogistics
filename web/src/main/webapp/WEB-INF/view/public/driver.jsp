@@ -20,7 +20,7 @@
         <div class="text-center">
             <h1>Drivers</h1>
 
-            <form:form class="form" method="post" modelAttribute="driver" action="${contextPath}driver/dbind">
+            <form:form class="form" method="post" modelAttribute="driver" action="/driver/dbind">
 
                 <div class="row justify-content-sm-center">
                     <form:input name="number" placeholder="number" path="personalNumber"
@@ -60,16 +60,17 @@
                 <br>
                 <button class="btn btn-success">Add Driver</button>
                 <br>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/truck">to Trucks</a>
-                </div>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}city">to Cities</a>
-                </div>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}driver/printD">print Driver</a>
-                </div>
             </form:form>
+
+                <div class="text-primary text-right">
+                    <a href="/truck">to Trucks</a>
+                </div>
+                <div class="text-primary text-right">
+                    <a href="/city">to Cities</a>
+                </div>
+                <div class="text-primary text-right">
+                    <a href="/driver/printD">print Driver</a>
+                </div>
 
         </div>
     </div>

@@ -24,6 +24,13 @@ public class CityController {
         return "public/city";
     }
 
+    @GetMapping("printCity")
+    public String printCity(Model model){
+        System.out.println(cityService.getCityById(1));
+        model.addAttribute("city", new CityDto());
+        return "public/city";
+    }
+
     @PostMapping("dbin")
     public String addCity(@ModelAttribute("city") CityDto city){
         cityService.addCity(city);

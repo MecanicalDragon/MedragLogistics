@@ -14,11 +14,13 @@ public class DriverDto {
 
     private int workedTime;
 
-    private DriverState state;
+    private String state;
 
-    private CityDto currentCity;
+    private String currentCity;
 
-    private TruckDto currentTruck;
+    private String currentTruck;
+
+
 
     public int getId() {
         return id;
@@ -60,27 +62,27 @@ public class DriverDto {
         this.workedTime = workedTime;
     }
 
-    public DriverState getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(DriverState state) {
+    public void setState(String state) {
         this.state = state;
     }
 
-    public CityDto getCurrentCity() {
+    public String getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(CityDto currentCity) {
+    public void setCurrentCity(String currentCity) {
         this.currentCity = currentCity;
     }
 
-    public TruckDto getCurrentTruck() {
+    public String getCurrentTruck() {
         return currentTruck;
     }
 
-    public void setCurrentTruck(TruckDto currentTruck) {
+    public void setCurrentTruck(String currentTruck) {
         this.currentTruck = currentTruck;
     }
 
@@ -93,8 +95,8 @@ public class DriverDto {
                 ", surname='" + surname + '\'' +
                 ", workedTime=" + workedTime +
                 ", state=" + state +
-                ", currentCity=" + currentCity.getName() +
-                ", currentTruck=" + currentTruck.getRegNumber() +
+                ", currentCity=" + currentCity +
+                ", currentTruck=" + currentTruck +
                 '}';
     }
 }

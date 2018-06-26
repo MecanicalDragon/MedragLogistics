@@ -31,19 +31,19 @@ public class DriverServiceImpl implements DriverService{
 
     private DriverDao<Driver> driverDao;
 
-//    private CityDao<City> cityDao;
-//
-//    private TruckDao<Truck> truckDao;
-//
-//    @Autowired
-//    public void setCityDao(CityDao<City> cityDao) {
-//        this.cityDao = cityDao;
-//    }
-//
-//    @Autowired
-//    public void setTruckDao(TruckDao<Truck> truckDao) {
-//        this.truckDao = truckDao;
-//    }
+    private CityDao<City> cityDao;
+
+    private TruckDao<Truck> truckDao;
+
+    @Autowired
+    public void setCityDao(CityDao<City> cityDao) {
+        this.cityDao = cityDao;
+    }
+
+    @Autowired
+    public void setTruckDao(TruckDao<Truck> truckDao) {
+        this.truckDao = truckDao;
+    }
 
     @Autowired
     public void setDriverDao(DriverDao<Driver> driverDao) {
@@ -53,7 +53,13 @@ public class DriverServiceImpl implements DriverService{
     @Override
     @Transactional
     public void addDriver(DriverDto driverDto) {
-        driverDao.addEntity(new ModelMapper().map(driverDto, Driver.class));
+
+        Driver driver = new ModelMapper().map(driverDto, Driver.class);
+        Truck truck = truckDao.getEntityByNaturalId(new Truck(),driverDto.getCurrentTruck());
+        driver.setCurrentTruck(truck);
+        City city = cityDao.getEntityByNaturalId(new City(), driverDto.getCurrentCity());
+        driver.setCurrentCity(city);
+        driverDao.addEntity(driver);
     }
 
     @Override

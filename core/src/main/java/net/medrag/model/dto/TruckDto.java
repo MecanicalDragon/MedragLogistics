@@ -14,9 +14,11 @@ public class TruckDto {
 
     private boolean state;
 
-    private CityDto currentCity;
+    private String currentCity;
 
-    private Set<DriverDto> driverSet;
+    private Set<String> driverSet;
+
+
 
     public int getId() {
         return id;
@@ -58,19 +60,19 @@ public class TruckDto {
         this.state = state;
     }
 
-    public CityDto getCurrentCity() {
+    public String getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(CityDto currentCity) {
+    public void setCurrentCity(String currentCity) {
         this.currentCity = currentCity;
     }
 
-    public Set<DriverDto> getDriverSet() {
+    public Set<String> getDriverSet() {
         return driverSet;
     }
 
-    public void setDriverSet(Set<DriverDto> driverSet) {
+    public void setDriverSet(Set<String> driverSet) {
         this.driverSet = driverSet;
     }
 
@@ -82,7 +84,7 @@ public class TruckDto {
                 ", brigadeStr=" + brigadeStr +
                 ", capacity=" + capacity +
                 ", state=" + state +
-                ", currentCity=" + currentCity.getName() +
+                ", currentCity=" + currentCity +
                 ", driverSet=" + driverSet +
                 '}';
     }

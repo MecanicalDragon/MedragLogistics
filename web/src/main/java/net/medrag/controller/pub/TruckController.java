@@ -25,18 +25,15 @@ public class TruckController {
     }
 
     @GetMapping("printTruck")
-    public String printTruck(){
-
+    public String printTruck(Model model){
         System.out.println(truckService.getTruckById(1));
-
+        model.addAttribute("truck", new TruckDto());
         return "public/truck";
     }
 
     @PostMapping("dbint")
     public String post(@ModelAttribute("truck") TruckDto truck){
-
-        truckService.testTruck(truck);
-
+        truckService.addTruck(truck);
         return "public/truck";
 
     }

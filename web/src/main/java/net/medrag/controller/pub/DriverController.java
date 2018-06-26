@@ -1,12 +1,7 @@
 package net.medrag.controller.pub;
 
-import net.medrag.model.domain.enums.DriverState;
-import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.DriverDto;
-import net.medrag.model.dto.TruckDto;
-import net.medrag.model.service.CityService;
 import net.medrag.model.service.DriverService;
-import net.medrag.model.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,8 +19,9 @@ public class DriverController {
     }
 
     @GetMapping("printD")
-    public String printTruck(){
+    public String printTruck(Model model){
         System.out.println(driverService.getDriverById(1));
+        model.addAttribute("driver", new DriverDto());
         return "public/driver";
     }
 

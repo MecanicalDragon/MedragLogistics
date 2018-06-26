@@ -12,9 +12,11 @@ public class CityDto {
 
     private int coordinates_Y;
 
-    private Set<TruckDto> truckSet;
+    private Set<String> truckSet;
 
-    private Set<DriverDto> driverSet;
+    private Set<String> driverSet;
+
+
 
     public int getId() {
         return id;
@@ -48,19 +50,19 @@ public class CityDto {
         this.coordinates_Y = coordinates_Y;
     }
 
-    public Set<TruckDto> getTruckSet() {
+    public Set<String> getTruckSet() {
         return truckSet;
     }
 
-    public void setTruckSet(Set<TruckDto> truckSet) {
+    public void setTruckSet(Set<String> truckSet) {
         this.truckSet = truckSet;
     }
 
-    public Set<DriverDto> getDriverSet() {
+    public Set<String> getDriverSet() {
         return driverSet;
     }
 
-    public void setDriverSet(Set<DriverDto> driverSet) {
+    public void setDriverSet(Set<String> driverSet) {
         this.driverSet = driverSet;
     }
 

@@ -19,7 +19,7 @@
         <div class="text-center">
             <h1>Trucks</h1>
 
-            <form:form class="form" method="post" modelAttribute="truck" action="${contextPath}truck/dbint">
+            <form:form class="form" method="post" modelAttribute="truck" action="/truck/dbint">
 
                 <div class="row justify-content-sm-center">
                     <form:input name="number" placeholder="number" path="regNumber"
@@ -49,16 +49,18 @@
                 <br>
                 <button class="btn btn-success">Add truck</button>
                 <br>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}city">to Cities</a>
-                </div>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/driver">to Drivers</a>
-                </div>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}truck/printTruck">print Truck</a>
-                </div>
+
             </form:form>
+
+                <div class="text-primary text-right">
+                    <a href="/city">to Cities</a>
+                </div>
+                <div class="text-primary text-right">
+                    <a href="/driver">to Drivers</a>
+                </div>
+                <div class="text-primary text-right">
+                    <a href="/truck/printTruck">print Truck</a>
+                </div>
 
         </div>
     </div>

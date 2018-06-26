@@ -1,6 +1,8 @@
 package net.medrag.model.service;
 
+import net.medrag.model.dao.CityDao;
 import net.medrag.model.dao.TruckDao;
+import net.medrag.model.domain.City;
 import net.medrag.model.domain.Truck;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.TruckDto;
@@ -24,6 +26,13 @@ public class TruckServiceImpl implements TruckService {
 
     private TruckDao<Truck> truckDao;
 
+    private CityDao<City> cityDao;
+
+    @Autowired
+    public void setCityDao(CityDao<City> cityDao) {
+        this.cityDao = cityDao;
+    }
+
     @Autowired
     public void setTruckDao(TruckDao<Truck> truckDao) {
         this.truckDao = truckDao;
@@ -32,7 +41,12 @@ public class TruckServiceImpl implements TruckService {
     @Override
     @Transactional
     public void addTruck(TruckDto truckDto) {
-        truckDao.addEntity(new ModelMapper().map(truckDto, Truck.class));
+
+        Truck truck = new ModelMapper().map(truckDto, Truck.class);
+        City city = cityDao.getEntityByNaturalId(new City(), truckDto.getCurrentCity());
+        truck.setCurrentCity(city);
+
+        truckDao.addEntity(truck);
     }
 
     @Override
