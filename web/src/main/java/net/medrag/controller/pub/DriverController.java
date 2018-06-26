@@ -9,10 +9,8 @@ import net.medrag.model.service.DriverService;
 import net.medrag.model.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("driver")
@@ -27,34 +25,20 @@ public class DriverController {
 
     @GetMapping("printD")
     public String printTruck(){
-
         System.out.println(driverService.getDriverById(1));
-
         return "public/driver";
     }
 
     @GetMapping()
-    public String returnView(){
-
+    public String returnView(Model model){
+        model.addAttribute("driver", new DriverDto());
         return "public/driver";
     }
 
-    // bind to DTO in JSP
-
     @PostMapping("dbind")
-    public String addDriver(
-            @RequestParam String name,
-            @RequestParam String number,
-            @RequestParam String surname,
-            @RequestParam String time,
-            @RequestParam String state,
-            @RequestParam String city,
-            @RequestParam String truck){
-
-        driverService.addDriver(name, number, surname, time, state, city, truck);
-
+    public String addDriver(@ModelAttribute("driver") DriverDto driver){
+        driverService.addDriver(driver);
         return "public/driver";
-
     }
 
 }

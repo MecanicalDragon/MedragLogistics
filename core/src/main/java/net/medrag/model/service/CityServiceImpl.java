@@ -75,13 +75,10 @@ public class CityServiceImpl implements CityService {
 
     //  BUSINESS LOGIC BELOW
 
-    public void testCity(String name, String x, String y) {
-        CityDto city = new CityDto();
-        city.setName(name);
-        city.setCoordinates_X(Integer.valueOf(x));
-        city.setCoordinates_Y(Integer.valueOf(y));
+    @Override
+    public void testCity(CityDto cityDto) {
 
-        addCity(city);
+        addCity(cityDto);
         System.out.println("successfull adding");
 
         CityDto idCity = getCityById(6);        //change this parameter

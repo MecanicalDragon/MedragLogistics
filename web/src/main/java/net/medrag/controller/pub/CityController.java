@@ -27,7 +27,7 @@ public class CityController {
     @PostMapping("dbin")
     public String addCity(@ModelAttribute("city") CityDto city){
         cityService.addCity(city);
-        return "forward:../public/city";
+        return "public/city";
     }
 
 }

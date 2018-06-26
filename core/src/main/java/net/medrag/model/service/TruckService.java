@@ -21,5 +21,5 @@ public interface TruckService {
     TruckDto getTruckByRegNumber(String id);
     List<TruckDto> getTruckList();
 
-    public void addTruck(String number, String brigade, String capacity, String state, String currentCity);
+    public void testTruck(TruckDto truckDto);
 }

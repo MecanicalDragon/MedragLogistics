@@ -20,5 +20,5 @@ public interface CityService {
     CityDto getCityByName(String name);
     List<CityDto> getCityList();
 
-    void testCity(String name, String x, String y);
+    void testCity(CityDto cityDto);
 }

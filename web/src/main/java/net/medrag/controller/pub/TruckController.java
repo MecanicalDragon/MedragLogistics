@@ -1,12 +1,11 @@
 package net.medrag.controller.pub;
 
+import net.medrag.model.dto.TruckDto;
 import net.medrag.model.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("truck")
@@ -20,8 +19,8 @@ public class TruckController {
     }
 
     @GetMapping()
-    public String returnView(){
-
+    public String returnView(Model model){
+        model.addAttribute("truck", new TruckDto());
         return "public/truck";
     }
 
@@ -34,13 +33,9 @@ public class TruckController {
     }
 
     @PostMapping("dbint")
-    public String post(@RequestParam String number,
-                       @RequestParam String brigade,
-                       @RequestParam String capacity,
-                       @RequestParam String state,
-                       @RequestParam String currentCity){
+    public String post(@ModelAttribute("truck") TruckDto truck){
 
-        truckService.addTruck(number, brigade, capacity, state, currentCity);
+        truckService.testTruck(truck);
 
         return "public/truck";
 

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <html>
@@ -18,34 +20,41 @@
         <div class="text-center">
             <h1>Drivers</h1>
 
-            <form class="form" method="post" action="${contextPath}driver/dbind">
+            <form:form class="form" method="post" modelAttribute="driver" action="${contextPath}driver/dbind">
+
                 <div class="row justify-content-sm-center">
-                    <input name="number" placeholder="number"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="number" placeholder="number" path="personalNumber"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-center">
-                    <input name="name" placeholder="name"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="name" placeholder="name" path="name"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-sm-center">
-                    <input name="surname" placeholder="surname"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="surname" placeholder="surname" path="surname"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-sm-center">
-                    <input name="time" placeholder="time"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="time" placeholder="time" path="workedTime"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-sm-center">
-                    <input name="state" placeholder="state"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="state" placeholder="state" path="state"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-sm-center">
-                    <input name="city" placeholder="city"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="city" placeholder="city" path="currentCity"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-sm-center">
-                    <input name="truck" placeholder="truck"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="truck" placeholder="truck" path="currentTruck"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
 
                 <br>
@@ -60,7 +69,7 @@
                 <div class="text-primary text-right">
                     <a href="${contextPath}driver/printD">print Driver</a>
                 </div>
-            </form>
+            </form:form>
 
         </div>
     </div>

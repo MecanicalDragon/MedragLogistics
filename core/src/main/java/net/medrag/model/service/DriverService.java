@@ -20,6 +20,5 @@ public interface DriverService {
     DriverDto getDriverByPersonalNumber(String id);
     List<DriverDto> getDriverList();
 
-    void addDriver(String name, String number, String surname,
-                            String time, String state, String city, String truck);
+    void testDriver(DriverDto driverDto);
 }

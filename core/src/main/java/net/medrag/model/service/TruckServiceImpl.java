@@ -24,13 +24,6 @@ public class TruckServiceImpl implements TruckService {
 
     private TruckDao<Truck> truckDao;
 
-    private CityService cityService;
-
-    @Autowired
-    public void setCityService(CityService cityService) {
-        this.cityService = cityService;
-    }
-
     @Autowired
     public void setTruckDao(TruckDao<Truck> truckDao) {
         this.truckDao = truckDao;
@@ -79,17 +72,9 @@ public class TruckServiceImpl implements TruckService {
 
     //  BUSINESS LOGIC BELOW
 
-    public void addTruck(String number, String brigade, String capacity, String state, String currentCity) {
-        TruckDto truck = new TruckDto();
-        truck.setRegNumber(number);
-        truck.setBrigadeStr(Integer.valueOf(brigade));
-        truck.setCapacity(Integer.valueOf(capacity));
-        truck.setState(Boolean.valueOf(state));
+    @Override
+    public void testTruck(TruckDto truckDto) {
 
-        CityDto city = cityService.getCityByName(currentCity);
-
-        truck.setCurrentCity(city);
-
-        addTruck(truck);
+        addTruck(truckDto);
     }
 }

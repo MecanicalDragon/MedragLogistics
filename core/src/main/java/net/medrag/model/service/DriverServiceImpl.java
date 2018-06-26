@@ -1,7 +1,11 @@
 package net.medrag.model.service;
 
+import net.medrag.model.dao.CityDao;
 import net.medrag.model.dao.DriverDao;
+import net.medrag.model.dao.TruckDao;
+import net.medrag.model.domain.City;
 import net.medrag.model.domain.Driver;
+import net.medrag.model.domain.Truck;
 import net.medrag.model.domain.enums.DriverState;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.DriverDto;
@@ -27,26 +31,24 @@ public class DriverServiceImpl implements DriverService{
 
     private DriverDao<Driver> driverDao;
 
-    private TruckService truckService;
-
-    private CityService cityService;
-
-    @Autowired
-    public void setCityService(CityService cityService) {
-        this.cityService = cityService;
-    }
-
-    @Autowired
-    public void setTruckService(TruckService truckService) {
-        this.truckService = truckService;
-    }
+//    private CityDao<City> cityDao;
+//
+//    private TruckDao<Truck> truckDao;
+//
+//    @Autowired
+//    public void setCityDao(CityDao<City> cityDao) {
+//        this.cityDao = cityDao;
+//    }
+//
+//    @Autowired
+//    public void setTruckDao(TruckDao<Truck> truckDao) {
+//        this.truckDao = truckDao;
+//    }
 
     @Autowired
     public void setDriverDao(DriverDao<Driver> driverDao) {
         this.driverDao = driverDao;
     }
-
-
 
     @Override
     @Transactional
@@ -91,23 +93,10 @@ public class DriverServiceImpl implements DriverService{
 
     //  BUSINESS LOGIC BELOW
 
-    public void addDriver(String name, String number, String surname,
-                            String time, String state, String city, String truck) {
+    @Override
+    public void testDriver(DriverDto driverDto) {
 
-        DriverDto driver = new DriverDto();
-        driver.setPersonalNumber(number);
-        driver.setName(name);
-        driver.setSurname(surname);
-        driver.setWorkedTime(Integer.valueOf(time));
-        driver.setState(DriverState.valueOf(state));
-
-        CityDto ccity = cityService.getCityByName(city);
-        driver.setCurrentCity(ccity);
-
-        TruckDto truckk = truckService.getTruckById(Integer.valueOf(truck));
-        driver.setCurrentTruck(truckk);
-
-        addDriver(driver);
+        addDriver(driverDto);
     }
 
 }

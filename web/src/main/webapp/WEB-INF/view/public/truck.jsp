@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <html>
@@ -17,26 +19,31 @@
         <div class="text-center">
             <h1>Trucks</h1>
 
-            <form class="form" method="post" action="${contextPath}truck/dbint">
+            <form:form class="form" method="post" modelAttribute="truck" action="${contextPath}truck/dbint">
+
                 <div class="row justify-content-sm-center">
-                    <input name="number" placeholder="number"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="number" placeholder="number" path="regNumber"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-center">
-                    <input name="brigade" placeholder="brigade"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="brigade" placeholder="brigade" path="brigadeStr"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-sm-center">
-                    <input name="capacity" placeholder="capacity"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="capacity" placeholder="capacity" path="capacity"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-sm-center">
-                    <input name="state" placeholder="state"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="state" placeholder="state" path="state"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
+
                 <div class="row justify-content-sm-center">
-                    <input name="currentCity" placeholder="currentCity"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
+                    <form:input name="currentCity" placeholder="currentCity" path="currentCity"
+                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
                 </div>
 
                 <br>
@@ -51,7 +58,7 @@
                 <div class="text-primary text-right">
                     <a href="${contextPath}truck/printTruck">print Truck</a>
                 </div>
-            </form>
+            </form:form>
 
         </div>
     </div>
