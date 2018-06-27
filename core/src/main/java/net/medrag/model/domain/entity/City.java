@@ -1,22 +1,47 @@
-package net.medrag.model.dto;
+/*
+ * City
+ *
+ * v.1.0
+ *
+ * created by Stanislav Tretyakov 20.06.18
+ */
+package net.medrag.model.domain.entity;
 
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
 import java.util.Set;
 
-public class CityDto {
+/**
+ * Simple JavaBean domain object, that represents a City
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
+@javax.persistence.Entity
+@Table(name = "city")
+public class City implements Entity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
+    @NaturalId
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "coordinates_X")
     private int coordinates_X;
 
+    @Column(name = "coordinates_Y")
     private int coordinates_Y;
 
-    private Set<String> truckSet;
+    @OneToMany(mappedBy = "currentCity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    private Set<Truck>truckSet;
 
-    private Set<String> driverSet;
-
-
+    @OneToMany(mappedBy = "currentCity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    private Set<Driver>driverSet;
 
     public int getId() {
         return id;
@@ -50,25 +75,25 @@ public class CityDto {
         this.coordinates_Y = coordinates_Y;
     }
 
-    public Set<String> getTruckSet() {
+    public Set<Truck> getTruckSet() {
         return truckSet;
     }
 
-    public void setTruckSet(Set<String> truckSet) {
+    public void setTruckSet(Set<Truck> truckSet) {
         this.truckSet = truckSet;
     }
 
-    public Set<String> getDriverSet() {
+    public Set<Driver> getDriverSet() {
         return driverSet;
     }
 
-    public void setDriverSet(Set<String> driverSet) {
+    public void setDriverSet(Set<Driver> driverSet) {
         this.driverSet = driverSet;
     }
 
     @Override
     public String toString() {
-        return "CityDto{" +
+        return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", coordinates_X=" + coordinates_X +

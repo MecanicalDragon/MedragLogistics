@@ -1,13 +1,14 @@
 package net.medrag.model.service;
 
 import net.medrag.model.dao.CityDao;
-import net.medrag.model.dto.CityDto;
+import net.medrag.model.domain.dto.CityDto;
+import net.medrag.model.domain.entity.City;
 
 import java.util.List;
 
 /**
  * Standard service interface for DAO interface{@link CityDao},
- * working with domain object, that represents a {@link net.medrag.model.domain.City}
+ * working with domain object {@link City}
  *
  * @author Stanislav Tretyakov
  * @version 1.0

@@ -6,11 +6,11 @@
              version="2.0">
 
     <persistence-unit name="medrag_logistics_db">
-        <class>net.medrag.model.domain.City</class>
-        <class>net.medrag.model.domain.Driver</class>
-        <class>net.medrag.model.domain.Truck</class>
+        <class>net.medrag.model.domain.entity.City</class>
+        <class>net.medrag.model.domain.entity.Driver</class>
+        <class>net.medrag.model.domain.entity.Truck</class>
         <!--<class>net.medrag.model.domain.Order</class>-->
         <!--<class>net.medrag.model.domain.Waypoint</class>-->
-        <!--<class>net.medrag.model.domain.Cargo</class>-->
+        <class>net.medrag.model.domain.entity.Cargo</class>
     </persistence-unit>
 </persistence>

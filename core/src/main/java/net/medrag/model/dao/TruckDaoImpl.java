@@ -1,10 +1,11 @@
 package net.medrag.model.dao;
 
-import net.medrag.model.domain.Truck;
+import net.medrag.model.domain.entity.Truck;
 import org.springframework.stereotype.Repository;
 
 /**
- * Standard DAO interface implementation for domain object, that represents a {@link Truck}
+ * Standard DAO interface implementation for domain object {@link Truck}
+ *
  * @author Stanislav Tretyakov
  * @version 1.0
  */

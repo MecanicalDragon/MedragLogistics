@@ -1,24 +1,44 @@
-package net.medrag.model.dto;
+package net.medrag.model.domain.entity;
 
+import org.hibernate.annotations.NaturalId;
+
+import javax.persistence.*;
 import java.util.Set;
 
-public class TruckDto {
+/**
+ * Simple JavaBean domain object, that represents a Truck
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
+@javax.persistence.Entity
+@Table(name = "truck")
+public class Truck implements Entity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
+    @NaturalId
+    @Column(name = "reg_number")
     private String regNumber;
 
+    @Column(name = "brigade_str")
     private int brigadeStr;
 
+    @Column(name = "capacity")
     private int capacity;
 
+    @Column(name = "state")
     private boolean state;
 
-    private String currentCity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "current_city_id", nullable = false)
+    private City currentCity;
 
-    private Set<String> driverSet;
-
-
+    @OneToMany(mappedBy = "currentTruck", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    private Set<Driver> driverSet;
 
     public int getId() {
         return id;
@@ -60,32 +80,23 @@ public class TruckDto {
         this.state = state;
     }
 
-    public String getCurrentCity() {
+    public City getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(String currentCity) {
+    public void setCurrentCity(City currentCity) {
         this.currentCity = currentCity;
-    }
-
-    public Set<String> getDriverSet() {
-        return driverSet;
-    }
-
-    public void setDriverSet(Set<String> driverSet) {
-        this.driverSet = driverSet;
     }
 
     @Override
     public String toString() {
-        return "TruckDto{" +
+        return "Truck{" +
                 "id=" + id +
                 ", regNumber='" + regNumber + '\'' +
                 ", brigadeStr=" + brigadeStr +
                 ", capacity=" + capacity +
                 ", state=" + state +
-                ", currentCity=" + currentCity +
-                ", driverSet=" + driverSet +
+                ", currentCity=" + currentCity.getName() +
                 '}';
     }
 }

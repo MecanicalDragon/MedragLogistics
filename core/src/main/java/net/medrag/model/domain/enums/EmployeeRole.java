@@ -1,7 +1,7 @@
 package net.medrag.model.domain.enums;
 
 /**
- * Enum of field state for domain objects {@link} .
+ * Enum of field state for domain objects {@link Employee} .
  * Needs for indicate user role.
  *
  * @author Stanislav Tretyakov

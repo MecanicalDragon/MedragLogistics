@@ -1,6 +1,6 @@
 package net.medrag.controller.pub;
 
-import net.medrag.model.dto.CityDto;
+import net.medrag.model.domain.dto.CityDto;
 import net.medrag.model.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

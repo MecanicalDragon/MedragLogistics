@@ -1,46 +1,32 @@
-package net.medrag.model.domain;
+package net.medrag.model.domain.dto;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.NaturalId;
+import net.medrag.model.domain.entity.Truck;
 
-import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Simple JavaBean domain object, that represents a Truck
+ * Data Transfer Object of {@link Truck}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@Entity
-@Table(name = "truck")
-public class Truck {
+public class TruckDto implements Dto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @NaturalId
-    @Column(name = "reg_number")
     private String regNumber;
 
-    @Column(name = "brigade_str")
     private int brigadeStr;
 
-    @Column(name = "capacity")
     private int capacity;
 
-    @Column(name = "state")
     private boolean state;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "current_city_id", nullable = false)
-    private City currentCity;
+    private String currentCity;
 
-    @OneToMany(mappedBy = "currentTruck", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    private Set<Driver> driverSet;
+    private Set<String> driverSet;
+
+
 
     public int getId() {
         return id;
@@ -82,23 +68,32 @@ public class Truck {
         this.state = state;
     }
 
-    public City getCurrentCity() {
+    public String getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(City currentCity) {
+    public void setCurrentCity(String currentCity) {
         this.currentCity = currentCity;
+    }
+
+    public Set<String> getDriverSet() {
+        return driverSet;
+    }
+
+    public void setDriverSet(Set<String> driverSet) {
+        this.driverSet = driverSet;
     }
 
     @Override
     public String toString() {
-        return "Truck{" +
+        return "TruckDto{" +
                 "id=" + id +
                 ", regNumber='" + regNumber + '\'' +
                 ", brigadeStr=" + brigadeStr +
                 ", capacity=" + capacity +
                 ", state=" + state +
-                ", currentCity=" + currentCity.getName() +
+                ", currentCity=" + currentCity +
+                ", driverSet=" + driverSet +
                 '}';
     }
 }

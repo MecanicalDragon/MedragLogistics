@@ -1,6 +1,6 @@
 package net.medrag.controller.pub;
 
-import net.medrag.model.dto.DriverDto;
+import net.medrag.model.domain.dto.DriverDto;
 import net.medrag.model.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

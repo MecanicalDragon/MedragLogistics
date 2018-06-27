@@ -1,6 +1,6 @@
 package net.medrag.model.domain.enums;
 
-import net.medrag.model.domain.Driver;
+import net.medrag.model.domain.entity.Driver;
 
 /**
  * Enum of field state from domain object {@link Driver}.

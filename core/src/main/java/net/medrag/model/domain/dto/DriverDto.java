@@ -1,49 +1,32 @@
-package net.medrag.model.domain;
+package net.medrag.model.domain.dto;
 
-import net.medrag.model.domain.enums.DriverState;
-import org.hibernate.annotations.NaturalId;
-
-import javax.persistence.*;
+import net.medrag.model.domain.entity.Driver;
 
 /**
- * Simple JavaBean domain object, that represents a Driver
+ * Data Transfer Object of {@link Driver}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@Entity
-@Table(name = "driver")
-public class Driver {
+public class DriverDto implements Dto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @NaturalId
-    @Column(name = "personal_number")
     private String personalNumber;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
     private String surname;
 
-    @Column(name = "worked_time")
     private int workedTime;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "state", columnDefinition = "enum('rest', 'on_shift', 'driving', 'porter')")
-    private DriverState state;
+    private String state;
 
-    @ManyToOne
-    @JoinColumn(name = "current_city_id", nullable = false)
-    private City currentCity;
+    private String currentCity;
 
-    @ManyToOne
-    @JoinColumn(name = "current_truck_id", nullable = false)
-    private Truck currentTruck;
+    private String currentTruck;
+
+
 
     public int getId() {
         return id;
@@ -85,41 +68,41 @@ public class Driver {
         this.workedTime = workedTime;
     }
 
-    public DriverState getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(DriverState state) {
+    public void setState(String state) {
         this.state = state;
     }
 
-    public City getCurrentCity() {
+    public String getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(City currentCity) {
+    public void setCurrentCity(String currentCity) {
         this.currentCity = currentCity;
     }
 
-    public Truck getCurrentTruck() {
+    public String getCurrentTruck() {
         return currentTruck;
     }
 
-    public void setCurrentTruck(Truck currentTruck) {
+    public void setCurrentTruck(String currentTruck) {
         this.currentTruck = currentTruck;
     }
 
     @Override
     public String toString() {
-        return "Driver{" +
+        return "DriverDto{" +
                 "id=" + id +
-                ", personalNumber=" + personalNumber +
+                ", personalNumber='" + personalNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", workedTime=" + workedTime +
                 ", state=" + state +
-                ", currentCity=" + currentCity.getName() +
-                ", currentTruck=" + currentTruck.getRegNumber() +
+                ", currentCity=" + currentCity +
+                ", currentTruck=" + currentTruck +
                 '}';
     }
 }

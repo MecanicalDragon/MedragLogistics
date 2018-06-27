@@ -1,9 +1,10 @@
 package net.medrag.model.dao;
 
-import net.medrag.model.domain.Driver;
+import net.medrag.model.domain.entity.Driver;
 
 /**
- * Standard DAO interface for domain object, that represents a {@link Driver}
+ * Standard DAO interface for domain object {@link Driver}
+ *
  * @author Stanislav Tretyakov
  * @version 1.0
  */

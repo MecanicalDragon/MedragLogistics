@@ -1,9 +1,10 @@
 package net.medrag.model.dao;
 
-import net.medrag.model.domain.City;
+import net.medrag.model.domain.entity.City;
 
 /**
- * Standard DAO interface for domain object, that represents a {@link City}
+ * Standard DAO interface for domain object {@link City}
+ *
  * @author Stanislav Tretyakov
  * @version 1.0
  */

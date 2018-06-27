@@ -1,8 +1,8 @@
 package net.medrag.model.service;
 
 import net.medrag.model.dao.CityDao;
-import net.medrag.model.domain.City;
-import net.medrag.model.dto.CityDto;
+import net.medrag.model.domain.entity.City;
+import net.medrag.model.domain.dto.CityDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

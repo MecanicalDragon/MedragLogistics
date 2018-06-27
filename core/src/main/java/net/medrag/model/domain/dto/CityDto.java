@@ -1,47 +1,30 @@
-/*
- * City
- *
- * v.1.0
- *
- * created by Stanislav Tretyakov 20.06.18
- */
-package net.medrag.model.domain;
+package net.medrag.model.domain.dto;
 
-import org.hibernate.annotations.NaturalId;
+import net.medrag.model.domain.entity.City;
 
-import javax.persistence.*;
 import java.util.Set;
 
 /**
- * Simple JavaBean domain object, that represents a City
+ * Data Transfer Object of {@link City}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@Entity
-@Table(name = "city")
-public class City {
+public class CityDto implements Dto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private int id;
 
-    @NaturalId
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "coordinates_X")
     private int coordinates_X;
 
-    @Column(name = "coordinates_Y")
     private int coordinates_Y;
 
-    @OneToMany(mappedBy = "currentCity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    private Set<Truck>truckSet;
+    private Set<String> truckSet;
 
-    @OneToMany(mappedBy = "currentCity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
-    private Set<Driver>driverSet;
+    private Set<String> driverSet;
+
+
 
     public int getId() {
         return id;
@@ -75,25 +58,25 @@ public class City {
         this.coordinates_Y = coordinates_Y;
     }
 
-    public Set<Truck> getTruckSet() {
+    public Set<String> getTruckSet() {
         return truckSet;
     }
 
-    public void setTruckSet(Set<Truck> truckSet) {
+    public void setTruckSet(Set<String> truckSet) {
         this.truckSet = truckSet;
     }
 
-    public Set<Driver> getDriverSet() {
+    public Set<String> getDriverSet() {
         return driverSet;
     }
 
-    public void setDriverSet(Set<Driver> driverSet) {
+    public void setDriverSet(Set<String> driverSet) {
         this.driverSet = driverSet;
     }
 
     @Override
     public String toString() {
-        return "City{" +
+        return "CityDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", coordinates_X=" + coordinates_X +

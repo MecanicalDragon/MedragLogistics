@@ -1,5 +1,7 @@
 package net.medrag.model.domain.enums;
 
+import net.medrag.model.domain.entity.Cargo;
+
 /**
  * Enum of field state from domain object {@link Cargo}.
  * Needs for indicate cargo status.

@@ -1,5 +1,6 @@
 package net.medrag.model.dao;
 
+import net.medrag.model.domain.entity.Entity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,11 @@ import java.util.List;
 
 /**
  * Parent class for all DAO implementations
+ *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-public abstract class EntityDaoImpl<E> implements EntityDao<E> {
+public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 
     protected SessionFactory sessionFactory;
 

@@ -1,6 +1,6 @@
 package net.medrag.controller.pub;
 
-import net.medrag.model.dto.TruckDto;
+import net.medrag.model.domain.dto.TruckDto;
 import net.medrag.model.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
