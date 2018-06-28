@@ -59,6 +59,11 @@
             <artifactId>core</artifactId>
             <version>${application.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.megrag</groupId>
+            <artifactId>dto</artifactId>
+            <version>${application.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

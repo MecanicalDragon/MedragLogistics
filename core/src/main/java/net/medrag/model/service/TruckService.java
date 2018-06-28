@@ -2,7 +2,7 @@ package net.medrag.model.service;
 
 import net.medrag.model.dao.TruckDao;
 import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.domain.dto.TruckDto;
+import net.medrag.dto.TruckDto;
 
 import java.util.List;
 

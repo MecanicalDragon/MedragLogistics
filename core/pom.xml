@@ -71,7 +71,7 @@
         </dependency>
         <dependency>
             <groupId>net.megrag</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>dto</artifactId>
             <version>${application.version}</version>
         </dependency>
     </dependencies>

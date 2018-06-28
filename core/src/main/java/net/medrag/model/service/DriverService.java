@@ -1,7 +1,7 @@
 package net.medrag.model.service;
 
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.domain.dto.DriverDto;
+import net.medrag.dto.DriverDto;
 
 import java.util.List;
 

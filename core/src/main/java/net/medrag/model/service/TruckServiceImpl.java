@@ -4,7 +4,7 @@ import net.medrag.model.dao.CityDao;
 import net.medrag.model.dao.TruckDao;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.domain.dto.TruckDto;
+import net.medrag.dto.TruckDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package net.medrag.model.service;
 
 import net.medrag.model.dao.CityDao;
-import net.medrag.model.domain.dto.CityDto;
+import net.medrag.dto.CityDto;
 import net.medrag.model.domain.entity.City;
 
 import java.util.List;
