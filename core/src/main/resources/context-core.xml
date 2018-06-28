@@ -15,7 +15,6 @@
     http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <mvc:annotation-driven/>
-    <!--<context:annotation-config/>-->
     <context:component-scan base-package="net.medrag.model"/>
     <tx:annotation-driven/>
 
@@ -64,6 +63,7 @@
         <!--<property name="dataSource" ref="dataSource" />-->
         <!--<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />-->
         <!--<property name="persistenceProvider" ref="hibernatePersistenceProvider"/>-->
+        <!--<property name="packagesToScan" value="net.medrag.model.domain.entity"/>-->
     <!--</bean>-->
 
     <!--<bean id="hibernatePersistenceProvider" class="org.hibernate.jpa.HibernatePersistenceProvider"/>-->

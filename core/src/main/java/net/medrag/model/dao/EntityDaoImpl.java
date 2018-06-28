@@ -15,6 +15,9 @@ import java.util.List;
  */
 public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 
+//    @PersistenceUnit(unitName = "medrag_logistics_db")
+//    protected EntityManager entityManager;
+
     protected SessionFactory sessionFactory;
 
     @Autowired
