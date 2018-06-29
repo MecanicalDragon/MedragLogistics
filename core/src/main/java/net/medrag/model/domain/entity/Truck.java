@@ -18,17 +18,17 @@ public class Truck implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @NaturalId
     @Column(name = "reg_number")
     private String regNumber;
 
     @Column(name = "brigade_str")
-    private int brigadeStr;
+    private Integer brigadeStr;
 
     @Column(name = "capacity")
-    private int capacity;
+    private Integer capacity;
 
     @Column(name = "state")
     private boolean state;

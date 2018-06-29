@@ -8,23 +8,23 @@ package net.medrag.dto;
  */
 public class CargoDto implements Dto {
 
-    private int id;
+    private Integer id;
 
     private String cargo_number;
 
     private String name;
 
-    private int weight;
+    private Integer weight;
 
     private String state;
 
+    private CustomerDto customer;
 
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -44,11 +44,11 @@ public class CargoDto implements Dto {
         this.name = name;
     }
 
-    public int getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
@@ -60,6 +60,14 @@ public class CargoDto implements Dto {
         this.state = state;
     }
 
+    public CustomerDto getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerDto customer) {
+        this.customer = customer;
+    }
+
     @Override
     public String toString() {
         return "CargoDto{" +
@@ -68,6 +76,7 @@ public class CargoDto implements Dto {
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", state='" + state + '\'' +
+                ", customer=" + customer +
                 '}';
     }
 }

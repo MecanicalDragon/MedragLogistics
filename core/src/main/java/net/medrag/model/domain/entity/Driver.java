@@ -18,7 +18,7 @@ public class Driver implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @NaturalId
     @Column(name = "personal_number")

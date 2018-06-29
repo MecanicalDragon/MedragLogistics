@@ -10,25 +10,23 @@ import java.util.Set;
  */
 public class CityDto implements Dto {
 
-    private int id;
+    private Integer id;
 
     private String name;
 
-    private int coordinates_X;
+    private Integer coordinates_X;
 
-    private int coordinates_Y;
+    private Integer coordinates_Y;
 
-    private Set<String> truckSet;
+    private Set<TruckDto> truckSet;
 
-    private Set<String> driverSet;
+    private Set<DriverDto> driverSet;
 
-
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,35 +38,35 @@ public class CityDto implements Dto {
         this.name = name;
     }
 
-    public int getCoordinates_X() {
+    public Integer getCoordinates_X() {
         return coordinates_X;
     }
 
-    public void setCoordinates_X(int coordinates_X) {
+    public void setCoordinates_X(Integer coordinates_X) {
         this.coordinates_X = coordinates_X;
     }
 
-    public int getCoordinates_Y() {
+    public Integer getCoordinates_Y() {
         return coordinates_Y;
     }
 
-    public void setCoordinates_Y(int coordinates_Y) {
+    public void setCoordinates_Y(Integer coordinates_Y) {
         this.coordinates_Y = coordinates_Y;
     }
 
-    public Set<String> getTruckSet() {
+    public Set<TruckDto> getTruckSet() {
         return truckSet;
     }
 
-    public void setTruckSet(Set<String> truckSet) {
+    public void setTruckSet(Set<TruckDto> truckSet) {
         this.truckSet = truckSet;
     }
 
-    public Set<String> getDriverSet() {
+    public Set<DriverDto> getDriverSet() {
         return driverSet;
     }
 
-    public void setDriverSet(Set<String> driverSet) {
+    public void setDriverSet(Set<DriverDto> driverSet) {
         this.driverSet = driverSet;
     }
 
@@ -79,6 +77,8 @@ public class CityDto implements Dto {
                 ", name='" + name + '\'' +
                 ", coordinates_X=" + coordinates_X +
                 ", coordinates_Y=" + coordinates_Y +
+                ", truckSet=" + truckSet +
+                ", driverSet=" + driverSet +
                 '}';
     }
 }

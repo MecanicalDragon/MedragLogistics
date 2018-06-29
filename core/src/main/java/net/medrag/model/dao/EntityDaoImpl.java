@@ -27,7 +27,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 
     public void addEntity(E entity) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(entity);
+        session.save(entity);
     }
 
     public void updateEntityStatus(E entity) {

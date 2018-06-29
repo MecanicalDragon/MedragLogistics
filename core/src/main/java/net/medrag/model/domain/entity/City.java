@@ -25,17 +25,17 @@ public class City implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @NaturalId
     @Column(name = "name")
     private String name;
 
     @Column(name = "coordinates_X")
-    private int coordinates_X;
+    private Integer coordinates_X;
 
     @Column(name = "coordinates_Y")
-    private int coordinates_Y;
+    private Integer coordinates_Y;
 
     @OneToMany(mappedBy = "currentCity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private Set<Truck>truckSet;

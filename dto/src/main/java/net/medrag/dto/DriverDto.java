@@ -8,7 +8,7 @@ package net.medrag.dto;
  */
 public class DriverDto implements Dto {
 
-    private int id;
+    private Integer id;
 
     private String personalNumber;
 
@@ -16,21 +16,19 @@ public class DriverDto implements Dto {
 
     private String surname;
 
-    private int workedTime;
+    private Integer workedTime;
 
     private String state;
 
-    private String currentCity;
+    private CityDto currentCity;
 
-    private String currentTruck;
+    private TruckDto currentTruck;
 
-
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -58,11 +56,11 @@ public class DriverDto implements Dto {
         this.surname = surname;
     }
 
-    public int getWorkedTime() {
+    public Integer getWorkedTime() {
         return workedTime;
     }
 
-    public void setWorkedTime(int workedTime) {
+    public void setWorkedTime(Integer workedTime) {
         this.workedTime = workedTime;
     }
 
@@ -74,19 +72,19 @@ public class DriverDto implements Dto {
         this.state = state;
     }
 
-    public String getCurrentCity() {
+    public CityDto getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(String currentCity) {
+    public void setCurrentCity(CityDto currentCity) {
         this.currentCity = currentCity;
     }
 
-    public String getCurrentTruck() {
+    public TruckDto getCurrentTruck() {
         return currentTruck;
     }
 
-    public void setCurrentTruck(String currentTruck) {
+    public void setCurrentTruck(TruckDto currentTruck) {
         this.currentTruck = currentTruck;
     }
 
@@ -98,9 +96,9 @@ public class DriverDto implements Dto {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", workedTime=" + workedTime +
-                ", state=" + state +
-                ", currentCity=" + currentCity +
-                ", currentTruck=" + currentTruck +
+                ", state='" + state + '\'' +
+                ", currentCity=" + currentCity.getName() +
+                ", currentTruck=" + currentTruck.getRegNumber() +
                 '}';
     }
 }

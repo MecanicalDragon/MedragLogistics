@@ -18,7 +18,7 @@ public class Cargo implements Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @NaturalId
     @Column(name = "cargo_number")
@@ -28,17 +28,21 @@ public class Cargo implements Entity {
     private String name;
 
     @Column(name = "weight")
-    private int weight;
+    private Integer weight;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state", columnDefinition = "enum('prepared','on_board', 'delivered')")
     private CargoState state;
 
-    public int getId() {
+    @ManyToOne
+    @JoinColumn(name = "owner", nullable = false)
+    private Customer owner;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -58,11 +62,11 @@ public class Cargo implements Entity {
         this.name = name;
     }
 
-    public int getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
@@ -74,6 +78,14 @@ public class Cargo implements Entity {
         this.state = state;
     }
 
+    public Customer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Cargo{" +
@@ -82,6 +94,7 @@ public class Cargo implements Entity {
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", state=" + state +
+                ", owner=" + owner +
                 '}';
     }
 }

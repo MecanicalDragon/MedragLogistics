@@ -1,6 +1,7 @@
 package net.medrag.model.dao;
 
 import net.medrag.model.domain.entity.City;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**

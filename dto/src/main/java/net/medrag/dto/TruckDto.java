@@ -10,27 +10,25 @@ import java.util.Set;
  */
 public class TruckDto implements Dto {
 
-    private int id;
+    private Integer id;
 
     private String regNumber;
 
-    private int brigadeStr;
+    private Integer brigadeStr;
 
-    private int capacity;
+    private Integer capacity;
 
-    private boolean state;
+    private Boolean state;
 
-    private String currentCity;
+    private CityDto currentCity;
 
-    private Set<String> driverSet;
+    private Set<DriverDto> driverSet;
 
-
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -42,43 +40,43 @@ public class TruckDto implements Dto {
         this.regNumber = regNumber;
     }
 
-    public int getBrigadeStr() {
+    public Integer getBrigadeStr() {
         return brigadeStr;
     }
 
-    public void setBrigadeStr(int brigadeStr) {
+    public void setBrigadeStr(Integer brigadeStr) {
         this.brigadeStr = brigadeStr;
     }
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
-    public boolean isState() {
+    public Boolean getState() {
         return state;
     }
 
-    public void setState(boolean state) {
+    public void setState(Boolean state) {
         this.state = state;
     }
 
-    public String getCurrentCity() {
+    public CityDto getCurrentCity() {
         return currentCity;
     }
 
-    public void setCurrentCity(String currentCity) {
+    public void setCurrentCity(CityDto currentCity) {
         this.currentCity = currentCity;
     }
 
-    public Set<String> getDriverSet() {
+    public Set<DriverDto> getDriverSet() {
         return driverSet;
     }
 
-    public void setDriverSet(Set<String> driverSet) {
+    public void setDriverSet(Set<DriverDto> driverSet) {
         this.driverSet = driverSet;
     }
 
@@ -90,7 +88,7 @@ public class TruckDto implements Dto {
                 ", brigadeStr=" + brigadeStr +
                 ", capacity=" + capacity +
                 ", state=" + state +
-                ", currentCity=" + currentCity +
+                ", currentCity=" + currentCity.getName() +
                 ", driverSet=" + driverSet +
                 '}';
     }
