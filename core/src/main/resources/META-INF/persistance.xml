@@ -13,6 +13,7 @@
         <class>net.medrag.model.domain.entity.Driver</class>
         <class>net.medrag.model.domain.entity.Truck</class>
         <class>net.medrag.model.domain.entity.Cargo</class>
+        <class>net.medrag.model.domain.entity.User</class>
         <!--<class>net.medrag.model.domain.Order</class>-->
         <!--<class>net.medrag.model.domain.Waypoint</class>-->
     </persistence-unit>

@@ -18,7 +18,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 //    @PersistenceUnit(unitName = "medrag_logistics_db")
 //    protected EntityManager entityManager;
 
-    protected SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {

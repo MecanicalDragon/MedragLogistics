@@ -20,7 +20,7 @@
         <div class="text-center">
             <h1>Drivers</h1>
 
-            <form:form class="form" method="post" modelAttribute="driver" action="/driver/dbind">
+            <form:form class="form" method="post" modelAttribute="driver" action="/mgr-driver/dbind">
 
                 <div class="row justify-content-sm-center">
                     <form:input name="number" placeholder="number" path="personalNumber"
@@ -63,13 +63,13 @@
             </form:form>
 
                 <div class="text-primary text-right">
-                    <a href="/truck">to Trucks</a>
+                    <a href="${contextPath}/mgr-truck">to Trucks</a>
                 </div>
                 <div class="text-primary text-right">
-                    <a href="/city">to Cities</a>
+                    <a href="${contextPath}/mgr-city">to Cities</a>
                 </div>
                 <div class="text-primary text-right">
-                    <a href="/driver/printD">print Driver</a>
+                    <a href="${contextPath}/mgr-driver/printD">print Driver</a>
                 </div>
 
         </div>

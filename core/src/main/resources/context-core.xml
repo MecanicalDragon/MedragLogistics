@@ -34,6 +34,7 @@
                 <value>net.medrag.model.domain.entity.Driver</value>
                 <value>net.medrag.model.domain.entity.City</value>
                 <value>net.medrag.model.domain.entity.Cargo</value>
+                <value>net.medrag.model.domain.entity.User</value>
                 <!--<value>net.medrag.model.domain.Waypoint</value>-->
                 <!--<value>net.medrag.model.domain.Order</value>-->
             </list>

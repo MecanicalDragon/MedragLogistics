@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("driver")
+@RequestMapping("mgr-driver")
 public class DriverController {
 
     private DriverService driverService;
@@ -28,7 +28,7 @@ public class DriverController {
     @GetMapping()
     public String returnView(Model model){
         model.addAttribute("driver", new DriverDto());
-        return "public/driver";
+        return "manager/driver";
     }
 
     @PostMapping("dbind")

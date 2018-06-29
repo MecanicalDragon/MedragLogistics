@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("truck")
+@RequestMapping("mgr-truck")
 public class TruckController {
 
     private TruckService truckService;

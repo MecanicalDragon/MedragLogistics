@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -29,7 +33,7 @@
            is fraternity of children in the end of'90 - beginning of'00, who just like to draw comics about self' adventures. The name has come from adults, who had told about their creation scornfully.
        </div>
          <div  class="text-primary text-right">
-             <a href="title">To the title page.</a>
+             <a href="${contextPath}/title">To the title page.</a>
          </div>
      </div>
      <div class="footer">

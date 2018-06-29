@@ -1,4 +1,4 @@
-package net.medrag.controller;
+package net.medrag.controller.pub;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +10,6 @@ public class DBFSController {
 
     @GetMapping()
     public String showInfo(){
-        return "DBFS";
+        return "public/DBFS";
     }
 }

@@ -1,6 +1,7 @@
 package net.medrag.model.domain.entity;
 
-import net.medrag.model.domain.enums.Role;
+import net.medrag.model.domain.enums.UserRole;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 
@@ -11,23 +12,24 @@ import javax.persistence.*;
  * @version 1.0
  */
 @javax.persistence.Entity
-@Table(name = "employee")
-public class Employee {
+@Table(name = "user")
+public class User implements Entity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "PERSONAL_NUMBER")
-    private String personalNumber;
+    @NaturalId
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "password")
     private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition = "enum('ROLE_DRIVER', 'ROLE_MANAGER')")
-    private Role role;
+    private UserRole role;
 
     public Integer getId() {
         return id;
@@ -37,12 +39,12 @@ public class Employee {
         this.id = id;
     }
 
-    public String getPersonalNumber() {
-        return personalNumber;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPersonalNumber(String personalNumber) {
-        this.personalNumber = personalNumber;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -53,19 +55,19 @@ public class Employee {
         this.password = password;
     }
 
-    public Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "User{" +
                 "id=" + id +
-                ", personalNumber='" + personalNumber + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';

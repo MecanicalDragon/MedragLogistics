@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("city")
+@RequestMapping("mgr-city")
 public class CityController {
 
     private CityService cityService;
