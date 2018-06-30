@@ -36,9 +36,9 @@ public class TitleController {
         String role = securityService.getRoleOfSignedInUser();
         switch (role){
             case "ROLE_DRIVER":
-                return "redirect: ../drv-driverPage";
+                return "redirect: ../drv-main";
             case "ROLE_MANAGER":
-                return "redirect: ../mgr-city";
+                return "redirect: ../mgr-main";
             default:
                 return "public/title";
         }

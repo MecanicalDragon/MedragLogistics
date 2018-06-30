@@ -1,19 +1,9 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dao.CityDao;
 import net.medrag.model.dao.DriverDao;
-import net.medrag.model.dao.TruckDao;
-import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.domain.entity.Truck;
 import net.medrag.dto.DriverDto;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Standard service implementation for employment DAO interface{@link DriverDao},

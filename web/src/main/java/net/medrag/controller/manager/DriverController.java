@@ -1,6 +1,7 @@
 package net.medrag.controller.manager;
 
 import net.medrag.dto.DriverDto;
+import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class DriverController {
 
     @GetMapping("printD")
     public String printTruck(Model model){
-        System.out.println(driverService.getDriverById(1));
+        System.out.println(driverService.getDtoById(new DriverDto(), new Driver(), 1));
         model.addAttribute("driver", new DriverDto());
         return "manager/driver";
     }
@@ -33,7 +34,7 @@ public class DriverController {
 
     @PostMapping("dbind")
     public String addDriver(@ModelAttribute("driver") DriverDto driver){
-        driverService.addDriver(driver);
+        driverService.addDto(driver, new Driver());
         return "public/driver";
     }
 

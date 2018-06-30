@@ -32,10 +32,10 @@ public class City implements Entity {
     private String name;
 
     @Column(name = "coordinates_X")
-    private Integer coordinates_X;
+    private Integer coordinatesX;
 
     @Column(name = "coordinates_Y")
-    private Integer coordinates_Y;
+    private Integer coordinatesY;
 
     @OneToMany(mappedBy = "currentCity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private Set<Truck>truckSet;
@@ -59,20 +59,20 @@ public class City implements Entity {
         this.name = name;
     }
 
-    public int getCoordinates_X() {
-        return coordinates_X;
+    public int getCoordinatesX() {
+        return coordinatesX;
     }
 
-    public void setCoordinates_X(int coordinates_X) {
-        this.coordinates_X = coordinates_X;
+    public void setCoordinatesX(int coordinatesX) {
+        this.coordinatesX = coordinatesX;
     }
 
-    public int getCoordinates_Y() {
-        return coordinates_Y;
+    public int getCoordinatesY() {
+        return coordinatesY;
     }
 
-    public void setCoordinates_Y(int coordinates_Y) {
-        this.coordinates_Y = coordinates_Y;
+    public void setCoordinatesY(int coordinatesY) {
+        this.coordinatesY = coordinatesY;
     }
 
     public Set<Truck> getTruckSet() {
@@ -96,8 +96,8 @@ public class City implements Entity {
         return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", coordinates_X=" + coordinates_X +
-                ", coordinates_Y=" + coordinates_Y +
+                ", coordinates_X=" + coordinatesX +
+                ", coordinates_Y=" + coordinatesY +
                 '}';
     }
 }

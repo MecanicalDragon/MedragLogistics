@@ -74,7 +74,7 @@
                 <a href="${contextPath}/mgr-city">To Cities</a>
             </div>
             <div class="text-primary text-right">
-                <a href="${contextPath}/drv-driverPage">To Driver Pages</a>
+                <a href="${contextPath}/drv-main">To Driver Pages</a>
             </div>
 
         </div>

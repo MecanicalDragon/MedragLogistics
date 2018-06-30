@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @version 1.0
  */
 @Controller
-@RequestMapping("drv-driverPage")
+@RequestMapping("drv-main")
 public class DriverPageController {
 
     @GetMapping()

@@ -22,7 +22,7 @@ public class Cargo implements Entity {
 
     @NaturalId
     @Column(name = "cargo_number")
-    private String cargo_number;
+    private String cargoNumber;
 
     @Column(name = "name")
     private String name;
@@ -35,7 +35,7 @@ public class Cargo implements Entity {
     private CargoState state;
 
     @ManyToOne
-    @JoinColumn(name = "owner", nullable = false)
+    @JoinColumn(name = "OWNER_ID", nullable = false)
     private Customer owner;
 
     public Integer getId() {
@@ -46,12 +46,12 @@ public class Cargo implements Entity {
         this.id = id;
     }
 
-    public String getCargo_number() {
-        return cargo_number;
+    public String getCargoNumber() {
+        return cargoNumber;
     }
 
-    public void setCargo_number(String cargo_number) {
-        this.cargo_number = cargo_number;
+    public void setCargoNumber(String cargoNumber) {
+        this.cargoNumber = cargoNumber;
     }
 
     public String getName() {
@@ -90,7 +90,7 @@ public class Cargo implements Entity {
     public String toString() {
         return "Cargo{" +
                 "id=" + id +
-                ", cargo_number='" + cargo_number + '\'' +
+                ", cargo_number='" + cargoNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", state=" + state +

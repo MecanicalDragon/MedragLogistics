@@ -24,6 +24,10 @@ public class Orderr implements Entity {
     @Column(name = "order_number")
     private String orderNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private Customer owner;
+
     @Column(name = "implemented")
     private Boolean implemented;
 
@@ -62,13 +66,21 @@ public class Orderr implements Entity {
         this.waypoints = waypoints;
     }
 
+    public Customer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Orderr{" +
                 "id=" + id +
                 ", orderNumber='" + orderNumber + '\'' +
+                ", owner=" + owner.getName() +
                 ", implemented=" + implemented +
-                ", waypoints=" + waypoints +
                 '}';
     }
 }

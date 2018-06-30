@@ -22,19 +22,19 @@ public class Customer implements Entity{
 
     @NaturalId
     @Column(name = "passport")
-    String passport;
+    private String passport;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "surname")
-    String surname;
+    private String surname;
 
     @Column(name = "phone")
-    String phone;
+    private String phone;
 
     @Column(name = "email")
-    String email;
+    private String email;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private Set<Cargo> cargoSet;

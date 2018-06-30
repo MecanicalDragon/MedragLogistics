@@ -16,6 +16,8 @@ public class OrderDto implements Dto {
 
     private Boolean implemented;
 
+    private CustomerDto owner;
+
     private List<WaypointDto> waypoints;
 
     public Integer getId() {
@@ -50,12 +52,21 @@ public class OrderDto implements Dto {
         this.waypoints = waypoints;
     }
 
+    public CustomerDto getOwner() {
+        return owner;
+    }
+
+    public void setOwner(CustomerDto owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "OrderDto{" +
                 "id=" + id +
                 ", orderNumber='" + orderNumber + '\'' +
                 ", implemented=" + implemented +
+                ", owner=" + owner.getName() +
                 '}';
     }
 }
