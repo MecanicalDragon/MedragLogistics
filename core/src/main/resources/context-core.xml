@@ -36,8 +36,8 @@
                 <value>net.medrag.model.domain.entity.Cargo</value>
                 <value>net.medrag.model.domain.entity.User</value>
                 <value>net.medrag.model.domain.entity.Customer</value>
-                <!--<value>net.medrag.model.domain.Waypoint</value>-->
-                <!--<value>net.medrag.model.domain.Order</value>-->
+                <value>net.medrag.model.domain.entity.Waypoint</value>
+                <value>net.medrag.model.domain.entity.Orderr</value>
             </list>
         </property>
         <property name="hibernateProperties">

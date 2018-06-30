@@ -15,7 +15,8 @@
         <class>net.medrag.model.domain.entity.Cargo</class>
         <class>net.medrag.model.domain.entity.User</class>
         <class>net.medrag.model.domain.entity.Customer</class>
-        <!--<class>net.medrag.model.domain.Order</class>-->
-        <!--<class>net.medrag.model.domain.Waypoint</class>-->
+        <class>net.medrag.model.domain.entity.Orderr</class>
+        <class>net.medrag.model.domain.entity.Waypoint</class>
+
     </persistence-unit>
 </persistence>

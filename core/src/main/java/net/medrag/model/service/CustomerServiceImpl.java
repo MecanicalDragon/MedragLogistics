@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 /**
  * Standard service implementation for employment DAO interface{@link net.medrag.model.dao.CustomerDao},
- * working with domain object, that represents a {@link net.medrag.model.domain.entity.Customer}
+ * working with domain object, that represents a {@link Customer}
+ *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
