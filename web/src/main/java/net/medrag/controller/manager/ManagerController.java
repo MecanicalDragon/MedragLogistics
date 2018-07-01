@@ -33,6 +33,6 @@ public class ManagerController {
         List<OrderDto> orders = orderService.getDtoList(new OrderDto(), new Orderr());
         model.addAttribute("orders", orders);
         model.addAttribute("ordersCount", orders.size());
-        return "manager/mainPage";
+        return "manager/managerPage";
     }
 }

@@ -1,8 +1,6 @@
-<%@ page import="java.util.List" %>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -38,23 +36,29 @@
     <script type="text/javascript" charset="utf8"
             src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.17/b-1.5.2/sl-1.2.6/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="Editor-1.7.4/css/editor.dataTables.css">
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jqc-1.12.3/dt-1.10.17/b-1.5.2/sl-1.2.6/datatables.min.js"></script>
+    <script type="text/javascript" src="Editor-1.7.4/js/dataTables.editor.js"></script>
+
     <%--DATATABLES--%>
     <base href="/">
 
     <!-- Bootstrap Core CSS -->
-    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
     <!-- MetisMenu CSS -->
-    <link href="/resources/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="/resources/vendor/metisMenu/metisMenu.min.css" rel="stylesheet" type="text/css">
 
     <!-- DataTables CSS -->
-    <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
     <!-- DataTables Responsive CSS -->
-    <link href="/resources/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+    <link href="/resources/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet" type="text/css">
 
     <!-- Custom CSS -->
-    <link href="/resources/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/resources/dist/css/sb-admin-2.css" rel="stylesheet" type="text/css">
 
     <!-- Custom Fonts -->
     <link href="/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -63,6 +67,73 @@
 <body>
 <div class="container">
     <div class="jumbotron" style="margin-top: 20px;">
+        <div class="row">
+        <!-- Button trigger add new entities -->
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewOrder">
+                Add new order
+            </button>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewCity">
+            Add new city
+        </button>
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewDriver">
+                Add new driver
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewTruck">
+                Add new truck
+            </button>
+        </div>
+
+        <!-- Modal window add order-->
+        <div class="modal fade" id="addNewOrder" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <jsp:include page="/mgr-city"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal window add city-->
+        <div class="modal fade" id="addNewCity" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <jsp:include page="/mgr-city"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal window add driver-->
+        <div class="modal fade" id="addNewDriver" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <jsp:include page="/mgr-driver"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal window add truck-->
+        <div class="modal fade" id="addNewTruck" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <jsp:include page="/mgr-truck"/>
+                    </div>
+                </div>
+            </div>
+        </div>
 
             <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
                 <thead>

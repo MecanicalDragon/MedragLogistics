@@ -29,13 +29,13 @@ public class DriverController {
     @GetMapping()
     public String returnView(Model model){
         model.addAttribute("driver", new DriverDto());
-        return "manager/driver";
+        return "manager/managerPage";
     }
 
     @PostMapping("dbind")
     public String addDriver(@ModelAttribute("driver") DriverDto driver){
         driverService.addDto(driver, new Driver());
-        return "public/driver";
+        return "public/managerPage";
     }
 
 }

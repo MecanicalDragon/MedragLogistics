@@ -29,13 +29,13 @@ public class TruckController {
     public String printTruck(Model model){
         System.out.println(truckService.getDtoById(new TruckDto(), new Truck(), 2));
         model.addAttribute("truck", new TruckDto());
-        return "manager/truck";
+        return "manager/managerPage";
     }
 
     @PostMapping("dbint")
     public String post(@ModelAttribute("truck") TruckDto truck){
         truckService.addDto(truck, new Truck());
-        return "manager/truck";
+        return "manager/managerPage";
 
     }
 

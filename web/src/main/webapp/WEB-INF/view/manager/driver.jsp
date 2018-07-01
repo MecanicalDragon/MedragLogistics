@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Medrag Logistics
+        Add new driver
     </title>
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
@@ -18,7 +18,7 @@
 <div class="container">
     <div class="jumbotron" style="margin-top: 20px;">
         <div class="text-center">
-            <h1>Drivers</h1>
+            <h1>Add new driver</h1>
 
             <form:form class="form" method="post" modelAttribute="driver" action="/mgr-driver/dbind">
 
@@ -59,18 +59,7 @@
 
                 <br>
                 <button class="btn btn-success">Add Driver</button>
-                <br>
             </form:form>
-
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/mgr-truck">to Trucks</a>
-                </div>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/mgr-city">to Cities</a>
-                </div>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/mgr-driver/printD">print Driver</a>
-                </div>
 
         </div>
     </div>

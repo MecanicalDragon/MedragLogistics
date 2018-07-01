@@ -29,13 +29,13 @@ public class CityController {
     public String printCity(Model model){
         System.out.println(cityService.getDtoById(new CityDto(), new City(), 5));
         model.addAttribute("city", new CityDto());
-        return "manager/city";
+        return "manager/managerPage";
     }
 
     @PostMapping("dbin")
     public String addCity(@ModelAttribute("city") CityDto city){
         cityService.addDto(city, new City());
-        return "manager/city";
+        return "manager/managerPage";
     }
 
 }

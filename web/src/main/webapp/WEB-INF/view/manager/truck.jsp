@@ -8,64 +8,55 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Medrag Logistics
+        Add new truck
     </title>
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
     <div class="jumbotron" style="margin-top: 20px;">
         <div class="text-center">
-            <h1>Trucks</h1>
+            <h1>Add new truck</h1>
 
             <form:form class="form" method="post" modelAttribute="truck" action="/mgr-truck/dbint">
 
                 <div class="row justify-content-sm-center">
                     <form:input name="number" placeholder="number" path="regNumber"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
+                           class="form-control col-8"/>
                 </div>
 
                 <div class="row justify-content-center">
                     <form:input name="brigade" placeholder="brigade" path="brigadeStr"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
+                           class="form-control col-8"/>
                 </div>
 
                 <div class="row justify-content-sm-center">
                     <form:input name="capacity" placeholder="capacity" path="capacity"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
+                           class="form-control col-8"/>
                 </div>
 
                 <div class="row justify-content-sm-center">
                     <form:input name="state" placeholder="state" path="state"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
+                           class="form-control col-8"/>
                 </div>
 
                 <div class="row justify-content-sm-center">
                     <form:input name="currentCity" placeholder="currentCity" path="currentCity"
-                           class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2"/>
+                           class="form-control col-8"/>
                 </div>
 
                 <br>
                 <button class="btn btn-success">Add truck</button>
-                <br>
 
             </form:form>
 
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/mgr-city">to Cities</a>
-                </div>
-                <div class="text-primary text-right">
-                    <a href="${contextPath}/mgr-driver">to Drivers</a>
-                </div>
                 <div class="text-primary text-right">
                     <a href="${contextPath}/mgr-truck/printTruck">print Truck</a>
                 </div>
 
         </div>
-    </div>
-    <div class="footer">
-        <p><a href="dbfs">&copy; DBFS 20!8</a></p>
     </div>
 </div>
 </body>
