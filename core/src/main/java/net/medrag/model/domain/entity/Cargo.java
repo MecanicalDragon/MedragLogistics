@@ -35,7 +35,7 @@ public class Cargo implements Entity {
     private CargoState state;
 
     @ManyToOne
-    @JoinColumn(name = "OWNER_ID", nullable = false)
+    @JoinColumn(name = "OWNER_ID")
     private Customer owner;
 
     public Integer getId() {

@@ -20,7 +20,7 @@
         <div class="text-center">
             <h1>Add new truck</h1>
 
-            <form:form class="form" method="post" modelAttribute="truck" action="/mgr-truck/dbint">
+            <form:form class="form" method="post" modelAttribute="truck" action="/mgr-truck/addTruck">
 
                 <div class="row justify-content-sm-center">
                     <form:input name="number" placeholder="number" path="regNumber"

@@ -28,7 +28,7 @@ public class User implements Entity{
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", columnDefinition = "enum('ROLE_DRIVER', 'ROLE_MANAGER')")
+    @Column(name = "role", columnDefinition = "enum('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN')")
     private UserRole role;
 
     public Integer getId() {

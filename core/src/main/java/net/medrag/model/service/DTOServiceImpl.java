@@ -31,44 +31,48 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
 
     @Override
     @Transactional
-    public void addDto(D dto, E entity){
-        E result = (E)new ModelMapper().map(dto, entity.getClass());
-        entityDao.addEntity(result);
+    public Integer addDto(D dto, E entity) {
+        E result = (E) new ModelMapper().map(dto, entity.getClass());
+        return entityDao.addEntity(result);
     }
 
     @Override
     @Transactional
-    public D getDtoById(D dto, E entity, Integer id){
+    public D getDtoById(D dto, E entity, Integer id) {
         E entityById = entityDao.getEntityById(entity, id);
-        return (D)new ModelMapper().map(entityById, dto.getClass());
+        return (D) new ModelMapper().map(entityById, dto.getClass());
     }
 
     @Override
     @Transactional
-    public void updateDtoStatus(D dto, E entity){
-        entityDao.updateEntityStatus((E)new ModelMapper().map(dto, entity.getClass()));
+    public void updateDtoStatus(D dto, E entity) {
+        entityDao.updateEntityStatus((E) new ModelMapper().map(dto, entity.getClass()));
     }
 
     @Override
     @Transactional
-    public void removeDto(Dto dto, E entity){
-        entityDao.removeEntity((E)new ModelMapper().map(dto, entity.getClass()));
+    public void removeDto(Dto dto, E entity) {
+        entityDao.removeEntity((E) new ModelMapper().map(dto, entity.getClass()));
     }
 
     @Override
     @Transactional
-    public D getDtoByNaturalId(D dto, E entity, String id){
+    public D getDtoByNaturalId(D dto, E entity, String id) {
         E result = entityDao.getEntityByNaturalId(entity, id);
-        return (D)new ModelMapper().map(result, dto.getClass());
+        if (result == null) {
+            return null;
+        } else {
+            return (D) new ModelMapper().map(result, dto.getClass());
+        }
     }
 
     @Override
     @Transactional
-    public List<D> getDtoList(D dto, E entity){
+    public List<D> getDtoList(D dto, E entity) {
         List<E> entityList = entityDao.getEntityList(entity);
         List<D> dtoList = new ArrayList<>();
         for (E e : entityList) {
-            D d = (D)new ModelMapper().map(e, dto.getClass());
+            D d = (D) new ModelMapper().map(e, dto.getClass());
             dtoList.add(d);
         }
         return dtoList;

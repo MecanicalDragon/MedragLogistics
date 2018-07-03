@@ -79,9 +79,9 @@
             <%--<div class="text-primary text-right">--%>
             <%--<a href="${contextPath}/mgr-driver">to Drivers</a>--%>
             <%--</div>--%>
-            <%--<div class="text-primary text-right">--%>
-            <%--<a href="${contextPath}/mgr-city">To Cities</a>--%>
-            <%--</div>--%>
+            <div class="text-primary text-right">
+            <a href="${contextPath}/mgr-city">To Cities</a>
+            </div>
             <%--<div class="text-primary text-right">--%>
             <%--<a href="${contextPath}/drv-main">To Driver Pages</a>--%>
             <%--</div>--%>

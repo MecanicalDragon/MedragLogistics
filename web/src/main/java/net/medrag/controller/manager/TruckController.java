@@ -8,6 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller, that handles truck.jsp
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("mgr-truck")
 public class TruckController {
@@ -22,17 +28,17 @@ public class TruckController {
     @GetMapping()
     public String returnView(Model model){
         model.addAttribute("truck", new TruckDto());
-        return "manager/truck";
+        return "manager/managerPage";
     }
 
     @GetMapping("printTruck")
     public String printTruck(Model model){
         System.out.println(truckService.getDtoById(new TruckDto(), new Truck(), 2));
         model.addAttribute("truck", new TruckDto());
-        return "manager/managerPage";
+        return "manager/truck";
     }
 
-    @PostMapping("dbint")
+    @PostMapping("addTruck")
     public String post(@ModelAttribute("truck") TruckDto truck){
         truckService.addDto(truck, new Truck());
         return "manager/managerPage";

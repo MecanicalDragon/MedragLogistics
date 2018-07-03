@@ -11,7 +11,7 @@ import java.util.List;
  * @version 1.0
  */
 public interface EntityDao<E extends Entity>  {
-    void addEntity(E entity);
+    Integer addEntity(E entity);
     void updateEntityStatus(E entity);
     void removeEntity(E entity);
     E getEntityById(E entity, Integer id);

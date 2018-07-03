@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Medrag Logistics Manager Page
+        Medrag Logistics Warehouse Page
     </title>
 
     <%--Bootstrap--%>
@@ -71,66 +71,40 @@
 <div class="container">
     <div class="jumbotron" style="margin-top: 20px;">
 
-        <form:form class="form" method="post" modelAttribute="city" action="/mgr-city/addCity">
-
-            <div class="row justify-content-sm-center">
-                <form:input name="name" placeholder="City" path="name" autofocus="true"
-                            class="form-control col-8"/>
-            </div>
-
-            <div class="row justify-content-center">
-                <form:input name="x" placeholder="X" path="coordinates_X"
-                            class="form-control col-8"/>
-            </div>
-
-            <div class="row justify-content-sm-center">
-                <form:input name="y" placeholder="Y" path="coordinates_Y"
-                            class="form-control col-8"/>
-            </div>
-
-            <br>
-            <button class="btn btn-success">Add city</button>
-        </form:form>
-        <div class="text-primary text-right">
-            <a href="${contextPath}/mgr-city/printCity">print City</a>
-        </div>
-
         <div class="row">
             <!-- Button trigger add new entities -->
-            <a href="mgr-order">
-                Add new order
+            <a class="btn btn-primary" href="/whm-newCustomer" role="button">Add new order</a>
+
+
+        <div class="dropdown">
+            <a class="btn btn-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown link
             </a>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewCity">
-                Add new city
-            </button>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewDriver">
-                Add new driver
-            </button>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewTruck">
-                Add new truck
-            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
         </div>
         <br>
+        </div>
 
         <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
             <thead>
             <tr>
-                <th>Order number</th>
                 <th>Cargo number</th>
-                <th>Departure</th>
-                <th>Destination</th>
-                <th>Customer passport</th>
+                <th>Cargo name</th>
+                <th>Cargo state</th>
             </tr>
             </thead>
             <tbody>
 
-            <c:forEach items="${orders}" var="cargo">
+            <c:forEach items="${cargos}" var="cargo">
                 <tr class="odd gradeX">
-                    <td>${cargo.orderNumber}</td>
-                    <td>${cargo.owner.name}</td>
-                    <td>${cargo.implemented}</td>
-                    <td class="center">${orders.size()}</td>
-                    <td class="center">X</td>
+                    <td>${cargo.cargoNumber}</td>
+                    <td>${cargo.name}</td>
+                    <td>${cargo.state}</td>
                 </tr>
             </c:forEach>
 
@@ -167,7 +141,7 @@
                                     <button class="btn btn-success">Add city</button>
                                 </form:form>
                                 <div class="text-primary text-right">
-                                    <a href="${contextPath}/mgr-city/printCity">print City</a>
+                                    <a href="/mgr-city/printCity">print City</a>
                                 </div>
 
                             </div>
@@ -282,39 +256,39 @@
 
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="../../../resources/vendor/jquery/jquery.min.js"></script>
+    <script src="../../../resources/vendor/jquery/jquery.min.js"></script>
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../../../resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../../../resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="../../../resources/vendor/metisMenu/metisMenu.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../../../resources/vendor/metisMenu/metisMenu.min.js"></script>
 
-        <!-- DataTables JavaScript -->
-        <script src="../../../resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
-        <script src="../../../resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-        <script src="../../../resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <!-- DataTables JavaScript -->
+    <script src="../../../resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../../../resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../../../resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
 
-        <!-- Custom Theme JavaScript -->
-        <script src="../../../resources/dist/js/sb-admin-2.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="../../../resources/dist/js/sb-admin-2.js"></script>
 
-        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-        <script>
-            $(document).ready(function () {
-                $('#order-Table').DataTable({
-                    responsive: true
-                });
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+        $(document).ready(function () {
+            $('#order-Table').DataTable({
+                responsive: true
             });
-        </script>
-    </div>
-    <div class="footer">
-        <p><a href="dbfs">&copy; DBFS 20!8</a></p>
-    </div>
+        });
+    </script>
+</div>
+<div class="footer">
+    <p><a href="dbfs">&copy; DBFS 20!8</a></p>
+</div>
 </div>
 </body>
 </html>

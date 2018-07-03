@@ -10,6 +10,7 @@ package net.medrag.model.domain.entity;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -30,6 +31,12 @@ public class City implements Entity {
     @NaturalId
     @Column(name = "name")
     private String name;
+
+//    @ElementCollection
+//    @MapKeyColumn(name="IMAGE_NAME")
+//    @Column(name="IMAGE_FILENAME")
+//    @CollectionTable(name="IMAGE_MAPPING")
+//    private Map<City, Integer> distances;
 
     @Column(name = "coordinates_X")
     private Integer coordinatesX;

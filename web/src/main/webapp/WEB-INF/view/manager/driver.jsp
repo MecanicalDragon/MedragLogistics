@@ -20,7 +20,7 @@
         <div class="text-center">
             <h1>Add new driver</h1>
 
-            <form:form class="form" method="post" modelAttribute="driver" action="/mgr-driver/dbind">
+            <form:form class="form" method="post" modelAttribute="driver" action="/mgr-driver/addDriver">
 
                 <div class="row justify-content-sm-center">
                     <form:input name="number" placeholder="number" path="personalNumber"

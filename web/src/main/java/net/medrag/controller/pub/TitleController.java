@@ -39,6 +39,8 @@ public class TitleController {
                 return "redirect: ../drv-main";
             case "ROLE_MANAGER":
                 return "redirect: ../mgr-main";
+            case "ROLE_WAREHOUSEMAN":
+                return "redirect: ../whm-main";
             default:
                 return "public/title";
         }

@@ -8,6 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller, that handles driver.jsp
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("mgr-driver")
 public class DriverController {
@@ -23,16 +29,16 @@ public class DriverController {
     public String printTruck(Model model){
         System.out.println(driverService.getDtoById(new DriverDto(), new Driver(), 1));
         model.addAttribute("driver", new DriverDto());
-        return "manager/driver";
+        return "manager/managerPage";
     }
 
     @GetMapping()
     public String returnView(Model model){
         model.addAttribute("driver", new DriverDto());
-        return "manager/managerPage";
+        return "manager/driver";
     }
 
-    @PostMapping("dbind")
+    @PostMapping("addDriver")
     public String addDriver(@ModelAttribute("driver") DriverDto driver){
         driverService.addDto(driver, new Driver());
         return "public/managerPage";

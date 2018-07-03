@@ -12,7 +12,7 @@ import java.util.List;
  * @version 1.0
  */
 public interface DTOService<D extends Dto, E extends Entity> {
-    void addDto(D dto, E entity);
+    Integer addDto(D dto, E entity);
     void updateDtoStatus(D dto, E entity);
     void removeDto(Dto dto, E entity);
     D getDtoById(D dto, E entity, Integer id);

@@ -1,10 +1,10 @@
 package net.medrag.model.service;
 
 import net.medrag.dto.CustomerDto;
-import net.medrag.model.dao.CustomerDao;
 import net.medrag.model.domain.entity.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 /**
  * Standard service implementation for employment DAO interface{@link net.medrag.model.dao.CustomerDao},
@@ -19,4 +19,18 @@ public class CustomerServiceImpl<D extends CustomerDto, E extends Customer> exte
 
     private final String implementation = "customerDaoImpl";
 
+    @Override
+    @Transactional
+    public CustomerDto clarifyCustomer(CustomerDto customerDto) {
+
+        CustomerDto customerFromDatabase = getDtoByNaturalId
+                ((D) new CustomerDto(), (E) new Customer(), customerDto.getPassport());
+        if (customerFromDatabase != null) {
+            return customerFromDatabase;
+        } else {
+            Integer id = addDto((D) customerDto, (E) new Customer());
+            customerDto.setId(id);
+            return customerDto;
+        }
+    }
 }

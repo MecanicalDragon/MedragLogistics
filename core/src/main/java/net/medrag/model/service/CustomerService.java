@@ -10,4 +10,6 @@ import net.medrag.model.domain.entity.Customer;
  * @version 1.0
  */
 public interface CustomerService<D extends CustomerDto, E extends Customer> extends DTOService<D, E> {
+
+    CustomerDto clarifyCustomer(CustomerDto customerDto);
 }

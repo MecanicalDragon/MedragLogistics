@@ -24,6 +24,8 @@ public class CustomerDto implements Dto{
 
     private List<CargoDto> parcelList;
 
+
+
     public Integer getId() {
         return id;
     }

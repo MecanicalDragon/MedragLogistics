@@ -10,7 +10,7 @@ public class CargoDto implements Dto {
 
     private Integer id;
 
-    private String cargo_number;
+    private String cargoNumber;
 
     private String name;
 
@@ -18,7 +18,27 @@ public class CargoDto implements Dto {
 
     private String state;
 
-    private CustomerDto customer;
+    private CustomerDto owner;
+
+    private String departure;
+
+    private String destination;
+
+    public String getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(String departure) {
+        this.departure = departure;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
     public Integer getId() {
         return id;
@@ -28,12 +48,12 @@ public class CargoDto implements Dto {
         this.id = id;
     }
 
-    public String getCargo_number() {
-        return cargo_number;
+    public String getCargoNumber() {
+        return cargoNumber;
     }
 
-    public void setCargo_number(String cargo_number) {
-        this.cargo_number = cargo_number;
+    public void setCargoNumber(String cargoNumber) {
+        this.cargoNumber = cargoNumber;
     }
 
     public String getName() {
@@ -60,23 +80,25 @@ public class CargoDto implements Dto {
         this.state = state;
     }
 
-    public CustomerDto getCustomer() {
-        return customer;
+    public CustomerDto getOwner() {
+        return owner;
     }
 
-    public void setCustomer(CustomerDto customer) {
-        this.customer = customer;
+    public void setOwner(CustomerDto owner) {
+        this.owner = owner;
     }
 
     @Override
     public String toString() {
         return "CargoDto{" +
                 "id=" + id +
-                ", cargo_number='" + cargo_number + '\'' +
+                ", cargoNumber='" + cargoNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", state='" + state + '\'' +
-                ", customer=" + customer +
+                ", owner=" + owner +
+                ", departure='" + departure + '\'' +
+                ", destination='" + destination + '\'' +
                 '}';
     }
 }

@@ -21,7 +21,7 @@
         <div class="text-center">
             <h1>Add new City</h1>
 
-            <form:form class="form" method="post" modelAttribute="city" action="/mgr-city/dbin">
+            <form:form class="form" method="post" modelAttribute="city" action="/mgr-city/addCity">
 
                 <div class="row justify-content-sm-center">
                     <form:input name="name" placeholder="City" path="name" autofocus="true"

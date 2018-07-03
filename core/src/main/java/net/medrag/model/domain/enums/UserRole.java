@@ -10,5 +10,6 @@ import net.medrag.model.domain.entity.User;
  */
 public enum UserRole {
     ROLE_DRIVER,
-    ROLE_MANAGER
+    ROLE_MANAGER,
+    ROLE_WAREHOUSEMAN
 }
