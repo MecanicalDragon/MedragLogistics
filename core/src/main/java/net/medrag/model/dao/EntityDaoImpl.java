@@ -44,6 +44,12 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
     }
 
     @Override
+    public void saveOrUpdateEntity(E entity) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(entity);
+    }
+
+    @Override
     public E getEntityById(E entity, Integer id) {
         Session session = sessionFactory.getCurrentSession();
         return (E)session.find(entity.getClass(), id);

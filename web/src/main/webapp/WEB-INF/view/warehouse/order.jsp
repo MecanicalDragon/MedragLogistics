@@ -1,4 +1,6 @@
 <%@ page import="net.medrag.dto.CustomerDto" %>
+<%@ page import="net.medrag.dto.CargoDto" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -22,6 +24,8 @@
 <div class="container">
     <div class="jumbotron" style="margin-top: 20px;">
         <div class="text-center">
+
+            <% List<CargoDto> cargoList = (List<CargoDto>)session.getAttribute("cargoList"); %>
 
             <h1>Step 2: forming the order.</h1>
 

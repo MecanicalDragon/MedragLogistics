@@ -14,6 +14,7 @@ public interface EntityDao<E extends Entity>  {
     Integer addEntity(E entity);
     void updateEntityStatus(E entity);
     void removeEntity(E entity);
+    void saveOrUpdateEntity (E entity);
     E getEntityById(E entity, Integer id);
     E getEntityByNaturalId(E entity, String id);
     List<E> getEntityList(E entity);

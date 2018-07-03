@@ -2,6 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -12,10 +13,17 @@
         Add new order
     </title>
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -27,20 +35,29 @@
             <form:form class="form" method="post" modelAttribute="newCustomer"
                        action="/whm-newCustomer/clarify">
 
-                <div class="row justify-content-center">
-                    <form:input name="document" placeholder="document" path="passport"
-                                class="form-control col-6"/>
-                </div>
+                <spring:bind path="passport">
+                    <div class="row justify-content-center">
+                        <form:input name="document" placeholder="document" path="passport"
+                                    class="form-control col-6"/>
+                        <form:errors path="passport"/>
+                    </div>
+                </spring:bind>
 
+                <spring:bind path="name">
                 <div class="row justify-content-center">
                     <form:input name="name" placeholder="name" path="name"
                                 class="form-control col-6"/>
+                    <form:errors path="name"/>
                 </div>
+                </spring:bind>
 
+                <spring:bind path="surname">
                 <div class="row justify-content-center">
                     <form:input name="surname" placeholder="surname" path="surname"
                                 class="form-control col-6"/>
+                    <form:errors path="surname"/>
                 </div>
+                </spring:bind>
 
                 <div class="row justify-content-center">
                     <form:input name="phone" placeholder="phone" path="phone"
@@ -56,11 +73,11 @@
                 <div class="row justify-content-center">
                     <div class="btn-group">
 
-                    <a class="btn btn-secondary" href="/whm-main" role="button">Dismiss order</a>
+                        <a class="btn btn-secondary" href="/whm-main" role="button">Dismiss order</a>
                     </div>
                     <div class="btn-group">
 
-                    <button class="btn btn-success">Add Customer</button>
+                        <button class="btn btn-success">Add Customer</button>
                     </div>
 
                 </div>

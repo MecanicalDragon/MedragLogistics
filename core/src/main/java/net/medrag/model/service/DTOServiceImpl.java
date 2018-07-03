@@ -51,8 +51,14 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
 
     @Override
     @Transactional
-    public void removeDto(Dto dto, E entity) {
+    public void removeDto(D dto, E entity) {
         entityDao.removeEntity((E) new ModelMapper().map(dto, entity.getClass()));
+    }
+
+    @Override
+    @Transactional
+    public void saveOrUpdateDto(D dto, E entity) {
+        entityDao.saveOrUpdateEntity((E) new ModelMapper().map(dto, entity.getClass()));
     }
 
     @Override

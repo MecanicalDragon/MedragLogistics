@@ -71,31 +71,140 @@
 <div class="container">
     <div class="jumbotron" style="margin-top: 20px;">
 
-            <%--This button starts a process of adding new order.--%>
-            <%--First step is adding new customer or choosing one of added earlier.--%>
-            <%--goto .../warehouse/CustomerController, GetMethod--%>
-            <a class="btn btn-primary" href="/whm-newCustomer" role="button">Add new order</a>
+        <ul id="clothing-nav" class="nav nav-tabs" role="tablist">
 
-            <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
-                <thead>
-                <tr>
-                    <th>Cargo number</th>
-                    <th>Cargo name</th>
-                    <th>Cargo state</th>
-                </tr>
-                </thead>
-                <tbody>
+            <li class="nav-item">
+                <a class="nav-link active" href="#trucks" id="trucks-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Trucks</a>
+            </li>
 
-                <c:forEach items="${cargos}" var="cargo">
-                    <tr class="odd gradeX">
-                        <td>${cargo.cargoNumber}</td>
-                        <td>${cargo.name}</td>
-                        <td>${cargo.state}</td>
+            <li class="nav-item">
+                <a class="nav-link" href="#drivers" role="tab" id="drivers-tab" data-toggle="tab" aria-controls="hats">Drivers</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#cities" role="tab" id="cities-tab" data-toggle="tab" aria-controls="hats">Cities</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#users" role="tab" id="users-tab" data-toggle="tab" aria-controls="hats">Users</a>
+            </li>
+
+        </ul>
+
+        <!-- Content Panel -->
+        <div id="clothing-nav-content" class="tab-content">
+
+            <div role="tabpanel" class="tab-pane fade show active" id="trucks" aria-labelledby="trucks-tab">
+
+                <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                    <thead>
+                    <tr>
+                        <th>Cargo number</th>
+                        <th>Cargo name</th>
+                        <th>Cargo state</th>
                     </tr>
-                </c:forEach>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    <c:forEach items="${cargos}" var="cargo">
+                        <tr class="odd gradeX">
+                            <td>${cargo.cargoNumber}</td>
+                            <td>${cargo.name}</td>
+                            <td>${cargo.state}</td>
+                        </tr>
+                    </c:forEach>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="drivers" aria-labelledby="drivers-tab">
+
+                <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                    <thead>
+                    <tr>
+                        <th>Cargo number</th>
+                        <th>Cargo name</th>
+                        <th>Cargo state</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <c:forEach items="${cargos}" var="cargo">
+                        <tr class="odd gradeX">
+                            <td>${cargo.cargoNumber}</td>
+                            <td>${cargo.name}</td>
+                            <td>${cargo.state}</td>
+                        </tr>
+                    </c:forEach>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="cities" aria-labelledby="cities-tab">
+
+                <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                    <thead>
+                    <tr>
+                        <th>Cargo number</th>
+                        <th>Cargo name</th>
+                        <th>Cargo state</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <c:forEach items="${cargos}" var="cargo">
+                        <tr class="odd gradeX">
+                            <td>${cargo.cargoNumber}</td>
+                            <td>${cargo.name}</td>
+                            <td>${cargo.state}</td>
+                        </tr>
+                    </c:forEach>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="users" aria-labelledby="users-tab">
+
+                <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                    <thead>
+                    <tr>
+                        <th>Cargo number</th>
+                        <th>Cargo name</th>
+                        <th>Cargo state</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <c:forEach items="${cargos}" var="cargo">
+                        <tr class="odd gradeX">
+                            <td>${cargo.cargoNumber}</td>
+                            <td>${cargo.name}</td>
+                            <td>${cargo.state}</td>
+                        </tr>
+                    </c:forEach>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+        <div class="row">
+            <!-- Button trigger add new entities -->
+            <a class="btn btn-primary" href="/whm-newCustomer" role="button">Add new order</a>
 
             <!-- Modal window add city-->
             <div class="modal fade" id="addNewCity" tabindex="-1" role="dialog"
@@ -248,6 +357,7 @@
                     </div>
                 </div>
             </div>
+        </div>
 
         <script src="../../../resources/vendor/jquery/jquery.min.js"></script>
 

@@ -53,6 +53,10 @@
         <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
     </bean>
 
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames" value="classpath:validation"/>
+    </bean>
+
     <!--Entity Manager case-->
     <!--<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">-->
         <!--<property name="database" value="MYSQL" />-->

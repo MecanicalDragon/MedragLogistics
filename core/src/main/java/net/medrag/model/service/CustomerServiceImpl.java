@@ -19,18 +19,4 @@ public class CustomerServiceImpl<D extends CustomerDto, E extends Customer> exte
 
     private final String implementation = "customerDaoImpl";
 
-    @Override
-    @Transactional
-    public CustomerDto clarifyCustomer(CustomerDto customerDto) {
-
-        CustomerDto customerFromDatabase = getDtoByNaturalId
-                ((D) new CustomerDto(), (E) new Customer(), customerDto.getPassport());
-        if (customerFromDatabase != null) {
-            return customerFromDatabase;
-        } else {
-            Integer id = addDto((D) customerDto, (E) new Customer());
-            customerDto.setId(id);
-            return customerDto;
-        }
-    }
 }
