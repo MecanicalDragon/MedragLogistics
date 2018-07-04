@@ -21,22 +21,30 @@ public class Cargo implements Entity {
     private Integer id;
 
     @NaturalId
-    @Column(name = "cargo_number")
-    private String cargoNumber;
+    @Column(name = "cargo_index")
+    private String cargoIndex;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "weight")
-    private Integer weight;
+    private Float weight;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state", columnDefinition = "enum('prepared','on_board', 'delivered')")
+    @Column(name = "state", columnDefinition = "enum('prepared','on_board', 'delivered', 'transfer_point')")
     private CargoState state;
 
     @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
+    @JoinColumn(name = "owner_id")
     private Customer owner;
+
+    @ManyToOne
+    @JoinColumn(name = "departure_id")
+    private City departure;
+
+    @ManyToOne
+    @JoinColumn(name = "destination_id")
+    private City destination;
 
     public Integer getId() {
         return id;
@@ -46,12 +54,12 @@ public class Cargo implements Entity {
         this.id = id;
     }
 
-    public String getCargoNumber() {
-        return cargoNumber;
+    public String getCargoIndex() {
+        return cargoIndex;
     }
 
-    public void setCargoNumber(String cargoNumber) {
-        this.cargoNumber = cargoNumber;
+    public void setCargoIndex(String cargoNumber) {
+        this.cargoIndex = cargoNumber;
     }
 
     public String getName() {
@@ -62,11 +70,11 @@ public class Cargo implements Entity {
         this.name = name;
     }
 
-    public Integer getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
@@ -86,15 +94,33 @@ public class Cargo implements Entity {
         this.owner = owner;
     }
 
+    public City getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(City departure) {
+        this.departure = departure;
+    }
+
+    public City getDestination() {
+        return destination;
+    }
+
+    public void setDestination(City destination) {
+        this.destination = destination;
+    }
+
     @Override
     public String toString() {
         return "Cargo{" +
                 "id=" + id +
-                ", cargo_number='" + cargoNumber + '\'' +
+                ", cargoNumber='" + cargoIndex + '\'' +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", state=" + state +
-                ", owner=" + owner +
+                ", owner=" + owner.getPassport() +
+                ", departure=" + departure.getName() +
+                ", destination=" + destination.getName() +
                 '}';
     }
 }

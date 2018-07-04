@@ -2,6 +2,7 @@ package net.medrag.controller.warehouse;
 
 import net.medrag.dto.CargoDto;
 import net.medrag.dto.CustomerDto;
+import net.medrag.form.CargoForm;
 import net.medrag.model.domain.entity.Customer;
 import net.medrag.model.service.CustomerService;
 import net.medrag.model.validator.CustomerValidator;
@@ -45,7 +46,7 @@ public class CustomerController {
     @GetMapping()
     public String newCustomer(Model model) {
         model.addAttribute("newCustomer", new CustomerDto());
-        return "warehouse/newCustomer";
+        return "warehouse/customer";
     }
 
     @PostMapping("clarify")
@@ -55,17 +56,13 @@ public class CustomerController {
         customer = customerValidator.validate(customer, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "warehouse/newCustomer";
+            return "warehouse/customer";
         }
-        System.out.println(customer);
-        customerService.saveOrUpdateDto(customer, new Customer());
 
         List<CargoDto>cargoList = new ArrayList<>();
         request.getSession().setAttribute("owner", customer);
         request.getSession().setAttribute("cargoList", cargoList);
-        model.addAttribute("owner", customer);
-        model.addAttribute("cargoList", cargoList);
-        model.addAttribute("cargo", new CargoDto());
+        model.addAttribute("cargo", new CargoForm());
         return "warehouse/order";
     }
 }

@@ -28,16 +28,17 @@ public class CustomerValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Customer.class.equals(clazz);
+        return CustomerDto.class.equals(clazz);
     }
 
     @Override
     public void validate(@Nullable Object target, Errors errors) {
+        
         CustomerDto customer = (CustomerDto) target;
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passport", "notnull.field");
-
-
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "notnull.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "notnull.field");
+        
     }
 
     public CustomerDto validate(@Nullable CustomerDto customer, Errors errors) {
@@ -45,6 +46,7 @@ public class CustomerValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passport", "notnull.field");
 
         if (customer.getPassport() != null) {
+
             CustomerDto dbCustomer = customerService.getDtoByNaturalId(new CustomerDto(), new Customer(), customer.getPassport());
 
             if (dbCustomer == null) {
@@ -53,20 +55,14 @@ public class CustomerValidator implements Validator {
 
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "notnull.field");
 
+                if (!errors.hasErrors()) {
+                    Integer id = customerService.addDto(customer, new Customer());
+                    customer.setId(id);
+                }
+
             } else {
-                customer.setId(dbCustomer.getId());
-                if (customer.getName() == null) {
-                    customer.setName(dbCustomer.getName());
-                }
-                if (customer.getSurname() == null) {
-                    customer.setSurname(dbCustomer.getSurname());
-                }
-                if (customer.getEmail() == null) {
-                    customer.setEmail(dbCustomer.getEmail());
-                }
-                if (customer.getPhone() == null) {
-                    customer.setPhone(dbCustomer.getPhone());
-                }
+
+                customer = dbCustomer;
 
             }
 

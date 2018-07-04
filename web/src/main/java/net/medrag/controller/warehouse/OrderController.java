@@ -4,6 +4,7 @@ import net.medrag.dto.CargoDto;
 import net.medrag.dto.CustomerDto;
 import net.medrag.dto.OrderDto;
 import net.medrag.model.domain.entity.Orderr;
+import net.medrag.model.service.OrderCompilingService;
 import net.medrag.model.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,21 +25,22 @@ import java.util.List;
 @RequestMapping("whm-order")
 public class OrderController {
 
-    private OrderService<OrderDto, Orderr> orderService;
+   private OrderCompilingService orderCompilingService;
 
-    @Autowired
-    public void setOrderService(OrderService<OrderDto, Orderr> orderService) {
-        this.orderService = orderService;
+   @Autowired
+    public void setOrderCompilingService(OrderCompilingService orderCompilingService) {
+        this.orderCompilingService = orderCompilingService;
     }
 
     @GetMapping("compile")
     public String compileOrder(HttpServletRequest request, Model model) {
+
         List<CargoDto> cargoList = (List<CargoDto>)request.getSession().getAttribute("cargoList");
-        CustomerDto customer = (CustomerDto)request.getSession().getAttribute("owner");
+        CustomerDto owner = (CustomerDto)request.getSession().getAttribute("owner");
 
-        OrderDto order = orderService.compileOrder(cargoList, customer);
+        OrderDto order = orderCompilingService.compileOrder(cargoList, owner);
 
-        model.addAttribute("newOrder", order);
-        return "warehouse/warehousePage";
+        model.addAttribute("order", order);
+        return "warehouse/compiledOrderPage";
     }
 }

@@ -12,5 +12,6 @@ import net.medrag.model.domain.entity.Cargo;
 public enum CargoState {
     PREPARED,
     ON_BOARD,
-    DELIVERED
+    DELIVERED,
+    TRANSFER_POINT
 }

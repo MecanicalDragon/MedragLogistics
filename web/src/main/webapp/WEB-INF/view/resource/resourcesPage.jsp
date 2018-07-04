@@ -108,7 +108,7 @@
 
                     <c:forEach items="${cargos}" var="cargo">
                         <tr class="odd gradeX">
-                            <td>${cargo.cargoNumber}</td>
+                            <td>${cargo.cargoIndex}</td>
                             <td>${cargo.name}</td>
                             <td>${cargo.state}</td>
                         </tr>
@@ -133,7 +133,7 @@
 
                     <c:forEach items="${cargos}" var="cargo">
                         <tr class="odd gradeX">
-                            <td>${cargo.cargoNumber}</td>
+                            <td>${cargo.cargoIndex}</td>
                             <td>${cargo.name}</td>
                             <td>${cargo.state}</td>
                         </tr>
@@ -158,7 +158,7 @@
 
                     <c:forEach items="${cargos}" var="cargo">
                         <tr class="odd gradeX">
-                            <td>${cargo.cargoNumber}</td>
+                            <td>${cargo.cargoIndex}</td>
                             <td>${cargo.name}</td>
                             <td>${cargo.state}</td>
                         </tr>
@@ -183,7 +183,7 @@
 
                     <c:forEach items="${cargos}" var="cargo">
                         <tr class="odd gradeX">
-                            <td>${cargo.cargoNumber}</td>
+                            <td>${cargo.cargoIndex}</td>
                             <td>${cargo.name}</td>
                             <td>${cargo.state}</td>
                         </tr>

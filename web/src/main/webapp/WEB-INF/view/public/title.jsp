@@ -80,7 +80,7 @@
             <%--<a href="${contextPath}/mgr-driver">to Drivers</a>--%>
             <%--</div>--%>
             <div class="text-primary text-right">
-            <a href="${contextPath}/mgr-city">To Cities</a>
+            <a href="${contextPath}/whm-newCustomer">new Customer</a>
             </div>
             <%--<div class="text-primary text-right">--%>
             <%--<a href="${contextPath}/drv-main">To Driver Pages</a>--%>

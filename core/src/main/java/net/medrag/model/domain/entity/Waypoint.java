@@ -25,6 +25,10 @@ public class Waypoint implements Entity{
     private Cargo cargo;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
+    private Orderr orderr;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
@@ -33,7 +37,7 @@ public class Waypoint implements Entity{
     private WaypointType wayPointType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "truck_id", nullable = false)
+    @JoinColumn(name = "truck_id")
     private Truck currentTruck;
 
     @ManyToMany
@@ -41,6 +45,14 @@ public class Waypoint implements Entity{
             joinColumns = @JoinColumn(name = "waypoint_id"),
             inverseJoinColumns = @JoinColumn(name = "driver_id"))
     private Set<Driver> brigade;
+
+    public Orderr getOrderr() {
+        return orderr;
+    }
+
+    public void setOrderr(Orderr orderr) {
+        this.orderr = orderr;
+    }
 
     public Integer getId() {
         return id;
@@ -94,8 +106,9 @@ public class Waypoint implements Entity{
     public String toString() {
         return "Waypoint{" +
                 "id=" + id +
-                ", cargo=" + cargo +
-                ", city=" + city +
+                ", cargo=" + cargo.getCargoIndex() +
+                ", orderr=" + orderr.getOrderIndex() +
+                ", city=" + city.getName() +
                 ", wayPointType=" + wayPointType +
                 '}';
     }

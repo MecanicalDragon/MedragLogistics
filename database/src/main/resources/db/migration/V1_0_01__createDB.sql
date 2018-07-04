@@ -1,15 +1,20 @@
 CREATE TABLE USER (
-  ID       INT                                  NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  USERNAME VARCHAR(32)                          NOT NULL UNIQUE,
-  PASSWORD VARCHAR(255)                         NOT NULL,
-  ROLE     ENUM ('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN') NOT NULL
+  ID       INT                                                                        NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  USERNAME VARCHAR(32)                                                                NOT NULL UNIQUE,
+  PASSWORD VARCHAR(255)                                                               NOT NULL,
+  ROLE     ENUM ('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE') NOT NULL
 )
   ENGINE = InnoDB;
 
-INSERT INTO USER (USERNAME, PASSWORD, ROLE)
-VALUES ('DRV-12345', '$2a$12$//0hyyCXAfAx91sOC0dft.AyCyV3CJYSUvIuvpzDJtZw3tKJf5tUS', 'ROLE_DRIVER');
-INSERT INTO USER (USERNAME, PASSWORD, ROLE)
-VALUES ('MGR-12345', '$2a$12$//0hyyCXAfAx91sOC0dft.AyCyV3CJYSUvIuvpzDJtZw3tKJf5tUS', 'ROLE_MANAGER');
+CREATE TABLE CITY (
+  ID            INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  NAME          VARCHAR(127) NOT NULL UNIQUE,
+  COORDINATES_X INTEGER      NOT NULL,
+  COORDINATES_Y INTEGER      NOT NULL,
+  CITY_INDEX    VARCHAR(3)   NOT NULL
+  #   ?DISTANCES?
+)
+  ENGINE = InnoDB;
 
 CREATE TABLE CUSTOMER (
   ID       INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -22,23 +27,17 @@ CREATE TABLE CUSTOMER (
   ENGINE = InnoDB;
 
 CREATE TABLE CARGO (
-  ID           INT                                        NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  CARGO_NUMBER VARCHAR(63)                                NOT NULL UNIQUE,
-  NAME         VARCHAR(63)                                NOT NULL,
-  WEIGHT       INTEGER                                    NOT NULL,
-  STATE        ENUM ('PREPARED', 'ON_BOARD', 'DELIVERED') NOT NULL,
-  OWNER_ID     INT                                        NOT NULL,
-  FOREIGN KEY (OWNER_ID) REFERENCES CUSTOMER (ID)
-    ON UPDATE CASCADE
-)
-  ENGINE = InnoDB;
-
-CREATE TABLE CITY (
-  ID            INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  NAME          VARCHAR(127) NOT NULL UNIQUE,
-  COORDINATES_X INTEGER      NOT NULL,
-  COORDINATES_Y INTEGER      NOT NULL
-  #   ?DISTANCES?
+  ID             INT                                                          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  CARGO_INDEX    VARCHAR(63)                                                  NOT NULL UNIQUE,
+  NAME           VARCHAR(63)                                                  NOT NULL,
+  WEIGHT         FLOAT                                                        NOT NULL,
+  STATE          ENUM ('PREPARED', 'ON_BOARD', 'DELIVERED', 'TRANSFER_POINT') NOT NULL,
+  OWNER_ID       INT                                                          NOT NULL,
+  DEPARTURE_ID   INT                                                          NOT NULL,
+  DESTINATION_ID INT                                                          NOT NULL,
+  FOREIGN KEY (OWNER_ID) REFERENCES CUSTOMER (ID),
+  FOREIGN KEY (DEPARTURE_ID) REFERENCES CITY (ID),
+  FOREIGN KEY (DESTINATION_ID) REFERENCES CITY (ID)
 )
   ENGINE = InnoDB;
 
@@ -72,10 +71,10 @@ CREATE TABLE DRIVER (
   ENGINE = InnoDB;
 
 CREATE TABLE ORDERR (
-  ID           INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  ORDER_NUMBER VARCHAR(31) NOT NULL UNIQUE,
-  OWNER_ID     INT         NOT NULL,
-  IMPLEMENTED  BOOL        NOT NULL DEFAULT FALSE,
+  ID          INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  ORDER_INDEX VARCHAR(31) NOT NULL UNIQUE,
+  OWNER_ID    INT         NOT NULL,
+  IMPLEMENTED BOOL        NOT NULL DEFAULT FALSE,
 
   FOREIGN KEY (OWNER_ID) REFERENCES CUSTOMER (ID)
     ON UPDATE CASCADE
@@ -87,8 +86,11 @@ CREATE TABLE WAYPOINT (
   CARGO_ID INT                     NOT NULL,
   CITY_ID  INT                     NOT NULL,
   WP_TYPE  ENUM ('LOAD', 'UNLOAD') NOT NULL,
+  ORDER_ID INT                     NOT NULL,
   TRUCK_ID INT,
 
+  FOREIGN KEY (ORDER_ID) REFERENCES ORDERR (ID)
+    ON UPDATE CASCADE,
   FOREIGN KEY (TRUCK_ID) REFERENCES TRUCK (ID)
     ON UPDATE CASCADE,
   FOREIGN KEY (CITY_ID) REFERENCES CITY (ID)

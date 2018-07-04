@@ -39,24 +39,36 @@
                     <div class="row justify-content-center">
                         <form:input name="document" placeholder="document" path="passport"
                                     class="form-control col-6"/>
-                        <form:errors path="passport"/>
+                        <div class="secondary-text text-center text-danger">
+                            <div class="font-italic">
+                                <form:errors path="passport"/>
+                            </div>
+                        </div>
                     </div>
                 </spring:bind>
 
                 <spring:bind path="name">
-                <div class="row justify-content-center">
-                    <form:input name="name" placeholder="name" path="name"
-                                class="form-control col-6"/>
-                    <form:errors path="name"/>
-                </div>
+                    <div class="row justify-content-center">
+                        <form:input name="name" placeholder="name" path="name"
+                                    class="form-control col-6"/>
+                        <div class="secondary-text text-center text-danger">
+                            <div class="font-italic">
+                                <form:errors path="name"/>
+                            </div>
+                        </div>
+                    </div>
                 </spring:bind>
 
                 <spring:bind path="surname">
-                <div class="row justify-content-center">
-                    <form:input name="surname" placeholder="surname" path="surname"
-                                class="form-control col-6"/>
-                    <form:errors path="surname"/>
-                </div>
+                    <div class="row justify-content-center">
+                        <form:input name="surname" placeholder="surname" path="surname"
+                                    class="form-control col-6"/>
+                        <div class="secondary-text text-center text-danger">
+                            <div class="font-italic">
+                                <form:errors path="surname"/>
+                            </div>
+                        </div>
+                    </div>
                 </spring:bind>
 
                 <div class="row justify-content-center">

@@ -12,13 +12,15 @@ public class OrderDto implements Dto {
 
     private Integer id;
 
-    private String orderNumber;
+    private String orderIndex;
 
     private Boolean implemented;
 
     private CustomerDto owner;
 
     private List<WaypointDto> waypoints;
+
+
 
     public Integer getId() {
         return id;
@@ -28,12 +30,12 @@ public class OrderDto implements Dto {
         this.id = id;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public String getOrderIndex() {
+        return orderIndex;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setOrderIndex(String orderIndex) {
+        this.orderIndex = orderIndex;
     }
 
     public Boolean getImplemented() {
@@ -64,7 +66,7 @@ public class OrderDto implements Dto {
     public String toString() {
         return "OrderDto{" +
                 "id=" + id +
-                ", orderNumber='" + orderNumber + '\'' +
+                ", orderIndex='" + orderIndex + '\'' +
                 ", implemented=" + implemented +
                 ", owner=" + owner.getName() +
                 '}';

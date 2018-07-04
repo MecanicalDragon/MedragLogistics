@@ -15,5 +15,4 @@ import java.util.List;
  * @version 1.0
  */
 public interface OrderService<D extends OrderDto, E extends Orderr> extends DTOService<D, E> {
-    OrderDto compileOrder(List<CargoDto> cargoList, CustomerDto customer);
 }

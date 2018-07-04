@@ -2,7 +2,6 @@ package net.medrag.model.domain.entity;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Simple JavaBean domain object, that represents an order
@@ -21,8 +20,8 @@ public class Orderr implements Entity {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "order_number")
-    private String orderNumber;
+    @Column(name = "order_index")
+    private String orderIndex;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
@@ -31,7 +30,7 @@ public class Orderr implements Entity {
     @Column(name = "implemented")
     private Boolean implemented;
 
-    @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "orderr", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private List<Waypoint> waypoints;
 
     public Integer getId() {
@@ -42,12 +41,12 @@ public class Orderr implements Entity {
         this.id = id;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public String getOrderIndex() {
+        return orderIndex;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setOrderIndex(String orderNumber) {
+        this.orderIndex = orderNumber;
     }
 
     public Boolean getImplemented() {
@@ -78,7 +77,7 @@ public class Orderr implements Entity {
     public String toString() {
         return "Orderr{" +
                 "id=" + id +
-                ", orderNumber='" + orderNumber + '\'' +
+                ", orderNumber='" + orderIndex + '\'' +
                 ", owner=" + owner.getName() +
                 ", implemented=" + implemented +
                 '}';

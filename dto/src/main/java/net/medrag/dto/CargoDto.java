@@ -10,35 +10,21 @@ public class CargoDto implements Dto {
 
     private Integer id;
 
-    private String cargoNumber;
+    private String cargoIndex;
 
     private String name;
 
-    private Integer weight;
+    private Float weight;
 
     private String state;
 
     private CustomerDto owner;
 
-    private String departure;
+    private CityDto departure;
 
-    private String destination;
+    private CityDto destination;
 
-    public String getDeparture() {
-        return departure;
-    }
 
-    public void setDeparture(String departure) {
-        this.departure = departure;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
 
     public Integer getId() {
         return id;
@@ -48,12 +34,12 @@ public class CargoDto implements Dto {
         this.id = id;
     }
 
-    public String getCargoNumber() {
-        return cargoNumber;
+    public String getCargoIndex() {
+        return cargoIndex;
     }
 
-    public void setCargoNumber(String cargoNumber) {
-        this.cargoNumber = cargoNumber;
+    public void setCargoIndex(String cargoIndex) {
+        this.cargoIndex = cargoIndex;
     }
 
     public String getName() {
@@ -64,11 +50,11 @@ public class CargoDto implements Dto {
         this.name = name;
     }
 
-    public Integer getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
@@ -88,17 +74,33 @@ public class CargoDto implements Dto {
         this.owner = owner;
     }
 
+    public CityDto getDeparture() {
+        return departure;
+    }
+
+    public void setDeparture(CityDto departure) {
+        this.departure = departure;
+    }
+
+    public CityDto getDestination() {
+        return destination;
+    }
+
+    public void setDestination(CityDto destination) {
+        this.destination = destination;
+    }
+
     @Override
     public String toString() {
         return "CargoDto{" +
                 "id=" + id +
-                ", cargoNumber='" + cargoNumber + '\'' +
+                ", cargoIndex='" + cargoIndex + '\'' +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", state='" + state + '\'' +
                 ", owner=" + owner +
-                ", departure='" + departure + '\'' +
-                ", destination='" + destination + '\'' +
+                ", departure=" + departure.getName() +
+                ", destination=" + destination.getName() +
                 '}';
     }
 }

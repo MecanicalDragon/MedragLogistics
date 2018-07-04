@@ -44,6 +44,9 @@ public class City implements Entity {
     @Column(name = "coordinates_Y")
     private Integer coordinatesY;
 
+    @Column(name = "city_index")
+    private String index;
+
     @OneToMany(mappedBy = "currentCity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private Set<Truck>truckSet;
 
@@ -52,6 +55,14 @@ public class City implements Entity {
 
     public int getId() {
         return id;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
     }
 
     public void setId(int id) {
@@ -103,8 +114,9 @@ public class City implements Entity {
         return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", coordinates_X=" + coordinatesX +
-                ", coordinates_Y=" + coordinatesY +
+                ", coordinatesX=" + coordinatesX +
+                ", coordinatesY=" + coordinatesY +
+                ", index='" + index + '\'' +
                 '}';
     }
 }

@@ -1,16 +1,18 @@
 package net.medrag.model.service;
 
-import net.medrag.dto.CargoDto;
-import net.medrag.dto.CustomerDto;
-import net.medrag.dto.OrderDto;
+import net.medrag.dto.*;
+import net.medrag.model.dao.CargoDao;
+import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.domain.entity.Orderr;
+import net.medrag.model.domain.entity.Waypoint;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Standard service implementation for employment DAO interface{@link net.medrag.model.dao.OrderDao},
@@ -24,26 +26,5 @@ public class OrderServiceImpl<D extends OrderDto, E extends Orderr> extends DTOS
         implements OrderService<D, E> {
 
     private final String implementation = "orderDaoImpl";
-    private final String index = "ORD";
 
-
-    @Override
-    @Transactional
-    public OrderDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) {
-        for (CargoDto cargoDto : cargoList) {
-            cargoDto.setOwner(customer);
-            setNumber(cargoDto);
-        }
-
-
-
-
-
-        return null;
-    }
-
-    private void setNumber(CargoDto cargoDto) {
-        Date date = new Date();
-
-    }
 }

@@ -17,8 +17,7 @@
     <import resource="classpath:context-core.xml"/>
     <import resource="security-config.xml"/>
     <import resource="dispatcher-servlet.xml"/>
-    <!--<import resource="dispatcher-servlet.xml"/>-->
 
-    <!--<mvc:resources mapping="/resources/**" location="/resources/" />-->
+    <mvc:resources mapping="/resources/**" location="/resources/" />
 
 </beans>
