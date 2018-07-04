@@ -8,7 +8,7 @@ import java.util.List;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-public class OrderDto implements Dto {
+public class OrderrDto implements Dto {
 
     private Integer id;
 
@@ -64,7 +64,7 @@ public class OrderDto implements Dto {
 
     @Override
     public String toString() {
-        return "OrderDto{" +
+        return "OrderrDto{" +
                 "id=" + id +
                 ", orderIndex='" + orderIndex + '\'' +
                 ", implemented=" + implemented +

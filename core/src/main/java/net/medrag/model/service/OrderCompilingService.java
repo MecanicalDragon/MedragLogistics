@@ -2,7 +2,7 @@ package net.medrag.model.service;
 
 import net.medrag.dto.CargoDto;
 import net.medrag.dto.CustomerDto;
-import net.medrag.dto.OrderDto;
+import net.medrag.dto.OrderrDto;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ import java.util.List;
  * @version 1.0
  */
 public interface OrderCompilingService {
-    public OrderDto compileOrder(List<CargoDto> cargoList, CustomerDto customer);
+    public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer);
 }

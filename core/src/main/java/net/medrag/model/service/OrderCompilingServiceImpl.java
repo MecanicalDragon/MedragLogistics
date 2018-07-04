@@ -2,7 +2,7 @@ package net.medrag.model.service;
 
 import net.medrag.dto.CargoDto;
 import net.medrag.dto.CustomerDto;
-import net.medrag.dto.OrderDto;
+import net.medrag.dto.OrderrDto;
 import net.medrag.dto.WaypointDto;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.domain.entity.Orderr;
@@ -25,12 +25,12 @@ public class OrderCompilingServiceImpl implements OrderCompilingService{
 
     private CargoService<CargoDto, Cargo> cargoService;
 
-    private OrderService<OrderDto, Orderr> orderService;
+    private OrderService<OrderrDto, Orderr> orderService;
 
     private WaypointService<WaypointDto, Waypoint> waypointService;
 
     @Autowired
-    public void setOrderService(OrderService<OrderDto, Orderr> orderService) {
+    public void setOrderService(OrderService<OrderrDto, Orderr> orderService) {
         this.orderService = orderService;
     }
 
@@ -51,9 +51,9 @@ public class OrderCompilingServiceImpl implements OrderCompilingService{
 
 
     @Override
-    public OrderDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) {
+    public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) {
 
-        OrderDto order = new OrderDto();
+        OrderrDto order = new OrderrDto();
         order.setOwner(customer);
         order.setOrderIndex(indexService.indicate(order));
         order.setImplemented(false);
@@ -72,19 +72,19 @@ public class OrderCompilingServiceImpl implements OrderCompilingService{
             WaypointDto waypointLoad = new WaypointDto();
             waypointLoad.setCargo(cargoDto);
             waypointLoad.setCity(cargoDto.getDeparture());
-            waypointLoad.setOrder(order);
+            waypointLoad.setOrderr(order);
             waypointLoad.setWayPointType("LOAD");
             waypointService.addDto(waypointLoad, new Waypoint());
 
             WaypointDto waypointUnload = new WaypointDto();
             waypointUnload.setCargo(cargoDto);
             waypointUnload.setCity(cargoDto.getDestination());
-            waypointUnload.setOrder(order);
+            waypointUnload.setOrderr(order);
             waypointUnload.setWayPointType("UNLOAD");
             waypointService.addDto(waypointUnload, new Waypoint());
 
         }
 
-        return orderService.getDtoById(order,new Orderr(), idOrder);
+        return orderService.getDtoById(order, new Orderr(), idOrder);
     }
 }

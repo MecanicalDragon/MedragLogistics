@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Add new order
+        Add new orderr
     </title>
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -85,7 +85,7 @@
                 <div class="row justify-content-center">
                     <div class="btn-group">
 
-                        <a class="btn btn-secondary" href="/whm-main" role="button">Dismiss order</a>
+                        <a class="btn btn-secondary" href="/whm-main" role="button">Dismiss orderr</a>
                     </div>
                     <div class="btn-group">
 

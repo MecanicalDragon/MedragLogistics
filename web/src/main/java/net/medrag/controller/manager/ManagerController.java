@@ -1,6 +1,6 @@
 package net.medrag.controller.manager;
 
-import net.medrag.dto.OrderDto;
+import net.medrag.dto.OrderrDto;
 import net.medrag.model.domain.entity.Orderr;
 import net.medrag.model.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +21,16 @@ import java.util.List;
 @RequestMapping("mgr-main")
 public class ManagerController {
 
-    private OrderService<OrderDto, Orderr> orderService;
+    private OrderService<OrderrDto, Orderr> orderService;
 
     @Autowired
-    public void setOrderService(OrderService<OrderDto, Orderr> orderService) {
+    public void setOrderService(OrderService<OrderrDto, Orderr> orderService) {
         this.orderService = orderService;
     }
 
     @GetMapping()
     public String returnView(Model model){
-        List<OrderDto> orders = orderService.getDtoList(new OrderDto(), new Orderr());
+        List<OrderrDto> orders = orderService.getDtoList(new OrderrDto(), new Orderr());
         System.out.println(orders);
         model.addAttribute("orders", orders);
         model.addAttribute("ordersCount", orders.size());

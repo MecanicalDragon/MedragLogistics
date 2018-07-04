@@ -57,7 +57,12 @@ public class CargoValidator implements Validator {
 
         try {
             Float weight = Float.parseFloat(cargoForm.getWeight());
-            cargo.setWeight(weight);
+            if (weight < 2) {
+                errors.rejectValue("weight", "too.easy");
+            } else {
+                cargo.setWeight(weight);
+            }
+
         } catch (NumberFormatException e) {
             errors.rejectValue("weight", "not.a.number");
         }

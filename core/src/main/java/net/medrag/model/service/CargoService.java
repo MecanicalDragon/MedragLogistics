@@ -15,12 +15,4 @@ import java.util.List;
  * @version 1.0
  */
 public interface CargoService<D extends CargoDto, E extends Cargo> extends DTOService<D, E>{
-//    void addCargo(CargoDto cargoDto);
-//    void updateCargoStatus(CargoDto cargoDto);
-//    void removeCargo(CargoDto cargoDto);
-//    CargoDto getCargoById(Integer id);
-//    CargoDto getCargoByName(String name);
-//    List<CargoDto> getCargoList();
-//
-//    void testCargo(CargoDto cargoDto);
 }

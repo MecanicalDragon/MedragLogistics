@@ -17,6 +17,6 @@ import javax.transaction.Transactional;
 public class CustomerServiceImpl<D extends CustomerDto, E extends Customer> extends DTOServiceImpl<D, E>
         implements CustomerService<D, E> {
 
-    private final String implementation = "customerDaoImpl";
+    private static final String implementation = "customerDaoImpl";
 
 }

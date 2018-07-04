@@ -13,12 +13,4 @@ import java.util.List;
  * @version 1.0
  */
 public interface DriverService<D extends DriverDto, E extends Driver> extends DTOService<D, E> {
-//    void addDriver(DriverDto driverDto);
-//    void updateDriverStatus(DriverDto driverDto);
-//    void removeDriver(DriverDto driverDto);
-//    DriverDto getDriverById(Integer id);
-//    DriverDto getDriverByPersonalNumber(String id);
-//    List<DriverDto> getDriverList();
-//
-//    void testDriver(DriverDto driverDto);
 }

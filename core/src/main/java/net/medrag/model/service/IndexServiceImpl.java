@@ -36,7 +36,6 @@ public class IndexServiceImpl implements IndexService {
         }
         sb.append(new Random().nextInt(8999) + 1000);
 
-        System.out.println(sb.toString());
         return sb.toString();
     }
 

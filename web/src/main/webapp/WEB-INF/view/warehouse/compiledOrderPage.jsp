@@ -23,11 +23,8 @@
         <c:forEach items="${order.waypoints}" var="waypoint">
             <h5>Cargo index: ${waypoint.cargo.cargoIndex}</h5>
             <h5>Cargo name: ${waypoint.cargo.name}</h5>
-            <h5>Cargo owner: ${waypoint.cargo.owner.name} ${waypoint.cargo.owner.surname}</h5>
-            <h5>Cargo weight: ${waypoint.cargo.weight}</h5>
-            <h5>Cargo status: ${waypoint.cargo.state}</h5>
-            <h5>Cargo point: ${waypoint.city.name}</h5>
-            <h5>Cargo action type ${waypoint.wayPointType}:</h5>
+            <h5>City: ${waypoint.city.name}</h5>
+            <h5>Action: ${waypoint.wayPointType}</h5>
         </c:forEach>
         <div  class="text-primary text-right">
             <a href="${contextPath}/whm-main">To the naim warehouse page</a>

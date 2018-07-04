@@ -21,7 +21,7 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
 
     private EntityDao<E> entityDao;
 
-    private final String implementation = "userDaoImpl";
+    private static final String implementation = "userDaoImpl";
 
 
     @Autowired

@@ -16,12 +16,4 @@ import java.util.List;
  * @version 1.0
  */
 public interface TruckService<D extends TruckDto, E extends Truck> extends DTOService<D, E>{
-//    void addTruck(TruckDto truckDto);
-//    void updateTruckStatus(TruckDto truckDto);
-//    void removeTruck(TruckDto truckDto);
-//    TruckDto getTruckById(Integer id);
-//    TruckDto getTruckByRegNumber(String id);
-//    List<TruckDto> getTruckList();
-//
-//    public void testTruck(TruckDto truckDto);
 }

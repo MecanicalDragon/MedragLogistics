@@ -15,5 +15,5 @@ import org.springframework.stereotype.Service;
 public class WaypointServiceImpl<D extends WaypointDto, E extends Waypoint> extends DTOServiceImpl<D, E>
         implements WaypointService<D, E> {
 
-    private final String implementation = "waypointDaoImpl";
+    private static final String implementation = "waypointDaoImpl";
 }

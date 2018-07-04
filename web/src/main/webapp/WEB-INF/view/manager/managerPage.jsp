@@ -98,7 +98,7 @@
         <div class="row">
             <!-- Button trigger add new entities -->
             <a href="mgr-order">
-                Add new order
+                Add new orderr
             </a>
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewCity">
                 Add new city
@@ -112,7 +112,7 @@
         </div>
         <br>
 
-        <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+        <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
             <thead>
             <tr>
                 <th>Order number</th>
@@ -306,7 +306,7 @@
         <!-- Page-Level Demo Scripts - Tables - Use for reference -->
         <script>
             $(document).ready(function () {
-                $('#order-Table').DataTable({
+                $('#orderr-Table').DataTable({
                     responsive: true
                 });
             });

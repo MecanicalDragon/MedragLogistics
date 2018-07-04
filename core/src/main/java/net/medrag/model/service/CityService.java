@@ -13,15 +13,3 @@ import net.medrag.model.domain.entity.City;
  */
 public interface CityService<D extends CityDto, E extends City> extends DTOService<D, E> {
 }
-
-
-//public interface CityService {
-//    void addCity(CityDto cityDto);
-//    void updateCityStatus(CityDto cityDto);
-//    void removeCity(CityDto cityDto);
-//    CityDto getCityById(Integer id);
-//    CityDto getCityByName(String name);
-//    List<CityDto> getCityList();
-//
-//    void testCity(CityDto cityDto);
-//}

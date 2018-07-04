@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Add new order
+        Add new orderr
     </title>
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -34,7 +34,7 @@
     <div class="jumbotron" style="margin-top: 20px;">
         <div class="text-center">
 
-            <h1>Step 2: forming the order.</h1>
+            <h1>Step 2: forming the orderr.</h1>
 
             <h3>Cargo list of customer ${sessionScope.owner.name} ${sessionScope.owner.surname}, document
                 # ${sessionScope.owner.passport}</h3>
@@ -63,14 +63,14 @@
             </table>
 
             <div class="row">
-                <a class="btn btn-secondary" href="${contextPath}/whm-main" role="button">Dismiss order</a>
+                <a class="btn btn-secondary" href="${contextPath}/whm-main" role="button">Dismiss orderr</a>
 
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                         data-target="#addCargoModal">
                     Add new cargo
                 </button>
 
-                <a class="btn btn-success" href="${contextPath}/whm-order/compile" role="button">Compile order</a>
+                <a class="btn btn-success" href="${contextPath}/whm-order/compile" role="button">Compile orderr</a>
             </div>
             <div class="modal fade" id="addCargoModal" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

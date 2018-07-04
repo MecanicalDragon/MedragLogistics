@@ -37,15 +37,15 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <%--This button starts a process of adding new order.--%>
+                        <%--This button starts a process of adding new orderr.--%>
                         <%--First step is adding new customer or choosing one of added earlier.--%>
                         <%--goto .../warehouse/CustomerController, GetMethod--%>
-                        <a class="btn btn-primary" href="/whm-newCustomer" role="button">Add new order</a>
+                        <a class="btn btn-primary" href="/whm-newCustomer" role="button">Add new orderr</a>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
 
-                        <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
                             <thead>
                             <tr>
                                 <th>Cargo number</th>
@@ -243,7 +243,7 @@
         <!-- Page-Level Demo Scripts - Tables - Use for reference -->
         <script>
             $(document).ready(function () {
-                $('#order-Table').DataTable({
+                $('#orderr-Table').DataTable({
                     responsive: true
                 });
             });

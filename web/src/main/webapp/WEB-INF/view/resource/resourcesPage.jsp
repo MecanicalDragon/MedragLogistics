@@ -96,7 +96,7 @@
 
             <div role="tabpanel" class="tab-pane fade show active" id="trucks" aria-labelledby="trucks-tab">
 
-                <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
                     <thead>
                     <tr>
                         <th>Cargo number</th>
@@ -121,7 +121,7 @@
 
             <div role="tabpanel" class="tab-pane fade" id="drivers" aria-labelledby="drivers-tab">
 
-                <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
                     <thead>
                     <tr>
                         <th>Cargo number</th>
@@ -146,7 +146,7 @@
 
             <div role="tabpanel" class="tab-pane fade" id="cities" aria-labelledby="cities-tab">
 
-                <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
                     <thead>
                     <tr>
                         <th>Cargo number</th>
@@ -171,7 +171,7 @@
 
             <div role="tabpanel" class="tab-pane fade" id="users" aria-labelledby="users-tab">
 
-                <table width="100%" class="table table-striped table-bordered table-hover" id="order-Table">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
                     <thead>
                     <tr>
                         <th>Cargo number</th>
@@ -204,7 +204,7 @@
 
         <div class="row">
             <!-- Button trigger add new entities -->
-            <a class="btn btn-primary" href="/whm-newCustomer" role="button">Add new order</a>
+            <a class="btn btn-primary" href="/whm-newCustomer" role="button">Add new orderr</a>
 
             <!-- Modal window add city-->
             <div class="modal fade" id="addNewCity" tabindex="-1" role="dialog"
@@ -378,7 +378,7 @@
         <!-- Page-Level Demo Scripts - Tables - Use for reference -->
         <script>
             $(document).ready(function () {
-                $('#order-Table').DataTable({
+                $('#orderr-Table').DataTable({
                     responsive: true
                 });
             });
