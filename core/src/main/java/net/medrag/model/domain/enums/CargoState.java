@@ -10,8 +10,18 @@ import net.medrag.model.domain.entity.Cargo;
  * @version 1.0
  */
 public enum CargoState {
-    PREPARED,
-    ON_BOARD,
-    DELIVERED,
-    TRANSFER_POINT
+    PREPARED("Ready to send"),
+    ON_BOARD("On the way"),
+    DELIVERED("Delivered"),
+    TRANSFER_POINT("Transmitted");
+
+    private String status;
+
+    CargoState(String status){
+        this.status = status;
+    }
+
+    public String getCargoState(){
+        return status;
+    }
 }
