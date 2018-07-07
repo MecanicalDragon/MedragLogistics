@@ -47,4 +47,9 @@ public class TitleController {
                 return "public/title";
         }
     }
+
+    @GetMapping("error")
+    public String getError(){
+        return "public/error";
+    }
 }
