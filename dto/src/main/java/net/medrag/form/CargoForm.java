@@ -16,6 +16,8 @@ public class CargoForm {
 
     private String destination;
 
+
+
     public String getName() {
         return name;
     }

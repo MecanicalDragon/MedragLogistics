@@ -14,9 +14,9 @@ public class CityDto implements Dto {
 
     private String name;
 
-    private Integer coordinates_X;
+    private String coordinatesX;
 
-    private Integer coordinates_Y;
+    private String coordinatesY;
 
     private String index;
 
@@ -40,20 +40,20 @@ public class CityDto implements Dto {
         this.name = name;
     }
 
-    public Integer getCoordinates_X() {
-        return coordinates_X;
+    public String getCoordinatesX() {
+        return coordinatesX;
     }
 
-    public void setCoordinates_X(Integer coordinates_X) {
-        this.coordinates_X = coordinates_X;
+    public void setCoordinatesX(String coordinatesX) {
+        this.coordinatesX = coordinatesX;
     }
 
-    public Integer getCoordinates_Y() {
-        return coordinates_Y;
+    public String getCoordinatesY() {
+        return coordinatesY;
     }
 
-    public void setCoordinates_Y(Integer coordinates_Y) {
-        this.coordinates_Y = coordinates_Y;
+    public void setCoordinatesY(String coordinatesY) {
+        this.coordinatesY = coordinatesY;
     }
 
     public String getIndex() {
@@ -85,8 +85,8 @@ public class CityDto implements Dto {
         return "CityDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", coordinates_X=" + coordinates_X +
-                ", coordinates_Y=" + coordinates_Y +
+                ", coordinatesX=" + coordinatesX +
+                ", coordinatesY=" + coordinatesY +
                 ", index='" + index + '\'' +
                 '}';
     }

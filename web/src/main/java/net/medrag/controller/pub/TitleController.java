@@ -41,6 +41,8 @@ public class TitleController {
                 return "redirect: ../mgr-main";
             case "ROLE_WAREHOUSEMAN":
                 return "redirect: ../whm-main";
+            case "ROLE_RESOURCE":
+                return "redirect: ../rsm-city";
             default:
                 return "public/title";
         }

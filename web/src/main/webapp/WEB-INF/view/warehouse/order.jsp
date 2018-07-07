@@ -1,6 +1,3 @@
-<%@ page import="net.medrag.dto.CustomerDto" %>
-<%@ page import="net.medrag.dto.CargoDto" %>
-<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -14,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Add new orderr
+        Add new order
     </title>
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -65,10 +62,20 @@
             <div class="row">
                 <a class="btn btn-secondary" href="${contextPath}/whm-main" role="button">Dismiss orderr</a>
 
-                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                        data-target="#addCargoModal">
-                    Add new cargo
-                </button>
+                <c:choose>
+                    <c:when test="${err}">
+                        <%--Add new Cargo Error Button--%>
+                        <button class="btn btn-danger" data-toggle="modal"
+                                data-target="#addCargoModal">Wasn't added!
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <%--Add new Cargo Button--%>
+                        <button class="btn btn-primary" data-toggle="modal"
+                                data-target="#addCargoModal">Add new Cargo
+                        </button>
+                    </c:otherwise>
+                </c:choose>
 
                 <a class="btn btn-success" href="${contextPath}/whm-order/compile" role="button">Compile orderr</a>
             </div>
@@ -77,7 +84,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">Add new cargo</h5>
+                            <h5 class="modal-title" id="cargoModalHeader">Add new cargo</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -89,56 +96,65 @@
                                            action="${contextPath}/whm-cargo/addCargo">
 
                                     <div class="row">
-                                        <spring:bind path="name">
-                                            <form:input name="name" placeholder="name" path="name" autofocus="true"
-                                                        class="form-control col-8"/>
-                                            <div class="secondary-text text-center text-danger">
-                                                <div class="font-italic">
-                                                    <form:errors path="name"/>
-                                                </div>
+                                        <div class="col-6">
+                                            <spring:bind path="name">
+                                                <form:input name="name" placeholder="name" path="name" autofocus="true"
+                                                            class="form-control col-8"/>
+                                            </spring:bind>
+                                        </div>
+                                        <div class="secondary-text text-center text-danger">
+                                            <div class="font-italic">
+                                                <form:errors path="name"/>
                                             </div>
-                                        </spring:bind>
+                                        </div>
                                     </div>
 
                                     <div class="row">
-                                        <spring:bind path="weight">
-                                            <form:input name="weight" placeholder="weight" path="weight"
-                                                        class="form-control col-8"/>
-                                            <div class="secondary-text text-center text-danger">
-                                                <div class="font-italic">
-                                                    <form:errors path="weight"/>
-                                                </div>
+                                        <div class="col-6">
+                                            <spring:bind path="weight">
+                                                <form:input name="weight" placeholder="weight" path="weight"
+                                                            class="form-control col-8"/>
+                                            </spring:bind>
+                                        </div>
+                                        <div class="secondary-text text-center text-danger">
+                                            <div class="font-italic">
+                                                <form:errors path="weight"/>
                                             </div>
-                                        </spring:bind>
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        <spring:bind path="departure">
-                                            <form:input name="departure" placeholder="departure" path="departure"
-                                                        class="form-control col-8"/>
-                                            <div class="secondary-text text-center text-danger">
-                                                <div class="font-italic">
-                                                    <form:errors path="departure"/>
-                                                </div>
+                                        <div class="col-6">
+                                            <spring:bind path="departure">
+                                                <form:input name="departure" placeholder="departure" path="departure"
+                                                            class="form-control col-8"/>
+                                            </spring:bind>
+                                        </div>
+                                        <div class="secondary-text text-center text-danger">
+                                            <div class="font-italic">
+                                                <form:errors path="departure"/>
                                             </div>
-                                        </spring:bind>
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        <spring:bind path="destination">
-                                            <form:input name="destination" placeholder="destination" path="destination"
-                                                        class="form-control col-8"/>
-                                            <div class="secondary-text text-center text-danger">
-                                                <div class="font-italic">
-                                                    <form:errors path="destination"/>
-                                                </div>
+                                        <div class="col-6">
+                                            <spring:bind path="destination">
+                                                <form:input name="destination" placeholder="destination"
+                                                            path="destination"
+                                                            class="form-control col-8"/>
+                                            </spring:bind>
+                                        </div>
+                                        <div class="secondary-text text-center text-danger">
+                                            <div class="font-italic">
+                                                <form:errors path="destination"/>
                                             </div>
-                                        </spring:bind>
+                                        </div>
                                     </div>
                                 </form:form>
 
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button class="btn btn-success" form="addNewCargo">Add new Cargo
                             </button>
                         </div>

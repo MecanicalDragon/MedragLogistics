@@ -5,7 +5,6 @@ import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.service.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,7 +32,7 @@ public class WarehouseController {
     public String returnView(HttpServletRequest request){
         List<CargoDto> cargos = cargoService.getDtoList(new CargoDto(), new Cargo());
         request.getSession().setAttribute("globalCargoes", cargos);
-        return "warehouse/warehousePage";
+        return "warehouse/warehouse";
     }
 
 }

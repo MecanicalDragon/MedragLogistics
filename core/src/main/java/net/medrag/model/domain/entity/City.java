@@ -32,12 +32,6 @@ public class City implements Entity {
     @Column(name = "name")
     private String name;
 
-//    @ElementCollection
-//    @MapKeyColumn(name="IMAGE_NAME")
-//    @Column(name="IMAGE_FILENAME")
-//    @CollectionTable(name="IMAGE_MAPPING")
-//    private Map<City, Integer> distances;
-
     @Column(name = "coordinates_X")
     private Integer coordinatesX;
 

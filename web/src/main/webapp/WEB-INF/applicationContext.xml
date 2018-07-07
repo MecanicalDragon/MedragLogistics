@@ -13,6 +13,7 @@
 
     <mvc:annotation-driven/>
     <context:component-scan base-package="net.medrag.controller"/>
+    <context:component-scan base-package="net.medrag.validator"/>
 
     <import resource="classpath:context-core.xml"/>
     <import resource="security-config.xml"/>

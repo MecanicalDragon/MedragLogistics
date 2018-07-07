@@ -4,7 +4,7 @@ import net.medrag.dto.CargoDto;
 import net.medrag.form.CargoForm;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.service.CargoService;
-import net.medrag.model.validator.CargoValidator;
+import net.medrag.validator.CargoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +43,9 @@ public class CargoController {
                            HttpServletRequest request, Model model) {
 
         CargoDto validatedCargo = cargoValidator.validate(newCargo, bindingResult);
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("err", true);
             return "warehouse/order";
         }
 

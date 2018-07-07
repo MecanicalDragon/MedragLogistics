@@ -24,6 +24,8 @@ public class TruckDto implements Dto {
 
     private Set<DriverDto> driverSet;
 
+
+
     public Integer getId() {
         return id;
     }

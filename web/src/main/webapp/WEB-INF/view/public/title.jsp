@@ -37,7 +37,7 @@
                         </form>
                     </c:when>
                     <c:otherwise>
-                        <form class="form-signin" method="post" action="/tryLog">
+                        <form class="form-signin" method="post" action="${contextPath}/tryLog">
                             <fieldset>
                                 <div class="row justify-content-center">
                                     <div class="form-group">
@@ -79,12 +79,15 @@
             <%--<div class="text-primary text-right">--%>
             <%--<a href="${contextPath}/mgr-driver">to Drivers</a>--%>
             <%--</div>--%>
-            <div class="text-primary text-right">
-            <a href="${contextPath}/whm-newCustomer">new Customer</a>
-            </div>
+            <%--<div class="text-primary text-right">--%>
+            <%--<a href="${contextPath}/whm-newCustomer">new Customer</a>--%>
+            <%--</div>--%>
             <%--<div class="text-primary text-right">--%>
             <%--<a href="${contextPath}/drv-main">To Driver Pages</a>--%>
             <%--</div>--%>
+            <div class="text-primary text-right">
+            <a href="${contextPath}/rsm-city">To Cities</a>
+            </div>
 
         </div>
     </div>

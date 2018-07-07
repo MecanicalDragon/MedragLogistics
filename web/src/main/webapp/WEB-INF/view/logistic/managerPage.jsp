@@ -79,12 +79,12 @@
             </div>
 
             <div class="row justify-content-center">
-                <form:input name="x" placeholder="X" path="coordinates_X"
+                <form:input name="x" placeholder="X" path="coordinatesX"
                             class="form-control col-8"/>
             </div>
 
             <div class="row justify-content-sm-center">
-                <form:input name="y" placeholder="Y" path="coordinates_Y"
+                <form:input name="y" placeholder="Y" path="coordinatesY"
                             class="form-control col-8"/>
             </div>
 
@@ -137,45 +137,7 @@
             </tbody>
         </table>
 
-        <!-- Modal window add city-->
-        <div class="modal fade" id="addNewCity" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="jumbotron" style="margin-top: 20px;">
-                            <div class="text-center">
-
-                                <form:form class="form" method="post" modelAttribute="city" action="/mgr-city/addCity">
-
-                                    <div class="row justify-content-sm-center">
-                                        <form:input name="name" placeholder="City" path="name" autofocus="true"
-                                                    class="form-control col-8"/>
-                                    </div>
-
-                                    <div class="row justify-content-center">
-                                        <form:input name="x" placeholder="X" path="coordinates_X"
-                                                    class="form-control col-8"/>
-                                    </div>
-
-                                    <div class="row justify-content-sm-center">
-                                        <form:input name="y" placeholder="Y" path="coordinates_Y"
-                                                    class="form-control col-8"/>
-                                    </div>
-
-                                    <br>
-                                    <button class="btn btn-success">Add city</button>
-                                </form:form>
-                                <div class="text-primary text-right">
-                                    <a href="${contextPath}/mgr-city/printCity">print City</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
         <!-- Modal window add driver-->
         <div class="modal fade" id="addNewDriver" tabindex="-1" role="dialog"

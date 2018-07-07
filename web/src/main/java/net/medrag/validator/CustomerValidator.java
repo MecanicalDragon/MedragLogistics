@@ -1,4 +1,4 @@
-package net.medrag.model.validator;
+package net.medrag.validator;
 
 import net.medrag.dto.CustomerDto;
 import net.medrag.model.domain.entity.Customer;
@@ -33,12 +33,7 @@ public class CustomerValidator implements Validator {
 
     @Override
     public void validate(@Nullable Object target, Errors errors) {
-        
-        CustomerDto customer = (CustomerDto) target;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passport", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "notnull.field");
-        
+        errors.rejectValue("passport", "you.cheat");
     }
 
     public CustomerDto validate(@Nullable CustomerDto customer, Errors errors) {

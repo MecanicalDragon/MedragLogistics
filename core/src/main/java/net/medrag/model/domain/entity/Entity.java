@@ -8,5 +8,7 @@ import java.io.Serializable;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-public interface Entity extends Serializable{
+public interface Entity extends Serializable {
+    @Override
+    String toString();
 }

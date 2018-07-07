@@ -11,11 +11,11 @@ import java.util.List;
  * @version 1.0
  */
 public interface EntityDao<E extends Entity>  {
-    Integer addEntity(E entity);
-    void updateEntityStatus(E entity);
-    void removeEntity(E entity);
-    void saveOrUpdateEntity (E entity);
-    E getEntityById(E entity, Integer id);
-    E getEntityByNaturalId(E entity, String id);
-    List<E> getEntityList(E entity);
+    Integer addEntity(E entity)throws MedragRepositoryException;
+    void updateEntityStatus(E entity)throws MedragRepositoryException;
+    void removeEntity(E entity)throws MedragRepositoryException;
+    void saveOrUpdateEntity (E entity)throws MedragRepositoryException;
+    E getEntityById(E entity, Integer id)throws MedragRepositoryException;
+    E getEntityByNaturalId(E entity, String id)throws MedragRepositoryException;
+    List<E> getEntityList(E entity)throws MedragRepositoryException;
 }

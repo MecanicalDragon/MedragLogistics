@@ -1,13 +1,10 @@
-package net.medrag.model.validator;
+package net.medrag.validator;
 
 import net.medrag.dto.CargoDto;
 import net.medrag.dto.CityDto;
-import net.medrag.dto.CustomerDto;
 import net.medrag.form.CargoForm;
 import net.medrag.model.dao.CargoDao;
-import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.domain.entity.City;
-import net.medrag.model.service.CargoService;
 import net.medrag.model.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -40,6 +37,7 @@ public class CargoValidator implements Validator {
     @Override
     public void validate(@Nullable Object target, Errors errors) {
 
+        errors.rejectValue("name", "you.cheat");
     }
 
     public CargoDto validate(@Nullable CargoForm cargoForm, Errors errors) {

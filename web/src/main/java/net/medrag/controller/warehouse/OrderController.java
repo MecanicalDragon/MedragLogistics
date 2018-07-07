@@ -39,6 +39,6 @@ public class OrderController {
         OrderrDto order = orderCompilingService.compileOrder(cargoList, owner);
 
         model.addAttribute("order", order);
-        return "warehouse/compiledOrderPage";
+        return "warehouse/compiledOrder";
     }
 }
