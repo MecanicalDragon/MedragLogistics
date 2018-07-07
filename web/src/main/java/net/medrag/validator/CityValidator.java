@@ -6,7 +6,6 @@ import net.medrag.model.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -59,22 +58,33 @@ public class CityValidator implements Validator{
 
     }
 
-    public void validateEdits(CityDto city, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"index", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"coordinatesX", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"coordinatesY", "notnull.field");
+    public CityDto validateEdits(CityDto city, Errors errors) {
 
-        try{
-            Integer.parseInt(city.getCoordinatesX());
-        } catch (NumberFormatException e){
-            errors.rejectValue("coordinatesX", "NaN");
+        CityDto dbCity = cityService.getDtoById(city, new City(), city.getId());
+
+        if (city.getIndex().trim().length() > 0){
+            dbCity.setIndex(city.getIndex());
         }
 
-        try{
-            Integer.parseInt(city.getCoordinatesY());
-        } catch (NumberFormatException e){
-            errors.rejectValue("coordinatesY", "NaN");
+        if (city.getCoordinatesX().trim().length() > 0){
+            try{
+                Integer.parseInt(city.getCoordinatesX());
+                dbCity.setCoordinatesX(city.getCoordinatesX());
+            } catch (NumberFormatException e){
+                errors.rejectValue("coordinatesX", "NaN");
+            }
+
         }
 
+        if (city.getCoordinatesY().trim().length() > 0){
+            try{
+                Integer.parseInt(city.getCoordinatesY());
+                dbCity.setCoordinatesY(city.getCoordinatesY());
+            } catch (NumberFormatException e){
+                errors.rejectValue("coordinatesY", "NaN");
+            }
+        }
+
+        return dbCity;
     }
 }

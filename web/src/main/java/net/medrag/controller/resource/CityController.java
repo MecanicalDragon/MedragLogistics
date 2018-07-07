@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Controller, that handles cities.jsp
+ * Controller, that handles city.jsp
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -43,9 +43,26 @@ public class CityController {
         List<CityDto> cities = cityService.getDtoList(new CityDto(), new City());
         request.getSession().setAttribute("cities", cities);
         model.addAttribute("city", new CityDto());
+        model.addAttribute("editingCity", new CityDto());
         return "resource/cities";
     }
 
+    @PostMapping("editCity")
+    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model){
+
+        CityDto validatedCity = cityValidator.validateEdits(city, bindingResult);
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("editErr", true);
+            model.addAttribute("city", new CityDto());
+            model.addAttribute("editingCity", validatedCity);
+            return "resource/cities";
+        }
+
+        cityService.updateDtoStatus(validatedCity, new City());
+
+        return "redirect: ../rsm-city";
+    }
 
     @PostMapping("addCity")
     public String addCity(@ModelAttribute("city") CityDto city, BindingResult bindingResult, Model model){
@@ -54,45 +71,19 @@ public class CityController {
 
         if (bindingResult.hasErrors()){
             model.addAttribute("err", true);
+            model.addAttribute("city", city);
+            model.addAttribute("editingCity", new CityDto());
             return "resource/cities";
         }
         cityService.addDto(city, new City());
         return "redirect: ../rsm-city";
     }
 
-    @PostMapping("acceptEdit")
-    public String acceptEdit(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model){
-
-        cityValidator.validateEdits(city, bindingResult);
-
-        if (bindingResult.hasErrors()){
-            model.addAttribute("editingCity", city);
-            return "resource/editCity";
-        }
-
-        cityService.updateDtoStatus(city, new City());
-        return "redirect: ../rsm-city";
-    }
-
-    @GetMapping("edit/{id}")
-    public String editCity(@PathVariable Integer id, Model model){
-        CityDto dtoById = cityService.getDtoById(new CityDto(), new City(), id);
-        model.addAttribute("editingCity", dtoById);
-        return "resource/editCity";
-    }
-
     @GetMapping("remove/{id}")
     public String removeCity(@PathVariable Integer id, Model model){
-        CityDto dtoById = cityService.getDtoById(new CityDto(), new City(), id);
-        model.addAttribute("removingCity", dtoById);
-        return "resource/removeCity";
-    }
-
-    @GetMapping("finalize/{id}")
-    public String finalizeCity(@PathVariable Integer id){
-        CityDto removable = new CityDto();
-        removable.setId(id);
-        cityService.removeDto(removable, new City());
+        CityDto removingCity = new CityDto();
+        removingCity.setId(id);
+        cityService.removeDto(removingCity, new City());
         return "redirect: ../../rsm-city";
     }
 

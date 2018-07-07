@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ page buffer="16kb" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -59,6 +60,12 @@
                         </c:otherwise>
                     </c:choose>
 
+                    <c:if test="${editErr}">
+                        <button class="btn btn-danger" data-toggle="modal"
+                                data-target="#editCityModal">Wasn't saved!
+                        </button>
+                    </c:if>
+
                 </div>
 
                 <%--Cities Table Body--%>
@@ -77,18 +84,22 @@
                         <tbody>
 
                         <c:forEach items="${sessionScope.cities}" var="cityUnit">
+
                             <tr class="odd gradeX">
                                 <td>${cityUnit.name}</td>
                                 <td>${cityUnit.index}</td>
                                 <td>${cityUnit.coordinatesX}</td>
                                 <td>${cityUnit.coordinatesY}</td>
                                 <td>
-                                    <a type="button" class="btn btn-warning btn-xs" href="${contextPath}/rsm-city/edit/${cityUnit.id}">Edit city data</a>
+                                    <a type="button" class="btn btn-edit btn-warning btn-xs" id="${cityUnit.id}/${cityUnit.name}"
+                                       data-toggle="modal" data-target="#editCityModal">Edit city data</a>
                                 </td>
                                 <td>
-                                    <a type="button" class="btn btn-danger btn-xs" href="${contextPath}/rsm-city/remove/${cityUnit.id}">Remove city</a>
+                                    <a type="button" class="btn btn-danger btn-xs btn-remove" id="${cityUnit.id}*${cityUnit.name}"
+                                       data-toggle="modal" data-target="#deleteCityModal">Remove city</a>
                                 </td>
                             </tr>
+
                         </c:forEach>
 
                         </tbody>
@@ -181,6 +192,97 @@
     </div>
 </div>
 
+<!-- Modal window edit city-->
+<div class="modal fade" id="editCityModal" tabindex="-1" role="dialog" aria-labelledby="editCityLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="editCityLabel">Edit city ${editingCity.name}</h4>
+            </div>
+            <div class="modal-body">
+
+                <form:form class="form" id="editCityForm" method="post" modelAttribute="editingCity"
+                           action="${contextPath}/rsm-city/editCity">
+
+                    <spring:bind path="id">
+                        <form:input type="hidden" name="id" value="" path="id" id="editedCityId"/>
+                    </spring:bind>
+
+                    <spring:bind path="name">
+                        <form:input type="hidden" name="name" value="" path="name" id="editedCityName"/>
+                    </spring:bind>
+
+                    <div class="row row-justify-content-center">
+                        <div class="col-sm-6">
+                            <spring:bind path="index">
+                                <form:input name="index" placeholder="index" path="index" class="form-control col-8"/>
+                            </spring:bind>
+                        </div>
+                        <div class="secondary-text text-center text-danger">
+                            <div class="font-italic">
+                                <form:errors path="index"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-justify-content-center">
+                        <div class="col-sm-6">
+                            <spring:bind path="coordinatesX">
+                                <form:input name="x" placeholder="X" path="coordinatesX" class="form-control col-8"/>
+                            </spring:bind>
+                        </div>
+                        <div class="secondary-text text-center text-danger">
+                            <div class="font-italic">
+                                <form:errors path="coordinatesX"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-justify-content-center">
+                        <div class="col-sm-6">
+                            <spring:bind path="coordinatesY">
+                                <form:input name="y" placeholder="Y" path="coordinatesY" class="form-control col-8"/>
+                            </spring:bind>
+                        </div>
+                        <div class="secondary-text text-center text-danger">
+                            <div class="font-italic">
+                                <form:errors path="coordinatesY"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </form:form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button class="btn btn-success" form="editCityForm">Accept changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--Modal window remove city--%>
+<div class="modal fade" id="deleteCityModal" tabindex="-1" role="dialog" aria-labelledby="delCityLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="delCityLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <h2 id="deletingCityQ"></h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a type="button" class="btn btn-danger" id="delCityButton" href="">Remove city</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- jQuery -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 
@@ -196,6 +298,28 @@
     $(document).ready(function () {
         $('#cities-Table').DataTable({
             responsive: true
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".btn-edit").click(function () {
+            var buttonId = $(this).attr("id");
+            var arr = buttonId.split('/');
+            $("#editedCityId").val(arr[0]);
+            $("#editedCityName").val(arr[1]);
+            $("#editCityLabel").text("Edit city " + arr[1]);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".btn-remove").click(function () {
+            var buttonId = $(this).attr("id");
+            var arr = buttonId.split('*');
+            $("#delCityButton").attr("href", "${contextPath}rsm-city/remove/" + arr[0]);
+            $("#deletingCityQ").text("Are you sure you want to remove city " + arr[1] + " from the database?");
+            $("#delCityLabel").text("Removing city " + arr[1]);
         });
     });
 </script>
