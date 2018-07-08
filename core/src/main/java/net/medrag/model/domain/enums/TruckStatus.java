@@ -1,7 +1,6 @@
 package net.medrag.model.domain.enums;
 
 import net.medrag.model.domain.entity.Truck;
-import org.jetbrains.annotations.Contract;
 
 /**
  * Enum of field state from domain object {@link Truck}.
@@ -12,18 +11,8 @@ import org.jetbrains.annotations.Contract;
  */
 public enum TruckStatus {
 
-    IN_USE("In use"),
-    STAY_IDLE("Stay idle"),
-    IN_SERVICE("In service");
+    IN_USE,
+    STAY_IDLE,
+    IN_SERVICE
 
-    private final String status;
-
-    TruckStatus(String status){
-        this.status = status;
-    }
-
-    @Contract(pure = true)
-    public String getTruckStatus(){
-        return status;
-    }
 }

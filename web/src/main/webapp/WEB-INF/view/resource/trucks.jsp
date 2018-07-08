@@ -95,7 +95,15 @@
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info btn-xs dropdown-toggle"
                                                 data-toggle="dropdown">
-                                                ${truckUnit.status}
+                                            <c:if test="${truckUnit.status.equals('IN_USE')}">
+                                                In use
+                                            </c:if>
+                                            <c:if test="${truckUnit.status.equals('STAY_IDLE')}">
+                                                Staying idle
+                                            </c:if>
+                                            <c:if test="${truckUnit.status.equals('IN_SERVICE')}">
+                                                In service
+                                            </c:if>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
@@ -156,9 +164,19 @@
                         <form:input type="hidden" name="id" value="" path="id" id="editedTruckId"/>
                     </spring:bind>
 
-                    <spring:bind path="regNumber">
-                        <form:input type="hidden" name="regNumber" value="" path="regNumber" id="editedTruckName"/>
-                    </spring:bind>
+                    <div class="row row-justify-content-center">
+                        <div class="col-sm-6">
+                            <spring:bind path="regNumber">
+                                <form:input name="regNumber" placeholder="Registration Number" path="regNumber"
+                                            class="form-control col-8"/>
+                            </spring:bind>
+                        </div>
+                        <div class="secondary-text text-center text-danger">
+                            <div class="font-italic">
+                                <form:errors path="regNumber"/>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">

@@ -17,7 +17,7 @@ import org.springframework.validation.Validator;
  * @version 1.0
  */
 @Component
-public class CityValidator implements Validator{
+public class CityValidator implements Validator {
 
     private CityService<CityDto, City> cityService;
 
@@ -33,26 +33,30 @@ public class CityValidator implements Validator{
 
     @Override
     public void validate(@Nullable Object target, Errors errors) {
-        CityDto city = (CityDto)target;
+        CityDto city = (CityDto) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"index", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"coordinatesX", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"coordinatesY", "notnull.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "notnull.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "index", "notnull.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "coordinatesX", "notnull.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "coordinatesY", "notnull.field");
 
         if (cityService.getDtoByNaturalId(city, new City(), city.getName()) != null) {
             errors.rejectValue("name", "city.exists");
         }
 
-        try{
+        if (!city.getName().matches("\\w*")) {
+            errors.rejectValue("name", "letters.only");
+        }
+
+        try {
             Integer.parseInt(city.getCoordinatesX());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             errors.rejectValue("coordinatesX", "NaN");
         }
 
-        try{
+        try {
             Integer.parseInt(city.getCoordinatesY());
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             errors.rejectValue("coordinatesY", "NaN");
         }
 
@@ -62,25 +66,40 @@ public class CityValidator implements Validator{
 
         CityDto dbCity = cityService.getDtoById(city, new City(), city.getId());
 
-        if (city.getIndex().trim().length() > 0){
+        if (city.getName().trim().length() > 0) {
+            CityDto namedCity = cityService.getDtoByNaturalId(city, new City(), city.getName());
+            if (namedCity == null) {
+                if (city.getName().trim().matches("\\w*")) {
+                    dbCity.setName(city.getName().trim());
+                } else {
+                    errors.rejectValue("name", "letters.only");
+                }
+            } else {
+                if (!namedCity.getName().equalsIgnoreCase(city.getName())) {
+                    errors.rejectValue("name", "city.exists");
+                }
+            }
+        }
+
+        if (city.getIndex().trim().length() > 0) {
             dbCity.setIndex(city.getIndex());
         }
 
-        if (city.getCoordinatesX().trim().length() > 0){
-            try{
+        if (city.getCoordinatesX().trim().length() > 0) {
+            try {
                 Integer.parseInt(city.getCoordinatesX());
                 dbCity.setCoordinatesX(city.getCoordinatesX());
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 errors.rejectValue("coordinatesX", "NaN");
             }
 
         }
 
-        if (city.getCoordinatesY().trim().length() > 0){
-            try{
+        if (city.getCoordinatesY().trim().length() > 0) {
+            try {
                 Integer.parseInt(city.getCoordinatesY());
                 dbCity.setCoordinatesY(city.getCoordinatesY());
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 errors.rejectValue("coordinatesY", "NaN");
             }
         }

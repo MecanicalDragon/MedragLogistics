@@ -2,6 +2,7 @@ package net.medrag.model.domain.entity;
 
 import net.medrag.model.domain.enums.DriverState;
 import org.hibernate.annotations.NaturalId;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -26,8 +27,14 @@ public class Driver extends Identifier {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "worked_time")
-    private int workedTime;
+    private Integer workedTime;
+
+    @Column(name = "paid_time")
+    private Integer paidTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state", columnDefinition = "enum('rest', 'on_shift', 'driving', 'porter')")
@@ -65,12 +72,28 @@ public class Driver extends Identifier {
         this.surname = surname;
     }
 
-    public int getWorkedTime() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getWorkedTime() {
         return workedTime;
     }
 
-    public void setWorkedTime(int workedTime) {
+    public void setWorkedTime(Integer workedTime) {
         this.workedTime = workedTime;
+    }
+
+    public Integer getPaidTime() {
+        return paidTime;
+    }
+
+    public void setPaidTime(Integer paidTime) {
+        this.paidTime = paidTime;
     }
 
     public DriverState getState() {
@@ -101,10 +124,12 @@ public class Driver extends Identifier {
     public String toString() {
         return "Driver{" +
                 "id=" + id +
-                ", personalNumber=" + personalNumber +
+                ", personalNumber='" + personalNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
                 ", workedTime=" + workedTime +
+                ", paidTime=" + paidTime +
                 ", state=" + state +
                 ", currentCity=" + currentCity.getName() +
                 ", currentTruck=" + currentTruck.getRegNumber() +

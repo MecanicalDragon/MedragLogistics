@@ -211,18 +211,9 @@
                         <form:input type="hidden" name="id" value="" path="id" id="editedCityId"/>
                     </spring:bind>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="name">
-                                <form:input name="name" placeholder="City name" path="name" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="name"/>
-                            </div>
-                        </div>
-                    </div>
+                    <spring:bind path="name">
+                        <form:input type="hidden" name="name" value="" path="name" id="editedCityName"/>
+                    </spring:bind>
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">

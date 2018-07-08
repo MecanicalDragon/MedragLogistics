@@ -23,7 +23,7 @@ import java.util.Set;
 @Table(name = "city")
 public class City extends Identifier {
 
-    @NaturalId
+    @NaturalId(mutable = true)
     @Column(name = "name")
     private String name;
 

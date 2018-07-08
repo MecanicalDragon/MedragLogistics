@@ -16,9 +16,6 @@ import java.util.List;
  */
 public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 
-//    @PersistenceUnit(unitName = "medrag_logistics_db")
-//    private EntityManager entityManager;
-
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -40,7 +37,6 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
     public void updateEntityStatus(E entity) throws MedragRepositoryException {
         try {
             Session session = sessionFactory.getCurrentSession();
-            System.out.println(entity);
             session.merge(entity);
         } catch (HibernateException e) {
             throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.MERGE + entity, e);

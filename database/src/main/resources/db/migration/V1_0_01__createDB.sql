@@ -41,12 +41,12 @@ CREATE TABLE CARGO (
   ENGINE = InnoDB;
 
 CREATE TABLE TRUCK (
-  ID              INT                          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  REG_NUMBER      VARCHAR(7)                   NOT NULL UNIQUE,
-  BRIGADE_STR     INTEGER                      NOT NULL,
-  CAPACITY        INTEGER                      NOT NULL,
+  ID              INT                                        NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  REG_NUMBER      VARCHAR(7)                                 NOT NULL UNIQUE,
+  BRIGADE_STR     INTEGER                                    NOT NULL,
+  CAPACITY        INTEGER                                    NOT NULL,
   STATUS          ENUM ('IN_USE', 'IN_SERVICE', 'STAY_IDLE') NOT NULL,
-  CURRENT_CITY_ID INT                          NOT NULL,
+  CURRENT_CITY_ID INT                                        NOT NULL,
   FOREIGN KEY (CURRENT_CITY_ID) REFERENCES CITY (ID)
     ON UPDATE CASCADE
 )
@@ -57,7 +57,9 @@ CREATE TABLE DRIVER (
   PERSONAL_NUMBER  VARCHAR(9)                                     NOT NULL UNIQUE,
   NAME             VARCHAR(127)                                   NOT NULL,
   SURNAME          VARCHAR(127)                                   NOT NULL,
+  EMAIL            VARCHAR(255)                                   NOT NULL,
   WORKED_TIME      INTEGER                                        NOT NULL,
+  PAID_TIME        INTEGER                                        NOT NULL,
   STATE            ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER') NOT NULL,
   CURRENT_CITY_ID  INT,
   CURRENT_TRUCK_ID INT,

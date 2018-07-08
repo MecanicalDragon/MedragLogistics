@@ -17,7 +17,7 @@ import java.util.Set;
 @Table(name = "truck")
 public class Truck extends Identifier{
 
-    @NaturalId
+    @NaturalId(mutable = true)
     @Column(name = "reg_number")
     private String regNumber;
 

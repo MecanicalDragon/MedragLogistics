@@ -16,13 +16,18 @@ public class DriverDto implements Dto {
 
     private String surname;
 
+    private String email;
+
     private Integer workedTime;
+
+    private Integer paidTime;
 
     private String state;
 
     private CityDto currentCity;
 
     private TruckDto currentTruck;
+
 
     public Integer getId() {
         return id;
@@ -56,12 +61,28 @@ public class DriverDto implements Dto {
         this.surname = surname;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Integer getWorkedTime() {
         return workedTime;
     }
 
     public void setWorkedTime(Integer workedTime) {
         this.workedTime = workedTime;
+    }
+
+    public Integer getPaidTime() {
+        return paidTime;
+    }
+
+    public void setPaidTime(Integer paidTime) {
+        this.paidTime = paidTime;
     }
 
     public String getState() {
@@ -95,10 +116,12 @@ public class DriverDto implements Dto {
                 ", personalNumber='" + personalNumber + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
                 ", workedTime=" + workedTime +
+                ", paidTime=" + paidTime +
                 ", state='" + state + '\'' +
-                ", currentCity=" + currentCity.getName() +
-                ", currentTruck=" + currentTruck.getRegNumber() +
+                ", currentCity=" + currentCity +
+                ", currentTruck=" + currentTruck +
                 '}';
     }
 

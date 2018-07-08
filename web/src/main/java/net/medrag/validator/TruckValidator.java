@@ -99,6 +99,15 @@ public class TruckValidator implements Validator {
 
         TruckDto dbTruck = truckService.getDtoById(new TruckDto(), new Truck(), truckForm.getId());
 
+        if (truckForm.getRegNumber().trim().length() > 0) {
+
+            if (!truckForm.getRegNumber().toUpperCase().matches("[A-Z]{2}\\d{5}")) {
+                errors.rejectValue("regNumber", "wrong.reg.number");
+            } else {
+                dbTruck.setRegNumber(truckForm.getRegNumber().toUpperCase());
+            }
+        }
+
         if (truckForm.getCapacity().trim().length() > 0) {
             checkCapacity(truckForm, errors, dbTruck);
         }
@@ -115,17 +124,6 @@ public class TruckValidator implements Validator {
                 dbTruck.setCurrentCity(currentCity);
             }
         }
-
-        if (dbTruck.getStatus().equals("In use")) {
-            dbTruck.setStatus("IN_USE");
-        } else {
-            if (dbTruck.getStatus().equals("Stay idle")) {
-                dbTruck.setStatus("STAY_IDLE");
-            } else {
-                dbTruck.setStatus("IN_SERVICE");
-            }
-        }
-
 
         return dbTruck;
     }
