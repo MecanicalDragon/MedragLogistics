@@ -18,7 +18,7 @@ public class TruckDto implements Dto {
 
     private Integer capacity;
 
-    private Boolean state;
+    private String status;
 
     private CityDto currentCity;
 
@@ -58,12 +58,12 @@ public class TruckDto implements Dto {
         this.capacity = capacity;
     }
 
-    public Boolean getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
 
-    public void setState(Boolean state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public CityDto getCurrentCity() {
@@ -89,7 +89,7 @@ public class TruckDto implements Dto {
                 ", regNumber='" + regNumber + '\'' +
                 ", brigadeStr=" + brigadeStr +
                 ", capacity=" + capacity +
-                ", state=" + state +
+                ", state=" + status +
                 ", currentCity=" + currentCity.getName() +
                 ", driverSet=" + driverSet +
                 '}';

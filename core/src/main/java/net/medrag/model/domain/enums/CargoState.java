@@ -10,7 +10,8 @@ import net.medrag.model.domain.entity.Cargo;
  * @version 1.0
  */
 public enum CargoState {
-    PREPARED("Ready to send"),
+
+    PREPARED("Prepared"),
     ON_BOARD("On the way"),
     DELIVERED("Delivered"),
     TRANSFER_POINT("Transmitted");

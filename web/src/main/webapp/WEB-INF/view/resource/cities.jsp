@@ -60,6 +60,7 @@
                         </c:otherwise>
                     </c:choose>
 
+                    <%--This will be shown in wrong edit case--%>
                     <c:if test="${editErr}">
                         <button class="btn btn-danger" data-toggle="modal"
                                 data-target="#editCityModal">Wasn't saved!

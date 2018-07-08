@@ -11,7 +11,16 @@ import net.medrag.model.domain.entity.Truck;
  */
 public enum TruckState {
 
-    IN_USE,
-    BROKEN,
-    REPAIR
+    IN_REPAIR("In repair"),
+    IN_USE("In use");
+
+    private String status;
+
+    TruckState(String status){
+        this.status = status;
+    }
+
+    public String getTruckState(){
+        return status;
+    }
 }

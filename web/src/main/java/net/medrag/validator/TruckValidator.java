@@ -10,6 +10,7 @@ import net.medrag.model.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -52,7 +53,6 @@ public class TruckValidator implements Validator {
     public TruckDto validate(TruckForm truckForm, Errors errors) {
 
 //        Checking parameters for not null and matching standards
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", "notnull.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "brigadeStr", "notnull.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "capacity", "notnull.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "currentCity", "notnull.field");
@@ -76,46 +76,71 @@ public class TruckValidator implements Validator {
             truckDto.setRegNumber(truckForm.getRegNumber().toUpperCase());
         }
 
-//        set State (able-to-work or not or reject value
-        if (truckForm.getState().equalsIgnoreCase("true") ||
-                truckForm.getState().equalsIgnoreCase("false")) {
-            truckDto.setState(Boolean.valueOf(truckForm.getState()));
-        } else {
-            errors.rejectValue("state", "wrong.state");
-        }
-
 //        initialize capacity or reject if wrong
-        try {
-            Integer capacity = Integer.parseInt(truckForm.getCapacity());
-            if (capacity < 100 || capacity > 10000) {
-                errors.rejectValue("capacity", "wrong.carrying");
-            } else {
-                truckDto.setCapacity(capacity);
-            }
-        } catch (NumberFormatException e) {
-            errors.rejectValue("capacity", "wrong.carrying");
-        }
+        checkCapacity(truckForm, errors, truckDto);
 
 //        initialize brigade strength or reject if wrong
+        checkBrigadeStrength(truckForm, errors, truckDto);
+
+//        initialize current city or reject if wrong
+        CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), truckForm.getCurrentCity());
+        if (currentCity == null) {
+            errors.rejectValue("currentCity", "null.city");
+        } else {
+            truckDto.setCurrentCity(currentCity);
+        }
+
+        truckDto.setStatus("In repair");
+
+        return truckDto;
+    }
+
+    public TruckDto validateEdits(TruckForm truckForm, Errors errors) {
+
+        TruckDto dbTruck = truckService.getDtoById(new TruckDto(), new Truck(), truckForm.getId());
+
+        if (truckForm.getCapacity().trim().length() > 0) {
+            checkCapacity(truckForm, errors, dbTruck);
+        }
+
+        if (truckForm.getBrigadeStr().trim().length() > 0) {
+            checkBrigadeStrength(truckForm, errors, dbTruck);
+        }
+
+        if (truckForm.getCurrentCity().trim().length() > 0) {
+            CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), truckForm.getCurrentCity());
+            if (currentCity == null) {
+                errors.rejectValue("currentCity", "null.city");
+            } else {
+                dbTruck.setCurrentCity(currentCity);
+            }
+        }
+        return dbTruck;
+    }
+
+    private void checkBrigadeStrength(TruckForm truckForm, Errors errors, TruckDto bdTruck) {
         try {
             Integer brigadeStr = Integer.parseInt(truckForm.getBrigadeStr());
             if (brigadeStr < 1 || brigadeStr > 6) {
                 errors.rejectValue("brigadeStr", "wrong.brigadeStr");
             } else {
-                truckDto.setBrigadeStr(brigadeStr);
+                bdTruck.setBrigadeStr(brigadeStr);
             }
         } catch (NumberFormatException e) {
             errors.rejectValue("brigadeStr", "wrong.brigadeStr");
         }
+    }
 
-//        initialize current city or reject if wrong
-        CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), truckForm.getCurrentCity());
-        if (currentCity == null){
-            errors.rejectValue("currentcity", "null.city");
-        } else {
-            truckDto.setCurrentCity(currentCity);
+    private void checkCapacity(TruckForm truckForm, Errors errors, TruckDto bdTruck) {
+        try {
+            Integer capacity = Integer.parseInt(truckForm.getCapacity());
+            if (capacity < 100 || capacity > 10000) {
+                errors.rejectValue("capacity", "wrong.carrying");
+            } else {
+                bdTruck.setCapacity(capacity);
+            }
+        } catch (NumberFormatException e) {
+            errors.rejectValue("capacity", "wrong.carrying");
         }
-
-        return truckDto;
     }
 }

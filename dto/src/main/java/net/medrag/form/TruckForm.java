@@ -8,17 +8,24 @@ package net.medrag.form;
  */
 public class TruckForm {
 
+    private Integer id;
+
     private String regNumber;
 
     private String brigadeStr;
 
     private String capacity;
 
-    private String state;
-
     private String currentCity;
 
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getRegNumber() {
         return regNumber;
@@ -44,14 +51,6 @@ public class TruckForm {
         this.capacity = capacity;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public String getCurrentCity() {
         return currentCity;
     }
@@ -63,10 +62,10 @@ public class TruckForm {
     @Override
     public String toString() {
         return "TruckForm{" +
-                "regNumber='" + regNumber + '\'' +
+                "id=" + id +
+                ", regNumber='" + regNumber + '\'' +
                 ", brigadeStr='" + brigadeStr + '\'' +
                 ", capacity='" + capacity + '\'' +
-                ", state='" + state + '\'' +
                 ", currentCity='" + currentCity + '\'' +
                 '}';
     }

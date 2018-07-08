@@ -86,7 +86,10 @@
             <%--<a href="${contextPath}/drv-main">To Driver Pages</a>--%>
             <%--</div>--%>
             <div class="text-primary text-right">
-            <a href="${contextPath}/rsm-city">To Cities</a>
+            <a href="${contextPath}/rsm-truck">To Trucks</a>
+            </div>
+            <div class="text-primary text-right">
+                <a href="${contextPath}/whm-main">To Warehouse</a>
             </div>
 
         </div>

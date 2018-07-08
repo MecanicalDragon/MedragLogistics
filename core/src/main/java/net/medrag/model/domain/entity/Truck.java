@@ -1,5 +1,6 @@
 package net.medrag.model.domain.entity;
 
+import net.medrag.model.domain.enums.TruckState;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class Truck implements Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     private Integer id;
 
     @NaturalId
@@ -30,8 +31,9 @@ public class Truck implements Entity {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "state")
-    private boolean state;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", columnDefinition = "enum('in_use', 'in_repair')")
+    private TruckState status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "current_city_id", nullable = false)
@@ -72,12 +74,32 @@ public class Truck implements Entity {
         this.capacity = capacity;
     }
 
-    public boolean isState() {
-        return state;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void setBrigadeStr(Integer brigadeStr) {
+        this.brigadeStr = brigadeStr;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public TruckState getStatus() {
+        return status;
+    }
+
+    public void setStatus(TruckState status) {
+        this.status = status;
+    }
+
+    public Set<Driver> getDriverSet() {
+        return driverSet;
+    }
+
+    public void setDriverSet(Set<Driver> driverSet) {
+        this.driverSet = driverSet;
     }
 
     public City getCurrentCity() {
@@ -95,7 +117,7 @@ public class Truck implements Entity {
                 ", regNumber='" + regNumber + '\'' +
                 ", brigadeStr=" + brigadeStr +
                 ", capacity=" + capacity +
-                ", state=" + state +
+                ", state=" + status +
                 ", currentCity=" + currentCity.getName() +
                 '}';
     }

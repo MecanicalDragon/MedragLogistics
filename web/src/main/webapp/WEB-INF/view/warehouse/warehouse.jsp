@@ -13,21 +13,9 @@
     <!-- Bootstrap Core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
-    <!-- MetisMenu CSS -->
-    <link href="/resources/vendor/metisMenu/metisMenu.min.css" rel="stylesheet" type="text/css">
-
     <!-- DataTables CSS -->
     <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
-    <!-- DataTables Responsive CSS -->
-    <link href="/resources/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet"
-          type="text/css">
-
-    <!-- Custom CSS -->
-    <link href="/resources/dist/css/sb-admin-2.css" rel="stylesheet" type="text/css">
-
-    <!-- Custom Fonts -->
-    <link href="/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -63,7 +51,7 @@
                                     <td>${cargo.destination.name}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle"
+                                            <button type="button" class="btn btn-info btn-xs dropdown-toggle"
                                                     data-toggle="dropdown">
                                                     ${cargo.state}
                                                 <span class="caret"></span>
@@ -81,25 +69,6 @@
                                             </ul>
                                         </div>
                                     </td>
-                                    <%--<script>--%>
-                                        <%--function successFunction() {--%>
-
-                                        <%--}--%>
-
-                                        <%--$(document).ready(function () {--%>
-                                            <%--$("#deliver").bind("click", function () {--%>
-                                                <%--var cargoUnit = ${cargo.id};--%>
-                                                <%--$.ajax ({--%>
-                                                    <%--url:"${contextPath}/whm-cargo/deliver",--%>
-                                                    <%--type: "GET",--%>
-                                                    <%--data: ({name: cargoUnit}),--%>
-                                                    <%--dataType: "html",--%>
-<%--//                                                   beforeSend: funcBefore,--%>
-                                                    <%--success: successFunction--%>
-                                                <%--});--%>
-                                            <%--});--%>
-                                        <%--});--%>
-                                    <%--</script>--%>
                                 </tr>
                             </c:forEach>
 
@@ -116,16 +85,9 @@
         <!-- Bootstrap Core JavaScript -->
         <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="/resources/vendor/metisMenu/metisMenu.min.js"></script>
-
         <!-- DataTables JavaScript -->
         <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
         <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-        <script src="/resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
-
-        <!-- Custom Theme JavaScript -->
-        <script src="/resources/dist/js/sb-admin-2.js"></script>
 
         <!-- Page-Level Demo Scripts - Tables - Use for reference -->
         <script>
