@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @version 1.0
  */
 public interface Entity extends Serializable {
+
     @Override
     String toString();
 }

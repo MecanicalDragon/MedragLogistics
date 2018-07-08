@@ -93,4 +93,26 @@ public class WaypointDto implements Dto{
                 ", wayPointType='" + wayPointType + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        WaypointDto that = (WaypointDto) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
+    }
 }

@@ -27,7 +27,7 @@
             <h5>Action: ${waypoint.wayPointType}</h5>
         </c:forEach>
         <div  class="text-primary text-right">
-            <a href="${contextPath}/whm-main">To the naim warehouse page</a>
+            <a href="${contextPath}/whm-main">To the main warehouse page</a>
         </div>
     </div>
     <div class="footer">

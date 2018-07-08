@@ -40,6 +40,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
     public void updateEntityStatus(E entity) throws MedragRepositoryException {
         try {
             Session session = sessionFactory.getCurrentSession();
+            System.out.println(entity);
             session.merge(entity);
         } catch (HibernateException e) {
             throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.MERGE + entity, e);

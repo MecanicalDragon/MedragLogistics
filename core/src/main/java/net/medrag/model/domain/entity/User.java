@@ -4,6 +4,7 @@ import net.medrag.model.domain.enums.UserRole;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * JavaBean domain object, that represents an employee
@@ -11,14 +12,9 @@ import javax.persistence.*;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@javax.persistence.Entity
+@Entity
 @Table(name = "user")
-public class User implements Entity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class User extends Identifier{
 
     @NaturalId
     @Column(name = "username")
@@ -30,14 +26,6 @@ public class User implements Entity{
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition = "enum('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE')")
     private UserRole role;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -71,5 +59,27 @@ public class User implements Entity{
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User that = (User) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
     }
 }

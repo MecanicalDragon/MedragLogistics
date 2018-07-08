@@ -100,10 +100,13 @@
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
                                             <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=0">
-                                                In repair</a>
+                                                In use</a>
                                             </li>
                                             <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=1">
-                                                In use</a>
+                                                Stay idle</a>
+                                            </li>
+                                            <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=2">
+                                                In service</a>
                                             </li>
                                         </ul>
                                     </div>

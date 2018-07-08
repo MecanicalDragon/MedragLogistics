@@ -4,6 +4,7 @@ import net.medrag.model.domain.enums.CargoState;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * Simple JavaBean domain object, that represents a Cargo
@@ -11,14 +12,9 @@ import javax.persistence.*;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@javax.persistence.Entity
+@Entity
 @Table(name = "cargo")
-public class Cargo implements Entity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class Cargo extends Identifier {
 
     @NaturalId
     @Column(name = "cargo_index")
@@ -45,14 +41,6 @@ public class Cargo implements Entity {
     @ManyToOne
     @JoinColumn(name = "destination_id")
     private City destination;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getCargoIndex() {
         return cargoIndex;
@@ -122,5 +110,27 @@ public class Cargo implements Entity {
                 ", departure=" + departure.getName() +
                 ", destination=" + destination.getName() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Cargo that = (Cargo) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
     }
 }

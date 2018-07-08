@@ -3,6 +3,7 @@ package net.medrag.model.domain.entity;
 import net.medrag.model.domain.enums.WaypointType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.Set;
 
 /**
@@ -11,14 +12,9 @@ import java.util.Set;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@javax.persistence.Entity
+@Entity
 @Table(name = "waypoint")
-public class Waypoint implements Entity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class Waypoint extends Identifier{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cargo_id", nullable = false)
@@ -52,14 +48,6 @@ public class Waypoint implements Entity{
 
     public void setOrderr(Orderr orderr) {
         this.orderr = orderr;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Cargo getCargo() {
@@ -111,5 +99,27 @@ public class Waypoint implements Entity{
                 ", city=" + city.getName() +
                 ", wayPointType=" + wayPointType +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Waypoint that = (Waypoint) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
     }
 }

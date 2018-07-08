@@ -3,7 +3,6 @@ package net.medrag.controller.resource;
 import net.medrag.dto.TruckDto;
 import net.medrag.form.TruckForm;
 import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.domain.enums.TruckState;
 import net.medrag.model.service.TruckService;
 import net.medrag.validator.TruckValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +75,7 @@ public class TruckController {
             model.addAttribute("editingTruck", new TruckForm());
             return "resource/trucks";
         }
-        truckService.addDto(validatedTruck, new Truck());
+        Integer i = truckService.addDto(validatedTruck, new Truck());
         return "redirect: ../rsm-truck";
     }
 
@@ -101,12 +100,14 @@ public class TruckController {
 
         switch (op) {
             case 0:
-                repairingTruck.setStatus("IN_REPAIR");
-                break;
-            case 1:
                 repairingTruck.setStatus("IN_USE");
                 break;
-
+            case 1:
+                repairingTruck.setStatus("STAY_IDLE");
+                break;
+            case 2:
+                repairingTruck.setStatus("IN_SERVICE");
+                break;
         }
         truckService.updateDtoStatus(repairingTruck, new Truck());
 

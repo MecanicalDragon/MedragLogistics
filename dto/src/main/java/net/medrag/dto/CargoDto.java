@@ -103,4 +103,26 @@ public class CargoDto implements Dto {
                 ", destination=" + destination.getName() +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CargoDto that = (CargoDto) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
+    }
 }

@@ -90,7 +90,7 @@ public class TruckValidator implements Validator {
             truckDto.setCurrentCity(currentCity);
         }
 
-        truckDto.setStatus("In repair");
+        truckDto.setStatus("STAY_IDLE");
 
         return truckDto;
     }
@@ -115,6 +115,18 @@ public class TruckValidator implements Validator {
                 dbTruck.setCurrentCity(currentCity);
             }
         }
+
+        if (dbTruck.getStatus().equals("In use")) {
+            dbTruck.setStatus("IN_USE");
+        } else {
+            if (dbTruck.getStatus().equals("Stay idle")) {
+                dbTruck.setStatus("STAY_IDLE");
+            } else {
+                dbTruck.setStatus("IN_SERVICE");
+            }
+        }
+
+
         return dbTruck;
     }
 

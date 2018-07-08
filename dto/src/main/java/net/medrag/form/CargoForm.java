@@ -59,4 +59,5 @@ public class CargoForm {
                 ", destination='" + destination + '\'' +
                 '}';
     }
+
 }

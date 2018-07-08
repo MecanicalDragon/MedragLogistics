@@ -1,6 +1,7 @@
 package net.medrag.model.domain.enums;
 
 import net.medrag.model.domain.entity.Cargo;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Enum of field state from domain object {@link Cargo}.
@@ -16,12 +17,13 @@ public enum CargoState {
     DELIVERED("Delivered"),
     TRANSFER_POINT("Transmitted");
 
-    private String status;
+    private final String status;
 
     CargoState(String status){
         this.status = status;
     }
 
+    @Contract(pure = true)
     public String getCargoState(){
         return status;
     }

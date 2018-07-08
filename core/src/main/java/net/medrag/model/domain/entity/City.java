@@ -10,7 +10,7 @@ package net.medrag.model.domain.entity;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.Map;
+import javax.persistence.Entity;
 import java.util.Set;
 
 /**
@@ -19,14 +19,9 @@ import java.util.Set;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@javax.persistence.Entity
+@Entity
 @Table(name = "city")
-public class City implements Entity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Integer id;
+public class City extends Identifier {
 
     @NaturalId
     @Column(name = "name")
@@ -47,20 +42,12 @@ public class City implements Entity {
     @OneToMany(mappedBy = "currentCity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private Set<Driver>driverSet;
 
-    public int getId() {
-        return id;
-    }
-
     public String getIndex() {
         return index;
     }
 
     public void setIndex(String index) {
         this.index = index;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -112,5 +99,27 @@ public class City implements Entity {
                 ", coordinatesY=" + coordinatesY +
                 ", index='" + index + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        City that = (City) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
     }
 }

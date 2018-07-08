@@ -1,6 +1,7 @@
 package net.medrag.model.domain.entity;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.List;
 
 /**
@@ -11,14 +12,9 @@ import java.util.List;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@javax.persistence.Entity
+@Entity
 @Table(name = "orderr")
-public class Orderr implements Entity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class Orderr extends Identifier {
 
     @Column(name = "order_index")
     private String orderIndex;
@@ -32,14 +28,6 @@ public class Orderr implements Entity {
 
     @OneToMany(mappedBy = "orderr", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private List<Waypoint> waypoints;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getOrderIndex() {
         return orderIndex;
@@ -81,5 +69,27 @@ public class Orderr implements Entity {
                 ", owner=" + owner.getName() +
                 ", implemented=" + implemented +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Orderr that = (Orderr) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
     }
 }

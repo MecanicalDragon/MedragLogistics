@@ -4,6 +4,7 @@ import net.medrag.model.domain.enums.DriverState;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * Simple JavaBean domain object, that represents a Driver
@@ -11,14 +12,9 @@ import javax.persistence.*;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@javax.persistence.Entity
+@Entity
 @Table(name = "driver")
-public class Driver implements Entity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class Driver extends Identifier {
 
     @NaturalId
     @Column(name = "personal_number")
@@ -44,14 +40,6 @@ public class Driver implements Entity {
     @ManyToOne
     @JoinColumn(name = "current_truck_id", nullable = false)
     private Truck currentTruck;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getPersonalNumber() {
         return personalNumber;
@@ -121,5 +109,27 @@ public class Driver implements Entity {
                 ", currentCity=" + currentCity.getName() +
                 ", currentTruck=" + currentTruck.getRegNumber() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Driver that = (Driver) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
     }
 }

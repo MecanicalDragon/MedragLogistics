@@ -1,9 +1,10 @@
 package net.medrag.model.domain.entity;
 
-import net.medrag.model.domain.enums.TruckState;
+import net.medrag.model.domain.enums.TruckStatus;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.Set;
 
 /**
@@ -12,14 +13,9 @@ import java.util.Set;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@javax.persistence.Entity
+@Entity
 @Table(name = "truck")
-public class Truck implements Entity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Integer id;
+public class Truck extends Identifier{
 
     @NaturalId
     @Column(name = "reg_number")
@@ -32,8 +28,8 @@ public class Truck implements Entity {
     private Integer capacity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", columnDefinition = "enum('in_use', 'in_repair')")
-    private TruckState status;
+    @Column(name = "status", columnDefinition = "enum('in_use', 'in_service', 'stay_idle')")
+    private TruckStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "current_city_id", nullable = false)
@@ -41,14 +37,6 @@ public class Truck implements Entity {
 
     @OneToMany(mappedBy = "currentTruck", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private Set<Driver> driverSet;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getRegNumber() {
         return regNumber;
@@ -74,10 +62,6 @@ public class Truck implements Entity {
         this.capacity = capacity;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public void setBrigadeStr(Integer brigadeStr) {
         this.brigadeStr = brigadeStr;
     }
@@ -86,11 +70,11 @@ public class Truck implements Entity {
         this.capacity = capacity;
     }
 
-    public TruckState getStatus() {
+    public TruckStatus getStatus() {
         return status;
     }
 
-    public void setStatus(TruckState status) {
+    public void setStatus(TruckStatus status) {
         this.status = status;
     }
 
@@ -120,5 +104,27 @@ public class Truck implements Entity {
                 ", state=" + status +
                 ", currentCity=" + currentCity.getName() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Truck that = (Truck) o;
+
+        if (getId() != null) {
+            return getId().equals(that.getId());
+        } else {
+            return super.equals(o);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : super.hashCode();
     }
 }
