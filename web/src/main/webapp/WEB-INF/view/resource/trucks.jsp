@@ -29,7 +29,7 @@
             <a class="nav-link" href="${contextPath}/rsm-city">Cities</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Drivers</a>
+            <a class="nav-link" href="${contextPath}/rsm-driver">Drivers</a>
         </li>
         <li class="nav-item">
             <a class="nav-link active" href="${contextPath}/rsm-truck">Trucks</a>
@@ -90,7 +90,7 @@
                                 <td>${truckUnit.regNumber}</td>
                                 <td>${truckUnit.brigadeStr}</td>
                                 <td>${truckUnit.capacity}</td>
-                                <td>${truckUnit.currentCity.name}</td>
+                                <td>${truckUnit.cityName}</td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info btn-xs dropdown-toggle"
@@ -153,11 +153,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="editTruckLabel">Edit truck number ${editingTruck.regNumber}</h4>
+                <h4 class="modal-title" id="editTruckLabel">Edit truck number ${editableTruck.regNumber}</h4>
             </div>
             <div class="modal-body">
 
-                <form:form class="form" id="editTruckForm" method="post" modelAttribute="editingTruck"
+                <form:form class="form" id="editTruckForm" method="post" modelAttribute="editableTruck"
                            action="${contextPath}/rsm-truck/editTruck">
 
                     <spring:bind path="id">
@@ -208,14 +208,14 @@
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
-                            <spring:bind path="currentCity">
-                                <form:input name="currentCity" placeholder="current city" path="currentCity"
+                            <spring:bind path="cityName">
+                                <form:input name="cityName" placeholder="current city" path="cityName"
                                             class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
                             <div class="font-italic">
-                                <form:errors path="currentCity"/>
+                                <form:errors path="cityName"/>
                             </div>
                         </div>
                     </div>
@@ -289,14 +289,14 @@
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
-                            <spring:bind path="currentCity">
-                                <form:input name="currentCity" placeholder="current city" path="currentCity"
+                            <spring:bind path="cityName">
+                                <form:input name="cityName" placeholder="current city" path="cityName"
                                             class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
                             <div class="font-italic">
-                                <form:errors path="currentCity"/>
+                                <form:errors path="cityName"/>
                             </div>
                         </div>
                     </div>

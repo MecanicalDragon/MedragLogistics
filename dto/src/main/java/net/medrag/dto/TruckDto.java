@@ -14,17 +14,26 @@ public class TruckDto implements Dto {
 
     private String regNumber;
 
-    private Integer brigadeStr;
+    private String brigadeStr;
 
-    private Integer capacity;
+    private String capacity;
 
     private String status;
 
-    private CityDto currentCity;
+    private Integer cityId;
+
+    private String cityName;
 
     private Set<DriverDto> driverSet;
 
 
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
 
     public Integer getId() {
         return id;
@@ -42,19 +51,19 @@ public class TruckDto implements Dto {
         this.regNumber = regNumber;
     }
 
-    public Integer getBrigadeStr() {
+    public String getBrigadeStr() {
         return brigadeStr;
     }
 
-    public void setBrigadeStr(Integer brigadeStr) {
+    public void setBrigadeStr(String brigadeStr) {
         this.brigadeStr = brigadeStr;
     }
 
-    public Integer getCapacity() {
+    public String getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(String capacity) {
         this.capacity = capacity;
     }
 
@@ -66,12 +75,12 @@ public class TruckDto implements Dto {
         this.status = status;
     }
 
-    public CityDto getCurrentCity() {
-        return currentCity;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setCurrentCity(CityDto currentCity) {
-        this.currentCity = currentCity;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public Set<DriverDto> getDriverSet() {
@@ -87,11 +96,10 @@ public class TruckDto implements Dto {
         return "TruckDto{" +
                 "id=" + id +
                 ", regNumber='" + regNumber + '\'' +
-                ", brigadeStr=" + brigadeStr +
-                ", capacity=" + capacity +
-                ", state=" + status +
-                ", currentCity=" + currentCity.getName() +
-                ", driverSet=" + driverSet +
+                ", brigadeStr='" + brigadeStr + '\'' +
+                ", capacity='" + capacity + '\'' +
+                ", status='" + status + '\'' +
+                ", cityName='" + cityName + '\'' +
                 '}';
     }
 

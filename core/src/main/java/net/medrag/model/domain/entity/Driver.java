@@ -2,7 +2,6 @@ package net.medrag.model.domain.entity;
 
 import net.medrag.model.domain.enums.DriverState;
 import org.hibernate.annotations.NaturalId;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -41,11 +40,11 @@ public class Driver extends Identifier {
     private DriverState state;
 
     @ManyToOne
-    @JoinColumn(name = "current_city_id", nullable = false)
-    private City currentCity;
+    @JoinColumn(name = "current_city_id")
+    private City city;
 
     @ManyToOne
-    @JoinColumn(name = "current_truck_id", nullable = false)
+    @JoinColumn(name = "current_truck_id")
     private Truck currentTruck;
 
     public String getPersonalNumber() {
@@ -104,12 +103,12 @@ public class Driver extends Identifier {
         this.state = state;
     }
 
-    public City getCurrentCity() {
-        return currentCity;
+    public City getCity() {
+        return city;
     }
 
-    public void setCurrentCity(City currentCity) {
-        this.currentCity = currentCity;
+    public void setCity(City currentCity) {
+        this.city = currentCity;
     }
 
     public Truck getCurrentTruck() {
@@ -122,18 +121,7 @@ public class Driver extends Identifier {
 
     @Override
     public String toString() {
-        return "Driver{" +
-                "id=" + id +
-                ", personalNumber='" + personalNumber + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", workedTime=" + workedTime +
-                ", paidTime=" + paidTime +
-                ", state=" + state +
-                ", currentCity=" + currentCity.getName() +
-                ", currentTruck=" + currentTruck.getRegNumber() +
-                '}';
+        return String.format("Driver{id=%d, personalNumber='%s', name='%s', surname='%s', email='%s', workedTime=%d, paidTime=%d, state=%s}", id, personalNumber, name, surname, email, workedTime, paidTime, state);
     }
 
     @Override

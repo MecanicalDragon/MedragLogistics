@@ -31,11 +31,11 @@ public class Truck extends Identifier{
     @Column(name = "status", columnDefinition = "enum('in_use', 'in_service', 'stay_idle')")
     private TruckStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "current_city_id", nullable = false)
-    private City currentCity;
+    @ManyToOne
+    @JoinColumn(name = "current_city_id")
+    private City city;
 
-    @OneToMany(mappedBy = "currentTruck", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "currentTruck", fetch = FetchType.LAZY)
     private Set<Driver> driverSet;
 
     public String getRegNumber() {
@@ -86,12 +86,12 @@ public class Truck extends Identifier{
         this.driverSet = driverSet;
     }
 
-    public City getCurrentCity() {
-        return currentCity;
+    public City getCity() {
+        return city;
     }
 
-    public void setCurrentCity(City currentCity) {
-        this.currentCity = currentCity;
+    public void setCity(City currentCity) {
+        this.city = currentCity;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Truck extends Identifier{
                 ", brigadeStr=" + brigadeStr +
                 ", capacity=" + capacity +
                 ", state=" + status +
-                ", currentCity=" + currentCity.getName() +
+                ", currentCity=" + city.getName() +
                 '}';
     }
 

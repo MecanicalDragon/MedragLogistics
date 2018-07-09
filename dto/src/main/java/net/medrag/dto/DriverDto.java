@@ -24,10 +24,19 @@ public class DriverDto implements Dto {
 
     private String state;
 
-    private CityDto currentCity;
+    private Integer cityId;
 
-    private TruckDto currentTruck;
+    private String cityName;
 
+    private String truckRegNumber;
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
 
     public Integer getId() {
         return id;
@@ -93,20 +102,20 @@ public class DriverDto implements Dto {
         this.state = state;
     }
 
-    public CityDto getCurrentCity() {
-        return currentCity;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setCurrentCity(CityDto currentCity) {
-        this.currentCity = currentCity;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
-    public TruckDto getCurrentTruck() {
-        return currentTruck;
+    public String getTruckRegNumber() {
+        return truckRegNumber;
     }
 
-    public void setCurrentTruck(TruckDto currentTruck) {
-        this.currentTruck = currentTruck;
+    public void setTruckRegNumber(String truckRegNumber) {
+        this.truckRegNumber = truckRegNumber;
     }
 
     @Override
@@ -120,8 +129,8 @@ public class DriverDto implements Dto {
                 ", workedTime=" + workedTime +
                 ", paidTime=" + paidTime +
                 ", state='" + state + '\'' +
-                ", currentCity=" + currentCity +
-                ", currentTruck=" + currentTruck +
+                ", cityName='" + cityName + '\'' +
+                ", truckRegNumber='" + truckRegNumber + '\'' +
                 '}';
     }
 

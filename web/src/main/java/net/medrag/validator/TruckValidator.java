@@ -2,7 +2,6 @@ package net.medrag.validator;
 
 import net.medrag.dto.CityDto;
 import net.medrag.dto.TruckDto;
-import net.medrag.form.TruckForm;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.service.CityService;
@@ -10,7 +9,6 @@ import net.medrag.model.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -45,112 +43,112 @@ public class TruckValidator implements Validator {
 
     @Override
     public void validate(@Nullable Object target, Errors errors) {
-
-        errors.rejectValue("regNumber", "you.cheat");
-
-    }
-
-    public TruckDto validate(TruckForm truckForm, Errors errors) {
+        TruckDto truck = (TruckDto) target;
 
 //        Checking parameters for not null and matching standards
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "brigadeStr", "notnull.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "capacity", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "currentCity", "notnull.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cityName", "notnull.field");
 
-        if (!truckForm.getRegNumber().toUpperCase().matches("[A-Z]{2}\\d{5}")) {
+        if (!truck.getRegNumber().matches("[A-Z]{2}\\d{5}")) {
             errors.rejectValue("regNumber", "wrong.reg.number");
         }
 
         TruckDto truckDto = new TruckDto();
 
 //        return blank if hasErrors
-        if (errors.hasErrors()) {
-            return truckDto;
-        }
+        if (!errors.hasErrors()) {
 
 
 //        set Registration Number or reject value, if wrong
-        if (truckService.getDtoByNaturalId(truckDto, new Truck(), truckForm.getRegNumber().toUpperCase()) != null) {
-            errors.rejectValue("regNumber", "truck.exists");
-        } else {
-            truckDto.setRegNumber(truckForm.getRegNumber().toUpperCase());
-        }
+            if (truckService.getDtoByNaturalId(truckDto, new Truck(), truck.getRegNumber().toUpperCase()) != null) {
+                errors.rejectValue("regNumber", "truck.exists");
+            } else {
+                truckDto.setRegNumber(truck.getRegNumber().toUpperCase());
+            }
 
 //        initialize capacity or reject if wrong
-        checkCapacity(truckForm, errors, truckDto);
+            try {
+                Integer brigadeStr = Integer.parseInt(truck.getBrigadeStr());
+                if (brigadeStr < 1 || brigadeStr > 6) {
+                    errors.rejectValue("brigadeStr", "wrong.brigadeStr");
+                }
+            } catch (NumberFormatException e) {
+                errors.rejectValue("brigadeStr", "wrong.brigadeStr");
+            }
 
 //        initialize brigade strength or reject if wrong
-        checkBrigadeStrength(truckForm, errors, truckDto);
+            try {
+                Integer capacity = Integer.parseInt(truck.getCapacity());
+                if (capacity < 100 || capacity > 10000) {
+                    errors.rejectValue("capacity", "wrong.carrying");
+                }
+            } catch (NumberFormatException e) {
+                errors.rejectValue("capacity", "wrong.carrying");
+            }
 
 //        initialize current city or reject if wrong
-        CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), truckForm.getCurrentCity());
-        if (currentCity == null) {
-            errors.rejectValue("currentCity", "null.city");
-        } else {
-            truckDto.setCurrentCity(currentCity);
+            CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), truck.getCityName());
+            if (currentCity == null) {
+                errors.rejectValue("cityName", "null.city");
+            } else {
+                truck.setCityId(currentCity.getId());
+            }
+
+            truck.setStatus("STAY_IDLE");
         }
-
-        truckDto.setStatus("STAY_IDLE");
-
-        return truckDto;
     }
 
-    public TruckDto validateEdits(TruckForm truckForm, Errors errors) {
 
-        TruckDto dbTruck = truckService.getDtoById(new TruckDto(), new Truck(), truckForm.getId());
+    public TruckDto validateEdits(TruckDto truck, Errors errors) {
 
-        if (truckForm.getRegNumber().trim().length() > 0) {
+        TruckDto dbTruck = truckService.getDtoById(new TruckDto(), new Truck(), truck.getId());
 
-            if (!truckForm.getRegNumber().toUpperCase().matches("[A-Z]{2}\\d{5}")) {
+        if (truck.getRegNumber().trim().length() > 0) {
+
+            if (!truck.getRegNumber().toUpperCase().matches("[A-Z]{2}\\d{5}")) {
                 errors.rejectValue("regNumber", "wrong.reg.number");
             } else {
-                dbTruck.setRegNumber(truckForm.getRegNumber().toUpperCase());
+                dbTruck.setRegNumber(truck.getRegNumber().toUpperCase());
             }
         }
 
-        if (truckForm.getCapacity().trim().length() > 0) {
-            checkCapacity(truckForm, errors, dbTruck);
+        if (truck.getBrigadeStr().trim().length() > 0) {
+            try {
+                Integer brigadeStr = Integer.parseInt(truck.getBrigadeStr());
+                if (brigadeStr < 1 || brigadeStr > 6) {
+                    errors.rejectValue("brigadeStr", "wrong.brigadeStr");
+                } else {
+                    dbTruck.setBrigadeStr(brigadeStr.toString());
+                }
+            } catch (NumberFormatException e) {
+                errors.rejectValue("brigadeStr", "wrong.brigadeStr");
+            }
         }
 
-        if (truckForm.getBrigadeStr().trim().length() > 0) {
-            checkBrigadeStrength(truckForm, errors, dbTruck);
+        if (truck.getCapacity().trim().length() > 0) {
+            try {
+                Integer capacity = Integer.parseInt(truck.getCapacity());
+                if (capacity < 100 || capacity > 10000) {
+                    errors.rejectValue("capacity", "wrong.carrying");
+                } else {
+                    dbTruck.setCapacity(capacity.toString());
+                }
+            } catch (NumberFormatException e) {
+                errors.rejectValue("capacity", "wrong.carrying");
+            }
         }
 
-        if (truckForm.getCurrentCity().trim().length() > 0) {
-            CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), truckForm.getCurrentCity());
+        if (truck.getCityName().trim().length() > 0) {
+            CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), truck.getCityName());
             if (currentCity == null) {
-                errors.rejectValue("currentCity", "null.city");
+                errors.rejectValue("cityName", "null.city");
             } else {
-                dbTruck.setCurrentCity(currentCity);
+                dbTruck.setCityName(currentCity.getName());
+                dbTruck.setCityId(currentCity.getId());
             }
         }
 
         return dbTruck;
-    }
-
-    private void checkBrigadeStrength(TruckForm truckForm, Errors errors, TruckDto bdTruck) {
-        try {
-            Integer brigadeStr = Integer.parseInt(truckForm.getBrigadeStr());
-            if (brigadeStr < 1 || brigadeStr > 6) {
-                errors.rejectValue("brigadeStr", "wrong.brigadeStr");
-            } else {
-                bdTruck.setBrigadeStr(brigadeStr);
-            }
-        } catch (NumberFormatException e) {
-            errors.rejectValue("brigadeStr", "wrong.brigadeStr");
-        }
-    }
-
-    private void checkCapacity(TruckForm truckForm, Errors errors, TruckDto bdTruck) {
-        try {
-            Integer capacity = Integer.parseInt(truckForm.getCapacity());
-            if (capacity < 100 || capacity > 10000) {
-                errors.rejectValue("capacity", "wrong.carrying");
-            } else {
-                bdTruck.setCapacity(capacity);
-            }
-        } catch (NumberFormatException e) {
-            errors.rejectValue("capacity", "wrong.carrying");
-        }
     }
 }

@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Cities Page
+        Drivers Page
     </title>
 
     <!-- Bootstrap Core CSS -->
@@ -29,7 +29,7 @@
             <a class="nav-link active" href="${contextPath}/rsm-city">Cities</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Drivers</a>
+            <a class="nav-link" href="${contextPath}/rsm-driver">Drivers</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="${contextPath}/rsm-truck">Trucks</a>
@@ -47,15 +47,15 @@
 
                     <c:choose>
                         <c:when test="${err}">
-                            <%--Add new City Error Button--%>
+                            <%--Add new Driver Error Button--%>
                             <button class="btn btn-danger" data-toggle="modal"
-                                    data-target="#addNewCityModal">Wasn't added!
+                                    data-target="#addNewDriverModal">Wasn't added!
                             </button>
                         </c:when>
                         <c:otherwise>
-                            <%--Add new City Button--%>
+                            <%--Add new Driver Button--%>
                             <button class="btn btn-primary" data-toggle="modal"
-                                    data-target="#addNewCityModal">Add new City
+                                    data-target="#addNewDriverModal">Add new Driver
                             </button>
                         </c:otherwise>
                     </c:choose>
@@ -63,41 +63,86 @@
                     <%--This will be shown in wrong edit case--%>
                     <c:if test="${editErr}">
                         <button class="btn btn-danger" data-toggle="modal"
-                                data-target="#editCityModal">Wasn't saved!
+                                data-target="#editDriverModal">Wasn't saved!
                         </button>
                     </c:if>
 
                 </div>
 
-                <%--Cities Table Body--%>
+                <%--Driver Table Body--%>
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover" id="cities-Table">
                         <thead>
                         <tr>
-                            <th>City name</th>
-                            <th>City index</th>
-                            <th>Coordinates X</th>
-                            <th>Coordinates Y</th>
+                            <th>P. Number</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Email</th>
+                            <th>Worked time</th>
+                            <th>Paid time</th>
+                            <th>State</th>
+                            <th>Current city</th>
+                            <th>Current truck</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${sessionScope.cities}" var="cityUnit">
+                        <c:forEach items="${sessionScope.driverList}" var="driverUnit">
 
                             <tr class="odd gradeX">
-                                <td>${cityUnit.name}</td>
-                                <td>${cityUnit.index}</td>
-                                <td>${cityUnit.coordinatesX}</td>
-                                <td>${cityUnit.coordinatesY}</td>
+                                <td>${driverUnit.personalNumber}</td>
+                                <td>${driverUnit.name}</td>
+                                <td>${driverUnit.surname}</td>
+                                <td>${driverUnit.email}</td>
+                                <td>${driverUnit.workedTime}</td>
+                                <td>${driverUnit.paidTime}</td>
                                 <td>
-                                    <a type="button" class="btn btn-edit btn-warning btn-xs" id="${cityUnit.id}/${cityUnit.name}"
-                                       data-toggle="modal" data-target="#editCityModal">Edit city data</a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-info btn-xs dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <c:if test="${driverUnit.state.equals('REST')}">
+                                                Is resting
+                                            </c:if>
+                                            <c:if test="${driverUnit.state.equals('ON_SHIFT')}">
+                                                On the shift
+                                            </c:if>
+                                            <c:if test="${driverUnit.state.equals('DRIVING')}">
+                                                Is driving
+                                            </c:if>
+                                            <c:if test="${driverUnit.state.equals('PORTER')}">
+                                                Cargo works
+                                            </c:if>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" role="menu">
+                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=0">
+                                                Is resting</a>
+                                            </li>
+                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=1">
+                                                On the shift</a>
+                                            </li>
+                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=2">
+                                                Is driving</a>
+                                            </li>
+                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=3">
+                                                Cargo works</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>${driverUnit.cityName}</td>
+                                <td>${driverUnit.truckRegNumber}</td>
+                                <td>
+                                    <a type="button" class="btn btn-edit btn-warning btn-xs"
+                                       id="${driverUnit.id}/${driverUnit.name}"
+                                       data-toggle="modal" data-target="#editDriverModal">Edit driver</a>
                                 </td>
                                 <td>
-                                    <a type="button" class="btn btn-danger btn-xs btn-remove" id="${cityUnit.id}*${cityUnit.name}"
-                                       data-toggle="modal" data-target="#deleteCityModal">Remove city</a>
+                                    <a type="button" class="btn btn-danger btn-xs btn-remove"
+                                       id="${driverUnit.id}*${driverUnit.name}"
+                                       data-toggle="modal" data-target="#deleteDriverModal">Remove driver</a>
                                 </td>
                             </tr>
 
@@ -116,24 +161,24 @@
 
 </div>
 
-<!-- Modal window add city-->
-<div class="modal fade" id="addNewCityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<!-- Modal window add Driver-->
+<div class="modal fade" id="addNewDriverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Add new City</h4>
+                <h4 class="modal-title" id="myModalLabel">Add new driver</h4>
             </div>
             <div class="modal-body">
 
-                <form:form class="form" id="addNewCityForm" method="post" modelAttribute="city"
-                           action="${contextPath}/rsm-city/addCity">
+                <form:form class="form" id="addNewDriverForm" method="post" modelAttribute="driver"
+                           action="${contextPath}/rsm-driver/addDriver">
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
                             <spring:bind path="name">
-                                <form:input name="name" placeholder="City" path="name" autofocus="true"
+                                <form:input name="name" placeholder="name" path="name" autofocus="true"
                                             class="form-control col-8"/>
                             </spring:bind>
                         </div>
@@ -146,39 +191,41 @@
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
-                            <spring:bind path="index">
-                                <form:input name="index" placeholder="index" path="index" class="form-control col-8"/>
+                            <spring:bind path="surname">
+                                <form:input name="surname" placeholder="surname" path="surname"
+                                            class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
                             <div class="font-italic">
-                                <form:errors path="index"/>
+                                <form:errors path="surname"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
-                            <spring:bind path="coordinatesX">
-                                <form:input name="x" placeholder="X" path="coordinatesX" class="form-control col-8"/>
+                            <spring:bind path="email">
+                                <form:input name="email" placeholder="email" path="email" class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
                             <div class="font-italic">
-                                <form:errors path="coordinatesX"/>
+                                <form:errors path="email"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
-                            <spring:bind path="coordinatesY">
-                                <form:input name="y" placeholder="Y" path="coordinatesY" class="form-control col-8"/>
+                            <spring:bind path="cityName">
+                                <form:input name="cityName" placeholder="dislocation city" path="cityName"
+                                            class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
                             <div class="font-italic">
-                                <form:errors path="coordinatesY"/>
+                                <form:errors path="cityName"/>
                             </div>
                         </div>
                     </div>
@@ -187,69 +234,79 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button class="btn btn-success" form="addNewCityForm">Add new City</button>
+                <button class="btn btn-success" form="addNewDriverForm">Add new Driver</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal window edit city-->
-<div class="modal fade" id="editCityModal" tabindex="-1" role="dialog" aria-labelledby="editCityLabel"
+<!-- Modal window edit Driver-->
+<div class="modal fade" id="editDriverModal" tabindex="-1" role="dialog" aria-labelledby="editDriverLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="editCityLabel">Edit city ${editingCity.name}</h4>
+                <h4 class="modal-title" id="editDriverLabel">Edit driver ${editableDriver.personalNumber}</h4>
             </div>
             <div class="modal-body">
 
-                <form:form class="form" id="editCityForm" method="post" modelAttribute="editingCity"
-                           action="${contextPath}/rsm-city/editCity">
+                <form:form class="form" id="editDriverForm" method="post" modelAttribute="editableDriver"
+                           action="${contextPath}/rsm-driver/editDriver">
 
                     <spring:bind path="id">
-                        <form:input type="hidden" name="id" value="" path="id" id="editedCityId"/>
-                    </spring:bind>
-
-                    <spring:bind path="name">
-                        <form:input type="hidden" name="name" value="" path="name" id="editedCityName"/>
+                        <form:input type="hidden" name="id" value="" path="id" id="editedDriverId"/>
                     </spring:bind>
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
-                            <spring:bind path="index">
-                                <form:input name="index" placeholder="index" path="index" class="form-control col-8"/>
+                            <spring:bind path="name">
+                                <form:input name="name" placeholder="name" path="name" class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
                             <div class="font-italic">
-                                <form:errors path="index"/>
+                                <form:errors path="name"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
-                            <spring:bind path="coordinatesX">
-                                <form:input name="x" placeholder="X" path="coordinatesX" class="form-control col-8"/>
+                            <spring:bind path="surname">
+                                <form:input name="surname" placeholder="surname" path="surname"
+                                            class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
                             <div class="font-italic">
-                                <form:errors path="coordinatesX"/>
+                                <form:errors path="surname"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
-                            <spring:bind path="coordinatesY">
-                                <form:input name="y" placeholder="Y" path="coordinatesY" class="form-control col-8"/>
+                            <spring:bind path="email">
+                                <form:input name="email" placeholder="email" path="email" class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
                             <div class="font-italic">
-                                <form:errors path="coordinatesY"/>
+                                <form:errors path="email"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-justify-content-center">
+                        <div class="col-sm-6">
+                            <spring:bind path="cityName">
+                                <form:input name="cityName" placeholder="current city name" path="cityName" class="form-control col-8"/>
+                            </spring:bind>
+                        </div>
+                        <div class="secondary-text text-center text-danger">
+                            <div class="font-italic">
+                                <form:errors path="cityName"/>
                             </div>
                         </div>
                     </div>
@@ -258,27 +315,27 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button class="btn btn-success" form="editCityForm">Accept changes</button>
+                <button class="btn btn-success" form="editDriverForm">Accept changes</button>
             </div>
         </div>
     </div>
 </div>
 
-<%--Modal window remove city--%>
-<div class="modal fade" id="deleteCityModal" tabindex="-1" role="dialog" aria-labelledby="delCityLabel"
+<%--Modal window remove Driver--%>
+<div class="modal fade" id="deleteDriverModal" tabindex="-1" role="dialog" aria-labelledby="delDriverLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="delCityLabel"></h4>
+                <h4 class="modal-title" id="delDriverLabel"></h4>
             </div>
             <div class="modal-body">
-                <h2 id="deletingCityQ"></h2>
+                <h2 id="deletingDriverQ"></h2>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a type="button" class="btn btn-danger" id="delCityButton" href="">Remove city</a>
+                <a type="button" class="btn btn-danger" id="delDriverButton" href="">Remove driver</a>
             </div>
         </div>
     </div>
@@ -297,7 +354,7 @@
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
     $(document).ready(function () {
-        $('#cities-Table').DataTable({
+        $('#Driver-Table').DataTable({
             responsive: true
         });
     });
@@ -307,9 +364,9 @@
         $(".btn-edit").click(function () {
             var buttonId = $(this).attr("id");
             var arr = buttonId.split('/');
-            $("#editedCityId").val(arr[0]);
-            $("#editedCityName").val(arr[1]);
-            $("#editCityLabel").text("Edit city " + arr[1]);
+            $("#editedDriverId").val(arr[0]);
+            $("#editedDriverName").val(arr[1]);
+            $("#editDriverLabel").text("Edit driver " + arr[1]);
         });
     });
 </script>
@@ -318,9 +375,9 @@
         $(".btn-remove").click(function () {
             var buttonId = $(this).attr("id");
             var arr = buttonId.split('*');
-            $("#delCityButton").attr("href", "${contextPath}rsm-city/remove/" + arr[0]);
-            $("#deletingCityQ").text("Are you sure you want to remove city " + arr[1] + " from the database?");
-            $("#delCityLabel").text("Removing city " + arr[1]);
+            $("#delDriverButton").attr("href", "${contextPath}rsm-driver/remove/" + arr[0]);
+            $("#deletingDriverQ").text("Are you sure you want to remove driver " + arr[1] + " from the database?");
+            $("#delDriverLabel").text("Removing driver " + arr[1]);
         });
     });
 </script>

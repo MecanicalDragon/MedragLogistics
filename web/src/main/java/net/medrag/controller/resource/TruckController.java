@@ -1,7 +1,6 @@
 package net.medrag.controller.resource;
 
 import net.medrag.dto.TruckDto;
-import net.medrag.form.TruckForm;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.service.TruckService;
 import net.medrag.validator.TruckValidator;
@@ -42,20 +41,20 @@ public class TruckController {
     public String returnView(HttpServletRequest request, Model model){
         List<TruckDto> trucks = truckService.getDtoList(new TruckDto(), new Truck());
         request.getSession().setAttribute("truckList", trucks);
-        model.addAttribute("truck", new TruckForm());
-        model.addAttribute("editingTruck", new TruckForm());
+        model.addAttribute("truck", new TruckDto());
+        model.addAttribute("editableTruck", new TruckDto());
         return "resource/trucks";
     }
 
     @PostMapping("editTruck")
-    public String editTruck(@ModelAttribute("editingTruck") TruckForm truck, BindingResult bindingResult, Model model){
+    public String editTruck(@ModelAttribute("editableTruck") TruckDto truck, BindingResult bindingResult, Model model){
 
         TruckDto validatedTruck = truckValidator.validateEdits(truck, bindingResult);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("editErr", true);
-            model.addAttribute("truck", new TruckForm());
-            model.addAttribute("editingTruck", truck);
+            model.addAttribute("truck", new TruckDto());
+            model.addAttribute("editableTruck", truck);
             return "resource/trucks";
         }
 
@@ -65,25 +64,26 @@ public class TruckController {
     }
 
     @PostMapping("addTruck")
-    public String addTruck(@ModelAttribute("truck") TruckForm truck, BindingResult bindingResult, Model model){
+    public String addTruck(@ModelAttribute("truck") TruckDto truck, BindingResult bindingResult, Model model){
 
-        TruckDto validatedTruck = truckValidator.validate(truck, bindingResult);
+        truckValidator.validate(truck, bindingResult);
 
         if (bindingResult.hasErrors()){
             model.addAttribute("err", true);
             model.addAttribute("truck", truck);
-            model.addAttribute("editingTruck", new TruckForm());
+            model.addAttribute("editableTruck", new TruckDto());
             return "resource/trucks";
         }
-        Integer i = truckService.addDto(validatedTruck, new Truck());
+
+        truckService.addDto(truck, new Truck());
         return "redirect: ../rsm-truck";
     }
 
     @GetMapping("remove/{id}")
     public String removeTruck(@PathVariable Integer id, Model model){
-        TruckDto removingTruck = new TruckDto();
-        removingTruck.setId(id);
-        truckService.removeDto(removingTruck, new Truck());
+        TruckDto deletableTruck = new TruckDto();
+        deletableTruck.setId(id);
+        truckService.removeDto(deletableTruck, new Truck());
         return "redirect: ../../rsm-truck";
     }
 

@@ -1,116 +1,121 @@
-//package net.medrag.controller.resource;
-//
-//import net.medrag.dto.DriverDto;
-//import net.medrag.model.domain.entity.Driver;
-//import net.medrag.model.service.DriverService;
-//import net.medrag.validator.DriverValidator;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//
-//import javax.servlet.http.HttpServletRequest;
-//import java.util.List;
-//
-///**
-// * Controller, that handles drivers.jsp
-// *
-// * @author Stanislav Tretyakov
-// * @version 1.0
-// */
-//@Controller
-//@RequestMapping("rsm-driver")
-//public class DriverController {
-//
-//    private DriverService<DriverDto, Driver> driverService;
-//
-//    private DriverValidator driverValidator;
-//
-//    @Autowired
-//    public void setDriverService(DriverService<DriverDto, Driver> driverService) {
-//        this.driverService = driverService;
-//    }
-//
-//    @Autowired
-//    public void setDriverValidator(DriverValidator driverValidator) {
-//        this.driverValidator = driverValidator;
-//    }
-//
-//    @GetMapping()
-//    public String returnView(HttpServletRequest request, Model model){
-//        List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver());
-//        request.getSession().setAttribute("driverList", drivers);
-//        model.addAttribute("driver", new DriverForm());
-//        model.addAttribute("editingTruck", new TruckForm());
-//        return "resource/trucks";
-//    }
-//
-//    @PostMapping("editTruck")
-//    public String editTruck(@ModelAttribute("editingTruck") TruckForm truck, BindingResult bindingResult, Model model){
-//
-//        TruckDto validatedTruck = truckValidator.validateEdits(truck, bindingResult);
-//
-//        if (bindingResult.hasErrors()){
-//            model.addAttribute("editErr", true);
-//            model.addAttribute("truck", new TruckForm());
-//            model.addAttribute("editingTruck", truck);
-//            return "resource/trucks";
-//        }
-//
-//        truckService.updateDtoStatus(validatedTruck, new Truck());
-//
-//        return "redirect: ../rsm-truck";
-//    }
-//
-//    @PostMapping("addTruck")
-//    public String addTruck(@ModelAttribute("truck") TruckForm truck, BindingResult bindingResult, Model model){
-//
-//        TruckDto validatedTruck = truckValidator.validate(truck, bindingResult);
-//
-//        if (bindingResult.hasErrors()){
-//            model.addAttribute("err", true);
-//            model.addAttribute("truck", truck);
-//            model.addAttribute("editingTruck", new TruckForm());
-//            return "resource/trucks";
-//        }
-//        Integer i = truckService.addDto(validatedTruck, new Truck());
-//        return "redirect: ../rsm-truck";
-//    }
-//
-//    @GetMapping("remove/{id}")
-//    public String removeTruck(@PathVariable Integer id, Model model){
-//        TruckDto removingTruck = new TruckDto();
-//        removingTruck.setId(id);
-//        truckService.removeDto(removingTruck, new Truck());
-//        return "redirect: ../../rsm-truck";
-//    }
-//
-//    @GetMapping("changeState")
-//    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) {
-//        List<TruckDto> truckList = (List<TruckDto>) request.getSession().getAttribute("truckList");
-//        TruckDto repairingTruck = null;
-//        for (TruckDto truck : truckList) {
-//            if (truck.getId().equals(id)) {
-//                repairingTruck = truck;
-//                break;
-//            }
-//        }
-//
-//        switch (op) {
-//            case 0:
-//                repairingTruck.setStatus("IN_USE");
-//                break;
-//            case 1:
-//                repairingTruck.setStatus("STAY_IDLE");
-//                break;
-//            case 2:
-//                repairingTruck.setStatus("IN_SERVICE");
-//                break;
-//        }
-//        truckService.updateDtoStatus(repairingTruck, new Truck());
-//
-//        return "redirect: ../rsm-truck";
-//    }
-//
-//}
+package net.medrag.controller.resource;
+
+import net.medrag.dto.DriverDto;
+import net.medrag.model.domain.entity.Driver;
+import net.medrag.model.service.DriverService;
+import net.medrag.validator.DriverValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+/**
+ * Controller, that handles drivers.jsp
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
+@Controller
+@RequestMapping("rsm-driver")
+public class DriverController {
+
+    private DriverService<DriverDto, Driver> driverService;
+
+    private DriverValidator driverValidator;
+
+    @Autowired
+    public void setDriverService(DriverService<DriverDto, Driver> driverService) {
+        this.driverService = driverService;
+    }
+
+    @Autowired
+    public void setDriverValidator(DriverValidator driverValidator) {
+        this.driverValidator = driverValidator;
+    }
+
+    @GetMapping()
+    public String returnView(HttpServletRequest request, Model model) {
+        List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver());
+        request.getSession().setAttribute("driverList", drivers);
+        model.addAttribute("driver", new DriverDto());
+        model.addAttribute("editableDriver", new DriverDto());
+        return "resource/drivers";
+    }
+
+    @PostMapping("addDriver")
+    public String addDriver(@ModelAttribute("driver") DriverDto driver, BindingResult bindingResult, Model model) {
+
+        driverValidator.validate(driver, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("err", true);
+            model.addAttribute("driver", driver);
+            model.addAttribute("editableDriver", new DriverDto());
+            return "resource/drivers";
+        }
+        driverService.addDto(driver, new Driver());
+        return "redirect: ../rsm-driver";
+    }
+
+    @PostMapping("editDriver")
+    public String editDriver(@ModelAttribute("editableDriver") DriverDto driver, BindingResult bindingResult, Model model){
+
+        DriverDto validatedDriver = driverValidator.validateEdits(driver, bindingResult);
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("editErr", true);
+            model.addAttribute("driver", new DriverDto());
+            model.addAttribute("editableDriver", driver);
+            return "resource/drivers";
+        }
+
+        driverService.updateDtoStatus(validatedDriver, new Driver());
+
+        return "redirect: ../rsm-driver";
+    }
+
+
+    @GetMapping("remove/{id}")
+    public String removeDriver(@PathVariable Integer id, Model model){
+        DriverDto removableDriver = new DriverDto();
+        removableDriver.setId(id);
+        driverService.removeDto(removableDriver, new Driver());
+        return "redirect: ../../rsm-driver";
+    }
+
+    @GetMapping("changeState")
+    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) {
+        List<DriverDto> driverList = (List<DriverDto>) request.getSession().getAttribute("driverList");
+        DriverDto changingDriver = new DriverDto();
+        for (DriverDto driver : driverList) {
+            if (driver.getId().equals(id)) {
+                changingDriver = driver;
+                break;
+            }
+        }
+
+        switch (op) {
+            case 0:
+                changingDriver.setState("REST");
+                break;
+            case 1:
+                changingDriver.setState("ON_SHIFT");
+                break;
+            case 2:
+                changingDriver.setState("DRIVING");
+                break;
+            case 3:
+                changingDriver.setState("PORTER");
+                break;
+            default: changingDriver.setState("REST");
+        }
+        driverService.updateDtoStatus(changingDriver, new Driver());
+
+        return "redirect: ../rsm-driver";
+    }
+
+}

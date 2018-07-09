@@ -62,7 +62,8 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
     @Transactional
     public void updateDtoStatus(D dto, E entity) {
         try {
-            entityDao.updateEntityStatus((E) new ModelMapper().map(dto, entity.getClass()));
+            E e = (E) new ModelMapper().map(dto, entity.getClass());
+            entityDao.updateEntityStatus(e);
         } catch (MedragRepositoryException e) {
             logger.error("Could not update in database {}", dto);
         }

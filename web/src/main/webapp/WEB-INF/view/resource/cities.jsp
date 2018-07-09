@@ -29,7 +29,7 @@
             <a class="nav-link active" href="${contextPath}/rsm-city">Cities</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Drivers</a>
+            <a class="nav-link" href="${contextPath}/rsm-driver">Drivers</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="${contextPath}/rsm-truck">Trucks</a>
