@@ -14,6 +14,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.Random;
+
 /**
  * {@link}
  *
@@ -26,13 +28,6 @@ public class DriverValidator implements Validator {
     private DriverService<DriverDto, Driver> driverService;
 
     private CityService<CityDto, City> cityService;
-
-    private EmployeeIdentifierService employeeIdentifierService;
-
-    @Autowired
-    public void setEmployeeIdentifierService(EmployeeIdentifierService employeeIdentifierService) {
-        this.employeeIdentifierService = employeeIdentifierService;
-    }
 
     @Autowired
     public void setCityService(CityService<CityDto, City> cityService) {
@@ -60,12 +55,16 @@ public class DriverValidator implements Validator {
 
         if (!errors.hasErrors()) {
 
-            if (!driverDto.getName().trim().matches("\\w\\D*")) {
+            if (!driverDto.getName().trim().matches("\\w\\D+")) {
                 errors.rejectValue("name", "letters.only");
             }
-            if (!driverDto.getSurname().trim().matches("\\w\\D*")) {
+            if (!driverDto.getSurname().trim().matches("\\w\\D+")) {
                 errors.rejectValue("surname", "letters.only");
             }
+            if (!driverDto.getEmail().matches("\\w+@\\w+\\.\\w+")){
+                errors.rejectValue("email", "not.email");
+            }
+
             if (!errors.hasErrors()) {
 
                 CityDto city = cityService.getDtoByNaturalId(new CityDto(), new City(), driverDto.getCityName());
@@ -84,7 +83,9 @@ public class DriverValidator implements Validator {
                     driverDto.setState("REST");
 
                     do {
-                        employeeIdentifierService.identifyEmployee(driverDto);
+                        int random = new Random().nextInt(89999) + 10000;
+                        String pn = "DRV-" + random;
+                        driverDto.setPersonalNumber(pn);
                     }
                     while (driverService.getDtoByNaturalId(driverDto, new Driver(), driverDto.getPersonalNumber()) != null);
                 }
@@ -98,7 +99,7 @@ public class DriverValidator implements Validator {
         DriverDto dbDriver = driverService.getDtoById(driver, new Driver(), driver.getId());
 
         if (driver.getName().trim().length() > 0) {
-            if (!driver.getName().matches("\\w\\D*")) {
+            if (!driver.getName().matches("\\w\\D+")) {
                 errors.rejectValue("name", "letters.only");
             } else {
                 dbDriver.setName(driver.getName());
@@ -106,7 +107,7 @@ public class DriverValidator implements Validator {
         }
 
         if (driver.getSurname().trim().length() > 0) {
-            if (!driver.getSurname().matches("\\w\\D*")) {
+            if (!driver.getSurname().matches("\\w\\D+")) {
                 errors.rejectValue("surname", "letters.only");
             } else {
                 dbDriver.setSurname(driver.getSurname());
@@ -117,9 +118,9 @@ public class DriverValidator implements Validator {
             dbDriver.setEmail(driver.getEmail().trim());
         }
 
-        if (driver.getCityName().trim().length() > 0){
+        if (driver.getCityName().trim().length() > 0) {
             CityDto city = cityService.getDtoByNaturalId(new CityDto(), new City(), driver.getCityName());
-            if (city == null){
+            if (city == null) {
                 errors.rejectValue("cityName", "null.city");
             } else {
                 dbDriver.setCityId(city.getId());

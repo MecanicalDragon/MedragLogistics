@@ -14,6 +14,7 @@ import java.util.List;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
+@SuppressWarnings("unchecked")
 public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 
     private SessionFactory sessionFactory;

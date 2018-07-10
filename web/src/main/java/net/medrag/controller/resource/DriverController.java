@@ -3,6 +3,7 @@ package net.medrag.controller.resource;
 import net.medrag.dto.DriverDto;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.service.DriverService;
+import net.medrag.model.service.EmployeeIdentifierService;
 import net.medrag.validator.DriverValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,13 @@ public class DriverController {
     private DriverService<DriverDto, Driver> driverService;
 
     private DriverValidator driverValidator;
+
+    private EmployeeIdentifierService employeeIdentifierService;
+
+    @Autowired
+    public void setEmployeeIdentifierService(EmployeeIdentifierService employeeIdentifierService) {
+        this.employeeIdentifierService = employeeIdentifierService;
+    }
 
     @Autowired
     public void setDriverService(DriverService<DriverDto, Driver> driverService) {
@@ -58,6 +66,8 @@ public class DriverController {
             return "resource/drivers";
         }
         driverService.addDto(driver, new Driver());
+        employeeIdentifierService.identifyEmployee(driver);
+
         return "redirect: ../rsm-driver";
     }
 
@@ -113,6 +123,7 @@ public class DriverController {
                 break;
             default: changingDriver.setState("REST");
         }
+
         driverService.updateDtoStatus(changingDriver, new Driver());
 
         return "redirect: ../rsm-driver";

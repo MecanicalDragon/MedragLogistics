@@ -50,7 +50,7 @@ public class TruckValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "capacity", "notnull.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cityName", "notnull.field");
 
-        if (!truck.getRegNumber().matches("[A-Z]{2}\\d{5}")) {
+        if (!truck.getRegNumber().toUpperCase().matches("[A-Z]{2}\\d{5}")) {
             errors.rejectValue("regNumber", "wrong.reg.number");
         }
 

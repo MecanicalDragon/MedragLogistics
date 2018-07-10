@@ -44,7 +44,7 @@ public class CityValidator implements Validator {
             errors.rejectValue("name", "city.exists");
         }
 
-        if (!city.getName().matches("\\w*")) {
+        if (!city.getName().matches("\\w+")) {
             errors.rejectValue("name", "letters.only");
         }
 
@@ -69,7 +69,7 @@ public class CityValidator implements Validator {
         if (city.getName().trim().length() > 0) {
             CityDto namedCity = cityService.getDtoByNaturalId(city, new City(), city.getName());
             if (namedCity == null) {
-                if (city.getName().trim().matches("\\w*")) {
+                if (city.getName().trim().matches("\\w+")) {
                     dbCity.setName(city.getName().trim());
                 } else {
                     errors.rejectValue("name", "letters.only");

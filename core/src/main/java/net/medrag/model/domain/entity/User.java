@@ -23,6 +23,9 @@ public class User extends Identifier{
     @Column(name = "password")
     private String password;
 
+    @Column(name = "email")
+    private String email;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition = "enum('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE')")
     private UserRole role;
@@ -43,6 +46,14 @@ public class User extends Identifier{
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public UserRole getRole() {
         return role;
     }
@@ -57,6 +68,7 @@ public class User extends Identifier{
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 ", role=" + role +
                 '}';
     }

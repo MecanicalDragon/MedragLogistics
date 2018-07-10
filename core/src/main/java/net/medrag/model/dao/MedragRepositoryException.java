@@ -1,12 +1,16 @@
 package net.medrag.model.dao;
 
+import org.jetbrains.annotations.Contract;
+
+import javax.persistence.PersistenceException;
+
 /**
  * {@link}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-public class MedragRepositoryException extends Throwable {
+public class MedragRepositoryException extends PersistenceException {
 
     public enum OperationType {
 
@@ -19,16 +23,18 @@ public class MedragRepositoryException extends Throwable {
         UPDATE("Could not update in the database "),
         LIST("Could not extract from the database list of ");
 
-        private String cause;
+        private String failedOperation;
 
-        OperationType(String cause){
-            this.cause = cause;
+        OperationType(String failedOperation){
+            this.failedOperation = failedOperation;
         }
 
+        @Contract(pure = true)
         @Override
         public String toString(){
-            return cause;
+            return failedOperation;
         }
+
     }
 
     public MedragRepositoryException(String message) {

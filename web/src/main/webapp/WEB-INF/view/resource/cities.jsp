@@ -35,7 +35,7 @@
             <a class="nav-link" href="${contextPath}/rsm-truck">Trucks</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Users</a>
+            <a class="nav-link" href="${contextPath}/rsm-user">Users</a>
         </li>
     </ul>
 
@@ -71,7 +71,7 @@
 
                 <%--Cities Table Body--%>
                 <div class="panel-body">
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="cities-Table">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dto-Table">
                         <thead>
                         <tr>
                             <th>City name</th>
@@ -194,13 +194,13 @@
 </div>
 
 <!-- Modal window edit city-->
-<div class="modal fade" id="editCityModal" tabindex="-1" role="dialog" aria-labelledby="editCityLabel"
+<div class="modal fade" id="editCityModal" tabindex="-1" role="dialog" aria-labelledby="editdtoLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="editCityLabel">Edit city ${editingCity.name}</h4>
+                <h4 class="modal-title" id="editdtoLabel"></h4>
             </div>
             <div class="modal-body">
 
@@ -208,7 +208,7 @@
                            action="${contextPath}/rsm-city/editCity">
 
                     <spring:bind path="id">
-                        <form:input type="hidden" name="id" value="" path="id" id="editedCityId"/>
+                        <form:input type="hidden" name="id" value="" path="id" id="editeddtoId"/>
                     </spring:bind>
 
                     <div class="row row-justify-content-center">
@@ -274,20 +274,20 @@
 </div>
 
 <%--Modal window remove city--%>
-<div class="modal fade" id="deleteCityModal" tabindex="-1" role="dialog" aria-labelledby="delCityLabel"
+<div class="modal fade" id="deleteCityModal" tabindex="-1" role="dialog" aria-labelledby="deldtoLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="delCityLabel"></h4>
+                <h4 class="modal-title" id="deldtoLabel"></h4>
             </div>
             <div class="modal-body">
-                <h2 id="deletingCityQ"></h2>
+                <h2 id="deletingdtoQuestion"></h2>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a type="button" class="btn btn-danger" id="delCityButton" href="">Remove city</a>
+                <a type="button" class="btn btn-danger" id="deldtoButton" href="">Remove city</a>
             </div>
         </div>
     </div>
@@ -303,36 +303,8 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function () {
-        $('#cities-Table').DataTable({
-            responsive: true
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $(".btn-edit").click(function () {
-            var buttonId = $(this).attr("id");
-            var arr = buttonId.split('/');
-            $("#editedCityId").val(arr[0]);
-            $("#editedCityName").val(arr[1]);
-            $("#editCityLabel").text("Edit city " + arr[1]);
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $(".btn-remove").click(function () {
-            var buttonId = $(this).attr("id");
-            var arr = buttonId.split('*');
-            $("#delCityButton").attr("href", "${contextPath}rsm-city/remove/" + arr[0]);
-            $("#deletingCityQ").text("Are you sure you want to remove city " + arr[1] + " from the database?");
-            $("#delCityLabel").text("Removing city " + arr[1]);
-        });
-    });
-</script>
+<!--My generic script-->
+<script src="/resources/js/tables-handler.js"></script>
 
 
 </body>

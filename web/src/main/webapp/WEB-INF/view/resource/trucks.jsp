@@ -35,7 +35,7 @@
             <a class="nav-link active" href="${contextPath}/rsm-truck">Trucks</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Users</a>
+            <a class="nav-link" href="${contextPath}/rsm-user">Users</a>
         </li>
     </ul>
 
@@ -71,7 +71,7 @@
 
                 <%--Trucks Table Body--%>
                 <div class="panel-body">
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="trucks-Table">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dto-Table">
                         <thead>
                         <tr>
                             <th>Truck reg. number</th>
@@ -147,13 +147,13 @@
 </div>
 
 <!-- Modal window edit truck-->
-<div class="modal fade" id="editTruckModal" tabindex="-1" role="dialog" aria-labelledby="editTruckLabel"
+<div class="modal fade" id="editTruckModal" tabindex="-1" role="dialog" aria-labelledby="editdtoLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="editTruckLabel">Edit truck number ${editableTruck.regNumber}</h4>
+                <h4 class="modal-title" id="editdtoLabel"></h4>
             </div>
             <div class="modal-body">
 
@@ -161,7 +161,7 @@
                            action="${contextPath}/rsm-truck/editTruck">
 
                     <spring:bind path="id">
-                        <form:input type="hidden" name="id" value="" path="id" id="editedTruckId"/>
+                        <form:input type="hidden" name="id" value="" path="id" id="editeddtoId"/>
                     </spring:bind>
 
                     <div class="row row-justify-content-center">
@@ -312,20 +312,20 @@
 </div>
 
 <%--Modal window remove truck--%>
-<div class="modal fade" id="deleteTruckModal" tabindex="-1" role="dialog" aria-labelledby="delTruckLabel"
+<div class="modal fade" id="deleteTruckModal" tabindex="-1" role="dialog" aria-labelledby="deldtoLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="delTruckLabel"></h4>
+                <h4 class="modal-title" id="deldtoLabel"></h4>
             </div>
             <div class="modal-body">
-                <h2 id="deletingTruckQ"></h2>
+                <h2 id="deletingdtoQuestion"></h2>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a type="button" class="btn btn-danger" id="delTruckButton" href="">Remove truck</a>
+                <a type="button" class="btn btn-danger" id="deldtoButton" href="">Remove truck</a>
             </div>
         </div>
     </div>
@@ -341,37 +341,8 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function () {
-        $('#trucks-Table').DataTable({
-            responsive: true
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $(".btn-edit").click(function () {
-            var buttonId = $(this).attr("id");
-            var arr = buttonId.split('/');
-            $("#editedTruckId").val(arr[0]);
-            $("#editedTruckName").val(arr[1]);
-            $("#editTruckLabel").text("Edit truck number " + arr[1]);
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $(".btn-remove").click(function () {
-            var buttonId = $(this).attr("id");
-            var arr = buttonId.split('*');
-            $("#delTruckButton").attr("href", "${contextPath}rsm-truck/remove/" + arr[0]);
-            $("#deletingTruckQ").text("Are you sure you want to remove truck number " + arr[1] + " from the database?");
-            $("#delTruckLabel").text("Removing truck number" + arr[1]);
-        });
-    });
-</script>
-
+<!--My generic script-->
+<script src="/resources/js/tables-handler.js"></script>
 
 </body>
 </html>

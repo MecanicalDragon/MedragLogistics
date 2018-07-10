@@ -9,6 +9,7 @@ import net.medrag.model.domain.entity.Orderr;
 import net.medrag.model.domain.entity.Waypoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class OrderCompilingServiceImpl implements OrderCompilingService{
 
 
     @Override
+    @Transactional
     public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) {
 
         OrderrDto order = new OrderrDto();

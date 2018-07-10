@@ -20,6 +20,7 @@ import java.util.List;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
+@SuppressWarnings("unchecked")
 public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements DTOService<D, E> {
 
     private EntityDao<E> entityDao;
