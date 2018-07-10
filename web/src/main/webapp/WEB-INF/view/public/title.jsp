@@ -82,15 +82,15 @@
             <%--<div class="text-primary text-right">--%>
             <%--<a href="${contextPath}/whm-newCustomer">new Customer</a>--%>
             <%--</div>--%>
-            <div class="text-primary text-right">
-            <a href="${contextPath}/rsm-driver">To Drivers</a>
-            </div>
-            <div class="text-primary text-right">
-            <a href="${contextPath}/rsm-truck">To Trucks</a>
-            </div>
-            <div class="text-primary text-right">
-                <a href="${contextPath}/whm-main">To Warehouse</a>
-            </div>
+            <%--<div class="text-primary text-right">--%>
+            <%--<a href="${contextPath}/rsm-driver">To Drivers</a>--%>
+            <%--</div>--%>
+            <%--<div class="text-primary text-right">--%>
+            <%--<a href="${contextPath}/rsm-truck">To Trucks</a>--%>
+            <%--</div>--%>
+            <%--<div class="text-primary text-right">--%>
+                <%--<a href="${contextPath}/whm-main">To Warehouse</a>--%>
+            <%--</div>--%>
 
         </div>
     </div>
