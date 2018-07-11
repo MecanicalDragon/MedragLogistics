@@ -36,10 +36,10 @@ public class City extends Identifier {
     @Column(name = "city_index")
     private String index;
 
-    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "city")
     private Set<Truck>truckSet;
 
-    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "city")
     private Set<Driver>driverSet;
 
     public String getIndex() {

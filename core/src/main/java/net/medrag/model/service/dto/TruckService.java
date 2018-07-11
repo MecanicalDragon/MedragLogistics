@@ -1,12 +1,8 @@
-package net.medrag.model.service;
+package net.medrag.model.service.dto;
 
-import net.medrag.dto.Dto;
 import net.medrag.model.dao.TruckDao;
-import net.medrag.model.domain.entity.Entity;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.dto.TruckDto;
-
-import java.util.List;
 
 /**
  * Standard service interface for DAO interface{@link TruckDao},

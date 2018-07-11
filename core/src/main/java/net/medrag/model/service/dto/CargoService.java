@@ -1,11 +1,8 @@
-package net.medrag.model.service;
+package net.medrag.model.service.dto;
 
 import net.medrag.model.dao.CargoDao;
 import net.medrag.dto.CargoDto;
 import net.medrag.model.domain.entity.Cargo;
-import net.medrag.model.domain.entity.City;
-
-import java.util.List;
 
 /**
  * Standard service interface for DAO interface{@link CargoDao},

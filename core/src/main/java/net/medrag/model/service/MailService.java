@@ -9,5 +9,5 @@ import javax.mail.MessagingException;
  * @version 1.0
  */
 public interface MailService {
-    void sendLoginPasswordEmail(String email, String username, String password) throws MessagingException;
+    void sendLoginPasswordEmail(String email, String username, String password, String type) throws MessagingException;
 }

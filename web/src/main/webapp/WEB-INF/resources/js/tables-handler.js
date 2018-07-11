@@ -1,9 +1,10 @@
 $(document).ready(function () {
+    // this is for datatables
     $('#dto-Table').DataTable({
         responsive: true
     });
-});
-$(document).ready(function () {
+
+    // handler-script for edit button
     $(".btn-edit").click(function () {
         var buttonId = $(this).attr("id");
         var arr = buttonId.split('/');
@@ -11,8 +12,8 @@ $(document).ready(function () {
         var dto = $("#deldtoButton").text().split(" ")[1];
         $("#editdtoLabel").text("Edit " + dto + " " + arr[1]);
     });
-});
-$(document).ready(function () {
+
+    // handler-script for remove button
     $(".btn-remove").click(function () {
         var buttonId = $(this).attr("id");
         var arr = buttonId.split('*');

@@ -2,7 +2,7 @@ package net.medrag.controller.warehouse;
 
 import net.medrag.dto.CargoDto;
 import net.medrag.model.domain.entity.Cargo;
-import net.medrag.model.service.CargoService;
+import net.medrag.model.service.dto.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

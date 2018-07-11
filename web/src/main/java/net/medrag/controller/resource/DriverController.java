@@ -2,8 +2,8 @@ package net.medrag.controller.resource;
 
 import net.medrag.dto.DriverDto;
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.service.DriverService;
-import net.medrag.model.service.EmployeeIdentifierService;
+import net.medrag.model.service.DriverIdentifierService;
+import net.medrag.model.service.dto.DriverService;
 import net.medrag.validator.DriverValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,7 @@ import java.util.List;
  * @version 1.0
  */
 @Controller
+@SuppressWarnings("unchecked")
 @RequestMapping("rsm-driver")
 public class DriverController {
 
@@ -28,11 +29,11 @@ public class DriverController {
 
     private DriverValidator driverValidator;
 
-    private EmployeeIdentifierService employeeIdentifierService;
+    private DriverIdentifierService driverIdentifierService;
 
     @Autowired
-    public void setEmployeeIdentifierService(EmployeeIdentifierService employeeIdentifierService) {
-        this.employeeIdentifierService = employeeIdentifierService;
+    public void setDriverIdentifierService(DriverIdentifierService driverIdentifierService) {
+        this.driverIdentifierService = driverIdentifierService;
     }
 
     @Autowired
@@ -65,8 +66,8 @@ public class DriverController {
             model.addAttribute("editableDriver", new DriverDto());
             return "resource/drivers";
         }
-        driverService.addDto(driver, new Driver());
-        employeeIdentifierService.identifyEmployee(driver);
+
+        driverIdentifierService.identifyNewDriver(driver);
 
         return "redirect: ../rsm-driver";
     }
@@ -83,17 +84,19 @@ public class DriverController {
             return "resource/drivers";
         }
 
-        driverService.updateDtoStatus(validatedDriver, new Driver());
+        if (!validatedDriver.getEmail().equalsIgnoreCase(driver.getEmail())){
+            driverIdentifierService.updateDriver(validatedDriver);
+        } else {
+            driverService.updateDtoStatus(validatedDriver, new Driver());
+        }
 
         return "redirect: ../rsm-driver";
     }
 
-
     @GetMapping("remove/{id}")
     public String removeDriver(@PathVariable Integer id, Model model){
-        DriverDto removableDriver = new DriverDto();
-        removableDriver.setId(id);
-        driverService.removeDto(removableDriver, new Driver());
+        DriverDto removableDriver = driverService.getDtoById(new DriverDto(), new Driver(), id);
+        driverIdentifierService.removeDriver(removableDriver);
         return "redirect: ../../rsm-driver";
     }
 

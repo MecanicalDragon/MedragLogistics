@@ -27,6 +27,9 @@ public class MailServiceImpl implements MailService {
 
     private JavaMailSender mailSender;
 
+    private static final String newAccount = "Congratulations! Now you're member of our company! There are your authentication data for entering our web application\n";
+    private static final String restoreAccount = "We have restored your authentication data. Now you have new login and password. Don't loose it again!\n";
+
     @Autowired
     public void setMailSender(JavaMailSender mailSender) {
         this.mailSender = mailSender;
@@ -55,11 +58,22 @@ public class MailServiceImpl implements MailService {
 //    }
 
     @Override
-    public void sendLoginPasswordEmail(String email, String username, String password) throws MessagingException {
+    public void sendLoginPasswordEmail(String email, String username, String password, String type) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(Message.RecipientType.TO, email);
         message.setSubject("Your Medrag Logistics account data");
-        String text = String.format("Congratulations! Now you're member of our company! There are your authentication data for entering our web application\n" +
+
+        switch(type){
+            case "new":
+                type = newAccount;
+                break;
+            case "restore":
+                type = restoreAccount;
+                break;
+            default: type = newAccount;
+        }
+
+        String text = String.format(type +
                 "Your login: %s \n" +
                 "Your password: %s \n" +
                 "You have no need to answer this email.", username, password);

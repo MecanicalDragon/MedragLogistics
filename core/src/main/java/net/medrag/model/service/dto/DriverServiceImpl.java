@@ -1,4 +1,4 @@
-package net.medrag.model.service;
+package net.medrag.model.service.dto;
 
 import net.medrag.model.dao.DriverDao;
 import net.medrag.model.domain.entity.Driver;

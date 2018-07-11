@@ -3,7 +3,7 @@ package net.medrag.controller.resource;
 
 import net.medrag.dto.CityDto;
 import net.medrag.model.domain.entity.City;
-import net.medrag.model.service.CityService;
+import net.medrag.model.service.dto.CityService;
 import net.medrag.validator.CityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,7 +55,7 @@ public class CityController {
         if (bindingResult.hasErrors()){
             model.addAttribute("editErr", true);
             model.addAttribute("city", new CityDto());
-            model.addAttribute("editingCity", validatedCity);
+            model.addAttribute("editingCity", city);
             return "resource/cities";
         }
 

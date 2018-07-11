@@ -1,11 +1,8 @@
-package net.medrag.model.service;
+package net.medrag.model.service.dto;
 
 import net.medrag.dto.UserDto;
-import net.medrag.model.dao.MedragRepositoryException;
 import net.medrag.model.dao.UserDao;
 import net.medrag.model.domain.entity.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +20,7 @@ public class UserServiceImpl <D extends UserDto, E extends User> extends DTOServ
 
     private UserDao<User> userDao;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+//    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private static final String implementation = "UserDaoImpl";
 
@@ -48,5 +45,17 @@ public class UserServiceImpl <D extends UserDto, E extends User> extends DTOServ
     @Transactional
     public void updateUser(User user) {
         userDao.updateEntityStatus(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(User user) {
+        userDao.removeEntity(user);
+    }
+
+    @Override
+    @Transactional
+    public User getUserByUsername(String username) {
+        return userDao.getEntityByNaturalId(new User(), username);
     }
 }

@@ -81,11 +81,24 @@
                             <tr class="odd gradeX">
                                 <td>${userUnit.username}</td>
                                 <td>${userUnit.email}</td>
-                                <td>${userUnit.role}</td>
+                                <td>
+                                    <c:if test="${userUnit.role.equals('ROLE_DRIVER')}">
+                                        Driver
+                                    </c:if>
+                                    <c:if test="${userUnit.role.equals('ROLE_WAREHOUSEMAN')}">
+                                        Warehouseman
+                                    </c:if>
+                                    <c:if test="${userUnit.role.equals('ROLE_RESOURCE')}">
+                                        Resource manager
+                                    </c:if>
+                                    <c:if test="${userUnit.role.equals('ROLE_MANAGER')}">
+                                        Logistican
+                                    </c:if>
+                                </td>
                                 <td>
                                     <a type="button" class="btn btn-newPassword btn-info btn-xs"
                                        id="${userUnit.id}/${userUnit.username}/${userUnit.email}"
-                                       data-toggle="modal" data-target="#editUserModal">Send new password</a>
+                                       data-toggle="modal" data-target="#newPasswordModal">Send new password</a>
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-danger btn-xs btn-remove"
@@ -121,13 +134,13 @@
             <div class="modal-body">
                 <h2 id="newPasswordQuestion"></h2>
 
-                <form class="form" id="newPasswordForm" method="post"
-                           action="${contextPath}/rsm-user/generate">
+                <form class="form" id="newPasswordForm"
+                      action="${contextPath}/rsm-user/generate">
 
                     <input type="hidden" name="id" value="" id="newPasswordId"/>
-                
+
                 </form>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -151,20 +164,20 @@
                 <form:form class="form" id="addNewUserForm" method="post" modelAttribute="newUser"
                            action="${contextPath}/rsm-user/addUser">
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="email">
-                                <form:input name="email" placeholder="email" path="email" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="email"/>
-                            </div>
-                        </div>
-                    </div>
+                    <spring:bind path="email">
+                        <form:input name="email" placeholder="email" path="email" class="form-control col-8"/>
+                    </spring:bind>
+
+                    <spring:bind path="role">
+                        <form:select path="role" placeholder="ololo" class="form-control">
+                            <option value="rsm" id="rsm">Resource manager</option>
+                            <option value="whm" id="whm">Warehouseman</option>
+                            <option value="mgr" id="mgr">Logistican</option>
+                        </form:select>
+                    </spring:bind>
 
                 </form:form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -189,10 +202,11 @@
                 <form:form class="form" id="removableUserForm" method="post" modelAttribute="removableUser"
                            action="${contextPath}/rsm-user/remove">
 
-                        <form:input type="hidden" name="id" value="" path="id" id="removableUserId"/>
+                    <form:input type="hidden" name="id" value="" path="id" id="removableUserId"/>
+                    <form:input type="hidden" name="id" value="" path="username" id="removableUserName"/>
 
                 </form:form>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

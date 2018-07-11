@@ -5,7 +5,7 @@ import net.medrag.dto.CityDto;
 import net.medrag.form.CargoForm;
 import net.medrag.model.dao.CargoDao;
 import net.medrag.model.domain.entity.City;
-import net.medrag.model.service.CityService;
+import net.medrag.model.service.dto.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;

@@ -35,7 +35,7 @@ public class Truck extends Identifier{
     @JoinColumn(name = "current_city_id")
     private City city;
 
-    @OneToMany(mappedBy = "currentTruck", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "currentTruck")
     private Set<Driver> driverSet;
 
     public String getRegNumber() {

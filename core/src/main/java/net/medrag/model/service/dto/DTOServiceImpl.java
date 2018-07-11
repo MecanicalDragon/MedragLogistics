@@ -1,4 +1,4 @@
-package net.medrag.model.service;
+package net.medrag.model.service.dto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

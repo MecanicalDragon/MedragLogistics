@@ -4,9 +4,8 @@ import net.medrag.dto.CityDto;
 import net.medrag.dto.DriverDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.service.CityService;
-import net.medrag.model.service.DriverService;
-import net.medrag.model.service.EmployeeIdentifierService;
+import net.medrag.model.service.dto.CityService;
+import net.medrag.model.service.dto.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -93,7 +92,6 @@ public class DriverValidator implements Validator {
         }
     }
 
-
     public DriverDto validateEdits(DriverDto driver, Errors errors) {
 
         DriverDto dbDriver = driverService.getDtoById(driver, new Driver(), driver.getId());
@@ -115,7 +113,13 @@ public class DriverValidator implements Validator {
         }
 
         if (driver.getEmail().trim().length() > 0) {
-            dbDriver.setEmail(driver.getEmail().trim());
+            if (!driver.getEmail().matches("\\w+@\\w+\\.\\w+")){
+                errors.rejectValue("email", "not.email");
+            } else {
+                String tempEmail = dbDriver.getEmail();
+                dbDriver.setEmail(driver.getEmail());
+                driver.setEmail(tempEmail);
+            }
         }
 
         if (driver.getCityName().trim().length() > 0) {

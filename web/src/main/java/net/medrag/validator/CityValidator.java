@@ -2,7 +2,7 @@ package net.medrag.validator;
 
 import net.medrag.dto.CityDto;
 import net.medrag.model.domain.entity.City;
-import net.medrag.model.service.CityService;
+import net.medrag.model.service.dto.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -75,7 +75,7 @@ public class CityValidator implements Validator {
                     errors.rejectValue("name", "letters.only");
                 }
             } else {
-                if (!namedCity.getName().equalsIgnoreCase(city.getName())) {
+                if (!namedCity.getName().equalsIgnoreCase(dbCity.getName())) {
                     errors.rejectValue("name", "city.exists");
                 }
             }

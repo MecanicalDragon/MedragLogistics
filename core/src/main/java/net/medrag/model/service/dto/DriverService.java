@@ -1,9 +1,7 @@
-package net.medrag.model.service;
+package net.medrag.model.service.dto;
 
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.dto.DriverDto;
-
-import java.util.List;
 
 /**
  * Standard service interface for DAO interface{@link net.medrag.model.dao.DriverDao},

@@ -2,7 +2,7 @@ package net.medrag.controller.resource;
 
 import net.medrag.dto.TruckDto;
 import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.service.TruckService;
+import net.medrag.model.service.dto.TruckService;
 import net.medrag.validator.TruckValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

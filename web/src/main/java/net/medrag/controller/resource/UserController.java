@@ -3,10 +3,12 @@ package net.medrag.controller.resource;
 import net.medrag.dto.UserDto;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.service.EmployeeIdentifierService;
-import net.medrag.model.service.UserService;
+import net.medrag.model.service.dto.UserService;
+import net.medrag.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,13 @@ public class UserController {
     private UserService<UserDto, User> userService;
 
     private EmployeeIdentifierService employeeIdentifierService;
+
+    private UserValidator userValidator;
+
+    @Autowired
+    public void setUserValidator(UserValidator userValidator) {
+        this.userValidator = userValidator;
+    }
 
     @Autowired
     public void setEmployeeIdentifierService(EmployeeIdentifierService employeeIdentifierService) {
@@ -46,17 +55,24 @@ public class UserController {
     }
 
     @PostMapping("addUser")
-    public String addUser(@ModelAttribute("newUser") UserDto user) {
+    public String addUser(@ModelAttribute("newUser") UserDto user, BindingResult bindingResult, Model model) {
+
+        userValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors()){
+            model.addAttribute("newUser", user);
+            model.addAttribute("removableUser", new UserDto());
+            return "resource/users";
+        }
 
         employeeIdentifierService.identifyEmployee(user);
 
-        return "redirect: ../rsm-driver";
+        return "redirect: ../rsm-user";
     }
 
-    @PostMapping("generate")
-    public String generate(@RequestParam Integer id){
-
-        employeeIdentifierService.generateNewPassword(id);
+    @GetMapping("generate")
+    public String generate(@RequestParam String id){
+        employeeIdentifierService.generateNewPassword(Integer.valueOf(id));
 
         return "redirect: ../rsm-user";
     }
@@ -64,7 +80,11 @@ public class UserController {
     @PostMapping("remove")
     public String remove(@ModelAttribute("removableUser") UserDto user){
 
+        if(user.getUsername().substring(0, 3).equalsIgnoreCase("DRV")){
+            employeeIdentifierService.removeUserIfItsDriver(user);
+        } else{
         userService.removeDto(user, new User());
+        }
 
         return "redirect: ../rsm-user";
     }

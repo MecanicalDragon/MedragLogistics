@@ -3,8 +3,6 @@ package net.medrag.controller.warehouse;
 import net.medrag.dto.CargoDto;
 import net.medrag.dto.CustomerDto;
 import net.medrag.form.CargoForm;
-import net.medrag.model.domain.entity.Customer;
-import net.medrag.model.service.CustomerService;
 import net.medrag.validator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

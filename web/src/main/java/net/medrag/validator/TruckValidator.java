@@ -4,8 +4,8 @@ import net.medrag.dto.CityDto;
 import net.medrag.dto.TruckDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.service.CityService;
-import net.medrag.model.service.TruckService;
+import net.medrag.model.service.dto.CityService;
+import net.medrag.model.service.dto.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -52,6 +52,8 @@ public class TruckValidator implements Validator {
 
         if (!truck.getRegNumber().toUpperCase().matches("[A-Z]{2}\\d{5}")) {
             errors.rejectValue("regNumber", "wrong.reg.number");
+        } else {
+            truck.setRegNumber(truck.getRegNumber().toUpperCase());
         }
 
         TruckDto truckDto = new TruckDto();
@@ -105,12 +107,19 @@ public class TruckValidator implements Validator {
         TruckDto dbTruck = truckService.getDtoById(new TruckDto(), new Truck(), truck.getId());
 
         if (truck.getRegNumber().trim().length() > 0) {
-
-            if (!truck.getRegNumber().toUpperCase().matches("[A-Z]{2}\\d{5}")) {
-                errors.rejectValue("regNumber", "wrong.reg.number");
+            TruckDto namedTruck = truckService.getDtoByNaturalId(truck, new Truck(), truck.getRegNumber());
+            if (namedTruck == null){
+                if (!truck.getRegNumber().toUpperCase().matches("[A-Z]{2}\\d{5}")) {
+                    errors.rejectValue("regNumber", "wrong.reg.number");
+                } else {
+                    dbTruck.setRegNumber(truck.getRegNumber().toUpperCase());
+                }
             } else {
-                dbTruck.setRegNumber(truck.getRegNumber().toUpperCase());
+                if (!namedTruck.getRegNumber().equalsIgnoreCase(dbTruck.getRegNumber())) {
+                    errors.rejectValue("regNumber", "truck.exists");
+                }
             }
+
         }
 
         if (truck.getBrigadeStr().trim().length() > 0) {
