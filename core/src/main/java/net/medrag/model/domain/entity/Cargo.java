@@ -42,6 +42,18 @@ public class Cargo extends Identifier {
     @JoinColumn(name = "destination_id")
     private City destination;
 
+    @ManyToOne
+    @JoinColumn(name = "current_city_id")
+    private City currentCity;
+
+    public City getCurrentCity() {
+        return currentCity;
+    }
+
+    public void setCurrentCity(City currentCity) {
+        this.currentCity = currentCity;
+    }
+
     public String getIndex() {
         return index;
     }
@@ -109,6 +121,7 @@ public class Cargo extends Identifier {
                 ", owner=" + owner.getPassport() +
                 ", departure=" + departure.getName() +
                 ", destination=" + destination.getName() +
+                ", currentCity=" + currentCity.getName() +
                 '}';
     }
 

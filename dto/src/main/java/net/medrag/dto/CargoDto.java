@@ -24,10 +24,30 @@ public class CargoDto implements Dto {
 
     private Integer destinationId;
 
+    private Integer currentCityId;
+
     private String departureName;
 
     private String destinationName;
 
+    private String currentCityName;
+
+
+    public Integer getCurrentCityId() {
+        return currentCityId;
+    }
+
+    public void setCurrentCityId(Integer currentCityId) {
+        this.currentCityId = currentCityId;
+    }
+
+    public String getCurrentCityName() {
+        return currentCityName;
+    }
+
+    public void setCurrentCityName(String currentCityName) {
+        this.currentCityName = currentCityName;
+    }
 
     public Integer getId() {
         return id;
@@ -120,6 +140,7 @@ public class CargoDto implements Dto {
                 ", owner=" + owner.getPassport() +
                 ", departureName='" + departureName + '\'' +
                 ", destinationName='" + destinationName + '\'' +
+                ", currentCityName='" + currentCityName + '\'' +
                 '}';
     }
 

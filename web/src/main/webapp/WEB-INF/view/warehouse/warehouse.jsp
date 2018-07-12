@@ -39,6 +39,7 @@
                             <thead>
                             <tr>
                                 <th>Cargo index</th>
+                                <th>Current city</th>
                                 <th>Destination point</th>
                                 <th>Cargo state</th>
                             </tr>
@@ -48,6 +49,7 @@
                             <c:forEach items="${sessionScope.globalCargoes}" var="cargo">
                                 <tr class="odd gradeX">
                                     <td>${cargo.index}</td>
+                                    <td>${cargo.currentCityName}</td>
                                     <td>${cargo.destinationName}</td>
                                     <td>
                                         <div class="btn-group">

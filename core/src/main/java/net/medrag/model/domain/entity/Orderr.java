@@ -26,7 +26,7 @@ public class Orderr extends Identifier {
     @Column(name = "implemented")
     private Boolean implemented;
 
-    @OneToMany(mappedBy = "orderr", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "orderr")
     private List<Waypoint> waypoints;
 
     public String getIndex() {

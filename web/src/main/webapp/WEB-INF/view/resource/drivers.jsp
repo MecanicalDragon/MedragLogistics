@@ -74,7 +74,7 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dto-Table">
                         <thead>
                         <tr>
-                            <th>P. Number</th>
+                            <th>Personal Number</th>
                             <th>Name</th>
                             <th>Surname</th>
                             <th>Email</th>

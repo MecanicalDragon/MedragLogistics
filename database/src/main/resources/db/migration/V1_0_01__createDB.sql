@@ -2,7 +2,8 @@ CREATE TABLE USER (
   ID       INT                                                                        NOT NULL AUTO_INCREMENT PRIMARY KEY,
   USERNAME VARCHAR(32)                                                                NOT NULL UNIQUE,
   PASSWORD VARCHAR(255)                                                               NOT NULL,
-  ROLE     ENUM ('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE') NOT NULL
+  ROLE     ENUM ('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE') NOT NULL,
+  EMAIL    VARCHAR(255)                                                               NOT NULL
 )
   ENGINE = InnoDB;
 
@@ -26,17 +27,19 @@ CREATE TABLE CUSTOMER (
   ENGINE = InnoDB;
 
 CREATE TABLE CARGO (
-  ID             INT                                                          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  CARGO_INDEX    VARCHAR(63)                                                  NOT NULL UNIQUE,
-  NAME           VARCHAR(63)                                                  NOT NULL,
-  WEIGHT         FLOAT                                                        NOT NULL,
-  STATE          ENUM ('PREPARED', 'ON_BOARD', 'DELIVERED', 'TRANSFER_POINT') NOT NULL,
-  OWNER_ID       INT                                                          NOT NULL,
-  DEPARTURE_ID   INT                                                          NOT NULL,
-  DESTINATION_ID INT                                                          NOT NULL,
-  FOREIGN KEY (OWNER_ID) REFERENCES CUSTOMER (ID),
-  FOREIGN KEY (DEPARTURE_ID) REFERENCES CITY (ID),
-  FOREIGN KEY (DESTINATION_ID) REFERENCES CITY (ID)
+  ID              INT                                                          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  CARGO_INDEX     VARCHAR(63)                                                  NOT NULL UNIQUE,
+  NAME            VARCHAR(63)                                                  NOT NULL,
+  WEIGHT          FLOAT                                                        NOT NULL,
+  STATE           ENUM ('PREPARED', 'ON_BOARD', 'DELIVERED', 'TRANSFER_POINT') NOT NULL,
+  OWNER_ID        INT                                                          NOT NULL,
+  DEPARTURE_ID    INT                                                          NOT NULL,
+  DESTINATION_ID  INT                                                          NOT NULL,
+  CURRENT_CITY_ID INT                                                          NOT NULL,
+  FOREIGN KEY (CURRENT_CITY_ID) REFERENCES CITY (ID) ON DELETE RESTRICT,
+  FOREIGN KEY (OWNER_ID) REFERENCES CUSTOMER (ID) ON DELETE RESTRICT,
+  FOREIGN KEY (DEPARTURE_ID) REFERENCES CITY (ID) ON DELETE RESTRICT,
+  FOREIGN KEY (DESTINATION_ID) REFERENCES CITY (ID) ON DELETE RESTRICT
 )
   ENGINE = InnoDB;
 
@@ -46,8 +49,9 @@ CREATE TABLE TRUCK (
   BRIGADE_STR     INTEGER                                    NOT NULL,
   CAPACITY        INTEGER                                    NOT NULL,
   STATUS          ENUM ('IN_USE', 'IN_SERVICE', 'STAY_IDLE') NOT NULL,
-  CURRENT_CITY_ID INT                                        ,
-  FOREIGN KEY (CURRENT_CITY_ID) REFERENCES CITY (ID)ON DELETE SET NULL
+  CURRENT_CITY_ID INT,
+  FOREIGN KEY (CURRENT_CITY_ID) REFERENCES CITY (ID)
+    ON DELETE SET NULL
 )
   ENGINE = InnoDB;
 
@@ -60,11 +64,13 @@ CREATE TABLE DRIVER (
   WORKED_TIME      INTEGER                                        NOT NULL,
   PAID_TIME        INTEGER                                        NOT NULL,
   STATE            ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER') NOT NULL,
-  CURRENT_CITY_ID  INT                                            ,
+  CURRENT_CITY_ID  INT,
   CURRENT_TRUCK_ID INT,
 
-  FOREIGN KEY (CURRENT_CITY_ID) REFERENCES CITY (ID)ON DELETE SET NULL,
-  FOREIGN KEY (CURRENT_TRUCK_ID) REFERENCES TRUCK (ID)ON DELETE SET NULL
+  FOREIGN KEY (CURRENT_CITY_ID) REFERENCES CITY (ID)
+    ON DELETE SET NULL,
+  FOREIGN KEY (CURRENT_TRUCK_ID) REFERENCES TRUCK (ID)
+    ON DELETE SET NULL
 )
   ENGINE = InnoDB;
 
@@ -75,7 +81,7 @@ CREATE TABLE ORDERR (
   IMPLEMENTED BOOL        NOT NULL DEFAULT FALSE,
 
   FOREIGN KEY (OWNER_ID) REFERENCES CUSTOMER (ID)
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE ON DELETE CASCADE
 )
   ENGINE = InnoDB;
 
@@ -88,13 +94,13 @@ CREATE TABLE WAYPOINT (
   TRUCK_ID INT,
 
   FOREIGN KEY (ORDER_ID) REFERENCES ORDERR (ID)
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (TRUCK_ID) REFERENCES TRUCK (ID)
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (CITY_ID) REFERENCES CITY (ID)
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (CARGO_ID) REFERENCES CARGO (ID)
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE ON DELETE CASCADE,
 
   UNIQUE (CITY_ID, CARGO_ID, WP_TYPE)
 )
@@ -106,8 +112,8 @@ CREATE TABLE WAYPOINT_DRIVERS (
   WAYPOINT_ID INT NOT NULL,
   DRIVER_ID   INT NOT NULL,
 
-  FOREIGN KEY (WAYPOINT_ID) REFERENCES WAYPOINT (ID),
-  FOREIGN KEY (DRIVER_ID) REFERENCES DRIVER (ID),
+  FOREIGN KEY (WAYPOINT_ID) REFERENCES WAYPOINT (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (DRIVER_ID) REFERENCES DRIVER (ID) ON UPDATE CASCADE ON DELETE CASCADE,
 
   UNIQUE (WAYPOINT_ID, DRIVER_ID)
 )

@@ -61,6 +61,8 @@ public class CargoValidator implements Validator {
             errors.rejectValue("departureName", "null.city");
         } else {
             cargo.setDepartureId(departure.getId());
+            cargo.setCurrentCityId(departure.getId());
+            cargo.setCurrentCityName(departure.getName());
         }
 
         CityDto destination = cityService.getDtoByNaturalId(new CityDto(), new City(), cargo.getDestinationName());
