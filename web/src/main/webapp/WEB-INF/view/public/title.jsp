@@ -61,12 +61,6 @@
 
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                                    <%--<div class="checkbox">--%>
-                                    <%--<label>--%>
-                                    <%--<input name="remember" type="checkbox" value="Remember Me">Remember Me--%>
-                                    <%--</label>--%>
-                                    <%--</div>--%>
-                                <!-- Change this to a button or input when using this as a form -->
                                 <button class="btn btn-success">Sign in</button>
                             </fieldset>
                         </form>
@@ -88,9 +82,9 @@
             <%--<div class="text-primary text-right">--%>
             <%--<a href="${contextPath}/rsm-truck">To Trucks</a>--%>
             <%--</div>--%>
-            <%--<div class="text-primary text-right">--%>
-                <%--<a href="${contextPath}/whm-main">To Warehouse</a>--%>
-            <%--</div>--%>
+            <div class="text-primary text-right">
+                <a href="${contextPath}/whm-main">To Warehouse</a>
+            </div>
 
         </div>
     </div>

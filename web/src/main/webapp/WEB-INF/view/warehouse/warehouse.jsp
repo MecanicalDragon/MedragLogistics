@@ -47,8 +47,8 @@
 
                             <c:forEach items="${sessionScope.globalCargoes}" var="cargo">
                                 <tr class="odd gradeX">
-                                    <td>${cargo.cargoIndex}</td>
-                                    <td>${cargo.destination.name}</td>
+                                    <td>${cargo.index}</td>
+                                    <td>${cargo.destinationName}</td>
                                     <td>
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-info btn-xs dropdown-toggle"

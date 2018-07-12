@@ -33,10 +33,8 @@ public class CustomerValidator implements Validator {
 
     @Override
     public void validate(@Nullable Object target, Errors errors) {
-        errors.rejectValue("passport", "you.cheat");
-    }
 
-    public CustomerDto validate(@Nullable CustomerDto customer, Errors errors) {
+        CustomerDto customer = (CustomerDto) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passport", "notnull.field");
 
@@ -57,12 +55,13 @@ public class CustomerValidator implements Validator {
 
             } else {
 
-                customer = dbCustomer;
+                customer.setId(dbCustomer.getId());
+                customer.setName(dbCustomer.getName());
+                customer.setSurname(dbCustomer.getSurname());
 
             }
 
         }
-
-        return customer;
     }
+
 }

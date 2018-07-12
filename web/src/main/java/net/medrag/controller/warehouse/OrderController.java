@@ -3,7 +3,9 @@ package net.medrag.controller.warehouse;
 import net.medrag.dto.CargoDto;
 import net.medrag.dto.CustomerDto;
 import net.medrag.dto.OrderrDto;
+import net.medrag.model.domain.entity.Orderr;
 import net.medrag.model.service.OrderCompilingService;
+import net.medrag.model.service.dto.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +27,14 @@ public class OrderController {
 
    private OrderCompilingService orderCompilingService;
 
+   private OrderService<OrderrDto, Orderr> orderService;
+
    @Autowired
+    public void setOrderService(OrderService<OrderrDto, Orderr> orderService) {
+        this.orderService = orderService;
+    }
+
+    @Autowired
     public void setOrderCompilingService(OrderCompilingService orderCompilingService) {
         this.orderCompilingService = orderCompilingService;
     }
@@ -37,6 +46,7 @@ public class OrderController {
         CustomerDto owner = (CustomerDto)request.getSession().getAttribute("owner");
 
         OrderrDto order = orderCompilingService.compileOrder(cargoList, owner);
+        order = orderService.getDtoById(new OrderrDto(), new Orderr(), order.getId());
 
         model.addAttribute("order", order);
         return "warehouse/compiledOrder";

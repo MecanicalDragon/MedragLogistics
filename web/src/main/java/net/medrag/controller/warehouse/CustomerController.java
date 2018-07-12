@@ -2,7 +2,6 @@ package net.medrag.controller.warehouse;
 
 import net.medrag.dto.CargoDto;
 import net.medrag.dto.CustomerDto;
-import net.medrag.form.CargoForm;
 import net.medrag.validator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +43,7 @@ public class CustomerController {
     public String addNewCustomer(@ModelAttribute("newCustomer") CustomerDto customer, BindingResult bindingResult,
                                  Model model, HttpServletRequest request) {
 
-        customer = customerValidator.validate(customer, bindingResult);
+        customerValidator.validate(customer, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "warehouse/customer";
@@ -53,7 +52,7 @@ public class CustomerController {
         List<CargoDto>cargoList = new ArrayList<>();
         request.getSession().setAttribute("owner", customer);
         request.getSession().setAttribute("cargoList", cargoList);
-        model.addAttribute("cargo", new CargoForm());
+        model.addAttribute("cargo", new CargoDto());
         return "warehouse/order";
     }
 }

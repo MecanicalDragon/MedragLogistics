@@ -94,8 +94,8 @@ public class Waypoint extends Identifier{
     public String toString() {
         return "Waypoint{" +
                 "id=" + id +
-                ", cargo=" + cargo.getCargoIndex() +
-                ", orderr=" + orderr.getOrderIndex() +
+                ", cargo=" + cargo.getIndex() +
+                ", orderr=" + orderr.getIndex() +
                 ", city=" + city.getName() +
                 ", wayPointType=" + wayPointType +
                 '}';

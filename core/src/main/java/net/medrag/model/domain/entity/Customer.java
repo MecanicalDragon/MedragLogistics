@@ -32,7 +32,7 @@ public class Customer extends Identifier{
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToMany(mappedBy = "owner")
     private Set<Cargo> cargoSet;
 
     public String getPassport() {

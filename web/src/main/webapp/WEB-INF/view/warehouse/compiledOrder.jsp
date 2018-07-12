@@ -17,11 +17,11 @@
     <div class="jumbotron" style="margin-top: 20px;">
         <h1>Order compiled!</h1>
         <h3>Customer's name: ${order.owner.name} ${order.owner.surname}</h3>
-        <h3>Order index: ${order.orderIndex}</h3>
+        <h3>Order index: ${order.index}</h3>
         <h3>Certifying document: ${order.owner.passport}</h3>
-        <h3>Taken cargos:</h3>
+        <h3>Taken cargoes:</h3>
         <c:forEach items="${order.waypoints}" var="waypoint">
-            <h5>Cargo index: ${waypoint.cargo.cargoIndex}</h5>
+            <h5>Cargo index: ${waypoint.cargo.index}</h5>
             <h5>Cargo name: ${waypoint.cargo.name}</h5>
             <h5>City: ${waypoint.city.name}</h5>
             <h5>Action: ${waypoint.wayPointType}</h5>

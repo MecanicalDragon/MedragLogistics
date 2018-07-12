@@ -1,7 +1,6 @@
 package net.medrag.controller.warehouse;
 
 import net.medrag.dto.CargoDto;
-import net.medrag.form.CargoForm;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.service.dto.CargoService;
 import net.medrag.validator.CargoValidator;
@@ -39,10 +38,10 @@ public class CargoController {
     }
 
     @PostMapping("addCargo")
-    public String addCargo(@ModelAttribute("cargo") CargoForm newCargo, BindingResult bindingResult,
+    public String addCargo(@ModelAttribute("cargo") CargoDto newCargo, BindingResult bindingResult,
                            HttpServletRequest request, Model model) {
 
-        CargoDto validatedCargo = cargoValidator.validate(newCargo, bindingResult);
+        cargoValidator.validate(newCargo, bindingResult);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("err", true);
@@ -50,7 +49,7 @@ public class CargoController {
         }
 
         List<CargoDto> cargoList = (List<CargoDto>) request.getSession().getAttribute("cargoList");
-        cargoList.add(validatedCargo);
+        cargoList.add(newCargo);
         request.getSession().setAttribute("cargoList", cargoList);
         model.addAttribute("cargo", new CargoDto());
         return "warehouse/order";

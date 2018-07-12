@@ -18,7 +18,7 @@ public class Cargo extends Identifier {
 
     @NaturalId
     @Column(name = "cargo_index")
-    private String cargoIndex;
+    private String index;
 
     @Column(name = "name")
     private String name;
@@ -42,12 +42,12 @@ public class Cargo extends Identifier {
     @JoinColumn(name = "destination_id")
     private City destination;
 
-    public String getCargoIndex() {
-        return cargoIndex;
+    public String getIndex() {
+        return index;
     }
 
-    public void setCargoIndex(String cargoNumber) {
-        this.cargoIndex = cargoNumber;
+    public void setIndex(String cargoNumber) {
+        this.index = cargoNumber;
     }
 
     public String getName() {
@@ -102,7 +102,7 @@ public class Cargo extends Identifier {
     public String toString() {
         return "Cargo{" +
                 "id=" + id +
-                ", cargoNumber='" + cargoIndex + '\'' +
+                ", cargoNumber='" + index + '\'' +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", state=" + state +

@@ -1,7 +1,11 @@
 package net.medrag.model.service;
 
 import net.medrag.dto.CargoDto;
+import net.medrag.dto.CityDto;
 import net.medrag.dto.Dto;
+import net.medrag.model.domain.entity.City;
+import net.medrag.model.service.dto.CityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -21,6 +25,13 @@ public class IndexServiceImpl implements IndexService {
     private static final String orderIndex = "ORD";
     private static final String cargoIndex = "CGO";
 
+    private CityService<CityDto, City> cityService;
+
+    @Autowired
+    public void setCityService(CityService<CityDto, City> cityService) {
+        this.cityService = cityService;
+    }
+
     public String indicate(Dto dto) {
 
         String index = dto instanceof CargoDto ? cargoIndex : orderIndex;
@@ -31,8 +42,12 @@ public class IndexServiceImpl implements IndexService {
         sb.append("-").append(dateFormat.format(date)).append("-");
 
         if (dto instanceof CargoDto) {
-            sb.append(((CargoDto) dto).getDeparture().getIndex()).append("-")
-                    .append(((CargoDto) dto).getDestination().getIndex()).append("-");
+
+            CityDto departure = cityService.getDtoByNaturalId(new CityDto(), new City(), ((CargoDto) dto).getDepartureName());
+            CityDto destination = cityService.getDtoByNaturalId(new CityDto(), new City(), ((CargoDto) dto).getDestinationName());
+
+            sb.append(departure.getIndex()).append("-")
+                    .append(destination.getIndex()).append("-");
         }
         sb.append(new Random().nextInt(8999) + 1000);
 

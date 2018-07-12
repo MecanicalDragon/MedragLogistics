@@ -51,8 +51,8 @@
                     <tr class="odd gradeX">
                         <td>${cargoItem.name}</td>
                         <td>${cargoItem.weight}</td>
-                        <td>${cargoItem.departure.name}</td>
-                        <td>${cargoItem.destination.name}</td>
+                        <td>${cargoItem.departureName}</td>
+                        <td>${cargoItem.destinationName}</td>
                     </tr>
                 </c:forEach>
 
@@ -124,28 +124,28 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <spring:bind path="departure">
-                                                <form:input name="departure" placeholder="departure" path="departure"
+                                            <spring:bind path="departureName">
+                                                <form:input name="departureName" placeholder="departure" path="departureName"
                                                             class="form-control col-8"/>
                                             </spring:bind>
                                         </div>
                                         <div class="secondary-text text-center text-danger">
                                             <div class="font-italic">
-                                                <form:errors path="departure"/>
+                                                <form:errors path="departureName"/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <spring:bind path="destination">
-                                                <form:input name="destination" placeholder="destination"
-                                                            path="destination"
+                                            <spring:bind path="destinationName">
+                                                <form:input name="destinationName" placeholder="destination"
+                                                            path="destinationName"
                                                             class="form-control col-8"/>
                                             </spring:bind>
                                         </div>
                                         <div class="secondary-text text-center text-danger">
                                             <div class="font-italic">
-                                                <form:errors path="destination"/>
+                                                <form:errors path="destinationName"/>
                                             </div>
                                         </div>
                                     </div>

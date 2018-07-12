@@ -2,7 +2,6 @@ package net.medrag.validator;
 
 import net.medrag.dto.CargoDto;
 import net.medrag.dto.CityDto;
-import net.medrag.form.CargoForm;
 import net.medrag.model.dao.CargoDao;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.dto.CityService;
@@ -37,50 +36,40 @@ public class CargoValidator implements Validator {
     @Override
     public void validate(@Nullable Object target, Errors errors) {
 
-        errors.rejectValue("name", "you.cheat");
-    }
-
-    public CargoDto validate(@Nullable CargoForm cargoForm, Errors errors) {
+        CargoDto cargo = (CargoDto) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "notnull.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "weight", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "departure", "notnull.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "destination", "notnull.field");
-
-        CargoDto cargo = new CargoDto();
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "departureName", "notnull.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "destinationName", "notnull.field");
 
         if (errors.hasErrors()) {
-            return cargo;
+            return;
         }
 
         try {
-            Float weight = Float.parseFloat(cargoForm.getWeight());
+            Float weight = Float.parseFloat(cargo.getWeight());
             if (weight < 2) {
                 errors.rejectValue("weight", "too.easy");
-            } else {
-                cargo.setWeight(weight);
             }
-
         } catch (NumberFormatException e) {
             errors.rejectValue("weight", "not.a.number");
         }
 
-        CityDto departure = cityService.getDtoByNaturalId(new CityDto(), new City(), cargoForm.getDeparture());
+        CityDto departure = cityService.getDtoByNaturalId(new CityDto(), new City(), cargo.getDepartureName());
         if (departure == null) {
-            errors.rejectValue("departure", "null.city");
+            errors.rejectValue("departureName", "null.city");
         } else {
-            cargo.setDeparture(departure);
+            cargo.setDepartureId(departure.getId());
         }
 
-        CityDto destination = cityService.getDtoByNaturalId(new CityDto(), new City(), cargoForm.getDestination());
+        CityDto destination = cityService.getDtoByNaturalId(new CityDto(), new City(), cargo.getDestinationName());
         if (destination == null) {
-            errors.rejectValue("destination", "null.city");
+            errors.rejectValue("destinationName", "null.city");
         } else {
-            cargo.setDestination(destination);
+            cargo.setDestinationId(destination.getId());
         }
 
-        cargo.setName(cargoForm.getName());
-
-        return cargo;
     }
+
 }

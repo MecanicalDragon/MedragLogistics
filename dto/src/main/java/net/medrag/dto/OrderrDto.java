@@ -12,7 +12,7 @@ public class OrderrDto implements Dto {
 
     private Integer id;
 
-    private String orderIndex;
+    private String index;
 
     private Boolean implemented;
 
@@ -30,12 +30,12 @@ public class OrderrDto implements Dto {
         this.id = id;
     }
 
-    public String getOrderIndex() {
-        return orderIndex;
+    public String getIndex() {
+        return index;
     }
 
-    public void setOrderIndex(String orderIndex) {
-        this.orderIndex = orderIndex;
+    public void setIndex(String index) {
+        this.index = index;
     }
 
     public Boolean getImplemented() {
@@ -66,9 +66,10 @@ public class OrderrDto implements Dto {
     public String toString() {
         return "OrderrDto{" +
                 "id=" + id +
-                ", orderIndex='" + orderIndex + '\'' +
+                ", index='" + index + '\'' +
                 ", implemented=" + implemented +
-                ", owner=" + owner.getName() +
+                ", owner=" + owner +
+                ", waypoints=" + waypoints +
                 '}';
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 public class Orderr extends Identifier {
 
     @Column(name = "order_index")
-    private String orderIndex;
+    private String index;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
@@ -29,12 +29,12 @@ public class Orderr extends Identifier {
     @OneToMany(mappedBy = "orderr", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     private List<Waypoint> waypoints;
 
-    public String getOrderIndex() {
-        return orderIndex;
+    public String getIndex() {
+        return index;
     }
 
-    public void setOrderIndex(String orderNumber) {
-        this.orderIndex = orderNumber;
+    public void setIndex(String orderNumber) {
+        this.index = orderNumber;
     }
 
     public Boolean getImplemented() {
@@ -65,7 +65,7 @@ public class Orderr extends Identifier {
     public String toString() {
         return "Orderr{" +
                 "id=" + id +
-                ", orderNumber='" + orderIndex + '\'' +
+                ", Index='" + index + '\'' +
                 ", owner=" + owner.getName() +
                 ", implemented=" + implemented +
                 '}';

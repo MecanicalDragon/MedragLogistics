@@ -126,7 +126,7 @@
 
             <c:forEach items="${orders}" var="cargo">
                 <tr class="odd gradeX">
-                    <td>${cargo.orderIndex}</td>
+                    <td>${cargo.index}</td>
                     <td>${cargo.owner.name}</td>
                     <td>${cargo.implemented}</td>
                     <td class="center">${orders.size()}</td>
