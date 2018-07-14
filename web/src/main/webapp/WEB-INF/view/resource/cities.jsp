@@ -21,6 +21,7 @@
 
 </head>
 <body>
+<br>
 <div class="container">
 
     <%--Heading Tab Panel--%>
@@ -44,11 +45,10 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-
                     <c:choose>
                         <c:when test="${err}">
                             <%--Add new City Error Button--%>
-                            <button class="btn btn-danger" data-toggle="modal"
+                            <button class="btn btn-danger" data-toggle="modal" id="wasntAdded"
                                     data-target="#addNewCityModal">Wasn't added!
                             </button>
                         </c:when>
@@ -67,8 +67,16 @@
                         </button>
                     </c:if>
 
-                </div>
+                    <%--Logout button--%>
+                    <div class="pull-right">
+                        <form method="post" action="logout">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        You signed in under ${pageContext.request.userPrincipal.name} Personal Number
+                        <button class="btn btn-danger offset-xs-6">Logout</button>
+                        </form>
+                    </div>
 
+                </div>
                 <%--Cities Table Body--%>
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dto-Table">
@@ -92,11 +100,13 @@
                                 <td>${cityUnit.coordinatesX}</td>
                                 <td>${cityUnit.coordinatesY}</td>
                                 <td>
-                                    <a type="button" class="btn btn-edit btn-warning btn-xs" id="${cityUnit.id}/${cityUnit.name}"
+                                    <a type="button" class="btn btn-edit btn-warning btn-xs"
+                                       id="${cityUnit.id}/${cityUnit.name}"
                                        data-toggle="modal" data-target="#editCityModal">Edit city data</a>
                                 </td>
                                 <td>
-                                    <a type="button" class="btn btn-danger btn-xs btn-remove" id="${cityUnit.id}*${cityUnit.name}"
+                                    <a type="button" class="btn btn-danger btn-xs btn-remove"
+                                       id="${cityUnit.id}*${cityUnit.name}"
                                        data-toggle="modal" data-target="#deleteCityModal">Remove city</a>
                                 </td>
                             </tr>

@@ -30,7 +30,7 @@ CREATE TABLE CARGO (
   ID              INT                                                          NOT NULL AUTO_INCREMENT PRIMARY KEY,
   CARGO_INDEX     VARCHAR(63)                                                  NOT NULL UNIQUE,
   NAME            VARCHAR(63)                                                  NOT NULL,
-  WEIGHT          FLOAT                                                        NOT NULL,
+  WEIGHT          INT                                                          NOT NULL,
   STATE           ENUM ('PREPARED', 'ON_BOARD', 'DELIVERED', 'TRANSFER_POINT') NOT NULL,
   OWNER_ID        INT                                                          NOT NULL,
   DEPARTURE_ID    INT                                                          NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE DRIVER (
   EMAIL            VARCHAR(255)                                   NOT NULL,
   WORKED_TIME      INTEGER                                        NOT NULL,
   PAID_TIME        INTEGER                                        NOT NULL,
-  STATE            ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER') NOT NULL,
+  STATE            ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER', 'READY_TO_ROUTE') NOT NULL,
   CURRENT_CITY_ID  INT,
   CURRENT_TRUCK_ID INT,
 

@@ -48,7 +48,7 @@
                     <c:choose>
                         <c:when test="${err}">
                             <%--Add new Truck Error Button--%>
-                            <button class="btn btn-danger" data-toggle="modal"
+                            <button class="btn btn-danger" data-toggle="modal" id="wasntAdded"
                                     data-target="#addNewTruckModal">Wasn't added!
                             </button>
                         </c:when>
@@ -66,6 +66,14 @@
                                 data-target="#editTruckModal">Wasn't saved!
                         </button>
                     </c:if>
+
+                    <div class="pull-right">
+                        <form method="post" action="logout">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            You signed in under ${pageContext.request.userPrincipal.name} Personal Number
+                            <button class="btn btn-danger offset-xs-6">Logout</button>
+                        </form>
+                    </div>
 
                 </div>
 

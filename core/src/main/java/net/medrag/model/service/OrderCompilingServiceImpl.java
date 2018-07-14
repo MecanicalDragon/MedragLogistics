@@ -1,10 +1,10 @@
 package net.medrag.model.service;
 
-import net.medrag.dto.*;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Orderr;
 import net.medrag.model.domain.entity.Waypoint;
+import net.medrag.model.dto.*;
 import net.medrag.model.service.dto.CargoService;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.OrderService;

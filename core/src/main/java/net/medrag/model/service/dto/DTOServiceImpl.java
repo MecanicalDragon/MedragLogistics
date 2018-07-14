@@ -2,7 +2,7 @@ package net.medrag.model.service.dto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.medrag.dto.Dto;
+import net.medrag.model.dto.Dto;
 import net.medrag.model.dao.EntityDao;
 import net.medrag.model.dao.MedragRepositoryException;
 import net.medrag.model.domain.entity.Entity;
@@ -23,7 +23,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements DTOService<D, E> {
 
-    private EntityDao<E> entityDao;
+    protected EntityDao<E> entityDao;
 
     private static final String implementation = "userDaoImpl";
 

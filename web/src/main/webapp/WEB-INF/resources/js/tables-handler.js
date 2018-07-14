@@ -23,4 +23,10 @@ $(document).ready(function () {
         $("#deletingdtoQuestion").text("Are you sure you want to remove " + dto + " " + arr[1] + " from the database?");
         $("#deldtoLabel").text("Removing " + dto + " " + arr[1]);
     });
+
+    $(function () {
+        if ($(this).attr("err") !== null) {
+            $("#wasntAdded").trigger("click");
+        }
+    });
 });

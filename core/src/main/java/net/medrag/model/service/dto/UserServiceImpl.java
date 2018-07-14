@@ -1,6 +1,6 @@
 package net.medrag.model.service.dto;
 
-import net.medrag.dto.UserDto;
+import net.medrag.model.dto.UserDto;
 import net.medrag.model.dao.UserDao;
 import net.medrag.model.domain.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,44 +18,35 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl <D extends UserDto, E extends User> extends DTOServiceImpl<D, E>
         implements UserService<D, E>  {
 
-    private UserDao<User> userDao;
-
-//    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
     private static final String implementation = "UserDaoImpl";
-
-    @Autowired
-    public void setUserDao(UserDao<User> userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     @Transactional
     public void addNewUser(User user) {
-        userDao.addEntity(user);
+        entityDao.addEntity((E)user);
     }
 
     @Override
     @Transactional
     public User getUser(Integer id) {
-        return userDao.getEntityById(new User(), id);
+        return entityDao.getEntityById((E)new User(), id);
     }
 
     @Override
     @Transactional
     public void updateUser(User user) {
-        userDao.updateEntityStatus(user);
+        entityDao.updateEntityStatus((E)user);
     }
 
     @Override
     @Transactional
     public void deleteUser(User user) {
-        userDao.removeEntity(user);
+        entityDao.removeEntity((E)user);
     }
 
     @Override
     @Transactional
     public User getUserByUsername(String username) {
-        return userDao.getEntityByNaturalId(new User(), username);
+        return entityDao.getEntityByNaturalId((E)new User(), username);
     }
 }

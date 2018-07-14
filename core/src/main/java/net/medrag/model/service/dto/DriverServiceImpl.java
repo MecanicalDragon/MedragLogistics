@@ -2,7 +2,7 @@ package net.medrag.model.service.dto;
 
 import net.medrag.model.dao.DriverDao;
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.dto.DriverDto;
+import net.medrag.model.dto.DriverDto;
 import org.springframework.stereotype.Service;
 
 /**

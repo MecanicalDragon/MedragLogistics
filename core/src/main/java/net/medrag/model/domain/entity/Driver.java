@@ -36,7 +36,7 @@ public class Driver extends Identifier {
     private Integer paidTime;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state", columnDefinition = "enum('rest', 'on_shift', 'driving', 'porter')")
+    @Column(name = "state", columnDefinition = "enum('rest', 'on_shift', 'driving', 'porter', 'ready_to_route)")
     private DriverState state;
 
     @ManyToOne

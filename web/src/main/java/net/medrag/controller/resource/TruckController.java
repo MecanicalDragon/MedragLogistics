@@ -1,6 +1,6 @@
 package net.medrag.controller.resource;
 
-import net.medrag.dto.TruckDto;
+import net.medrag.model.dto.TruckDto;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.service.dto.TruckService;
 import net.medrag.validator.TruckValidator;

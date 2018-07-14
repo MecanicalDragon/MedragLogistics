@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Medrag Logistics Warehouse Page
+        Logistic Page
     </title>
 
     <!-- Bootstrap Core CSS -->
@@ -20,24 +20,23 @@
 
 </head>
 <body>
+<br>
 <div class="container">
 
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <%--This button starts a process of adding new orderr.--%>
-                    <%--First step is adding new customer or choosing one of added earlier.--%>
-                    <%--goto .../warehouse/CustomerController, GetMethod--%>
-                    <a class="btn btn-primary" href="${contextPath}/whm-newCustomer" role="button">Add new
-                        orderr</a>
-                        <div class="pull-right">
-                            <form method="post" action="logout">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                You signed in under ${pageContext.request.userPrincipal.name} Personal Number
-                                <button class="btn btn-danger offset-xs-6">Logout</button>
-                            </form>
-                        </div>
+                    <a class="btn btn-primary" href="" role="button">Think up a purpose for this button</a>
+
+                    <%--Logout button--%>
+                    <div class="pull-right">
+                        <form method="post" action="logout">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            You signed in under ${pageContext.request.userPrincipal.name} Personal Number
+                            <button class="btn btn-danger offset-xs-6">Logout</button>
+                        </form>
+                    </div>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -45,8 +44,9 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
                         <thead>
                         <tr>
-                            <%--<th>Start manage</th>--%>
+                            <th>Start manage</th>
                             <th>Cargo index</th>
+                            <th>Cargo weight</th>
                             <th>Current city</th>
                             <th>Destination point</th>
                             <th>Cargo state</th>
@@ -56,35 +56,17 @@
 
                         <c:forEach items="${sessionScope.globalCargoes}" var="cargo" varStatus="index">
                             <tr class="odd gradeX">
-                                <%--<td>--%>
-                                    <%--<a type="button" class="btn btn-success btn-xs start-order"--%>
-                                            <%--href="${contextPath}/whm-wp/initTruck/${index.index}">--%>
-                                        <%--Add to truck--%>
-                                    <%--</a>--%>
-                                <%--</td>--%>
+                                <td>
+                                    <a type="button" class="btn btn-success btn-xs start-order"
+                                       href="${contextPath}/mgr-wp/chooseTruck/${index.index}">
+                                        Add to truck
+                                    </a>
+                                </td>
                                 <td>${cargo.index}</td>
+                                <td>${cargo.weight}</td>
                                 <td>${cargo.currentCityName}</td>
                                 <td>${cargo.destinationName}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info btn-xs dropdown-toggle"
-                                                data-toggle="dropdown">
-                                                ${cargo.state}
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu pull-right" role="menu">
-                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=2">
-                                                On the way</a>
-                                            </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=3">
-                                                At transfer point</a>
-                                            </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=4">
-                                                Delivered</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
+                                <td>${cargo.state}</td>
                             </tr>
                         </c:forEach>
 
@@ -150,23 +132,20 @@
     <%--$(document).ready(function () {--%>
         <%--$(".start-order").click(function () {--%>
             <%--var idCargo = $(this).attr("id");--%>
-            <%--var index = idCargo.split('-')[1];--%>
-            <%--var cargoU = $("#sessionScope.globalCargoes[index]");--%>
-            <%--$.ajax({--%>
-                <%--type: "POST",--%>
-                <%--contentType: "application/json",--%>
-                <%--url: window.location + "/whm-wp/initTruck",--%>
-                <%--data: JSON.stringify(cargoU),--%>
-                <%--dataType: 'json',--%>
-                <%--success: function (result) {--%>
-                    <%--alert("success");--%>
-                <%--},--%>
-                <%--error: function (error) {--%>
-                    <%--alert("Error!");--%>
+            <%--var arr = idCargo.split('/');--%>
+            <%--var cargo = {--%>
+                <%--id: arr[1],--%>
+                <%--currentCityName: arr[2]--%>
+            <%--};--%>
+            <%--$.ajax("/mgr-trucks/getList",{--%>
+                <%--method: "GET",--%>
+                <%--success: function(){--%>
+                    <%--alert( "Прибыли данные" );--%>
                 <%--}--%>
             <%--});--%>
         <%--});--%>
     <%--});--%>
+
 <%--</script>--%>
 
 </body>

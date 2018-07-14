@@ -10,10 +10,10 @@
 
     <http auto-config="true" use-expressions="true">
 
-        <!--<intercept-url pattern="/mgr-**" access="hasRole('ROLE_MANAGER')"/>-->
-        <!--<intercept-url pattern="/drv-**" access="hasRole('ROLE_DRIVER')"/>-->
-        <!--<intercept-url pattern="/whm-**" access="hasRole('ROLE_WAREHOUSEMAN')"/>-->
-        <!--<intercept-url pattern="/rsm-**" access="hasRole('ROLE_RESOURCE')"/>-->
+        <intercept-url pattern="/mgr-**" access="hasRole('ROLE_MANAGER')"/>
+        <intercept-url pattern="/drv-**" access="hasRole('ROLE_DRIVER')"/>
+        <intercept-url pattern="/whm-**" access="hasRole('ROLE_WAREHOUSEMAN')"/>
+        <intercept-url pattern="/rsm-**" access="hasRole('ROLE_RESOURCE')"/>
 
         <form-login login-page="/title"
                     login-processing-url="/tryLog"

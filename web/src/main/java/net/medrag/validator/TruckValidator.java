@@ -1,7 +1,7 @@
 package net.medrag.validator;
 
-import net.medrag.dto.CityDto;
-import net.medrag.dto.TruckDto;
+import net.medrag.model.dto.CityDto;
+import net.medrag.model.dto.TruckDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.service.dto.CityService;

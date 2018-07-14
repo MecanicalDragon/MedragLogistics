@@ -13,5 +13,6 @@ public enum DriverState {
     REST,
     ON_SHIFT,
     DRIVING,
-    PORTER
+    PORTER,
+    READY_TO_ROUTE
 }

@@ -46,6 +46,23 @@
             <version>${spring.security.version}</version>
         </dependency>
 
+        <!--Jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb-api.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <!-- Servlet -->
         <dependency>
@@ -70,11 +87,6 @@
         <dependency>
             <groupId>net.megrag</groupId>
             <artifactId>core</artifactId>
-            <version>${application.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.megrag</groupId>
-            <artifactId>dto</artifactId>
             <version>${application.version}</version>
         </dependency>
     </dependencies>

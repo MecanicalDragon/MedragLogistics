@@ -1,7 +1,7 @@
 package net.medrag.model.service;
 
-import net.medrag.dto.DriverDto;
-import net.medrag.dto.UserDto;
+import net.medrag.model.dto.DriverDto;
+import net.medrag.model.dto.UserDto;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.domain.enums.UserRole;

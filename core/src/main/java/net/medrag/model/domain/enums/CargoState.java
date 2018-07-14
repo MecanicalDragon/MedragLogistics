@@ -12,19 +12,9 @@ import org.jetbrains.annotations.Contract;
  */
 public enum CargoState {
 
-    PREPARED("Prepared"),
-    ON_BOARD("On the way"),
-    DELIVERED("Delivered"),
-    TRANSFER_POINT("Transmitted");
-
-    private final String status;
-
-    CargoState(String status){
-        this.status = status;
-    }
-
-    @Contract(pure = true)
-    public String getCargoState(){
-        return status;
-    }
+    PREPARED,
+    ON_BOARD,
+    DELIVERED,
+    TRANSIENT,
+    DESTINATION
 }

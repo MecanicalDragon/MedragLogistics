@@ -1,6 +1,6 @@
 package net.medrag.controller.warehouse;
 
-import net.medrag.dto.CargoDto;
+import net.medrag.model.dto.CargoDto;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.service.dto.CargoService;
 import net.medrag.validator.CargoValidator;
@@ -53,32 +53,6 @@ public class CargoController {
         request.getSession().setAttribute("cargoList", cargoList);
         model.addAttribute("cargo", new CargoDto());
         return "warehouse/order";
-    }
-
-    @GetMapping("changeState")
-    public String deliver(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) {
-        List<CargoDto> cargos = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
-        CargoDto deliveredCargo = null;
-        for (CargoDto cargo : cargos) {
-            if (cargo.getId().equals(id)) {
-                deliveredCargo = cargo;
-                break;
-            }
-        }
-        switch (op) {
-            case 2:
-                deliveredCargo.setState("ON_BOARD");
-                break;
-            case 3:
-                deliveredCargo.setState("TRANSFER_POINT");
-                break;
-            case 4:
-                deliveredCargo.setState("DELIVERED");
-                break;
-        }
-        cargoService.updateDtoStatus(deliveredCargo, new Cargo());
-
-        return "redirect: ../whm-main";
     }
 
 }

@@ -26,7 +26,7 @@
     <%--Heading Tab Panel--%>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="${contextPath}/rsm-city">Cities</a>
+            <a class="nav-link" href="${contextPath}/rsm-city">Cities</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="${contextPath}/rsm-driver">Drivers</a>
@@ -35,7 +35,7 @@
             <a class="nav-link" href="${contextPath}/rsm-truck">Trucks</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="${contextPath}/rsm-user">Users</a>
+            <a class="nav-link active" href="${contextPath}/rsm-user">Users</a>
         </li>
     </ul>
 
@@ -54,11 +54,19 @@
                         </c:when>
                         <c:otherwise>
                             <%--Add new User Button--%>
-                            <button class="btn btn-primary" data-toggle="modal"
+                            <button class="btn btn-primary" data-toggle="modal" id="wasntAdded"
                                     data-target="#addNewUserModal">Add new User
                             </button>
                         </c:otherwise>
                     </c:choose>
+
+                    <div class="pull-right">
+                        <form method="post" action="logout">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            You signed in under ${pageContext.request.userPrincipal.name} Personal Number
+                            <button class="btn btn-danger offset-xs-6">Logout</button>
+                        </form>
+                    </div>
 
                 </div>
 

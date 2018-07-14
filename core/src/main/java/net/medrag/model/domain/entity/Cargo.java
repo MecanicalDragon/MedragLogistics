@@ -24,7 +24,7 @@ public class Cargo extends Identifier {
     private String name;
 
     @Column(name = "weight")
-    private Float weight;
+    private Integer weight;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state", columnDefinition = "enum('prepared','on_board', 'delivered', 'transfer_point')")
@@ -70,11 +70,11 @@ public class Cargo extends Identifier {
         this.name = name;
     }
 
-    public Float getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Float weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 

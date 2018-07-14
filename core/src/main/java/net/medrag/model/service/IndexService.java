@@ -1,6 +1,6 @@
 package net.medrag.model.service;
 
-import net.medrag.dto.Dto;
+import net.medrag.model.dto.Dto;
 
 /**
  * Standard interface for {@link  }

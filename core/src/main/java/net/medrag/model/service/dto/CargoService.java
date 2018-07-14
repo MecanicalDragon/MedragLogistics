@@ -1,7 +1,7 @@
 package net.medrag.model.service.dto;
 
 import net.medrag.model.dao.CargoDao;
-import net.medrag.dto.CargoDto;
+import net.medrag.model.dto.CargoDto;
 import net.medrag.model.domain.entity.Cargo;
 
 /**

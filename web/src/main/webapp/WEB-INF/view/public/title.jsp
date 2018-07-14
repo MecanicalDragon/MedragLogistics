@@ -83,7 +83,7 @@
             <%--<a href="${contextPath}/rsm-truck">To Trucks</a>--%>
             <%--</div>--%>
             <div class="text-primary text-right">
-                <a href="${contextPath}/whm-main">To Warehouse</a>
+                <a href="${contextPath}/mgr-main">To Logistic</a>
             </div>
 
         </div>

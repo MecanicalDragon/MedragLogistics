@@ -1,4 +1,4 @@
-package net.medrag.dto;
+package net.medrag.model.dto;
 
 /**
  * Data Transfer Object of {net.medrag.model.domain.entity.Cargo}

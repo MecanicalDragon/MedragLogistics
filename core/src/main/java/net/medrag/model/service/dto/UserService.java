@@ -1,6 +1,6 @@
 package net.medrag.model.service.dto;
 
-import net.medrag.dto.UserDto;
+import net.medrag.model.dto.UserDto;
 import net.medrag.model.domain.entity.User;
 
 /**

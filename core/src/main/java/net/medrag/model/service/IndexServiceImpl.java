@@ -1,8 +1,8 @@
 package net.medrag.model.service;
 
-import net.medrag.dto.CargoDto;
-import net.medrag.dto.CityDto;
-import net.medrag.dto.Dto;
+import net.medrag.model.dto.CargoDto;
+import net.medrag.model.dto.CityDto;
+import net.medrag.model.dto.Dto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.dto.CityService;
 import org.springframework.beans.factory.annotation.Autowired;

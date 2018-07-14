@@ -1,4 +1,4 @@
-package net.medrag.dto;
+package net.medrag.model.dto;
 
 import java.util.Set;
 

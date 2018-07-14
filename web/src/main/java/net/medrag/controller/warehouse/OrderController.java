@@ -1,8 +1,8 @@
 package net.medrag.controller.warehouse;
 
-import net.medrag.dto.CargoDto;
-import net.medrag.dto.CustomerDto;
-import net.medrag.dto.OrderrDto;
+import net.medrag.model.dto.CargoDto;
+import net.medrag.model.dto.CustomerDto;
+import net.medrag.model.dto.OrderrDto;
 import net.medrag.model.domain.entity.Orderr;
 import net.medrag.model.service.OrderCompilingService;
 import net.medrag.model.service.dto.OrderService;
@@ -25,11 +25,11 @@ import java.util.List;
 @RequestMapping("whm-order")
 public class OrderController {
 
-   private OrderCompilingService orderCompilingService;
+    private OrderCompilingService orderCompilingService;
 
-   private OrderService<OrderrDto, Orderr> orderService;
+    private OrderService<OrderrDto, Orderr> orderService;
 
-   @Autowired
+    @Autowired
     public void setOrderService(OrderService<OrderrDto, Orderr> orderService) {
         this.orderService = orderService;
     }

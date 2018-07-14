@@ -1,6 +1,6 @@
 package net.medrag.controller.resource;
 
-import net.medrag.dto.UserDto;
+import net.medrag.model.dto.UserDto;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.service.EmployeeIdentifierService;
 import net.medrag.model.service.dto.UserService;

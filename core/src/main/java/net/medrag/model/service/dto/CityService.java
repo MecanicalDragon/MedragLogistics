@@ -1,7 +1,7 @@
 package net.medrag.model.service.dto;
 
 import net.medrag.model.dao.CityDao;
-import net.medrag.dto.CityDto;
+import net.medrag.model.dto.CityDto;
 import net.medrag.model.domain.entity.City;
 
 /**

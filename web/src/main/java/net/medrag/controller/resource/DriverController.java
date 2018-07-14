@@ -1,6 +1,6 @@
 package net.medrag.controller.resource;
 
-import net.medrag.dto.DriverDto;
+import net.medrag.model.dto.DriverDto;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.service.DriverIdentifierService;
 import net.medrag.model.service.dto.DriverService;
@@ -123,6 +123,9 @@ public class DriverController {
                 break;
             case 3:
                 changingDriver.setState("PORTER");
+                break;
+            case 4:
+                changingDriver.setState("READY_TO_ROUTE");
                 break;
             default: changingDriver.setState("REST");
         }

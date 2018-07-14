@@ -26,10 +26,10 @@
     <%--Heading Tab Panel--%>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" href="${contextPath}/rsm-city">Cities</a>
+            <a class="nav-link" href="${contextPath}/rsm-city">Cities</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="${contextPath}/rsm-driver">Drivers</a>
+            <a class="nav-link active" href="${contextPath}/rsm-driver">Drivers</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="${contextPath}/rsm-truck">Trucks</a>
@@ -48,7 +48,7 @@
                     <c:choose>
                         <c:when test="${err}">
                             <%--Add new Driver Error Button--%>
-                            <button class="btn btn-danger" data-toggle="modal"
+                            <button class="btn btn-danger" data-toggle="modal" id="wasntAdded"
                                     data-target="#addNewDriverModal">Wasn't added!
                             </button>
                         </c:when>
@@ -66,6 +66,14 @@
                                 data-target="#editDriverModal">Wasn't saved!
                         </button>
                     </c:if>
+
+                    <div class="pull-right">
+                        <form method="post" action="logout">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            You signed in under ${pageContext.request.userPrincipal.name} Personal Number
+                            <button class="btn btn-danger offset-xs-6">Logout</button>
+                        </form>
+                    </div>
 
                 </div>
 
@@ -114,6 +122,9 @@
                                             <c:if test="${driverUnit.state.equals('PORTER')}">
                                                 Cargo works
                                             </c:if>
+                                            <c:if test="${driverUnit.state.equals('READY_TO_ROUTE')}">
+                                                Ready to route
+                                            </c:if>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
@@ -128,6 +139,9 @@
                                             </li>
                                             <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=3">
                                                 Cargo works</a>
+                                            </li>
+                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=4">
+                                                Ready to route</a>
                                             </li>
                                         </ul>
                                     </div>

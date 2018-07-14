@@ -1,7 +1,7 @@
 package net.medrag.controller.resource;
 
 
-import net.medrag.dto.CityDto;
+import net.medrag.model.dto.CityDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.validator.CityValidator;

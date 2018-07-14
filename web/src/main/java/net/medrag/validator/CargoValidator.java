@@ -1,7 +1,7 @@
 package net.medrag.validator;
 
-import net.medrag.dto.CargoDto;
-import net.medrag.dto.CityDto;
+import net.medrag.model.dto.CargoDto;
+import net.medrag.model.dto.CityDto;
 import net.medrag.model.dao.CargoDao;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.dto.CityService;
@@ -48,7 +48,7 @@ public class CargoValidator implements Validator {
         }
 
         try {
-            Float weight = Float.parseFloat(cargo.getWeight());
+            Integer weight = Integer.parseInt(cargo.getWeight());
             if (weight < 2) {
                 errors.rejectValue("weight", "too.easy");
             }

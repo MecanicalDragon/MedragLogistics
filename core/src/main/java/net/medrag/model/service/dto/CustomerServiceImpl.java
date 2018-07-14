@@ -1,6 +1,6 @@
 package net.medrag.model.service.dto;
 
-import net.medrag.dto.CustomerDto;
+import net.medrag.model.dto.CustomerDto;
 import net.medrag.model.domain.entity.Customer;
 import org.springframework.stereotype.Service;
 
