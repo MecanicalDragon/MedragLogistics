@@ -34,8 +34,7 @@ public class MainLogisticController {
         List<CargoDto> cargos = cargoService.getDtoList(new CargoDto(), new Cargo());
         List<CargoDto> filteredCargos = new ArrayList<>();
         for (CargoDto cargo : cargos) {
-            if (cargo.getState().equals("PREPARED") ||
-                    cargo.getState().equals("TRANSIENT")){
+            if (cargo.getState().equals("TRANSIENT")){
                 filteredCargos.add(cargo);
             }
         }

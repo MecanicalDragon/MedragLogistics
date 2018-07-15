@@ -20,11 +20,11 @@
         <h3>Order index: ${order.index}</h3>
         <h3>Certifying document: ${order.owner.passport}</h3>
         <h3>Taken cargoes:</h3>
-        <c:forEach items="${order.waypoints}" var="waypoint">
-            <h5>Cargo index: ${waypoint.cargo.index}</h5>
-            <h5>Cargo name: ${waypoint.cargo.name}</h5>
-            <h5>City: ${waypoint.city.name}</h5>
-            <h5>Action: ${waypoint.wayPointType}</h5>
+        <c:forEach items="${order.cargoes}" var="cargo">
+            <h5>Cargo index: ${cargo.index}</h5>
+            <h5>Cargo name: ${cargo.name}</h5>
+            <h5>Departure: ${cargo.departureName}</h5>
+            <h5>Destination: ${cargo.destinationName}</h5>
         </c:forEach>
         <div  class="text-primary text-right">
             <a href="${contextPath}/whm-main">To the main warehouse page</a>

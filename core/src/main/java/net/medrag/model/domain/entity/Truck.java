@@ -35,8 +35,20 @@ public class Truck extends Identifier{
     @JoinColumn(name = "current_city_id")
     private City city;
 
-    @OneToMany(mappedBy = "currentTruck")
-    private Set<Driver> driverSet;
+    @OneToMany(mappedBy = "currentTruck", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Set<Driver> brigade;
+
+    @OneToMany(mappedBy = "currentTruck", fetch = FetchType.LAZY)
+    private Set<Waypoint> route;
+
+
+    public Set<Waypoint> getRoute() {
+        return route;
+    }
+
+    public void setRoute(Set<Waypoint> route) {
+        this.route = route;
+    }
 
     public String getRegNumber() {
         return regNumber;
@@ -78,12 +90,12 @@ public class Truck extends Identifier{
         this.status = status;
     }
 
-    public Set<Driver> getDriverSet() {
-        return driverSet;
+    public Set<Driver> getBrigade() {
+        return brigade;
     }
 
-    public void setDriverSet(Set<Driver> driverSet) {
-        this.driverSet = driverSet;
+    public void setBrigade(Set<Driver> driverSet) {
+        this.brigade = driverSet;
     }
 
     public City getCity() {

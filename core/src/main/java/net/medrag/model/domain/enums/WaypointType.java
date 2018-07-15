@@ -1,5 +1,7 @@
 package net.medrag.model.domain.enums;
 
+import net.medrag.model.domain.entity.Waypoint;
+
 /**
  * Enum of field waypointType from domain object {@link Waypoint}.
  * Needs for indicate the type of waypoint.

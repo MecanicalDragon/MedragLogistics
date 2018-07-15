@@ -23,11 +23,22 @@ public class Orderr extends Identifier {
     @JoinColumn(name = "owner_id", nullable = false)
     private Customer owner;
 
-    @Column(name = "implemented")
-    private Boolean implemented;
+    @Column(name = "complete")
+    private Boolean complete;
+
+    @OneToMany(mappedBy = "orderr")
+    private List<Cargo> cargoes;
 
     @OneToMany(mappedBy = "orderr")
     private List<Waypoint> waypoints;
+
+    public List<Cargo> getCargoes() {
+        return cargoes;
+    }
+
+    public void setCargoes(List<Cargo> cargoes) {
+        this.cargoes = cargoes;
+    }
 
     public String getIndex() {
         return index;
@@ -37,12 +48,12 @@ public class Orderr extends Identifier {
         this.index = orderNumber;
     }
 
-    public Boolean getImplemented() {
-        return implemented;
+    public Boolean getComplete() {
+        return complete;
     }
 
-    public void setImplemented(Boolean implemented) {
-        this.implemented = implemented;
+    public void setComplete(Boolean implemented) {
+        this.complete = implemented;
     }
 
     public List<Waypoint> getWaypoints() {
@@ -67,7 +78,7 @@ public class Orderr extends Identifier {
                 "id=" + id +
                 ", Index='" + index + '\'' +
                 ", owner=" + owner.getName() +
-                ", implemented=" + implemented +
+                ", complete=" + complete +
                 '}';
     }
 

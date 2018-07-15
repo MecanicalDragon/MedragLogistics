@@ -20,12 +20,20 @@ public class WaypointDto implements Dto{
 
     private String wayPointType;
 
+    private  String complete;
+
     private TruckDto currentTruck;
 
     private Set<DriverDto> brigade;
 
 
+    public String getComplete() {
+        return complete;
+    }
 
+    public void setComplete(String complete) {
+        this.complete = complete;
+    }
 
     public OrderrDto getOrderr() {
         return orderr;

@@ -32,7 +32,7 @@
 
                     <div class="text-center">
 
-                        <h1>Step 4: Choose the next destination city.</h1>
+                        <h1>Step 3: Choose the next destination city.</h1>
 
                     </div>
 

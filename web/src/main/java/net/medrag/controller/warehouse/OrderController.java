@@ -46,7 +46,6 @@ public class OrderController {
         CustomerDto owner = (CustomerDto)request.getSession().getAttribute("owner");
 
         OrderrDto order = orderCompilingService.compileOrder(cargoList, owner);
-        order = orderService.getDtoById(new OrderrDto(), new Orderr(), order.getId());
 
         model.addAttribute("order", order);
         return "warehouse/compiledOrder";

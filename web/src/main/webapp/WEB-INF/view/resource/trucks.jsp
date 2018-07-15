@@ -104,7 +104,7 @@
                                         <button type="button" class="btn btn-info btn-xs dropdown-toggle"
                                                 data-toggle="dropdown">
                                             <c:if test="${truckUnit.status.equals('IN_USE')}">
-                                                In use
+                                                On the route
                                             </c:if>
                                             <c:if test="${truckUnit.status.equals('STAY_IDLE')}">
                                                 Staying idle
@@ -116,7 +116,7 @@
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
                                             <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=0">
-                                                In use</a>
+                                                On the route</a>
                                             </li>
                                             <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=1">
                                                 Stay idle</a>

@@ -1,5 +1,7 @@
 package net.medrag.model.dto;
 
+import java.util.Set;
+
 /**
  * Data Transfer Object of {net.medrag.model.domain.entity.Driver}
  *
@@ -29,6 +31,17 @@ public class DriverDto implements Dto {
     private String cityName;
 
     private String truckRegNumber;
+
+    private Set<WaypointDto> route;
+
+
+    public Set<WaypointDto> getRoute() {
+        return route;
+    }
+
+    public void setRoute(Set<WaypointDto> route) {
+        this.route = route;
+    }
 
     public Integer getCityId() {
         return cityId;

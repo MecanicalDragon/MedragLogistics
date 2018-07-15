@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "waypoint")
 public class Waypoint extends Identifier{
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "cargo_id", nullable = false)
     private Cargo cargo;
 
@@ -32,15 +32,26 @@ public class Waypoint extends Identifier{
     @Column(name = "wp_type", columnDefinition = "enum('load', 'unload')")
     private WaypointType wayPointType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "complete")
+    private Boolean complete;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "truck_id")
     private Truck currentTruck;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "waypoint_drivers",
             joinColumns = @JoinColumn(name = "waypoint_id"),
             inverseJoinColumns = @JoinColumn(name = "driver_id"))
     private Set<Driver> brigade;
+
+    public Boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
+    }
 
     public Orderr getOrderr() {
         return orderr;

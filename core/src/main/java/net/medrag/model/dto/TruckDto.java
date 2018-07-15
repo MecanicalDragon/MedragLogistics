@@ -24,8 +24,18 @@ public class TruckDto implements Dto {
 
     private String cityName;
 
-    private Set<DriverDto> driverSet;
+    private Set<DriverDto> brigade;
 
+    private Set<WaypointDto> route;
+
+
+    public Set<WaypointDto> getRoute() {
+        return route;
+    }
+
+    public void setRoute(Set<WaypointDto> route) {
+        this.route = route;
+    }
 
     public Integer getCityId() {
         return cityId;
@@ -83,12 +93,12 @@ public class TruckDto implements Dto {
         this.cityName = cityName;
     }
 
-    public Set<DriverDto> getDriverSet() {
-        return driverSet;
+    public Set<DriverDto> getBrigade() {
+        return brigade;
     }
 
-    public void setDriverSet(Set<DriverDto> driverSet) {
-        this.driverSet = driverSet;
+    public void setBrigade(Set<DriverDto> brigade) {
+        this.brigade = brigade;
     }
 
     @Override

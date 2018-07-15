@@ -12,9 +12,10 @@ import org.jetbrains.annotations.Contract;
  */
 public enum CargoState {
 
+
+    TRANSIENT,
     PREPARED,
     ON_BOARD,
-    DELIVERED,
-    TRANSIENT,
-    DESTINATION
+    DESTINATION,
+    DELIVERED
 }

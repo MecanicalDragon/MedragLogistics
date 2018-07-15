@@ -20,6 +20,8 @@ public class CargoDto implements Dto {
 
     private CustomerDto owner;
 
+    private OrderrDto orderr;
+
     private Integer departureId;
 
     private Integer destinationId;
@@ -32,6 +34,14 @@ public class CargoDto implements Dto {
 
     private String currentCityName;
 
+
+    public OrderrDto getOrderr() {
+        return orderr;
+    }
+
+    public void setOrderr(OrderrDto orderr) {
+        this.orderr = orderr;
+    }
 
     public Integer getCurrentCityId() {
         return currentCityId;
@@ -138,6 +148,7 @@ public class CargoDto implements Dto {
                 ", weight='" + weight + '\'' +
                 ", state='" + state + '\'' +
                 ", owner=" + owner.getPassport() +
+                ", order=" + orderr.getIndex() +
                 ", departureName='" + departureName + '\'' +
                 ", destinationName='" + destinationName + '\'' +
                 ", currentCityName='" + currentCityName + '\'' +

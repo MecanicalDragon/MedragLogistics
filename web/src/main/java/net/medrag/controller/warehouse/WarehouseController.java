@@ -47,11 +47,17 @@ public class WarehouseController {
             }
         }
         switch (op) {
+            case 0:
+                deliveredCargo.setState("TRANSIENT");
+                break;
+            case 1:
+                deliveredCargo.setState("PREPARED");
+                break;
             case 2:
                 deliveredCargo.setState("ON_BOARD");
                 break;
             case 3:
-                deliveredCargo.setState("TRANSFER_POINT");
+                deliveredCargo.setState("DESTINATION");
                 break;
             case 4:
                 deliveredCargo.setState("DELIVERED");

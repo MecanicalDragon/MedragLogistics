@@ -27,12 +27,16 @@ public class Cargo extends Identifier {
     private Integer weight;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state", columnDefinition = "enum('prepared','on_board', 'delivered', 'transfer_point')")
+    @Column(name = "state", columnDefinition = "enum('prepared', 'on_board', 'delivered', 'transient', 'destination')")
     private CargoState state;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private Customer owner;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Orderr orderr;
 
     @ManyToOne
     @JoinColumn(name = "departure_id")
@@ -45,6 +49,14 @@ public class Cargo extends Identifier {
     @ManyToOne
     @JoinColumn(name = "current_city_id")
     private City currentCity;
+
+    public Orderr getOrderr() {
+        return orderr;
+    }
+
+    public void setOrderr(Orderr orderr) {
+        this.orderr = orderr;
+    }
 
     public City getCurrentCity() {
         return currentCity;
@@ -119,6 +131,7 @@ public class Cargo extends Identifier {
                 ", weight=" + weight +
                 ", state=" + state +
                 ", owner=" + owner.getPassport() +
+                ", order=" + orderr.getIndex() +
                 ", departure=" + departure.getName() +
                 ", destination=" + destination.getName() +
                 ", currentCity=" + currentCity.getName() +

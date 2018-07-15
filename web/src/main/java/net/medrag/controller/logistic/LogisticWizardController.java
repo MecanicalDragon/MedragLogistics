@@ -5,7 +5,6 @@ import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.domain.entity.Waypoint;
 import net.medrag.model.dto.*;
 import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.service.WaypointCompilingService;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.model.service.dto.TruckService;
@@ -16,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This controller does all work about logistic management of cargoes. Details in methods.
@@ -34,11 +35,11 @@ public class LogisticWizardController {
 
     private CityService<CityDto, City> cityService;
 
-    private WaypointCompilingService waypointCompilingService;
+    private WaypointService<WaypointDto, Waypoint> waypointService;
 
     @Autowired
-    public void setWaypointCompilingService(WaypointCompilingService waypointCompilingService) {
-        this.waypointCompilingService = waypointCompilingService;
+    public void setWaypointService(WaypointService<WaypointDto, Waypoint> waypointService) {
+        this.waypointService = waypointService;
     }
 
     @Autowired
@@ -193,21 +194,35 @@ public class LogisticWizardController {
         TruckDto assignedTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
         CityDto destinationCity = (CityDto) request.getSession().getAttribute("destinationCity");
 
-        List<DriverDto> brigade = new ArrayList<>();
+        Set<DriverDto> brigade = new HashSet<>();
         String[] split = drivers.split("/");
         for (String s : split)   {
             brigade.add(driverList.get(Integer.valueOf(s)));
         }
 
+        CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), assignedTruck.getCityName());
 
-        System.out.println("Truck:");
-        System.out.println(assignedTruck);
-        System.out.println("Truck load:");
-        System.out.println(truckLoad);
-        System.out.println("Brigade:");
-        System.out.println(brigade);
-        System.out.println("Destination:");
-        System.out.println(destinationCity);
+        for ( CargoDto cargo : truckLoad){
+
+            cargo.setState("PREPARED");
+            for (DriverDto driverDto : brigade) {
+                driverDto.setState("ON_SHIFT");
+            }
+            assignedTruck.setStatus("IN_USE");
+            assignedTruck.setBrigade(brigade);
+
+            WaypointDto load = new WaypointDto();
+            load.setCity(currentCity);
+            load.setWayPointType("LOAD");
+            load.setComplete("false");
+            load.setCargo(cargo);
+            load.setOrderr(cargo.getOrderr());
+            load.setCurrentTruck(assignedTruck);
+            load.setBrigade(brigade);
+
+            waypointService.compileRoute(load, destinationCity);
+
+        }
 
         return "redirect: ../mgr-main";
     }

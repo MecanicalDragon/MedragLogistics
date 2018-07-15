@@ -1,5 +1,6 @@
 package net.medrag.model.service.dto;
 
+import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.WaypointDto;
 import net.medrag.model.domain.entity.Waypoint;
 
@@ -11,4 +12,5 @@ import net.medrag.model.domain.entity.Waypoint;
  * @version 1.0
  */
 public interface WaypointService<D extends WaypointDto, E extends Waypoint> extends DTOService<D, E> {
+    void compileRoute(WaypointDto waypoint, CityDto destination);
 }

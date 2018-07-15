@@ -30,7 +30,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             return (Integer) session.save(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE + entity, e);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE);
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             session.merge(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.MERGE + entity, e);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.MERGE);
         }
     }
 
@@ -50,7 +50,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             session.remove(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.REMOVE + entity, e);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.REMOVE);
         }
     }
 
@@ -60,7 +60,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             session.saveOrUpdate(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE_OR_UPDATE + entity, e);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE_OR_UPDATE);
         }
     }
 
@@ -70,7 +70,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             return (E) session.find(entity.getClass(), id);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.FIND + entity, e);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.FIND);
         }
     }
 
@@ -80,7 +80,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             return (E) session.bySimpleNaturalId(entity.getClass()).load(id);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.BY_SIMPLE_NAME + entity, e);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.BY_SIMPLE_NAME);
         }
     }
 
@@ -91,7 +91,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             return (List<E>) session.createQuery(fromTable).list();
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST + entity, e);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST);
         }
     }
 }

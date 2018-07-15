@@ -14,13 +14,22 @@ public class OrderrDto implements Dto {
 
     private String index;
 
-    private Boolean implemented;
+    private Boolean complete;
 
     private CustomerDto owner;
 
     private List<WaypointDto> waypoints;
 
+    private List<CargoDto> cargoes;
 
+
+    public List<CargoDto> getCargoes() {
+        return cargoes;
+    }
+
+    public void setCargoes(List<CargoDto> cargoes) {
+        this.cargoes = cargoes;
+    }
 
     public Integer getId() {
         return id;
@@ -38,12 +47,12 @@ public class OrderrDto implements Dto {
         this.index = index;
     }
 
-    public Boolean getImplemented() {
-        return implemented;
+    public Boolean getComplete() {
+        return complete;
     }
 
-    public void setImplemented(Boolean implemented) {
-        this.implemented = implemented;
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
     }
 
     public List<WaypointDto> getWaypoints() {
@@ -67,7 +76,7 @@ public class OrderrDto implements Dto {
         return "OrderrDto{" +
                 "id=" + id +
                 ", index='" + index + '\'' +
-                ", implemented=" + implemented +
+                ", complete=" + complete +
                 ", owner=" + owner +
                 ", waypoints=" + waypoints +
                 '}';

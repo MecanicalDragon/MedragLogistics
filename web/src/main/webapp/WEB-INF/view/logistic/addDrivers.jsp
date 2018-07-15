@@ -37,7 +37,7 @@
 
                     <div class="text-center">
 
-                        <h1>Step 3: compile a brigade.</h1>
+                        <h1>Step 4: compile a brigade.</h1>
 
                         <h3 id="msg">Now assigned 0 of ${sessionScope.brigade} drivers.</h3>
 

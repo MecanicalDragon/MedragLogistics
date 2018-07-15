@@ -5,6 +5,7 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.Set;
 
 /**
  * Simple JavaBean domain object, that represents a Driver
@@ -43,9 +44,20 @@ public class Driver extends Identifier {
     @JoinColumn(name = "current_city_id")
     private City city;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "current_truck_id")
     private Truck currentTruck;
+
+    @ManyToMany(mappedBy = "brigade", fetch = FetchType.LAZY)
+    private Set<Waypoint> route;
+
+    public Set<Waypoint> getRoute() {
+        return route;
+    }
+
+    public void setRoute(Set<Waypoint> route) {
+        this.route = route;
+    }
 
     public String getPersonalNumber() {
         return personalNumber;

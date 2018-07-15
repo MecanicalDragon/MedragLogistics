@@ -93,9 +93,11 @@ public class DriverIdentifierServiceImpl implements DriverIdentifierService {
     @Transactional
     public void updateDriver(DriverDto driver) {
         User user = userService.getUserByUsername(driver.getPersonalNumber());
-        user.setEmail(driver.getEmail());
+        if (user != null) {
+            user.setEmail(driver.getEmail());
+            userService.updateUser(user);
+        }
         driverService.updateDtoStatus(driver, new Driver());
-        userService.updateUser(user);
     }
 
     @Override
@@ -103,7 +105,9 @@ public class DriverIdentifierServiceImpl implements DriverIdentifierService {
     public void removeDriver(DriverDto removableDriver) {
         driverService.removeDto(removableDriver, new Driver());
         User user = userService.getUserByUsername(removableDriver.getPersonalNumber());
-        userService.deleteUser(user);
+        if (user != null) {
+            userService.deleteUser(user);
+        }
     }
 
 

@@ -47,6 +47,7 @@
                         <tr>
                             <%--<th>Start manage</th>--%>
                             <th>Cargo index</th>
+                            <th>Owner document</th>
                             <th>Current city</th>
                             <th>Destination point</th>
                             <th>Cargo state</th>
@@ -56,28 +57,44 @@
 
                         <c:forEach items="${sessionScope.globalCargoes}" var="cargo" varStatus="index">
                             <tr class="odd gradeX">
-                                <%--<td>--%>
-                                    <%--<a type="button" class="btn btn-success btn-xs start-order"--%>
-                                            <%--href="${contextPath}/whm-wp/initTruck/${index.index}">--%>
-                                        <%--Add to truck--%>
-                                    <%--</a>--%>
-                                <%--</td>--%>
+
                                 <td>${cargo.index}</td>
+                                <td>${cargo.owner.passport}</td>
                                 <td>${cargo.currentCityName}</td>
                                 <td>${cargo.destinationName}</td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info btn-xs dropdown-toggle"
                                                 data-toggle="dropdown">
-                                                ${cargo.state}
+                                            <c:if test="${cargo.state.equals('TRANSIENT')}">
+                                                Transient
+                                            </c:if>
+                                            <c:if test="${cargo.state.equals('PREPARED')}">
+                                                Prepared
+                                            </c:if>
+                                            <c:if test="${cargo.state.equals('ON_BOARD')}">
+                                                On the way
+                                            </c:if>
+                                            <c:if test="${cargo.state.equals('DESTINATION')}">
+                                                Destination
+                                            </c:if>
+                                            <c:if test="${cargo.state.equals('DELIVERED')}">
+                                                Delivered
+                                            </c:if>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
+                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=0">
+                                                Transient</a>
+                                            </li>
+                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=1">
+                                                Prepared</a>
+                                            </li>
                                             <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=2">
                                                 On the way</a>
                                             </li>
                                             <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=3">
-                                                At transfer point</a>
+                                                Destination</a>
                                             </li>
                                             <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=4">
                                                 Delivered</a>
