@@ -70,12 +70,13 @@ public class LogisticWizardController {
         CargoDto cargo = cargoList.remove(index.intValue());
 
 //        Getting list of trucks and filtering it with the requirements of capacity, status and city dislocation
-        List<TruckDto>truckDtoList = truckService.getDtoList(new TruckDto(), new Truck());
+        List<TruckDto>truckList = truckService.getDtoList(new TruckDto(), new Truck(), "CURRENT_CITY_ID",
+                cargo.getCurrentCityId().toString(), "STATUS", "'STAY_IDLE'");
         List<TruckDto> filteredTruckList = new ArrayList<>();
-        for (TruckDto truckDto : truckDtoList) {
-            if(truckDto.getCityName().equals(cargo.getCurrentCityName()) &&
-                    truckDto.getStatus().equals("STAY_IDLE") &&
-                    Integer.valueOf(truckDto.getCapacity()) >= Integer.valueOf(cargo.getWeight())){
+        for (TruckDto truckDto : truckList) {
+            if(Integer.valueOf(truckDto.getCapacity()) >= Integer.valueOf(cargo.getWeight())){
+//                    truckDto.getCityName().equals(cargo.getCurrentCityName()) &&
+//                    truckDto.getStatus().equals("STAY_IDLE") &&
                 filteredTruckList.add(truckDto);
             }
         }
@@ -152,8 +153,10 @@ public class LogisticWizardController {
      */
     @GetMapping("chooseCity")
     public String chooseCity(HttpServletRequest request){
-        List<CityDto> cities = cityService.getDtoList(new CityDto(), new City());
-        request.getSession().setAttribute("cities", cities);
+        if (request.getSession().getAttribute("cities") == null) {
+            List<CityDto> cities = cityService.getDtoList(new CityDto(), new City());
+            request.getSession().setAttribute("cities", cities);
+        }
         return "logistic/chooseCity";
     }
 
@@ -167,15 +170,9 @@ public class LogisticWizardController {
         request.getSession().setAttribute("destinationCity", destinationCity);
         request.getSession().setAttribute("cities", null);
         TruckDto chosenTruck = (TruckDto)request.getSession().getAttribute("chosenTruck");
-        List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver());
-        List<DriverDto> filteredDrivers = new ArrayList<>();
-        for (DriverDto driver : drivers) {
-            if (driver.getCityName().equals(chosenTruck.getCityName()) &&
-            driver.getState().equals("READY_TO_ROUTE")){
-                filteredDrivers.add(driver);
-            }
-        }
-        request.getSession().setAttribute("drivers", filteredDrivers);
+        List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver(),
+                "CURRENT_CITY_ID", chosenTruck.getCityId().toString(), "STATE", "'READY_TO_ROUTE'");
+        request.getSession().setAttribute("drivers", drivers);
         request.getSession().setAttribute("brigade", chosenTruck.getBrigadeStr());
 
         return "logistic/addDrivers";
@@ -221,7 +218,6 @@ public class LogisticWizardController {
             load.setBrigade(brigade);
 
             waypointService.compileRoute(load, destinationCity);
-
         }
 
         return "redirect: ../mgr-main";

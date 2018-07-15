@@ -6,6 +6,8 @@ import net.medrag.model.domain.entity.Waypoint;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Standard service implementation for employment DAO interface{@link net.medrag.model.dao.WaypointDao},
  * working with domain object, that represents a {@link Waypoint}
@@ -35,4 +37,13 @@ public class WaypointServiceImpl<D extends WaypointDto, E extends Waypoint> exte
         updateDtoStatus((D)load, (E)new Waypoint());
 
     }
+//
+//    @Override
+//    @Transactional
+//    public List<WaypointDto> getActualWaypointsFromCity(String name) {
+//
+//
+//
+//        return null;
+//    }
 }

@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -25,7 +26,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
     }
 
     @Override
-    public Integer addEntity(E entity) throws MedragRepositoryException{
+    public Integer addEntity(E entity) throws MedragRepositoryException {
         try {
             Session session = sessionFactory.getCurrentSession();
             return (Integer) session.save(entity);
@@ -84,10 +85,34 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         }
     }
 
+//    @Override
+//    public List<E> getEntityList(E entity) throws MedragRepositoryException {
+//        try {
+//            String fromTable = "from " + entity.getClass().getSimpleName();
+//            Session session = sessionFactory.getCurrentSession();
+//            return (List<E>) session.createQuery(fromTable).list();
+//        } catch (HibernateException e) {
+//            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST);
+//        }
+//    }
+
     @Override
-    public List<E> getEntityList(E entity) throws MedragRepositoryException {
+    public List<E> getEntityList(E entity, String... args) throws MedragRepositoryException {
+        String fromTable = String.format("from %s", entity.getClass().getSimpleName());
+        if (args.length > 1) {
+            StringBuilder sb = new StringBuilder(fromTable);
+            sb.append(" where ");
+            for (int i = 0; i < args.length; i += 2) {
+                if (i + 1 < args.length) {
+                    sb.append(args[i]).append("=").append(args[i + 1]);
+                }
+                if (i + 3 < args.length) {
+                    sb.append(" and ");
+                } else break;
+            }
+            fromTable = sb.toString();
+        }
         try {
-            String fromTable = "from " + entity.getClass().getSimpleName();
             Session session = sessionFactory.getCurrentSession();
             return (List<E>) session.createQuery(fromTable).list();
         } catch (HibernateException e) {

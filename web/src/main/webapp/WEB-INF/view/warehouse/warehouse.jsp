@@ -20,7 +20,9 @@
 
 </head>
 <body>
+<br>
 <div class="container">
+
 
     <div class="row">
         <div class="col-lg-12">
@@ -31,13 +33,18 @@
                     <%--goto .../warehouse/CustomerController, GetMethod--%>
                     <a class="btn btn-primary" href="${contextPath}/whm-newCustomer" role="button">Add new
                         orderr</a>
-                        <div class="pull-right">
-                            <form method="post" action="logout">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                You signed in under ${pageContext.request.userPrincipal.name} Personal Number
-                                <button class="btn btn-danger offset-xs-6">Logout</button>
-                            </form>
-                        </div>
+
+                    <button class="btn btn-success" data-toggle="modal"
+                            data-target="#cityModal">Go to the city warehouse
+                    </button>
+
+                    <div class="pull-right">
+                        <form method="post" action="logout">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            You signed in under ${pageContext.request.userPrincipal.name} Personal Number
+                            <button class="btn btn-danger offset-xs-6">Logout</button>
+                        </form>
+                    </div>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -84,19 +91,19 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
-                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=0">
+                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=0">
                                                 Transient</a>
                                             </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=1">
+                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=1">
                                                 Prepared</a>
                                             </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=2">
+                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=2">
                                                 On the way</a>
                                             </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=3">
+                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=3">
                                                 Destination</a>
                                             </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?id=${cargo.id}&op=4">
+                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=4">
                                                 Delivered</a>
                                             </li>
                                         </ul>
@@ -116,34 +123,39 @@
     </div>
 </div>
 
+<div class="modal fade" id="cityModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Enter city name</h3>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
 
-<%--&lt;%&ndash;Modal window add cargo to truck&ndash;%&gt;--%>
-<%--<div class="modal fade" id="addCargoToTruck" tabindex="-1" role="dialog" aria-labelledby="modalLabel"--%>
-<%--aria-hidden="true">--%>
-<%--<div class="modal-dialog modal-dialog-centered">--%>
-<%--<div class="modal-content">--%>
-<%--<div class="modal-header">--%>
-<%--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>--%>
-<%--<h4 class="modal-title" id="modalLabel"></h4>--%>
-<%--</div>--%>
-<%--<div class="modal-body">--%>
+                    <form class="form" id="gotoCity" method="post" action="${contextPath}/whm-wp">
 
+                        <div class="col-4">
+                            <input name="name" placeholder="Enter city name" autofocus="true"
+                                   class="form-control col-4"/>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </div>
 
-<%--</div>--%>
-<%--<div class="modal-footer">--%>
-<%--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>--%>
-<%--<a type="button" class="btn btn-danger" id="choose" href="">Choose truck</a>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
+                    </form>
 
-<%--<div>--%>
-<%--<form:form id="addCargo" method="post" action="${contextPath}/whm-wp/initTruck">--%>
-<%--<form:input type="hidden" path="cargoId" id="cargoListId" value=""/>--%>
-<%--</form:form>--%>
-<%--</div>--%>
-
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-success" form="gotoCity">Go
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- jQuery -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
@@ -163,28 +175,7 @@
         });
     });
 </script>
-<%--<script>--%>
-    <%--$(document).ready(function () {--%>
-        <%--$(".start-order").click(function () {--%>
-            <%--var idCargo = $(this).attr("id");--%>
-            <%--var index = idCargo.split('-')[1];--%>
-            <%--var cargoU = $("#sessionScope.globalCargoes[index]");--%>
-            <%--$.ajax({--%>
-                <%--type: "POST",--%>
-                <%--contentType: "application/json",--%>
-                <%--url: window.location + "/whm-wp/initTruck",--%>
-                <%--data: JSON.stringify(cargoU),--%>
-                <%--dataType: 'json',--%>
-                <%--success: function (result) {--%>
-                    <%--alert("success");--%>
-                <%--},--%>
-                <%--error: function (error) {--%>
-                    <%--alert("Error!");--%>
-                <%--}--%>
-            <%--});--%>
-        <%--});--%>
-    <%--});--%>
-<%--</script>--%>
+
 
 </body>
 </html>

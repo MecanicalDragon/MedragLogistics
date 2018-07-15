@@ -37,15 +37,9 @@ public class WarehouseController {
     }
 
     @GetMapping("changeState")
-    public String deliver(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) {
-        List<CargoDto> cargos = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
-        CargoDto deliveredCargo = null;
-        for (CargoDto cargo : cargos) {
-            if (cargo.getId().equals(id)) {
-                deliveredCargo = cargo;
-                break;
-            }
-        }
+    public String deliver(@RequestParam Integer index, @RequestParam Integer op, HttpServletRequest request) {
+        List<CargoDto> cargoes = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
+        CargoDto deliveredCargo = cargoes.get(index);
         switch (op) {
             case 0:
                 deliveredCargo.setState("TRANSIENT");

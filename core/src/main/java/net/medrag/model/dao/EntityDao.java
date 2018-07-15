@@ -17,5 +17,6 @@ public interface EntityDao<E extends Entity>  {
     void saveOrUpdateEntity (E entity)throws MedragRepositoryException;
     E getEntityById(E entity, Integer id)throws MedragRepositoryException;
     E getEntityByNaturalId(E entity, String id)throws MedragRepositoryException;
-    List<E> getEntityList(E entity)throws MedragRepositoryException;
+//    List<E> getEntityList(E entity)throws MedragRepositoryException;
+    List<E> getEntityList(E entity, String... args) throws  MedragRepositoryException;
 }

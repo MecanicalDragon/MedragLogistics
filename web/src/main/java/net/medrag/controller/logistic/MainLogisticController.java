@@ -31,14 +31,8 @@ public class MainLogisticController {
 
     @GetMapping()
     public String returnView(HttpServletRequest request){
-        List<CargoDto> cargos = cargoService.getDtoList(new CargoDto(), new Cargo());
-        List<CargoDto> filteredCargos = new ArrayList<>();
-        for (CargoDto cargo : cargos) {
-            if (cargo.getState().equals("TRANSIENT")){
-                filteredCargos.add(cargo);
-            }
-        }
-        request.getSession().setAttribute("globalCargoes", filteredCargos);
+        List<CargoDto> cargoes = cargoService.getDtoList(new CargoDto(), new Cargo(), "STATE", "'TRANSIENT'");
+        request.getSession().setAttribute("globalCargoes", cargoes);
         return "logistic/main";
     }
 }
