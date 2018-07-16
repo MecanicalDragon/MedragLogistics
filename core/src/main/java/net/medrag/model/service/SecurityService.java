@@ -10,5 +10,4 @@ public interface SecurityService {
 
     String getRoleOfSignedInUser();
     String getUsernameOfSignedInUser();
-//    void autoLogin(String username, String password);
 }

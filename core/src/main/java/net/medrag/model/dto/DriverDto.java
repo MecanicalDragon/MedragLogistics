@@ -30,7 +30,7 @@ public class DriverDto implements Dto {
 
     private String cityName;
 
-    private String truckRegNumber;
+    private TruckDto currentTruck;
 
     private Set<WaypointDto> route;
 
@@ -123,12 +123,12 @@ public class DriverDto implements Dto {
         this.cityName = cityName;
     }
 
-    public String getTruckRegNumber() {
-        return truckRegNumber;
+    public TruckDto getCurrentTruck() {
+        return currentTruck;
     }
 
-    public void setTruckRegNumber(String truckRegNumber) {
-        this.truckRegNumber = truckRegNumber;
+    public void setCurrentTruck(TruckDto currentTruck) {
+        this.currentTruck = currentTruck;
     }
 
     @Override
@@ -143,7 +143,7 @@ public class DriverDto implements Dto {
                 ", paidTime=" + paidTime +
                 ", state='" + state + '\'' +
                 ", cityName='" + cityName + '\'' +
-                ", truckRegNumber='" + truckRegNumber + '\'' +
+                ", truckRegNumber='" + currentTruck.getRegNumber() + '\'' +
                 '}';
     }
 

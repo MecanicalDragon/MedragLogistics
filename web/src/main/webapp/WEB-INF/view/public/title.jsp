@@ -27,7 +27,7 @@
             <div class="panel-body">
                 <c:choose>
                     <c:when test="${pageContext.request.userPrincipal.name != null}">
-                        <form method="post" action="logout">
+                        <form method="post" action="${contextPath}/logout">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <div class="text-primary">
                                 You signed in under ${pageContext.request.userPrincipal.name} Personal Number

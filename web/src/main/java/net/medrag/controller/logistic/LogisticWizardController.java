@@ -209,6 +209,7 @@ public class LogisticWizardController {
 //        Setting new statuses to truck and drivers
         for (DriverDto driverDto : brigade) {
             driverDto.setState("ON_SHIFT");
+            driverDto.setCurrentTruck(assignedTruck);
         }
         assignedTruck.setStatus("IN_USE");
         assignedTruck.setBrigade(brigade);

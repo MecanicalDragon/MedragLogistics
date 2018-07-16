@@ -147,7 +147,7 @@
                                     </div>
                                 </td>
                                 <td>${driverUnit.cityName}</td>
-                                <td>${driverUnit.truckRegNumber}</td>
+                                <td>${driverUnit.currentTruck.regNumber}</td>
                                 <td>
                                     <a type="button" class="btn btn-edit btn-warning btn-xs"
                                        id="${driverUnit.id}/${driverUnit.name}"
