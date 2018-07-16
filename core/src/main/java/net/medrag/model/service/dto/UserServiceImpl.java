@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl <D extends UserDto, E extends User> extends DTOServiceImpl<D, E>
         implements UserService<D, E>  {
 
-    private static final String implementation = "UserDaoImpl";
+    private static final String implementation = "userDaoImpl";
 
     @Override
     @Transactional

@@ -22,7 +22,7 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class OrderCompilingServiceImpl implements OrderCompilingService{
+public class OrderCompilingServiceImpl implements OrderCompilingService {
 
     private IndexService indexService;
 
@@ -44,7 +44,6 @@ public class OrderCompilingServiceImpl implements OrderCompilingService{
     public void setCargoService(CargoService<CargoDto, Cargo> cargoService) {
         this.cargoService = cargoService;
     }
-
 
     @Override
     @Transactional
@@ -70,5 +69,23 @@ public class OrderCompilingServiceImpl implements OrderCompilingService{
 
         order.setCargoes(cargoList);
         return order;
+    }
+
+    @Override
+    @Transactional
+    public void deliverCargo(CargoDto deliveredCargo) {
+        deliveredCargo.setState("DELIVERED");
+        cargoService.updateDtoStatus(deliveredCargo, new Cargo());
+        List<CargoDto> orderCargoes = deliveredCargo.getOrderr().getCargoes();
+        int deliveredCargoes = 0;
+        for (CargoDto orderCargo : orderCargoes) {
+            if (orderCargo.getState().equals("DELIVERED")) {
+                deliveredCargoes++;
+            }
+        }
+        if (deliveredCargoes == orderCargoes.size()) {
+            deliveredCargo.getOrderr().setComplete(true);
+            cargoService.updateDtoStatus(deliveredCargo, new Cargo());
+        }
     }
 }

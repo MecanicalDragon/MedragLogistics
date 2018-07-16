@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+<%@ page buffer="16kb" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -8,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Medrag Logistics Warehouse Page
+        Drivers Page
     </title>
 
     <!-- Bootstrap Core CSS -->
@@ -17,99 +19,64 @@
     <!-- DataTables CSS -->
     <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
-
 </head>
 <body>
 <br>
 <div class="container">
 
+                    <form class="form" id="refresh" method="post" action="${contextPath}/whm-wp/actual">
+                            <input type="hidden" name="name" value="${sessionScope.warehouseOfCity}"/>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
 
+    <%--Data Table--%>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <%--This button starts a process of adding new orderr.--%>
-                    <%--First step is adding new customer or choosing one of added earlier.--%>
-                    <%--goto .../warehouse/CustomerController, GetMethod--%>
-                    <a class="btn btn-primary" href="${contextPath}/whm-newCustomer" role="button">Add new
-                        orderr</a>
+                    <div class="text-center">
+                    <h1>Warehouse of city ${sessionScope.warehouseOfCity}</h1>
+                    </div>
+                    <%--To cargo page button--%>
+                    <a href = ${contextPath}/whm-main type="button" class="btn btn-primary" role="button">To cargo page</a>
+                    <button class="btn btn-warning" form="refresh">Refresh</button>
 
-                    <button class="btn btn-success" data-toggle="modal"
-                            data-target="#cityModal">Go to the city warehouse
-                    </button>
-
+                        <%--Logout button--%>
                     <div class="pull-right">
-                        <form method="post" action="logout">
+                        <form method="post" action="${contextPath}/logout">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             You signed in under ${pageContext.request.userPrincipal.name} Personal Number
                             <button class="btn btn-danger offset-xs-6">Logout</button>
                         </form>
                     </div>
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
 
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
+                </div>
+
+                <%--Driver Table Body--%>
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dto-Table">
                         <thead>
                         <tr>
-                            <%--<th>Start manage</th>--%>
+                            <th>Truck number</th>
                             <th>Cargo index</th>
-                            <th>Owner document</th>
-                            <th>Current city</th>
-                            <th>Destination point</th>
-                            <th>Cargo state</th>
+                            <th>LOAD/UNLOAD</th>
+                            <th>CHECK</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${sessionScope.globalCargoes}" var="cargo" varStatus="index">
-                            <tr class="odd gradeX">
+                        <c:forEach items="${sessionScope.wps}" var="wp" varStatus="index">
 
-                                <td>${cargo.index}</td>
-                                <td>${cargo.owner.passport}</td>
-                                <td>${cargo.currentCityName}</td>
-                                <td>${cargo.destinationName}</td>
+                            <tr class="odd gradeX">
+                                <td>${wp.currentTruck.regNumber}</td>
+                                <td>${wp.cargo.index}</td>
+                                <td>${wp.wayPointType}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info btn-xs dropdown-toggle"
-                                                data-toggle="dropdown">
-                                            <c:if test="${cargo.state.equals('TRANSIENT')}">
-                                                Transient
-                                            </c:if>
-                                            <c:if test="${cargo.state.equals('PREPARED')}">
-                                                Prepared
-                                            </c:if>
-                                            <c:if test="${cargo.state.equals('ON_BOARD')}">
-                                                On the way
-                                            </c:if>
-                                            <c:if test="${cargo.state.equals('DESTINATION')}">
-                                                Destination
-                                            </c:if>
-                                            <c:if test="${cargo.state.equals('DELIVERED')}">
-                                                Delivered
-                                            </c:if>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu pull-right" role="menu">
-                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=0">
-                                                Transient</a>
-                                            </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=1">
-                                                Prepared</a>
-                                            </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=2">
-                                                On the way</a>
-                                            </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=3">
-                                                Destination</a>
-                                            </li>
-                                            <li><a href="${contextPath}/whm-main/changeState?index=${index.index}&op=4">
-                                                Delivered</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <a type="button" class="btn btn-success btn-xs btn-wp"
+                                       href="${contextPath}/whm-wp/complete/${index.index}">Complete</a>
                                 </td>
                             </tr>
+
                         </c:forEach>
 
                         </tbody>
@@ -118,43 +85,11 @@
             </div>
         </div>
     </div>
+
     <div class="footer">
-        <p><a href="dbfs">&copy; DBFS 20!8</a></p>
+        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
-</div>
 
-<div class="modal fade" id="cityModal" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h3 class="modal-title">Enter city name</h3>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-
-                    <form class="form" id="gotoCity" method="post" action="${contextPath}/whm-wp">
-
-                        <div class="col-4">
-                            <input name="name" placeholder="Enter city name" autofocus="true"
-                                   class="form-control col-4"/>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-success" form="gotoCity">Go
-                </button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- jQuery -->
@@ -170,12 +105,10 @@
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
     $(document).ready(function () {
-        $('#orderr-Table').DataTable({
+        $('#dto-Table').DataTable({
             responsive: true
         });
     });
 </script>
-
-
 </body>
 </html>

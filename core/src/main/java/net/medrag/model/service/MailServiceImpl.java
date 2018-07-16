@@ -1,6 +1,7 @@
 package net.medrag.model.service;
 
-import net.medrag.model.domain.entity.User;
+import net.medrag.model.dto.CargoDto;
+import net.medrag.model.dto.CustomerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -8,13 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
 
 /**
  * MailService implementation
@@ -57,6 +51,15 @@ public class MailServiceImpl implements MailService {
 //        mailSender.send(message);
 //    }
 
+    /**
+     * Email with login and password to a new employee or already existing.
+     *
+     * @param email - email
+     * @param username - username
+     * @param password - password
+     * @param type - type of email: with new authorities of restored.
+     * @throws MessagingException
+     */
     @Override
     public void sendLoginPasswordEmail(String email, String username, String password, String type) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -77,6 +80,25 @@ public class MailServiceImpl implements MailService {
                 "Your login: %s \n" +
                 "Your password: %s \n" +
                 "You have no need to answer this email.", username, password);
+        message.setText(text);
+        mailSender.send(message);
+    }
+
+    /**
+     * Message to customer about delivering his cargo.
+     *
+     * @param cargo - delivered cargo
+     * @throws MessagingException
+     */
+    @Override
+    public void sendDeliveredCargoEmail(CargoDto cargo) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        message.addRecipients(Message.RecipientType.TO, cargo.getOwner().getEmail());
+        message.setSubject("Your cargo has been delivered!");
+
+        String text = String.format("Dear %s %s! Your cargo %s with index %s nas been delivered in city %s! " +
+                        "Come and get it. Your MedragLogistics.", cargo.getOwner().getName(),
+                cargo.getOwner().getSurname(), cargo.getName(), cargo.getIndex(), cargo.getDestinationName());
         message.setText(text);
         mailSender.send(message);
     }

@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <title>
-            DBFS
+            Medrag Logistics
         </title>
         <meta name="viewpoint" content="width=device-width, initial-scale=1">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -19,25 +19,23 @@
   <div class="container">
      <div class="jumbotron" style="margin-top: 20px;">
         <div class="row justify-content-center align-items-center">
-            <div class="text text-danger">
-            <h1>Dibil</h1>
-            </div>
             <div class="text text-primary">
-                <h1>Film</h1>
+                <h1>Medrag</h1>
             </div>
             <div class="text text-success">
-                <h1>Studio</h1>
+                <h1>Logistics</h1>
             </div>
         </div>
         <div class="text text-center">
-           is fraternity of children in the end of'90 - beginning of'00, who just like to draw comics about self' adventures. The name has come from adults, who had told about their creation scornfully.
+            Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
        </div>
+         <br>
          <div  class="text-primary text-right">
              <a href="${contextPath}/title">To the title page.</a>
          </div>
      </div>
      <div class="footer">
-         <p><a href="dbfs">&copy; DBFS 20!8</a></p>
+         <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
      </div>
  </div>
 </body>

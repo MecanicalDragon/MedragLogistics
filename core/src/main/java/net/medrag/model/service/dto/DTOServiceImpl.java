@@ -106,23 +106,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         }
     }
 
-//    @Override
-//    @Transactional
-//    public List<D> getDtoList(D dto, E entity) {
-//        List<E> entityList = null;
-//        try {
-//            entityList = entityDao.getEntityList(entity);
-//        } catch (MedragRepositoryException e) {
-//            logger.error("Could not get from database list of{}", dto);
-//        }
-//        List<D> dtoList = new ArrayList<>();
-//        for (E e : entityList) {
-//            D d = (D) new ModelMapper().map(e, dto.getClass());
-//            dtoList.add(d);
-//        }
-//        return dtoList;
-//    }
-
     @Override
     @Transactional
     public List<D>getDtoList(D dto, E entity, String... args){

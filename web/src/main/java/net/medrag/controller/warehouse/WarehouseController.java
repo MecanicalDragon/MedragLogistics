@@ -1,65 +1,82 @@
 package net.medrag.controller.warehouse;
 
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.domain.entity.Cargo;
-import net.medrag.model.service.dto.CargoService;
+import net.medrag.model.domain.entity.City;
+import net.medrag.model.domain.entity.Waypoint;
+import net.medrag.model.dto.CityDto;
+import net.medrag.model.dto.WaypointDto;
+import net.medrag.model.service.WaypointHandlerService;
+import net.medrag.model.service.dto.CityService;
+import net.medrag.model.service.dto.WaypointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Controller, that handles warehousePage
+ * Controller for servicing waypoints.jsp
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
 @Controller
-@RequestMapping("whm-main")
+@RequestMapping("whm-wp")
 public class WarehouseController {
 
-    private CargoService<CargoDto, Cargo> cargoService;
+    private CityService<CityDto, City> cityService;
+
+    private WaypointService<WaypointDto, Waypoint> waypointService;
+
+    private WaypointHandlerService waypointHandlerService;
 
     @Autowired
-    public void setCargoService(CargoService<CargoDto, Cargo> cargoService) {
-        this.cargoService = cargoService;
+    public void setWaypointHandlerService(WaypointHandlerService waypointHandlerService) {
+        this.waypointHandlerService = waypointHandlerService;
     }
 
-    @GetMapping()
-    public String returnView(HttpServletRequest request){
-        List<CargoDto> cargos = cargoService.getDtoList(new CargoDto(), new Cargo());
-        request.getSession().setAttribute("globalCargoes", cargos);
+    @Autowired
+    public void setWaypointService(WaypointService<WaypointDto, Waypoint> waypointService) {
+        this.waypointService = waypointService;
+    }
+
+    @Autowired
+    public void setCityService(CityService<CityDto, City> cityService) {
+        this.cityService = cityService;
+    }
+
+    /**
+     * Method gets from database and adds to session actual waypoints in chosen city
+     *
+     * @param name - name of chosen city
+     */
+    @PostMapping("actual")
+    public String returnView(@RequestParam String name, HttpServletRequest request){
+
+        CityDto city = cityService.getDtoByNaturalId(new CityDto(), new City(), name);
+
+        if (city == null){
+        return "redirect: ../whm-main";
+        }
+
+        List<WaypointDto> actualWaypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(),
+                "CITY_ID", city.getId().toString(), "COMPLETE", "false");
+
+        request.getSession().setAttribute("wps", actualWaypoints);
+        request.getSession().setAttribute("warehouseOfCity", name);
+
         return "warehouse/warehouse";
     }
 
-    @GetMapping("changeState")
-    public String deliver(@RequestParam Integer index, @RequestParam Integer op, HttpServletRequest request) {
-        List<CargoDto> cargoes = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
-        CargoDto deliveredCargo = cargoes.get(index);
-        switch (op) {
-            case 0:
-                deliveredCargo.setState("TRANSIENT");
-                break;
-            case 1:
-                deliveredCargo.setState("PREPARED");
-                break;
-            case 2:
-                deliveredCargo.setState("ON_BOARD");
-                break;
-            case 3:
-                deliveredCargo.setState("DESTINATION");
-                break;
-            case 4:
-                deliveredCargo.setState("DELIVERED");
-                break;
-        }
-        cargoService.updateDtoStatus(deliveredCargo, new Cargo());
+    @GetMapping("complete/{index}")
+    public String completeWaypoint(@PathVariable Integer index, HttpServletRequest request){
 
-        return "redirect: ../whm-main";
+        List<WaypointDto> waypoints = (List<WaypointDto>) request.getSession().getAttribute("wps");
+        WaypointDto completedWP = waypoints.remove(index.intValue());
+
+        waypointHandlerService.completeWaypoint(completedWP);
+
+
+        return "warehouse/warehouse";
     }
-
 }

@@ -5,6 +5,7 @@ import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.domain.entity.Waypoint;
 import net.medrag.model.dto.*;
 import net.medrag.model.domain.entity.Truck;
+import net.medrag.model.service.WaypointHandlerService;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.model.service.dto.TruckService;
@@ -35,11 +36,11 @@ public class LogisticWizardController {
 
     private CityService<CityDto, City> cityService;
 
-    private WaypointService<WaypointDto, Waypoint> waypointService;
+    private WaypointHandlerService waypointHandlerService;
 
     @Autowired
-    public void setWaypointService(WaypointService<WaypointDto, Waypoint> waypointService) {
-        this.waypointService = waypointService;
+    public void setWaypointHandlerService(WaypointHandlerService waypointHandlerService) {
+        this.waypointHandlerService = waypointHandlerService;
     }
 
     @Autowired
@@ -75,8 +76,6 @@ public class LogisticWizardController {
         List<TruckDto> filteredTruckList = new ArrayList<>();
         for (TruckDto truckDto : truckList) {
             if(Integer.valueOf(truckDto.getCapacity()) >= Integer.valueOf(cargo.getWeight())){
-//                    truckDto.getCityName().equals(cargo.getCurrentCityName()) &&
-//                    truckDto.getStatus().equals("STAY_IDLE") &&
                 filteredTruckList.add(truckDto);
             }
         }
@@ -161,17 +160,24 @@ public class LogisticWizardController {
     }
 
     /**
-     * Fifth step: getting and assigning to the route drivers.
+     * Fifth step: getting and assigning drivers to the route.
      */
     @GetMapping("confirmCity/{city}")
     public String addDrivers(@PathVariable Integer city, HttpServletRequest request){
-        List<CityDto>cities = (List<CityDto>)request.getSession().getAttribute("cities");
-        CityDto destinationCity = cities.get(city);
-        request.getSession().setAttribute("destinationCity", destinationCity);
-        request.getSession().setAttribute("cities", null);
+
+//        Getting list of drivers
         TruckDto chosenTruck = (TruckDto)request.getSession().getAttribute("chosenTruck");
         List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver(),
                 "CURRENT_CITY_ID", chosenTruck.getCityId().toString(), "STATE", "'READY_TO_ROUTE'");
+
+//        Defining cities
+        List<CityDto>cities = (List<CityDto>)request.getSession().getAttribute("cities");
+        CityDto destinationCity = cities.get(city);
+        CityDto departureCity = cityService.getDtoById(new CityDto(), new City(), chosenTruck.getCityId());
+
+//        Adding attributes
+        request.getSession().setAttribute("destinationCity", destinationCity);
+        request.getSession().setAttribute("departureCity", departureCity);
         request.getSession().setAttribute("drivers", drivers);
         request.getSession().setAttribute("brigade", chosenTruck.getBrigadeStr());
 
@@ -186,30 +192,32 @@ public class LogisticWizardController {
     @PostMapping("compileWP")
     public String compileWP(@RequestParam("drivers") String drivers, HttpServletRequest request){
 
+//        Getting attributes from session
         List<DriverDto>driverList = (List<DriverDto>) request.getSession().getAttribute("drivers");
         List<CargoDto> truckLoad = (List<CargoDto>) request.getSession().getAttribute("truckLoad");
         TruckDto assignedTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
         CityDto destinationCity = (CityDto) request.getSession().getAttribute("destinationCity");
+        CityDto departureCity = (CityDto) request.getSession().getAttribute("departureCity");
 
+//        Creating brigade driver set
         Set<DriverDto> brigade = new HashSet<>();
         String[] split = drivers.split("/");
         for (String s : split)   {
             brigade.add(driverList.get(Integer.valueOf(s)));
         }
 
-        CityDto currentCity = cityService.getDtoByNaturalId(new CityDto(), new City(), assignedTruck.getCityName());
+//        Setting new statuses to truck and drivers
+        for (DriverDto driverDto : brigade) {
+            driverDto.setState("ON_SHIFT");
+        }
+        assignedTruck.setStatus("IN_USE");
+        assignedTruck.setBrigade(brigade);
 
+//        Ading waypoints for every cargo in truckload
         for ( CargoDto cargo : truckLoad){
-
             cargo.setState("PREPARED");
-            for (DriverDto driverDto : brigade) {
-                driverDto.setState("ON_SHIFT");
-            }
-            assignedTruck.setStatus("IN_USE");
-            assignedTruck.setBrigade(brigade);
-
             WaypointDto load = new WaypointDto();
-            load.setCity(currentCity);
+            load.setCity(departureCity);
             load.setWayPointType("LOAD");
             load.setComplete("false");
             load.setCargo(cargo);
@@ -217,7 +225,8 @@ public class LogisticWizardController {
             load.setCurrentTruck(assignedTruck);
             load.setBrigade(brigade);
 
-            waypointService.compileRoute(load, destinationCity);
+//            Transactional method in waypoint service
+            waypointHandlerService.compileRoute(load, destinationCity);
         }
 
         return "redirect: ../mgr-main";

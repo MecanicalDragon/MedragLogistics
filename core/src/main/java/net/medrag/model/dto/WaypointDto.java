@@ -20,7 +20,7 @@ public class WaypointDto implements Dto{
 
     private String wayPointType;
 
-    private  String complete;
+    private String complete;
 
     private TruckDto currentTruck;
 

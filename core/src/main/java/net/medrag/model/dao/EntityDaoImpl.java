@@ -18,7 +18,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 
-    protected SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -84,17 +84,6 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.BY_SIMPLE_NAME);
         }
     }
-
-//    @Override
-//    public List<E> getEntityList(E entity) throws MedragRepositoryException {
-//        try {
-//            String fromTable = "from " + entity.getClass().getSimpleName();
-//            Session session = sessionFactory.getCurrentSession();
-//            return (List<E>) session.createQuery(fromTable).list();
-//        } catch (HibernateException e) {
-//            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST);
-//        }
-//    }
 
     @Override
     public List<E> getEntityList(E entity, String... args) throws MedragRepositoryException {

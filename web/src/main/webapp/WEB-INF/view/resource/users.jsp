@@ -125,7 +125,7 @@
     </div>
 
     <div class="footer">
-        <p><a href="dbfs">&copy; DBFS 20!8</a></p>
+        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 
 </div>

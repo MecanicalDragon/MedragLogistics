@@ -52,8 +52,8 @@
 
                             <tr class="odd gradeX">
                                 <td>
-                                    <a href="/mgr-wp/confirmCity/${index.index}" class="btn-success btn-sm"
-                                       role="button">Choose this</a>
+                                    <a href="/mgr-wp/confirmCity/${index.index}" class="btn btn-success btn-xs"
+                                       type="button">Choose this</a>
                                 </td>
                                 <td>${cityUnit.name}</td>
                             </tr>
@@ -68,7 +68,7 @@
     </div>
 
     <div class="footer">
-        <p><a href="dbfs">&copy; DBFS 20!8</a></p>
+        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 
 </div>

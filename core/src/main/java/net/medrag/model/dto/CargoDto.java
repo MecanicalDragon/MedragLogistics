@@ -168,7 +168,11 @@ public class CargoDto implements Dto {
         if (getId() != null) {
             return getId().equals(that.getId());
         } else {
-            return super.equals(o);
+            return that.getName().equals(this.name) &&
+                    that.getWeight().equals(this.weight) &&
+                    that.getDepartureId().equals(this.departureId) &&
+                    that.getDestinationId().equals(this.destinationId) &&
+                    that.getCurrentCityId().equals(this.currentCityId);
         }
     }
 

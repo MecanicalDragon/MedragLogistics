@@ -48,6 +48,12 @@ public class CustomerValidator implements Validator {
 
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "notnull.field");
 
+                if(customer.getEmail().trim().length() > 0){
+                    if (!customer.getEmail().matches("\\w+@\\w+\\.\\w+")){
+                        errors.rejectValue("email", "not.email");
+                    }
+                }
+
                 if (!errors.hasErrors()) {
                     Integer id = customerService.addDto(customer, new Customer());
                     customer.setId(id);
@@ -58,6 +64,8 @@ public class CustomerValidator implements Validator {
                 customer.setId(dbCustomer.getId());
                 customer.setName(dbCustomer.getName());
                 customer.setSurname(dbCustomer.getSurname());
+                customer.setEmail(dbCustomer.getEmail());
+                customer.setPhone(dbCustomer.getPhone());
 
             }
 

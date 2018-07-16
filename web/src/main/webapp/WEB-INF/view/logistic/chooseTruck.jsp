@@ -59,7 +59,7 @@
                         <c:forEach items="${sessionScope.trucksInCity}" var="truckUnit" varStatus="index">
                             <tr class="odd gradeX">
                                 <td>
-                                    <a class="button btn-success btn-sm" role="button"
+                                    <a type="button" class="btn btn-success btn-xs"
                                        href="${contextPath}/mgr-wp/confirmTruck/${index.index}">
                                         Choose this
                                     </a>
@@ -79,7 +79,7 @@
         </div>
     </div>
     <div class="footer">
-        <p><a href="dbfs">&copy; DBFS 20!8</a></p>
+        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 </div>
     <!-- jQuery -->

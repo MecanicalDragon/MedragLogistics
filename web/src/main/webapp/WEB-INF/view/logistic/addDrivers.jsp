@@ -63,7 +63,7 @@
 
                             <tr class="odd gradeX">
                                 <td>
-                                    <button class="btn btn-sm btn-choose btn-enabled btn-success" id="choose-${index.index}">
+                                    <button class="btn btn-xs btn-choose btn-enabled btn-success" id="choose-${index.index}">
                                         Assign
                                     </button>
                                 </td>
@@ -93,7 +93,7 @@
 
 
     <div class="footer">
-        <p><a href="dbfs">&copy; DBFS 20!8</a></p>
+        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 
 </div>

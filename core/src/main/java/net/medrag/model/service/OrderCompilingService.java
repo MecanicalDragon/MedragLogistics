@@ -13,5 +13,6 @@ import java.util.List;
  * @version 1.0
  */
 public interface OrderCompilingService {
-    public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer);
+    OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer);
+    void deliverCargo(CargoDto deliveredCargo);
 }

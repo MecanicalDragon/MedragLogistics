@@ -34,7 +34,7 @@ public class Cargo extends Identifier {
     @JoinColumn(name = "owner_id")
     private Customer owner;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "order_id")
     private Orderr orderr;
 

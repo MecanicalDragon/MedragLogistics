@@ -49,8 +49,9 @@ public class CargoController {
         }
 
         List<CargoDto> cargoList = (List<CargoDto>) request.getSession().getAttribute("cargoList");
-        cargoList.add(newCargo);
-        request.getSession().setAttribute("cargoList", cargoList);
+        if(!cargoList.contains(newCargo)) {
+            cargoList.add(newCargo);
+        }
         model.addAttribute("cargo", new CargoDto());
         return "warehouse/order";
     }

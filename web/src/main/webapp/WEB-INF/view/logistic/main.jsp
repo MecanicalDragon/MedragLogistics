@@ -27,11 +27,11 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a class="btn btn-primary" href="" role="button">Think up a purpose for this button</a>
+                    <a class="btn btn-warning" href="" role="button">Refresh</a>
 
                     <%--Logout button--%>
                     <div class="pull-right">
-                        <form method="post" action="logout">
+                        <form method="post" action="${contextPath}/logout">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             You signed in under ${pageContext.request.userPrincipal.name} Personal Number
                             <button class="btn btn-danger offset-xs-6">Logout</button>
@@ -77,7 +77,7 @@
         </div>
     </div>
     <div class="footer">
-        <p><a href="dbfs">&copy; DBFS 20!8</a></p>
+        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 </div>
 
@@ -128,25 +128,6 @@
         });
     });
 </script>
-<%--<script>--%>
-    <%--$(document).ready(function () {--%>
-        <%--$(".start-order").click(function () {--%>
-            <%--var idCargo = $(this).attr("id");--%>
-            <%--var arr = idCargo.split('/');--%>
-            <%--var cargo = {--%>
-                <%--id: arr[1],--%>
-                <%--currentCityName: arr[2]--%>
-            <%--};--%>
-            <%--$.ajax("/mgr-trucks/getList",{--%>
-                <%--method: "GET",--%>
-                <%--success: function(){--%>
-                    <%--alert( "Прибыли данные" );--%>
-                <%--}--%>
-            <%--});--%>
-        <%--});--%>
-    <%--});--%>
-
-<%--</script>--%>
 
 </body>
 </html>
