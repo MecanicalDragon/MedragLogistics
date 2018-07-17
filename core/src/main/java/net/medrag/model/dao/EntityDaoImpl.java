@@ -46,6 +46,16 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
     }
 
     @Override
+    public void refreshEntity(E entity) throws MedragRepositoryException {
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            session.refresh(entity);
+        } catch (HibernateException e) {
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.BY_SIMPLE_NAME);
+        }
+    }
+
+    @Override
     public void removeEntity(E entity) throws MedragRepositoryException {
         try {
             Session session = sessionFactory.getCurrentSession();

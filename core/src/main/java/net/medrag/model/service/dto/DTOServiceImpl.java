@@ -29,7 +29,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
 
     private static final Logger logger = LoggerFactory.getLogger(DTOServiceImpl.class);
 
-
     @Autowired
     public void setEntityDao(@Qualifier(implementation) EntityDao<E> entityDao) {
         this.entityDao = entityDao;
@@ -87,6 +86,16 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
             entityDao.saveOrUpdateEntity((E) new ModelMapper().map(dto, entity.getClass()));
         } catch (MedragRepositoryException e) {
             logger.error("Could not save or update in database {}", dto);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void refreshDto(D dto, E entity){
+        try {
+            entityDao.refreshEntity((E) new ModelMapper().map(dto, entity.getClass()));
+        } catch (MedragRepositoryException e) {
+            logger.error("Could not refresh in database {}", dto);
         }
     }
 

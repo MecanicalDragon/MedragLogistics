@@ -208,13 +208,13 @@ public class LogisticWizardController {
 
 //        Setting new statuses to truck and drivers
         for (DriverDto driverDto : brigade) {
-            driverDto.setState("ON_SHIFT");
+            driverDto.setState("PORTER");
             driverDto.setCurrentTruck(assignedTruck);
         }
         assignedTruck.setStatus("IN_USE");
         assignedTruck.setBrigade(brigade);
 
-//        Ading waypoints for every cargo in truckload
+//        Adding waypoints for every cargo in truckload
         for ( CargoDto cargo : truckLoad){
             cargo.setState("PREPARED");
             WaypointDto load = new WaypointDto();

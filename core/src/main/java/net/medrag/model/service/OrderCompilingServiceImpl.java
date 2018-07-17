@@ -30,6 +30,13 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
 
     private OrderService<OrderrDto, Orderr> orderService;
 
+    private WaypointService<WaypointDto, Waypoint> waypointService;
+
+    @Autowired
+    public void setWaypointService(WaypointService<WaypointDto, Waypoint> waypointService) {
+        this.waypointService = waypointService;
+    }
+
     @Autowired
     public void setOrderService(OrderService<OrderrDto, Orderr> orderService) {
         this.orderService = orderService;
@@ -74,6 +81,7 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
     @Override
     @Transactional
     public void deliverCargo(CargoDto deliveredCargo) {
+
         deliveredCargo.setState("DELIVERED");
         cargoService.updateDtoStatus(deliveredCargo, new Cargo());
         List<CargoDto> orderCargoes = deliveredCargo.getOrderr().getCargoes();
@@ -83,9 +91,11 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
                 deliveredCargoes++;
             }
         }
+
         if (deliveredCargoes == orderCargoes.size()) {
             deliveredCargo.getOrderr().setComplete(true);
             cargoService.updateDtoStatus(deliveredCargo, new Cargo());
         }
+
     }
 }

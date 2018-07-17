@@ -27,10 +27,10 @@
 
             <div class="row">
                 <div class="text-left col-xs-6">
-                    <h2>${sessionScope.driver.personalNumber}</h2>
+                    <h2>${driver.personalNumber}</h2>
                 </div>
                 <div class="text-right col-xs-6">
-                    <h2>${sessionScope.driver.name} ${sessionScope.driver.surname}</h2>
+                    <h2>${driver.name} ${driver.surname}</h2>
                 </div>
             </div>
             <div class="row">
@@ -45,6 +45,8 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
+
+                                            <%--Working information--%>
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Working
                                                 information</a>
                                         </h4>
@@ -52,50 +54,58 @@
                                     <div id="collapseOne" class="panel-collapse collapse in">
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="text-left col-xs-6">
-                                                    <h4>Worked time: ${sessionScope.driver.workedTime} hours</h4>
+                                                <div class="text-left col-xs-4">
+                                                    <h4>Worked time: ${workedTime}</h4>
                                                 </div>
-                                                <div class="text-right col-xs-6">
-                                                    <h4>Paid time: ${sessionScope.driver.paidTime} hours</h4>
+                                                <div class="col-xs-4">
+                                                    <div class="btn-group">
+                                                        <button type="button"
+                                                                class="btn btn-info btn-lg btn-block dropdown-toggle"
+                                                                data-toggle="dropdown">
+                                                            <c:if test="${driver.state.equals('REST')}">
+                                                                Is resting
+                                                            </c:if>
+                                                            <c:if test="${driver.state.equals('ON_SHIFT')}">
+                                                                On the shift
+                                                            </c:if>
+                                                            <c:if test="${driver.state.equals('DRIVING')}">
+                                                                Is driving
+                                                            </c:if>
+                                                            <c:if test="${driver.state.equals('PORTER')}">
+                                                                Cargo works
+                                                            </c:if>
+                                                            <c:if test="${driver.state.equals('READY_TO_ROUTE')}">
+                                                                Ready to route
+                                                            </c:if>
+                                                        </button>
+                                                        <ul class="dropdown-menu pull-right" role="menu">
+                                                            <%--<c:if test="${driver.state.equals('REST') ||--%>
+                                                            <%--driver.state.equals('READY_TO_ROUTE')}">--%>
+                                                            <c:if test="${driver.currentTruck == null || driver.state.equals('PORTER')}">
+                                                                <li><a href="${contextPath}/drv-main/changeState/REST">
+                                                                    Go to rest</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="${contextPath}/drv-main/changeState/READY_TO_ROUTE">
+                                                                        Ready to route</a>
+                                                                </li>
+                                                            </c:if>
+                                                            <c:if test="${driver.currentTruck != null}">
+                                                                <li>
+                                                                    <a href="${contextPath}/drv-main/changeState/ON_SHIFT">
+                                                                        On the shift</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="${contextPath}/drv-main/changeState/DRIVING">
+                                                                        Is driving</a>
+                                                                </li>
+                                                            </c:if>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="btn-group">
-                                                <button type="button" class="btn btn-info btn-lg btn-block dropdown-toggle" data-toggle="dropdown">
-                                                    <c:if test="${sessionScope.driver.state.equals('REST')}">
-                                                        Is resting
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.driver.state.equals('ON_SHIFT')}">
-                                                        On the shift
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.driver.state.equals('DRIVING')}">
-                                                        Is driving
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.driver.state.equals('PORTER')}">
-                                                        Cargo works
-                                                    </c:if>
-                                                    <c:if test="${sessionScope.driver.state.equals('READY_TO_ROUTE')}">
-                                                        Ready to route
-                                                    </c:if>
-                                                </button>
-                                                    <ul class="dropdown-menu pull-right" role="menu">
-                                                        <li><a href="${contextPath}/drv-main/changeState/REST">
-                                                            Is resting</a>
-                                                        </li>
-                                                        <li><a href="${contextPath}/drv-main/changeState/ON_SHIFT">
-                                                            On the shift</a>
-                                                        </li>
-                                                        <li><a href="${contextPath}/drv-main/changeState/DRIVING">
-                                                            Is driving</a>
-                                                        </li>
-                                                        <li><a href="${contextPath}/drv-main/changeState/PORTER">
-                                                            Cargo works</a>
-                                                        </li>
-                                                        <li><a href="${contextPath}/drv-main/changeState/READY_TO_ROUTE">
-                                                            Ready to route</a>
-                                                        </li>
-                                                    </ul>
-                                            </div>
+                                                <div class="text-right col-xs-4">
+                                                    <h4>Paid time: ${paidTime}</h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -103,6 +113,8 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
+
+                                            <%--Brigade information--%>
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Brigade
                                                 information</a>
                                         </h4>
@@ -110,74 +122,26 @@
                                     <div id="collapseTwo" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <c:choose>
-                                                <c:when test="${!sessionScope.driver.state.equals('REST') &&
-                                            !sessionScope.driver.state.equals('READY_TO_ROUTE')}">
+                                                <c:when test="${driver.currentTruck != null}">
                                                     <div class="row">
-                                                    <div class="text-left col-xs-6">
-                                                        <h4>Truck:</h4>
+                                                        <div class="text-left col-xs-6">
+                                                            <h4>Truck:</h4>
+                                                        </div>
+                                                        <div class="text-right col-xs-6">
+                                                            <h4>${driver.currentTruck.regNumber}</h4>
+                                                        </div>
                                                     </div>
-                                                    <div class="text-right col-xs-6">
-                                                        <h4>${sessionScope.driver.currentTruck.regNumber}</h4>
-                                                    </div>
-                                                    </div>
-                                                        <c:forEach items="${sessionScope.driver.currentTruck.brigade}"
-                                                                   var="dUnit">
-                                                            <div class="row">
-                                                                <div class="text-left col-xs-6">
-                                                                    <h4>${dUnit.personalNumber}</h4>
-                                                                </div>
-                                                                <div class="text-right col-xs-6">
-                                                                    <h4>${dUnit.name} ${dUnit.surname}</h4>
-                                                                </div>
+                                                    <c:forEach items="${driver.currentTruck.brigade}"
+                                                               var="dUnit">
+                                                        <div class="row">
+                                                            <div class="text-left col-xs-6">
+                                                                <h4>${dUnit.personalNumber}</h4>
                                                             </div>
-                                                        </c:forEach>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div class="row">
-                                                    <div class="text-center">
-                                                    <h3>No active orders.</h3>
-                                                    </div>
-                                                    </div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Order information</a>
-                                        </h4>
-                                    </div>
-                                    <div id="collapseThree" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <c:choose>
-                                                <c:when test="${!sessionScope.driver.state.equals('REST') &&
-                                            !sessionScope.driver.state.equals('READY_TO_ROUTE')}">
-                                                <table width="100%" class="table table-striped table-bordered table-hover" id="dto-Table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>type</th>
-                                                        <th>city</th>
-                                                        <th>cargo index</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <c:forEach items="${sessionScope.wps}"
-                                                               var="waypoint">
-                                                    <tr class="odd gradeX">
-                                                        <td>
-                                                                ${waypoint.wayPointType}
-                                                        </td>
-                                                        <td>
-                                                                ${waypoint.city.name}
-                                                        </td>
-                                                        <td>
-                                                                ${waypoint.cargo.index}
-                                                        </td>
+                                                            <div class="text-right col-xs-6">
+                                                                <h4>${dUnit.name} ${dUnit.surname}</h4>
+                                                            </div>
+                                                        </div>
                                                     </c:forEach>
-                                                    </tbody>
-                                                </table>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <div class="row">
@@ -190,6 +154,80 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+
+                                            <%--Order infprmation--%>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Order
+                                                information</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <c:choose>
+                                                <c:when test="${driver.currentTruck != null}">
+                                                    <table width="100%"
+                                                           class="table table-striped table-bordered table-hover"
+                                                           id="dto-Table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>type</th>
+                                                            <th>city</th>
+                                                            <th>cargo index</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <c:forEach items="${wps}"
+                                                                   var="waypoint">
+                                                        <tr class="odd gradeX">
+                                                            <td>
+                                                                    ${waypoint.wayPointType}
+                                                            </td>
+                                                            <td>
+                                                                    ${waypoint.city.name}
+                                                            </td>
+                                                            <td>
+                                                                    ${waypoint.cargo.index}
+                                                            </td>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="row">
+                                                        <div class="text-center">
+                                                            <h3>No active orders.</h3>
+                                                        </div>
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                    </div>
+                                </div>
+                                <c:if test="${driver.state.equals('PORTER')}">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+
+                                                    <%--Working information--%>
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Free
+                                                    truck</a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseFour" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-xs-4 col-xs-offset-4">
+                                                        <a href="${contextPath}/drv-main/freeTruck" role="button"
+                                                           class="btn btn-danger btn-lg btn-block">
+                                                            Mark truck as staying idle</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                         <!-- .panel-body -->
@@ -197,6 +235,13 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->
+            </div>
+
+            <div class="row">
+                <form method="post" action="${contextPath}/logout">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <button class="btn btn-danger btn-lg">Logout</button>
+                </form>
             </div>
 
         </div>

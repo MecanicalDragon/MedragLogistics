@@ -24,7 +24,11 @@ public class DriverDto implements Dto {
 
     private Integer paidTime;
 
+    private Long lastChange;
+
     private String state;
+
+    private String previousState;
 
     private Integer cityId;
 
@@ -34,6 +38,22 @@ public class DriverDto implements Dto {
 
     private Set<WaypointDto> route;
 
+
+    public String getPreviousState() {
+        return previousState;
+    }
+
+    public void setPreviousState(String previousState) {
+        this.previousState = previousState;
+    }
+
+    public Long getLastChange() {
+        return lastChange;
+    }
+
+    public void setLastChange(Long lastChange) {
+        this.lastChange = lastChange;
+    }
 
     public Set<WaypointDto> getRoute() {
         return route;
@@ -143,7 +163,7 @@ public class DriverDto implements Dto {
                 ", paidTime=" + paidTime +
                 ", state='" + state + '\'' +
                 ", cityName='" + cityName + '\'' +
-                ", truckRegNumber='" + currentTruck.getRegNumber() + '\'' +
+                ", lastChange='" + lastChange + '\'' +
                 '}';
     }
 

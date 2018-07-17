@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.time.Instant;
 import java.util.Random;
 
 /**
@@ -72,6 +73,7 @@ public class DriverValidator implements Validator {
                     errors.rejectValue("cityName", "null.city");
                 } else {
 
+                    driverDto.setLastChange(Instant.now().getEpochSecond());
                     driverDto.setName(driverDto.getName().trim());
                     driverDto.setSurname(driverDto.getSurname().trim());
                     driverDto.setEmail(driverDto.getEmail().trim());
@@ -80,6 +82,7 @@ public class DriverValidator implements Validator {
                     driverDto.setWorkedTime(0);
                     driverDto.setPaidTime(0);
                     driverDto.setState("REST");
+                    driverDto.setPreviousState("REST");
 
                     do {
                         int random = new Random().nextInt(89999) + 10000;

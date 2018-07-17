@@ -1,5 +1,7 @@
 package net.medrag.model.dto;
 
+import java.util.Set;
+
 /**
  * Data Transfer Object of {net.medrag.model.domain.entity.Cargo}
  *
@@ -34,6 +36,16 @@ public class CargoDto implements Dto {
 
     private String currentCityName;
 
+    private Set<WaypointDto> route;
+
+
+    public Set<WaypointDto> getRoute() {
+        return route;
+    }
+
+    public void setRoute(Set<WaypointDto> route) {
+        this.route = route;
+    }
 
     public OrderrDto getOrderr() {
         return orderr;

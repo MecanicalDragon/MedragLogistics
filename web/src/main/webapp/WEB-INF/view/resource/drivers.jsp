@@ -68,7 +68,7 @@
                     </c:if>
 
                     <div class="pull-right">
-                        <form method="post" action="logout">
+                        <form method="post" action="${contextPath}/logout">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             You signed in under ${pageContext.request.userPrincipal.name} Personal Number
                             <button class="btn btn-danger offset-xs-6">Logout</button>

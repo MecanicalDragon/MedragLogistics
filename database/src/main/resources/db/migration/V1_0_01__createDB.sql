@@ -74,16 +74,18 @@ CREATE TABLE TRUCK (
   ENGINE = InnoDB;
 
 CREATE TABLE DRIVER (
-  ID               INT                                                              NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  PERSONAL_NUMBER  VARCHAR(9)                                                       NOT NULL UNIQUE,
-  NAME             VARCHAR(127)                                                     NOT NULL,
-  SURNAME          VARCHAR(127)                                                     NOT NULL,
-  EMAIL            VARCHAR(255)                                                     NOT NULL,
-  WORKED_TIME      INTEGER                                                          NOT NULL,
-  PAID_TIME        INTEGER                                                          NOT NULL,
-  STATE            ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER', 'READY_TO_ROUTE') NOT NULL,
-  CURRENT_CITY_ID  INT,
-  CURRENT_TRUCK_ID INT,
+  ID                 INT                                                              NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  PERSONAL_NUMBER    VARCHAR(9)                                                       NOT NULL UNIQUE,
+  NAME               VARCHAR(127)                                                     NOT NULL,
+  SURNAME            VARCHAR(127)                                                     NOT NULL,
+  EMAIL              VARCHAR(255)                                                     NOT NULL,
+  WORKED_TIME        INTEGER                                                          NOT NULL,
+  PAID_TIME          INTEGER                                                          NOT NULL,
+  LAST_STATUS_CHANGE BIGINT                                                           NOT NULL,
+  STATE              ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER', 'READY_TO_ROUTE') NOT NULL,
+  PREVIOUS_STATE     ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER', 'READY_TO_ROUTE') NOT NULL,
+  CURRENT_CITY_ID    INT,
+  CURRENT_TRUCK_ID   INT,
   FOREIGN KEY (CURRENT_CITY_ID) REFERENCES CITY (ID)
     ON DELETE SET NULL,
   FOREIGN KEY (CURRENT_TRUCK_ID) REFERENCES TRUCK (ID)
@@ -101,17 +103,13 @@ CREATE TABLE WAYPOINT (
   COMPLETE BOOL                    NOT NULL DEFAULT FALSE,
 
   FOREIGN KEY (ORDER_ID) REFERENCES ORDERR (ID)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    ON UPDATE CASCADE,
   FOREIGN KEY (TRUCK_ID) REFERENCES TRUCK (ID)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    ON UPDATE CASCADE,
   FOREIGN KEY (CITY_ID) REFERENCES CITY (ID)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    ON UPDATE CASCADE,
   FOREIGN KEY (CARGO_ID) REFERENCES CARGO (ID)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    ON UPDATE CASCADE,
 
   UNIQUE (CITY_ID, CARGO_ID, WP_TYPE)
 )
@@ -124,11 +122,9 @@ CREATE TABLE WAYPOINT_DRIVERS (
   DRIVER_ID   INT NOT NULL,
 
   FOREIGN KEY (WAYPOINT_ID) REFERENCES WAYPOINT (ID)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    ON UPDATE CASCADE,
   FOREIGN KEY (DRIVER_ID) REFERENCES DRIVER (ID)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    ON UPDATE CASCADE,
 
   UNIQUE (WAYPOINT_ID, DRIVER_ID)
 )

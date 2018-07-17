@@ -5,6 +5,7 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.Set;
 
 /**
  * Simple JavaBean domain object, that represents a Cargo
@@ -49,6 +50,17 @@ public class Cargo extends Identifier {
     @ManyToOne
     @JoinColumn(name = "current_city_id")
     private City currentCity;
+
+    @OneToMany(mappedBy = "cargo", fetch = FetchType.LAZY)
+    private Set<Waypoint> route;
+
+    public Set<Waypoint> getRoute() {
+        return route;
+    }
+
+    public void setRoute(Set<Waypoint> route) {
+        this.route = route;
+    }
 
     public Orderr getOrderr() {
         return orderr;

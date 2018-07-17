@@ -16,6 +16,7 @@ public interface DTOService<D extends Dto, E extends Entity> {
     void updateDtoStatus(D dto, E entity);
     void removeDto(D dto, E entity);
     void saveOrUpdateDto(D dto, E entity);
+    void refreshDto(D dto, E entity);
     D getDtoById(D dto, E entity, Integer id);
     D getDtoByNaturalId(D dto, E entity, String id);
     List<D> getDtoList(D dto, E entity, String... args);

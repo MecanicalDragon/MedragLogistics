@@ -36,9 +36,16 @@ public class Driver extends Identifier {
     @Column(name = "paid_time")
     private Integer paidTime;
 
+    @Column(name = "last_status_change")
+    private Long lastChange;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "state", columnDefinition = "enum('rest', 'on_shift', 'driving', 'porter', 'ready_to_route)")
     private DriverState state;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "previous_state", columnDefinition = "enum('rest', 'on_shift', 'driving', 'porter', 'ready_to_route)")
+    private DriverState previousState;
 
     @ManyToOne
     @JoinColumn(name = "current_city_id")
@@ -50,6 +57,22 @@ public class Driver extends Identifier {
 
     @ManyToMany(mappedBy = "brigade", fetch = FetchType.LAZY)
     private Set<Waypoint> route;
+
+    public Long getLastChange() {
+        return lastChange;
+    }
+
+    public void setLastChange(Long lastChange) {
+        this.lastChange = lastChange;
+    }
+
+    public DriverState getPreviousState() {
+        return previousState;
+    }
+
+    public void setPreviousState(DriverState previousState) {
+        this.previousState = previousState;
+    }
 
     public Set<Waypoint> getRoute() {
         return route;
