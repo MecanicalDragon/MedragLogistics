@@ -24,6 +24,11 @@
 <br>
 <div class="container">
 
+    <form action="${contextPath}/mgr-destination" method="POST" id="targetForm">
+        <input type="hidden" id="targetField" name="index" value="">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+
     <%--Data Table--%>
     <div class="row">
         <div class="col-lg-12">
@@ -52,8 +57,9 @@
 
                             <tr class="odd gradeX">
                                 <td>
-                                    <a href="/mgr-wp/confirmCity/${index.index}" class="btn btn-success btn-xs"
-                                       type="button">Choose this</a>
+                                    <button class="btn btn-success btn-xs btn-target-go"
+                                            form="targetForm" id="target-${index.index}">Send here
+                                    </button>
                                 </td>
                                 <td>${cityUnit.name}</td>
                             </tr>
@@ -83,16 +89,7 @@
 <!-- DataTables JavaScript -->
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        // this is for datatables
-        $('#dto-Table').DataTable({
-            responsive: true
-        });
-    });
-</script>
-
+<script src="/resources/js/dt-base.js"></script>
 
 </body>
 </html>

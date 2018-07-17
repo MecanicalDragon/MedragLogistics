@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link}
+ * Controller, that handles main logistic page.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -29,6 +28,9 @@ public class MainLogisticController {
         this.cargoService = cargoService;
     }
 
+    /**
+     * Getting list of cargoes from database ant passing it to main page. Nothing interesting.
+     */
     @GetMapping()
     public String returnView(HttpServletRequest request){
         List<CargoDto> cargoes = cargoService.getDtoList(new CargoDto(), new Cargo(), "STATE", "'TRANSIENT'");

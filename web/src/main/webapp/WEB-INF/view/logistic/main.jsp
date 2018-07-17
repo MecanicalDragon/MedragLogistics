@@ -23,6 +23,11 @@
 <br>
 <div class="container">
 
+    <form action="${contextPath}/mgr-startManage" method="POST" id="targetForm">
+        <input type="hidden" id="targetField" name="index" value="">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -41,7 +46,7 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
 
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="orderr-Table">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dto-Table">
                         <thead>
                         <tr>
                             <th>Start manage</th>
@@ -49,7 +54,6 @@
                             <th>Cargo weight</th>
                             <th>Current city</th>
                             <th>Destination point</th>
-                            <th>Cargo state</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -57,16 +61,14 @@
                         <c:forEach items="${sessionScope.globalCargoes}" var="cargo" varStatus="index">
                             <tr class="odd gradeX">
                                 <td>
-                                    <a type="button" class="btn btn-success btn-xs start-order"
-                                       href="${contextPath}/mgr-wp/chooseTruck/${index.index}">
-                                        Add to truck
-                                    </a>
+                                    <button class="btn btn-success btn-xs btn-target-go"
+                                            form="targetForm" id="target-${index.index}">Start manage
+                                    </button>
                                 </td>
                                 <td>${cargo.index}</td>
                                 <td>${cargo.weight}</td>
                                 <td>${cargo.currentCityName}</td>
                                 <td>${cargo.destinationName}</td>
-                                <td>${cargo.state}</td>
                             </tr>
                         </c:forEach>
 
@@ -81,35 +83,6 @@
     </div>
 </div>
 
-
-<%--&lt;%&ndash;Modal window add cargo to truck&ndash;%&gt;--%>
-<%--<div class="modal fade" id="addCargoToTruck" tabindex="-1" role="dialog" aria-labelledby="modalLabel"--%>
-<%--aria-hidden="true">--%>
-<%--<div class="modal-dialog modal-dialog-centered">--%>
-<%--<div class="modal-content">--%>
-<%--<div class="modal-header">--%>
-<%--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>--%>
-<%--<h4 class="modal-title" id="modalLabel"></h4>--%>
-<%--</div>--%>
-<%--<div class="modal-body">--%>
-
-
-<%--</div>--%>
-<%--<div class="modal-footer">--%>
-<%--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>--%>
-<%--<a type="button" class="btn btn-danger" id="choose" href="">Choose truck</a>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-
-<%--<div>--%>
-<%--<form:form id="addCargo" method="post" action="${contextPath}/whm-wp/initTruck">--%>
-<%--<form:input type="hidden" path="cargoId" id="cargoListId" value=""/>--%>
-<%--</form:form>--%>
-<%--</div>--%>
-
-
 <!-- jQuery -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 
@@ -119,15 +92,7 @@
 <!-- DataTables JavaScript -->
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function () {
-        $('#orderr-Table').DataTable({
-            responsive: true
-        });
-    });
-</script>
+<script src="/resources/js/dt-base.js"></script>
 
 </body>
 </html>

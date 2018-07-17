@@ -24,7 +24,7 @@
 <br>
 <div class="container">
 
-    <form action="${contextPath}/mgr-wp/compileWP" method="POST" id="driverForm">
+    <form action="${contextPath}/mgr-compileRoute" method="POST" id="driverForm">
         <input type="hidden" id="driverHiddenField" name="drivers" value="">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
@@ -63,7 +63,8 @@
 
                             <tr class="odd gradeX">
                                 <td>
-                                    <button class="btn btn-xs btn-choose btn-enabled btn-success" id="choose-${index.index}">
+                                    <button class="btn btn-xs btn-choose btn-enabled btn-success"
+                                            id="choose-${index.index}">
                                         Assign
                                     </button>
                                 </td>
@@ -107,56 +108,53 @@
 <!-- DataTables JavaScript -->
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="/resources/js/dt-base.js"></script>
+
+<%--Drivers assigning script--%>
+<script src="/resources/js/drivers-assigning.js"></script>
 
 <script>
-    $(document).ready(function () {
-        // this is for datatables
-        $('#dto-Table').DataTable({
-            responsive: true
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        var totalDrivers = 0;
-        var neededDrivers = parseInt("${sessionScope.brigade}", 10);
-        $(".btn-choose").click(function () {
-            var idButton = $(this).attr("id");
-            var index = $(this).attr("id").split('-')[1];
-            var value = $("#driverHiddenField").val();
+    var neededDrivers = parseInt("${sessionScope.brigade}", 10);
+    //    $(document).ready(function () {
+    //        var totalDrivers = 0;
+    //        $(".btn-choose").click(function () {
+    //            var idButton = $(this).attr("id");
+    //            var index = $(this).attr("id").split('-')[1];
+    //            var value = $("#driverHiddenField").val();
+    //
+    //            if (document.getElementById(idButton).classList.contains('btn-success')) {
+    //
+    //                totalDrivers++;
+    //                document.getElementById(idButton).classList.remove('btn-success');
+    //                document.getElementById(idButton).classList.remove('btn-enabled');
+    //                document.getElementById(idButton).classList.add('btn-danger');
+    //                $(this).text("Remove");
+    //                value = value + index + "/";
+    //                $("#driverHiddenField").val(value);
+    //
+    //                if (totalDrivers === neededDrivers) {
+    //                    $('#compile').prop('disabled', false);
+    //                    $(".btn-enabled").prop('disabled', true);
+    //                }
+    //
+    //            } else {
+    //
+    //                totalDrivers--;
+    //                document.getElementById(idButton).classList.remove('btn-danger');
+    //                document.getElementById(idButton).classList.add('btn-success');
+    //                document.getElementById(idButton).classList.add('btn-enabled');
+    //                $("#"+idButton).text("Assign");
+    //
+    //                value = value.replace("" + index + "/", "");
+    //                $("#driverHiddenField").val(value);
+    //                $('#compile').prop('disabled', true);
+    //                $(".btn-enabled").prop('disabled', false);
+    //            }
+    //
+    //            $("#msg").text("Now assigned " + totalDrivers + " of " + neededDrivers + " drivers.");
+    //        });
+    //    });
 
-            if (document.getElementById(idButton).classList.contains('btn-success')) {
-
-                totalDrivers++;
-                document.getElementById(idButton).classList.remove('btn-success');
-                document.getElementById(idButton).classList.remove('btn-enabled');
-                document.getElementById(idButton).classList.add('btn-danger');
-                $(this).text("Remove");
-                value = value + index + "/";
-                $("#driverHiddenField").val(value);
-
-                if (totalDrivers === neededDrivers) {
-                    $('#compile').prop('disabled', false);
-                    $(".btn-enabled").prop('disabled', true);
-                }
-
-            } else {
-
-                totalDrivers--;
-                document.getElementById(idButton).classList.remove('btn-danger');
-                document.getElementById(idButton).classList.add('btn-success');
-                document.getElementById(idButton).classList.add('btn-enabled');
-                $("#"+idButton).text("Assign");
-
-                value = value.replace("" + index + "/", "");
-                $("#driverHiddenField").val(value);
-                $('#compile').prop('disabled', true);
-                $(".btn-enabled").prop('disabled', false);
-            }
-
-            $("#msg").text("Now assigned " + totalDrivers + " of " + neededDrivers + " drivers.");
-        });
-    });
 </script>
 
 </body>

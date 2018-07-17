@@ -23,32 +23,51 @@
 <br>
 <div class="container">
 
+    <form action="${contextPath}/mgr-addCargoes" method="POST" id="cargoForm">
+        <input type="hidden" id="cargoHiddenField" name="cargoesList" value="">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="text-center">
 
-                        <h3>Step 2: add more cargoes to the truck.</h3>
+                        <h1>Step 2: add more cargoes to the truck.</h1>
+                        <h3 id="msg">Now loaded 0 kgs of ${sessionScope.chosenTruck.capacity} total capacity.</h3>
                     </div>
                 </div>
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover"
-                           id="addedCargoTable">
+                           id="dto-Table">
                         <thead>
                         <tr>
+                            <th>Check</th>
                             <th>Cargo index</th>
-                            <th>Cargo weight (total weight now
-                                is ${sessionScope.currentWeight}/${sessionScope.chosenTruck.capacity} kgs.)
-                            </th>
+                            <th>Cargo weight</th>
                             <th>Current city</th>
                             <th>Destination</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${sessionScope.truckLoad}" var="cargoItem">
+                        <c:forEach items="${sessionScope.cityCargoes}" var="cargoItem" varStatus="index">
                             <tr class="odd gradeX">
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${cargoItem.id.equals(sessionScope.chosenCargoId)}">
+                                            <button class="btn btn-xs btn-choose btn-enabled btn-success chosenCargo"
+                                                    id="choose-${index.index}-${cargoItem.weight}">Add this
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button class="btn btn-xs btn-choose btn-enabled btn-success"
+                                                    id="choose-${index.index}-${cargoItem.weight}">Add this
+                                            </button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td>${cargoItem.index}</td>
                                 <td>${cargoItem.weight}</td>
                                 <td>${cargoItem.currentCityName}</td>
@@ -64,71 +83,17 @@
                     <div class="text-center">
                         <div class="row">
                             <a class="btn btn-danger" href="${contextPath}/mgr-main" role="button">Dismiss</a>
-
-
-                            <a class="btn btn-success" href="${contextPath}/mgr-wp/chooseCity" role="button">Next
-                                step</a>
+                            <a class="btn btn-warning" href="${contextPath}/mgr-startManage" role="button">Choose another truck</a>
+                            <button class="btn btn-success" form="cargoForm" id="compile">Compile</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-
-                    <div class="panel-body">
-
-                        <table width="100%" class="table table-striped table-bordered table-hover"
-                               id="orderr-Table">
-                            <thead>
-                            <tr>
-                                <th>Add cargo</th>
-                                <th>Cargo index</th>
-                                <th>Cargo weight (current truck
-                                    load ${sessionScope.currentWeight}/${sessionScope.chosenTruck.capacity}
-                                    kgs.)
-                                </th>
-                                <th>Destination point</th>
-                                <th>Cargo state</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            <c:forEach items="${sessionScope.cityCargoes}" var="cargo"
-                                       varStatus="index">
-                                <tr class="odd gradeX">
-                                    <td>
-                                        <a type="button" class="btn btn-success btn-xs start-order"
-                                           href="${contextPath}/mgr-wp/addCargo/${index.index}"
-                                           id="addThis:${cargo.weight}">
-                                            Add this
-                                        </a>
-                                    </td>
-                                    <td>${cargo.index}</td>
-                                    <td>${cargo.weight}</td>
-                                    <td>${cargo.destinationName}</td>
-                                    <td>${cargo.state}</td>
-                                </tr>
-                            </c:forEach>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="footer">
+        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
-<div class="footer">
-    <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
-</div>
-</div>
-
 </div>
 
 <!-- jQuery -->
@@ -140,33 +105,54 @@
 <!-- DataTables JavaScript -->
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="/resources/js/dt-base.js"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<%--Choosing cargoes script--%>
+<script src="/resources/js/adding-cargoes.js"></script>
+
 <script>
-    $(document).ready(function () {
-        $('#orderr-Table').DataTable({
-            responsive: true
-        });
-        $('#addedCargoTable').DataTable({
-            responsive: true
-        });
-    });
+    var capacity = parseInt("${sessionScope.chosenTruck.capacity}", 10);
+    //    $(document).ready(function () {
+    //        var totalLoad = 0;
+    //        $(".btn-choose").click(function () {
+    //            var idButton = $(this).attr("id");
+    //            var index = $(this).attr("id").split('-')[1];
+    //            var value = $("#cargoHiddenField").val();
+    //            var weight = $(this).attr("id").split('-')[2];
+    //            var intWeight = parseInt(weight, 10);
+    //
+    //            if (document.getElementById(idButton).classList.contains('btn-success')) {
+    //
+    //                totalLoad += intWeight;
+    //                document.getElementById(idButton).classList.remove('btn-success');
+    //                document.getElementById(idButton).classList.add('btn-danger');
+    //                $(this).text("Remove");
+    //                value = value + index + "/";
+    //                $("#cargoHiddenField").val(value);
+    //
+    //                if (capacity < totalLoad) {
+    //                    $('#compile').prop('disabled', true);
+    //                }
+    //
+    //            } else {
+    //
+    //                totalLoad -= intWeight;
+    //                document.getElementById(idButton).classList.remove('btn-danger');
+    //                document.getElementById(idButton).classList.add('btn-success');
+    //                $("#" + idButton).text("Add this");
+    //
+    //                value = value.replace("" + index + "/", "");
+    //                $("#cargoHiddenField").val(value);
+    //                if (capacity > totalLoad) {
+    //                    $('#compile').prop('disabled', false);
+    //                }
+    //            }
+    //
+    //            $("#msg").text("Now loaded " + totalLoad + " kgs of " + capacity + " total capacity.");
+    //        });
+    //    });
 </script>
-<script>
-    $(document).ready(function () {
-        $(".start-order").click(function () {
-            var addWeight = $(this).attr("id").split(':')[1];
-            var curWeight = parseInt("${sessionScope.currentWeight}", 10);
-            var maxWeight = parseInt("${sessionScope.chosenTruck.capacity}", 10);
-            var sumWeight = parseInt(addWeight, 10) + curWeight;
-            if (sumWeight > maxWeight) {
-                $(this).attr("href", "#");
-                $(this).attr("class", "btn btn-danger btn-xs");
-                $(this).text("too heavy");
-            }
-        });
-    });
-</script>
+
 
 </body>
 </html>

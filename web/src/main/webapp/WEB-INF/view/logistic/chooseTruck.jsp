@@ -25,22 +25,20 @@
 <body>
 <br>
 <div class="container">
+
+    <form action="${contextPath}/mgr-confirmTruck" method="POST" id="targetForm">
+        <input type="hidden" id="targetField" name="index" value="">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+
     <%--Data Table--%>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-
                     <div class="text-center">
-
                         <h1>Step 1: choose a truck for delivery.</h1>
-
-                        <h3>List of working trucks in city ${sessionScope.truckLoad[0].currentCityName},
-                            that aren't reserved in other orders</h3>
-
-
                     </div>
-
                 </div>
 
                 <%--Table--%>
@@ -51,7 +49,7 @@
                             <th>Choose truck</th>
                             <th>Truck reg. number</th>
                             <th>Brigade str.</th>
-                            <th>Capacity, weight of cargo = ${sessionScope.currentWeight}kgs.</th>
+                            <th>Capacity, weight of cargo = ${sessionScope.chosenCargo.weight}kgs.</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -59,10 +57,9 @@
                         <c:forEach items="${sessionScope.trucksInCity}" var="truckUnit" varStatus="index">
                             <tr class="odd gradeX">
                                 <td>
-                                    <a type="button" class="btn btn-success btn-xs"
-                                       href="${contextPath}/mgr-wp/confirmTruck/${index.index}">
-                                        Choose this
-                                    </a>
+                                    <button class="btn btn-success btn-xs btn-target-go"
+                                            form="targetForm" id="target-${index.index}">Choose this
+                                    </button>
                                 </td>
                                 <td>${truckUnit.regNumber}</td>
                                 <td>${truckUnit.brigadeStr}</td>
@@ -82,23 +79,16 @@
         <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 </div>
-    <!-- jQuery -->
-    <script src="/resources/vendor/jquery/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- DataTables JavaScript -->
-    <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#dto-Table').DataTable({
-                responsive: true
-            });
-        });
-    </script>
+<!-- DataTables JavaScript -->
+<script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="/resources/js/dt-base.js"></script>
 
 </body>
 </html>
