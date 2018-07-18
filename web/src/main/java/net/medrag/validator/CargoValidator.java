@@ -4,6 +4,7 @@ import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.dao.CargoDao;
 import net.medrag.model.domain.entity.City;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -19,7 +20,7 @@ import org.springframework.validation.Validator;
  * @version 1.0
  */
 @Component
-public class CargoValidator implements Validator {
+public class CargoValidator{
 
     private CityService<CityDto, City> cityService;
 
@@ -28,13 +29,7 @@ public class CargoValidator implements Validator {
         this.cityService = cityService;
     }
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return CargoDao.class.equals(clazz);
-    }
-
-    @Override
-    public void validate(@Nullable Object target, Errors errors) {
+    public void validate(@Nullable Object target, Errors errors)throws MedragServiceException {
 
         CargoDto cargo = (CargoDto) target;
 

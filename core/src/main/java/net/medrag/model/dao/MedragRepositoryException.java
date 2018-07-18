@@ -10,7 +10,7 @@ import javax.persistence.PersistenceException;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-public class MedragRepositoryException extends PersistenceException {
+public class MedragRepositoryException extends Exception {
 
     public enum OperationType {
 
@@ -21,7 +21,8 @@ public class MedragRepositoryException extends PersistenceException {
         FIND("Could not find in the database "),
         BY_SIMPLE_NAME("Could not find by simple name in the database "),
         UPDATE("Could not update in the database "),
-        LIST("Could not extract from the database list of ");
+        LIST("Could not extract from the database list of "),
+        REFRESH("Could not refresh ");
 
         private String failedOperation;
 

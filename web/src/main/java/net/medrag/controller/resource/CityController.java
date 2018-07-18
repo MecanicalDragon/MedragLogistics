@@ -3,6 +3,7 @@ package net.medrag.controller.resource;
 
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.domain.entity.City;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.validator.CityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class CityController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model){
+    public String returnView(HttpServletRequest request, Model model)throws MedragServiceException{
         List<CityDto> cities = cityService.getDtoList(new CityDto(), new City());
         request.getSession().setAttribute("cities", cities);
         model.addAttribute("city", new CityDto());
@@ -48,7 +49,7 @@ public class CityController {
     }
 
     @PostMapping("editCity")
-    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model){
+    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model)throws MedragServiceException{
 
         CityDto validatedCity = cityValidator.validateEdits(city, bindingResult);
 
@@ -65,7 +66,7 @@ public class CityController {
     }
 
     @PostMapping("addCity")
-    public String addCity(@ModelAttribute("city") CityDto city, BindingResult bindingResult, Model model){
+    public String addCity(@ModelAttribute("city") CityDto city, BindingResult bindingResult, Model model)throws MedragServiceException{
 
         cityValidator.validate(city, bindingResult);
 
@@ -80,11 +81,18 @@ public class CityController {
     }
 
     @GetMapping("remove/{id}")
-    public String removeCity(@PathVariable Integer id, Model model){
+    public String removeCity(@PathVariable Integer id, Model model)throws MedragServiceException{
         CityDto removingCity = new CityDto();
         removingCity.setId(id);
         cityService.removeDto(removingCity, new City());
         return "redirect: ../../rsm-city";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 
 }

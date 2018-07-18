@@ -65,7 +65,7 @@ public class DriverIdentifierServiceImpl implements DriverIdentifierService {
      */
     @Override
     @Transactional
-    public void identifyNewDriver(DriverDto driverDto) {
+    public void identifyNewDriver(DriverDto driverDto)throws MedragServiceException {
 
         User driverUser = new User();
         driverUser.setUsername(driverDto.getPersonalNumber());
@@ -85,13 +85,14 @@ public class DriverIdentifierServiceImpl implements DriverIdentifierService {
             userService.addNewUser(driverUser);
         } catch (MessagingException e) {
             logger.error("Could not send email to the mail-address {}", driverUser.getEmail());
+            throw new MedragServiceException(e);
         }
 
     }
 
     @Override
     @Transactional
-    public void updateDriver(DriverDto driver) {
+    public void updateDriver(DriverDto driver) throws MedragServiceException{
         User user = userService.getUserByUsername(driver.getPersonalNumber());
         if (user != null) {
             user.setEmail(driver.getEmail());
@@ -102,7 +103,7 @@ public class DriverIdentifierServiceImpl implements DriverIdentifierService {
 
     @Override
     @Transactional
-    public void removeDriver(DriverDto removableDriver) {
+    public void removeDriver(DriverDto removableDriver)throws MedragServiceException {
         driverService.removeDto(removableDriver, new Driver());
         User user = userService.getUserByUsername(removableDriver.getPersonalNumber());
         if (user != null) {

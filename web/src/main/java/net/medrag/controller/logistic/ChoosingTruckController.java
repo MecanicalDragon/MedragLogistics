@@ -3,13 +3,11 @@ package net.medrag.controller.logistic;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.TruckDto;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class ChoosingTruckController {
      * @param index - index of chosen cargo in session global cargo list
      */
     @PostMapping
-    public String startManage(@RequestParam Integer index, HttpServletRequest request) {
+    public String startManage(@RequestParam Integer index, HttpServletRequest request)throws MedragServiceException {
 
 //        Getting cargo with index 'index' from globalCargoes list
         List<CargoDto> cargoList = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
@@ -64,5 +62,12 @@ public class ChoosingTruckController {
     @GetMapping
     public String backward(){
         return "logistic/chooseTruck";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 }

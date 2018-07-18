@@ -4,6 +4,7 @@ import net.medrag.model.dao.DriverDao;
 import net.medrag.model.dao.MedragRepositoryException;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.dto.DriverDto;
+import net.medrag.model.service.MedragServiceException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
 
     @Override
     @Transactional
-    public void updateDtoStatus(D driver, E entity) {
+    public void updateDtoStatus(D driver, E entity) throws MedragServiceException {
 
         if (!driver.getState().equals(driver.getPreviousState())) {
 
@@ -63,7 +64,8 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
             E e = (E) new ModelMapper().map(driver, entity.getClass());
             entityDao.updateEntityStatus(e);
         } catch (MedragRepositoryException e) {
-            logger.error("Could not update in database {}", driver);
+//            logger.error("Could not update in database {}", driver);
+            throw new MedragServiceException(e);
         }
     }
 

@@ -9,7 +9,10 @@ import net.medrag.model.dto.DriverDto;
  * @version 1.0
  */
 public interface DriverIdentifierService {
-    void identifyNewDriver(DriverDto driverDto);
-    void updateDriver(DriverDto newDriver);
-    void removeDriver(DriverDto removableDriver);
+
+    void identifyNewDriver(DriverDto driverDto) throws MedragServiceException;
+
+    void updateDriver(DriverDto newDriver) throws MedragServiceException;
+
+    void removeDriver(DriverDto removableDriver) throws MedragServiceException;
 }

@@ -31,7 +31,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             return (Integer) session.save(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE + entity.getClass().getSimpleName());
         }
     }
 
@@ -41,7 +41,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             session.merge(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.MERGE);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.MERGE + entity.getClass().getSimpleName());
         }
     }
 
@@ -51,7 +51,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             session.refresh(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.BY_SIMPLE_NAME);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.REFRESH + entity.getClass().getSimpleName());
         }
     }
 
@@ -61,7 +61,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             session.remove(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.REMOVE);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.REMOVE + entity.getClass().getSimpleName());
         }
     }
 
@@ -71,7 +71,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             session.saveOrUpdate(entity);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE_OR_UPDATE);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE_OR_UPDATE + entity.getClass().getSimpleName());
         }
     }
 
@@ -81,7 +81,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             return (E) session.find(entity.getClass(), id);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.FIND);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.FIND + entity.getClass().getSimpleName());
         }
     }
 
@@ -91,7 +91,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             return (E) session.bySimpleNaturalId(entity.getClass()).load(id);
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.BY_SIMPLE_NAME);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.BY_SIMPLE_NAME + entity.getClass().getSimpleName());
         }
     }
 
@@ -115,7 +115,7 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
             Session session = sessionFactory.getCurrentSession();
             return (List<E>) session.createQuery(fromTable).list();
         } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST);
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST + entity.getClass().getSimpleName());
         }
     }
 }

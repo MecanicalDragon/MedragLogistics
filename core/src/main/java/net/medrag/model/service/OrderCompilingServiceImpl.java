@@ -54,7 +54,7 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
 
     @Override
     @Transactional
-    public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) {
+    public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer)throws MedragServiceException {
 
         OrderrDto order = new OrderrDto();
         order.setOwner(customer);
@@ -80,7 +80,7 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
 
     @Override
     @Transactional
-    public void deliverCargo(CargoDto deliveredCargo) {
+    public void deliverCargo(CargoDto deliveredCargo)throws MedragServiceException {
 
         deliveredCargo.setState("DELIVERED");
         cargoService.updateDtoStatus(deliveredCargo, new Cargo());

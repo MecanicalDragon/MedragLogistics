@@ -1,7 +1,8 @@
 package net.medrag.controller.logistic;
 
 import net.medrag.model.dto.*;
-import net.medrag.model.service.WaypointHandlerService;
+import net.medrag.model.service.MedragServiceException;
+import net.medrag.model.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +22,11 @@ import java.util.Set;
 @RequestMapping("mgr-compileRoute")
 public class RouteController {
 
-    private WaypointHandlerService waypointHandlerService;
+    private RouteService routeService;
 
     @Autowired
-    public void setWaypointHandlerService(WaypointHandlerService waypointHandlerService) {
-        this.waypointHandlerService = waypointHandlerService;
+    public void setRouteService(RouteService routeService) {
+        this.routeService = routeService;
     }
 
     /**
@@ -35,7 +36,7 @@ public class RouteController {
      * @param drivers - indexes of assigned drivers in the session attribute list drivers.
      */
     @PostMapping
-    public String compileWP(@RequestParam("drivers") String drivers, HttpServletRequest request) {
+    public String compileWP(@RequestParam("drivers") String drivers, HttpServletRequest request) throws MedragServiceException{
 
 //        Getting attributes from session
         List<DriverDto> driverList = (List<DriverDto>) request.getSession().getAttribute("drivers");
@@ -72,10 +73,17 @@ public class RouteController {
             load.setBrigade(brigade);
 
 //            Transactional method in waypoint service
-            waypointHandlerService.compileRoute(load, destinationCity);
+            routeService.compileRoute(load, destinationCity);
         }
 
         return "redirect: ../mgr-main";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 
 }

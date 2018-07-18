@@ -2,6 +2,7 @@ package net.medrag.controller.warehouse;
 
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.domain.entity.Cargo;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CargoService;
 import net.medrag.validator.CargoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class CargoController {
 
     @PostMapping("addCargo")
     public String addCargo(@ModelAttribute("cargo") CargoDto newCargo, BindingResult bindingResult,
-                           HttpServletRequest request, Model model) {
+                           HttpServletRequest request, Model model)throws MedragServiceException {
 
         cargoValidator.validate(newCargo, bindingResult);
 
@@ -54,6 +55,13 @@ public class CargoController {
         }
         model.addAttribute("cargo", new CargoDto());
         return "warehouse/order";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 
 }

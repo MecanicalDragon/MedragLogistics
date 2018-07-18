@@ -13,6 +13,8 @@ import java.util.List;
  * @version 1.0
  */
 public interface OrderCompilingService {
-    OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer);
-    void deliverCargo(CargoDto deliveredCargo);
+
+    OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) throws MedragServiceException;
+
+    void deliverCargo(CargoDto deliveredCargo) throws MedragServiceException;
 }

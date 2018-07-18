@@ -3,6 +3,7 @@ package net.medrag.controller.resource;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.service.DriverIdentifierService;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.validator.DriverValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class DriverController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model) {
+    public String returnView(HttpServletRequest request, Model model) throws MedragServiceException{
         List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver());
         request.getSession().setAttribute("driverList", drivers);
         model.addAttribute("driver", new DriverDto());
@@ -56,7 +57,7 @@ public class DriverController {
     }
 
     @PostMapping("addDriver")
-    public String addDriver(@ModelAttribute("driver") DriverDto driver, BindingResult bindingResult, Model model) {
+    public String addDriver(@ModelAttribute("driver") DriverDto driver, BindingResult bindingResult, Model model) throws MedragServiceException{
 
         driverValidator.validate(driver, bindingResult);
 
@@ -73,7 +74,7 @@ public class DriverController {
     }
 
     @PostMapping("editDriver")
-    public String editDriver(@ModelAttribute("editableDriver") DriverDto driver, BindingResult bindingResult, Model model){
+    public String editDriver(@ModelAttribute("editableDriver") DriverDto driver, BindingResult bindingResult, Model model)throws MedragServiceException{
 
         DriverDto validatedDriver = driverValidator.validateEdits(driver, bindingResult);
 
@@ -94,14 +95,14 @@ public class DriverController {
     }
 
     @GetMapping("remove/{id}")
-    public String removeDriver(@PathVariable Integer id, Model model){
+    public String removeDriver(@PathVariable Integer id, Model model)throws MedragServiceException{
         DriverDto removableDriver = driverService.getDtoById(new DriverDto(), new Driver(), id);
         driverIdentifierService.removeDriver(removableDriver);
         return "redirect: ../../rsm-driver";
     }
 
     @GetMapping("changeState")
-    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) {
+    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) throws MedragServiceException{
         List<DriverDto> driverList = (List<DriverDto>) request.getSession().getAttribute("driverList");
         DriverDto changingDriver = new DriverDto();
         for (DriverDto driver : driverList) {
@@ -133,6 +134,13 @@ public class DriverController {
         driverService.updateDtoStatus(changingDriver, new Driver());
 
         return "redirect: ../rsm-driver";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 
 }

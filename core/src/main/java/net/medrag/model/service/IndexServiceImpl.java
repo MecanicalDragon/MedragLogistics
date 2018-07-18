@@ -32,7 +32,7 @@ public class IndexServiceImpl implements IndexService {
         this.cityService = cityService;
     }
 
-    public String indicate(Dto dto) {
+    public String indicate(Dto dto)throws MedragServiceException {
 
         String index = dto instanceof CargoDto ? cargoIndex : orderIndex;
         StringBuilder sb = new StringBuilder(index);

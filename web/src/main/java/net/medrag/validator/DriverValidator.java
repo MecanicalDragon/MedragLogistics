@@ -4,6 +4,7 @@ import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Driver;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.Random;
  * @version 1.0
  */
 @Component
-public class DriverValidator implements Validator {
+public class DriverValidator {
 
     private DriverService<DriverDto, Driver> driverService;
 
@@ -39,13 +40,7 @@ public class DriverValidator implements Validator {
         this.driverService = driverService;
     }
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return DriverDto.class.equals(clazz);
-    }
-
-    @Override
-    public void validate(@Nullable Object target, Errors errors) {
+    public void validate(@Nullable Object target, Errors errors)throws MedragServiceException {
         DriverDto driverDto = (DriverDto) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "notnull.field");
@@ -95,7 +90,7 @@ public class DriverValidator implements Validator {
         }
     }
 
-    public DriverDto validateEdits(DriverDto driver, Errors errors) {
+    public DriverDto validateEdits(DriverDto driver, Errors errors)throws MedragServiceException {
 
         DriverDto dbDriver = driverService.getDtoById(driver, new Driver(), driver.getId());
 

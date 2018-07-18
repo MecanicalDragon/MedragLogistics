@@ -3,6 +3,7 @@ package net.medrag.controller.resource;
 import net.medrag.model.dto.UserDto;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.service.EmployeeIdentifierService;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.UserService;
 import net.medrag.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model) {
+    public String returnView(HttpServletRequest request, Model model)throws MedragServiceException {
         List<UserDto>userList = userService.getDtoList(new UserDto(), new User());
         request.getSession().setAttribute("userList", userList);
         model.addAttribute("newUser", new UserDto());
@@ -55,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("addUser")
-    public String addUser(@ModelAttribute("newUser") UserDto user, BindingResult bindingResult, Model model) {
+    public String addUser(@ModelAttribute("newUser") UserDto user, BindingResult bindingResult, Model model)throws MedragServiceException {
 
         userValidator.validate(user, bindingResult);
 
@@ -71,14 +72,14 @@ public class UserController {
     }
 
     @GetMapping("generate")
-    public String generate(@RequestParam String id){
+    public String generate(@RequestParam String id)throws MedragServiceException{
         employeeIdentifierService.generateNewPassword(Integer.valueOf(id));
 
         return "redirect: ../rsm-user";
     }
 
     @PostMapping("remove")
-    public String remove(@ModelAttribute("removableUser") UserDto user){
+    public String remove(@ModelAttribute("removableUser") UserDto user)throws MedragServiceException{
 
         if(user.getUsername().substring(0, 3).equalsIgnoreCase("DRV")){
             employeeIdentifierService.removeUserIfItsDriver(user);
@@ -87,6 +88,13 @@ public class UserController {
         }
 
         return "redirect: ../rsm-user";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 
 }

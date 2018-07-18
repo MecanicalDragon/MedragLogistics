@@ -2,6 +2,7 @@ package net.medrag.validator;
 
 import net.medrag.model.dto.CustomerDto;
 import net.medrag.model.domain.entity.Customer;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -17,7 +18,7 @@ import org.springframework.validation.Validator;
  * @version 1.0
  */
 @Component
-public class CustomerValidator implements Validator {
+public class CustomerValidator{
 
     private CustomerService<CustomerDto, Customer> customerService;
 
@@ -26,13 +27,7 @@ public class CustomerValidator implements Validator {
         this.customerService = customerService;
     }
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return CustomerDto.class.equals(clazz);
-    }
-
-    @Override
-    public void validate(@Nullable Object target, Errors errors) {
+    public void validate(@Nullable Object target, Errors errors) throws MedragServiceException {
 
         CustomerDto customer = (CustomerDto) target;
 

@@ -4,6 +4,7 @@ import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.TruckDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Truck;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.validation.Validator;
  * @version 1.0
  */
 @Component
-public class TruckValidator implements Validator {
+public class TruckValidator{
 
     private TruckService<TruckDto, Truck> truckService;
 
@@ -36,13 +37,7 @@ public class TruckValidator implements Validator {
         this.truckService = truckService;
     }
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return TruckDto.class.equals(clazz);
-    }
-
-    @Override
-    public void validate(@Nullable Object target, Errors errors) {
+    public void validate(@Nullable Object target, Errors errors) throws MedragServiceException {
         TruckDto truck = (TruckDto) target;
 
 //        Checking parameters for not null and matching standards
@@ -102,7 +97,7 @@ public class TruckValidator implements Validator {
     }
 
 
-    public TruckDto validateEdits(TruckDto truck, Errors errors) {
+    public TruckDto validateEdits(TruckDto truck, Errors errors)throws MedragServiceException {
 
         TruckDto dbTruck = truckService.getDtoById(new TruckDto(), new Truck(), truck.getId());
 

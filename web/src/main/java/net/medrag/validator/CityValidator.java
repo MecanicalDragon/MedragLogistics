@@ -2,6 +2,7 @@ package net.medrag.validator;
 
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.domain.entity.City;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -17,7 +18,7 @@ import org.springframework.validation.Validator;
  * @version 1.0
  */
 @Component
-public class CityValidator implements Validator {
+public class CityValidator{
 
     private CityService<CityDto, City> cityService;
 
@@ -26,13 +27,7 @@ public class CityValidator implements Validator {
         this.cityService = cityService;
     }
 
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return CityDto.class.equals(clazz);
-    }
-
-    @Override
-    public void validate(@Nullable Object target, Errors errors) {
+    public void validate(@Nullable Object target, Errors errors)throws MedragServiceException {
         CityDto city = (CityDto) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "notnull.field");
@@ -62,7 +57,7 @@ public class CityValidator implements Validator {
 
     }
 
-    public CityDto validateEdits(CityDto city, Errors errors) {
+    public CityDto validateEdits(CityDto city, Errors errors) throws MedragServiceException{
 
         CityDto dbCity = cityService.getDtoById(city, new City(), city.getId());
 

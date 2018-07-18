@@ -3,9 +3,11 @@ package net.medrag.controller.logistic;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CityDto;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +38,7 @@ public class ChoosingCityController {
      * Next step - {@link AddingDriversController}
      */
     @PostMapping()
-    public String addCargoes(@RequestParam("cargoesList") String cargoesList, HttpServletRequest request) {
+    public String addCargoes(@RequestParam("cargoesList") String cargoesList, HttpServletRequest request)throws MedragServiceException {
 
         List<CargoDto> cityCargoes = (List<CargoDto>) request.getSession().getAttribute("cityCargoes");
 
@@ -55,5 +57,12 @@ public class ChoosingCityController {
         }
 
         return "logistic/chooseCity";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 }

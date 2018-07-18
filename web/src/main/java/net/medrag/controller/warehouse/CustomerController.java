@@ -2,15 +2,13 @@ package net.medrag.controller.warehouse;
 
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CustomerDto;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.validator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class CustomerController {
 
     @PostMapping("clarify")
     public String addNewCustomer(@ModelAttribute("newCustomer") CustomerDto customer, BindingResult bindingResult,
-                                 Model model, HttpServletRequest request) {
+                                 Model model, HttpServletRequest request) throws MedragServiceException{
 
         customerValidator.validate(customer, bindingResult);
 
@@ -54,5 +52,12 @@ public class CustomerController {
         request.getSession().setAttribute("cargoList", cargoList);
         model.addAttribute("cargo", new CargoDto());
         return "warehouse/order";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 }

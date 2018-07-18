@@ -4,7 +4,8 @@ import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Waypoint;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.WaypointDto;
-import net.medrag.model.service.WaypointHandlerService;
+import net.medrag.model.service.MedragServiceException;
+import net.medrag.model.service.RouteService;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.WaypointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ public class WarehouseController {
 
     private WaypointService<WaypointDto, Waypoint> waypointService;
 
-    private WaypointHandlerService waypointHandlerService;
+    private RouteService routeService;
 
     @Autowired
-    public void setWaypointHandlerService(WaypointHandlerService waypointHandlerService) {
-        this.waypointHandlerService = waypointHandlerService;
+    public void setRouteService(RouteService routeService) {
+        this.routeService = routeService;
     }
 
     @Autowired
@@ -51,7 +52,7 @@ public class WarehouseController {
      * @param name - name of chosen city
      */
     @PostMapping("actual")
-    public String returnView(@RequestParam String name, HttpServletRequest request){
+    public String returnView(@RequestParam String name, HttpServletRequest request)throws MedragServiceException{
 
         CityDto city = cityService.getDtoByNaturalId(new CityDto(), new City(), name);
 
@@ -69,14 +70,21 @@ public class WarehouseController {
     }
 
     @GetMapping("complete/{index}")
-    public String completeWaypoint(@PathVariable Integer index, HttpServletRequest request){
+    public String completeWaypoint(@PathVariable Integer index, HttpServletRequest request)throws MedragServiceException{
 
         List<WaypointDto> waypoints = (List<WaypointDto>) request.getSession().getAttribute("wps");
         WaypointDto completedWP = waypoints.remove(index.intValue());
 
-        waypointHandlerService.completeWaypoint(completedWP);
+        routeService.completeWaypoint(completedWP);
 
 
         return "warehouse/warehouse";
     }
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
+    }
+
 }

@@ -9,5 +9,5 @@ import net.medrag.model.dto.Dto;
  * @version 1.0
  */
 public interface IndexService {
-    public String indicate(Dto dto);
+    public String indicate(Dto dto) throws MedragServiceException;
 }

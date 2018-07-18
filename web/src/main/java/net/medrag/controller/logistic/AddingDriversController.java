@@ -5,6 +5,7 @@ import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.dto.TruckDto;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class AddingDriversController {
      * Finish it with the {@link RouteController}
      */
     @PostMapping
-    public String addDrivers(@RequestParam Integer index, HttpServletRequest request) {
+    public String addDrivers(@RequestParam Integer index, HttpServletRequest request)throws MedragServiceException {
 
 //        Getting list of drivers
         TruckDto chosenTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
@@ -63,5 +64,12 @@ public class AddingDriversController {
         request.getSession().setAttribute("brigade", chosenTruck.getBrigadeStr());
 
         return "logistic/addDrivers";
+    }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+
+        return "public/error";
+
     }
 }

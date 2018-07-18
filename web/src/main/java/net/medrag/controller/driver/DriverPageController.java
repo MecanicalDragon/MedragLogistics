@@ -6,6 +6,7 @@ import net.medrag.model.domain.entity.Waypoint;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.dto.TruckDto;
 import net.medrag.model.dto.WaypointDto;
+import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.SecurityService;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.model.service.dto.TruckService;
@@ -16,9 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
@@ -33,7 +33,7 @@ import java.util.List;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@Controller
+@ControllerAdvice
 @RequestMapping("drv-main")
 public class DriverPageController {
 
@@ -66,7 +66,7 @@ public class DriverPageController {
     }
 
     @GetMapping()
-    public String returnView(Model model, HttpServletRequest request) {
+    public String returnView(Model model, HttpServletRequest request)throws MedragServiceException {
 
         DriverDto driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), securityService.getUsernameOfSignedInUser());
         List<WaypointDto> waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false");
@@ -90,7 +90,7 @@ public class DriverPageController {
     }
 
     @GetMapping("changeState/{option}")
-    public String changeState(@PathVariable String option, HttpServletRequest request) {
+    public String changeState(@PathVariable String option, HttpServletRequest request)throws MedragServiceException {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
         driver.setState(option);
@@ -103,7 +103,7 @@ public class DriverPageController {
     }
 
     @GetMapping("freeTruck")
-    public String freeTruck(HttpServletRequest request){
+    public String freeTruck(HttpServletRequest request)throws MedragServiceException{
 
         DriverDto driver = (DriverDto)request.getSession().getAttribute("sessionDriver");
         TruckDto truck = driver.getCurrentTruck();
@@ -112,4 +112,31 @@ public class DriverPageController {
 
         return "redirect: ../drv-main";
     }
+
+    @ExceptionHandler(MedragServiceException.class)
+    public String handleCustomException(MedragServiceException ex) {
+//        logger.error("Exception Raised="+ex);
+        return "public/error";
+
+    }
 }
+
+
+//@ControllerAdvice
+//public class GlobalExceptionHandler {
+//
+//    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+//
+//    @ExceptionHandler(SQLException.class)
+//    public String handleSQLException(HttpServletRequest request, Exception ex){
+//        logger.info("SQLException Occured:: URL="+request.getRequestURL());
+//        return "database_error";
+//    }
+//
+//    @ResponseStatus(value=HttpStatus.NOT_FOUND, reason="IOException occurred")
+//    @ExceptionHandler(IOException.class)
+//    public void handleIOException(){
+//        logger.error("IOException handler executed");
+//        //returning 404 error code
+//    }
+//}

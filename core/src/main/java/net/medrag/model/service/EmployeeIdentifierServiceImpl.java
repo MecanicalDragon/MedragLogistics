@@ -63,7 +63,7 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
 
     @Override
     @Transactional
-    public void generateNewPassword(Integer id) {
+    public void generateNewPassword(Integer id)throws MedragServiceException {
         User user = userService.getUser(id);
         String password = generatePassword();
         user.setPassword(encoder.encode(password));
@@ -76,21 +76,21 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
     }
 
     @Override
-    public void removeUserIfItsDriver(UserDto user) {
+    public void removeUserIfItsDriver(UserDto user)throws MedragServiceException {
         DriverDto driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), user.getUsername());
         removeUserAndDriverWithinSingleTransaction(user, driver);
     }
 
     @Override
     @Transactional
-    public void removeUserAndDriverWithinSingleTransaction(UserDto user, DriverDto driver) {
+    public void removeUserAndDriverWithinSingleTransaction(UserDto user, DriverDto driver)throws MedragServiceException {
         userService.removeDto(user, new User());
         driverService.removeDto(driver, new Driver());
     }
 
     @Override
     @Transactional
-    public void identifyEmployee(UserDto user) {
+    public void identifyEmployee(UserDto user)throws MedragServiceException {
 
         String prefix = logisticPrefix;
         switch (user.getRole()) {
@@ -122,6 +122,7 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
             userService.addNewUser(newUser);
         } catch (MessagingException e) {
             logger.error("Could not send email to the mail-address {}", newUser.getEmail());
+            throw new MedragServiceException(e);
         }
 
     }
