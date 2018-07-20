@@ -5,6 +5,8 @@ import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.TruckService;
 import net.medrag.validator.TruckValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,8 @@ import java.util.List;
 @Controller
 @RequestMapping("rsm-truck")
 public class TruckController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TruckController.class);
 
     private TruckService<TruckDto, Truck> truckService;
 
@@ -117,6 +121,7 @@ public class TruckController {
 
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
+        LOGGER.error("MedragServiceException happened: {}", ex);
 
         return "public/error";
 

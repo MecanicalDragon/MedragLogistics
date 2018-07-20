@@ -1,8 +1,10 @@
 $(document).ready(function () {
     // this is for datatables
-    $('#dto-Table').DataTable({
-        responsive: true
-    });
+    // $('#dto-Table').DataTable({
+    //     responsive: true,
+    //     lengthMenu: [5, 10, 25, 50],
+    //     pageLength: 25
+    // });
 
     // handler-script for edit button
     $(".btn-edit").click(function () {
@@ -29,4 +31,17 @@ $(document).ready(function () {
             $("#wasntAdded").trigger("click");
         }
     });
+
+    // var table = $('#dto-Table').DataTable();
+    //
+    // $('#dto-Table tbody').on('click', 'tr', 'td', function () {
+    //     var data = table.row(this).data();
+    //     alert(data[0]);
+    //     var id = data[0].split("XXX")[1];
+    //     var name = data[0].split("XXX")[2];
+    //     alert(id);
+    //     alert(name);
+    //     $("#editeddtoId").val(id);
+    //     $("#editdtoLabel").text("Edit " + name + " " + arr[1]);
+    // });
 });

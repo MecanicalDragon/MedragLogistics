@@ -5,6 +5,8 @@ import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CargoService;
 import net.medrag.validator.CargoValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,8 @@ import java.util.List;
 @Controller
 @RequestMapping("whm-cargo")
 public class CargoController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CargoController.class);
 
     private CargoValidator cargoValidator;
 
@@ -59,6 +63,7 @@ public class CargoController {
 
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
+        LOGGER.error("MedragServiceException happened: {}", ex);
 
         return "public/error";
 

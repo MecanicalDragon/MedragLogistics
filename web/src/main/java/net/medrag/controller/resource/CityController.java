@@ -6,6 +6,8 @@ import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.validator.CityValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,8 @@ import java.util.List;
 @Controller
 @RequestMapping("rsm-city")
 public class CityController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CityController.class);
 
     private CityService<CityDto, City> cityService;
 
@@ -90,6 +94,7 @@ public class CityController {
 
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
+        LOGGER.error("MedragServiceException happened: {}", ex);
 
         return "public/error";
 

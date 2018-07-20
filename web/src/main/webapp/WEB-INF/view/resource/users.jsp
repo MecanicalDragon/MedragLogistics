@@ -234,6 +234,17 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        // this is for datatables
+        $('#dto-Table').DataTable({
+            responsive: true,
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 25
+        });
+    });
+</script>
+
 <!--My generic script-->
 <script src="/resources/js/users-handler.js"></script>
 

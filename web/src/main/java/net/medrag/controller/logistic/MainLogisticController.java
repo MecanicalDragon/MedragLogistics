@@ -4,6 +4,8 @@ import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CargoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +24,8 @@ import java.util.List;
 @Controller
 @RequestMapping("mgr-main")
 public class MainLogisticController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainLogisticController.class);
 
     private CargoService<CargoDto, Cargo> cargoService;
 
@@ -42,6 +46,7 @@ public class MainLogisticController {
 
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
+        LOGGER.error("MedragServiceException happened: {}", ex);
 
         return "public/error";
 

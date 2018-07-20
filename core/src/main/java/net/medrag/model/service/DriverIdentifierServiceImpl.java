@@ -35,8 +35,6 @@ public class DriverIdentifierServiceImpl implements DriverIdentifierService {
 
     private BCryptPasswordEncoder encoder;
 
-    private static final Logger logger = LoggerFactory.getLogger(DTOServiceImpl.class);
-
     @Autowired
     public void setDriverService(DriverService<DriverDto, Driver> driverService) {
         this.driverService = driverService;
@@ -84,7 +82,6 @@ public class DriverIdentifierServiceImpl implements DriverIdentifierService {
             driverService.addDto(driverDto, new Driver());
             userService.addNewUser(driverUser);
         } catch (MessagingException e) {
-            logger.error("Could not send email to the mail-address {}", driverUser.getEmail());
             throw new MedragServiceException(e);
         }
 

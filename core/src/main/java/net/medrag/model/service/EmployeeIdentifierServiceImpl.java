@@ -35,8 +35,6 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
 
     private BCryptPasswordEncoder encoder;
 
-    private static final Logger logger = LoggerFactory.getLogger(DTOServiceImpl.class);
-
     @Autowired
     public void setDriverService(DriverService<DriverDto, Driver> driverService) {
         this.driverService = driverService;
@@ -71,7 +69,7 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
             mailService.sendLoginPasswordEmail(user.getEmail(), user.getUsername(), password, "restore");
             userService.updateUser(user);
         } catch (MessagingException e) {
-            logger.error("Could not send email to the mail-address {}", user.getEmail());
+            throw new MedragServiceException(e);
         }
     }
 
@@ -121,7 +119,6 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
             mailService.sendLoginPasswordEmail(newUser.getEmail(), newUser.getUsername(), password, "new");
             userService.addNewUser(newUser);
         } catch (MessagingException e) {
-            logger.error("Could not send email to the mail-address {}", newUser.getEmail());
             throw new MedragServiceException(e);
         }
 

@@ -60,9 +60,9 @@
 
                         <c:forEach items="${sessionScope.globalCargoes}" var="cargo" varStatus="index">
                             <tr class="odd gradeX">
-                                <td>
+                                <td id="target-${sessionScope.globalCargoes.indexOf(cargo)}">
                                     <button class="btn btn-success btn-xs btn-target-go"
-                                            form="targetForm" id="target-${index.index}">Start manage
+                                            form="targetForm" id="XXX${index.index}XXX">Start manage
                                     </button>
                                 </td>
                                 <td>${cargo.index}</td>
@@ -93,6 +93,9 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="/resources/js/dt-base.js"></script>
+
+</script>
+
 
 </body>
 </html>

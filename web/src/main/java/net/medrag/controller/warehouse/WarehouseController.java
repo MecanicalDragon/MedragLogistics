@@ -8,6 +8,8 @@ import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.RouteService;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.WaypointService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ import java.util.List;
 @Controller
 @RequestMapping("whm-wp")
 public class WarehouseController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseController.class);
+
 
     private CityService<CityDto, City> cityService;
 
@@ -82,6 +87,7 @@ public class WarehouseController {
     }
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
+        LOGGER.error("MedragServiceException happened: {}", ex);
 
         return "public/error";
 

@@ -49,7 +49,7 @@
                             <th>Choose truck</th>
                             <th>Truck reg. number</th>
                             <th>Brigade str.</th>
-                            <th>Capacity, weight of cargo = ${sessionScope.chosenCargo.weight}kgs.</th>
+                            <th>Capacity</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,7 +58,7 @@
                             <tr class="odd gradeX">
                                 <td>
                                     <button class="btn btn-success btn-xs btn-target-go"
-                                            form="targetForm" id="target-${index.index}">Choose this
+                                            form="targetForm" id="XXX${index.index}XXX">Choose this
                                     </button>
                                 </td>
                                 <td>${truckUnit.regNumber}</td>
@@ -71,6 +71,11 @@
 
                         </tbody>
                     </table>
+                </div>
+                <div class="panel-footer">
+                    <div class="text-center">
+                        <a class="btn btn-danger" href="${contextPath}/mgr-main" role="button">Dismiss</a>
+                    </div>
                 </div>
             </div>
         </div>

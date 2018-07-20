@@ -28,8 +28,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
 
     private static final String implementation = "userDaoImpl";
 
-    private static final Logger logger = LoggerFactory.getLogger(DTOServiceImpl.class);
-
     @Autowired
     public void setEntityDao(@Qualifier(implementation) EntityDao<E> entityDao) {
         this.entityDao = entityDao;
@@ -42,7 +40,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         try {
             return entityDao.addEntity(result);
         } catch (MedragRepositoryException e) {
-            logger.error("Could not add to database {}", dto);
             throw new MedragServiceException(e);
         }
     }
@@ -54,7 +51,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         try {
             entityById = entityDao.getEntityById(entity, id);
         } catch (MedragRepositoryException e) {
-            logger.error("Could not extract from database {}", dto);
             throw new MedragServiceException(e);
         }
         return (D) new ModelMapper().map(entityById, dto.getClass());
@@ -67,7 +63,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
             E e = (E) new ModelMapper().map(dto, entity.getClass());
             entityDao.updateEntityStatus(e);
         } catch (MedragRepositoryException e) {
-            logger.error("Could not update in database {}", dto);
             throw new MedragServiceException(e);
         }
     }
@@ -78,7 +73,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         try {
             entityDao.removeEntity((E) new ModelMapper().map(dto, entity.getClass()));
         } catch (MedragRepositoryException e) {
-            logger.error("Could not remove from database {}", dto);
             throw new MedragServiceException(e);
         }
     }
@@ -89,7 +83,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         try {
             entityDao.saveOrUpdateEntity((E) new ModelMapper().map(dto, entity.getClass()));
         } catch (MedragRepositoryException e) {
-            logger.error("Could not save or update in database {}", dto);
         }
     }
 
@@ -99,7 +92,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         try {
             entityDao.refreshEntity((E) new ModelMapper().map(dto, entity.getClass()));
         } catch (MedragRepositoryException e) {
-            logger.error("Could not refresh in database {}", dto);
             throw new MedragServiceException(e);
         }
     }
@@ -111,7 +103,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         try {
             result = entityDao.getEntityByNaturalId(entity, id);
         } catch (MedragRepositoryException e) {
-            logger.error("Could not extract by natural id from database {}", dto);
             throw new MedragServiceException(e);
         }
         if (result == null) {
@@ -128,7 +119,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         try {
             entityList = entityDao.getEntityList(entity, args);
         } catch (MedragRepositoryException e) {
-            logger.error("Could not get from database filtered list of{}", dto);
             throw new MedragServiceException(e);
         }
         List<D> dtoList = new ArrayList<>();

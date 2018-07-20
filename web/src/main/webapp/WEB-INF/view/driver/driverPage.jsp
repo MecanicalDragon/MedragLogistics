@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -55,7 +57,9 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="text-left col-xs-4">
-                                                    <h4>Worked time: ${workedTime}</h4>
+                                                    <c:set var="hours" value="${fn:substringBefore(driver.workedTime div 60, '.')}"/>
+                                                    <fmt:formatNumber var="minutes" minIntegerDigits="2" value="${driver.workedTime - (hours*60) }"/>
+                                                    <h4>Worked time: ${hours}:${minutes}</h4>
                                                 </div>
                                                 <div class="col-xs-4">
                                                     <div class="btn-group">
@@ -104,7 +108,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-right col-xs-4">
-                                                    <h4>Paid time: ${paidTime}</h4>
+                                                    <c:set var="pHours" value="${fn:substringBefore(driver.paidTime div 60, '.')}"/>
+                                                    <fmt:formatNumber var="pMinutes" minIntegerDigits="2" value="${driver.paidTime - (pHours*60) }"/>
+                                                    <h4>Paid time: ${pHours}:${pMinutes}</h4>
                                                 </div>
                                             </div>
                                         </div>

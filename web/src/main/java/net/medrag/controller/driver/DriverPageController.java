@@ -11,20 +11,13 @@ import net.medrag.model.service.SecurityService;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.model.service.dto.TruckService;
 import net.medrag.model.service.dto.WaypointService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +29,8 @@ import java.util.List;
 @ControllerAdvice
 @RequestMapping("drv-main")
 public class DriverPageController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DriverPageController.class);
 
     private SecurityService securityService;
 
@@ -69,7 +64,7 @@ public class DriverPageController {
     public String returnView(Model model, HttpServletRequest request)throws MedragServiceException {
 
         DriverDto driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), securityService.getUsernameOfSignedInUser());
-        List<WaypointDto> waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false");
+        List<WaypointDto> waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false", "TRUCK_ID", driver.getCurrentTruck().getId().toString());
 
         request.getSession().setAttribute("sessionDriver", driver);
         model.addAttribute("driver", driver);
@@ -94,9 +89,9 @@ public class DriverPageController {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
         driver.setState(option);
-        if (option.equals("REST") || option.equals("READY_TO_ROUTE")){
-            driver.setCurrentTruck(null);
-        }
+//        if (option.equals("REST") || option.equals("READY_TO_ROUTE")){
+//            driver.setCurrentTruck(null);
+//        }
         driverService.updateDtoStatus(driver, new Driver());
 
         return "redirect: ../../drv-main";
@@ -115,28 +110,8 @@ public class DriverPageController {
 
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
-//        logger.error("Exception Raised="+ex);
+        LOGGER.error("MedragServiceException happened: {}", ex);
         return "public/error";
 
     }
 }
-
-
-//@ControllerAdvice
-//public class GlobalExceptionHandler {
-//
-//    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-//
-//    @ExceptionHandler(SQLException.class)
-//    public String handleSQLException(HttpServletRequest request, Exception ex){
-//        logger.info("SQLException Occured:: URL="+request.getRequestURL());
-//        return "database_error";
-//    }
-//
-//    @ResponseStatus(value=HttpStatus.NOT_FOUND, reason="IOException occurred")
-//    @ExceptionHandler(IOException.class)
-//    public void handleIOException(){
-//        logger.error("IOException handler executed");
-//        //returning 404 error code
-//    }
-//}

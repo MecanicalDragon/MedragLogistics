@@ -1,9 +1,9 @@
 $(document).ready(function () {
 
-    // this is for datatables
-    $('#dto-Table').DataTable({
-        responsive: true
-    });
+    // // this is for datatables
+    // $('#dto-Table').DataTable({
+    //     responsive: true
+    // });
 
     // handler fo sending new password
     $(".btn-newPassword").click(function () {

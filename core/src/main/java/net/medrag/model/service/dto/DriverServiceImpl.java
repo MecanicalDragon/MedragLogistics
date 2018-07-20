@@ -28,8 +28,6 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
 
     private static final String implementation = "driverDaoImpl";
 
-    private static final Logger logger = LoggerFactory.getLogger(DriverServiceImpl.class);
-
     @Override
     @Transactional
     public void updateDtoStatus(D driver, E entity) throws MedragServiceException {
@@ -64,7 +62,6 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
             E e = (E) new ModelMapper().map(driver, entity.getClass());
             entityDao.updateEntityStatus(e);
         } catch (MedragRepositoryException e) {
-//            logger.error("Could not update in database {}", driver);
             throw new MedragServiceException(e);
         }
     }

@@ -5,6 +5,8 @@ import net.medrag.model.dto.CustomerDto;
 import net.medrag.model.dto.OrderrDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.OrderCompilingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,8 @@ import java.util.List;
 @Controller
 @RequestMapping("whm-order")
 public class OrderController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
     private OrderCompilingService orderCompilingService;
 
@@ -59,6 +63,7 @@ public class OrderController {
 
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
+        LOGGER.error("MedragServiceException happened: {}", ex);
 
         return "public/error";
 

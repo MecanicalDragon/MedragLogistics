@@ -3,6 +3,8 @@ package net.medrag.controller.logistic;
 import net.medrag.model.dto.*;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.RouteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,8 @@ import java.util.Set;
 @Controller
 @RequestMapping("mgr-compileRoute")
 public class RouteController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RouteController.class);
 
     private RouteService routeService;
 
@@ -81,6 +85,7 @@ public class RouteController {
 
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
+        LOGGER.error("MedragServiceException happened: {}", ex);
 
         return "public/error";
 

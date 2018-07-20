@@ -12,4 +12,9 @@ public class DBFSController {
     public String showInfo(){
         return "public/DBFS";
     }
+
+    @GetMapping("error")
+    public String error(){
+        return "public/error";
+    }
 }

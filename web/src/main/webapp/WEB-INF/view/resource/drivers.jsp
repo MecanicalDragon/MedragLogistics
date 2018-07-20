@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -104,8 +106,19 @@
                                 <td>${driverUnit.name}</td>
                                 <td>${driverUnit.surname}</td>
                                 <td>${driverUnit.email}</td>
-                                <td>${driverUnit.workedTime}</td>
-                                <td>${driverUnit.paidTime}</td>
+                                <td>
+                                    <c:set var="hours"
+                                           value="${fn:substringBefore(driverUnit.workedTime div 60, '.')}"/>
+                                    <fmt:formatNumber var="minutes" minIntegerDigits="2"
+                                                      value="${driverUnit.workedTime - (hours*60) }"/>
+                                        ${hours}:${minutes}
+                                </td>
+                                <td>
+                                    <c:set var="pHours" value="${fn:substringBefore(driverUnit.paidTime div 60, '.')}"/>
+                                    <fmt:formatNumber var="pMinutes" minIntegerDigits="2"
+                                                      value="${driverUnit.paidTime - (pHours*60) }"/>
+                                        ${pHours}:${pMinutes}
+                                </td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info btn-xs dropdown-toggle"
@@ -128,20 +141,25 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
-                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=0">
-                                                Is resting</a>
+                                            <li>
+                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=0">
+                                                    Is resting</a>
                                             </li>
-                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=1">
-                                                On the shift</a>
+                                            <li>
+                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=1">
+                                                    On the shift</a>
                                             </li>
-                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=2">
-                                                Is driving</a>
+                                            <li>
+                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=2">
+                                                    Is driving</a>
                                             </li>
-                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=3">
-                                                Cargo works</a>
+                                            <li>
+                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=3">
+                                                    Cargo works</a>
                                             </li>
-                                            <li><a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=4">
-                                                Ready to route</a>
+                                            <li>
+                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=4">
+                                                    Ready to route</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -315,7 +333,8 @@
                     <div class="row row-justify-content-center">
                         <div class="col-sm-6">
                             <spring:bind path="cityName">
-                                <form:input name="cityName" placeholder="current city name" path="cityName" class="form-control col-8"/>
+                                <form:input name="cityName" placeholder="current city name" path="cityName"
+                                            class="form-control col-8"/>
                             </spring:bind>
                         </div>
                         <div class="secondary-text text-center text-danger">
@@ -365,9 +384,19 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        // this is for datatables
+        $('#dto-Table').DataTable({
+            responsive: true,
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 25
+        });
+    });
+</script>
+
 <!--My generic script-->
 <script src="/resources/js/tables-handler.js"></script>
-
 
 </body>
 </html>

@@ -5,6 +5,8 @@ import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +27,9 @@ import java.util.List;
 @Controller
 @RequestMapping("mgr-addCargoes")
 public class ChoosingCityController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChoosingCityController.class);
+
 
     private CityService<CityDto, City> cityService;
 
@@ -61,6 +66,7 @@ public class ChoosingCityController {
 
     @ExceptionHandler(MedragServiceException.class)
     public String handleCustomException(MedragServiceException ex) {
+        LOGGER.error("MedragServiceException happened: {}", ex);
 
         return "public/error";
 
