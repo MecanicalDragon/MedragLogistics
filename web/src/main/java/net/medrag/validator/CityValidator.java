@@ -44,13 +44,13 @@ public class CityValidator{
         }
 
         try {
-            Integer.parseInt(city.getCoordinatesX());
+            Double.parseDouble(city.getCoordinatesX());
         } catch (NumberFormatException e) {
             errors.rejectValue("coordinatesX", "NaN");
         }
 
         try {
-            Integer.parseInt(city.getCoordinatesY());
+            Double.parseDouble(city.getCoordinatesY());
         } catch (NumberFormatException e) {
             errors.rejectValue("coordinatesY", "NaN");
         }
@@ -82,7 +82,7 @@ public class CityValidator{
 
         if (city.getCoordinatesX().trim().length() > 0) {
             try {
-                Integer.parseInt(city.getCoordinatesX());
+                Double.parseDouble(city.getCoordinatesX());
                 dbCity.setCoordinatesX(city.getCoordinatesX());
             } catch (NumberFormatException e) {
                 errors.rejectValue("coordinatesX", "NaN");
@@ -92,7 +92,7 @@ public class CityValidator{
 
         if (city.getCoordinatesY().trim().length() > 0) {
             try {
-                Integer.parseInt(city.getCoordinatesY());
+                Double.parseDouble(city.getCoordinatesY());
                 dbCity.setCoordinatesY(city.getCoordinatesY());
             } catch (NumberFormatException e) {
                 errors.rejectValue("coordinatesY", "NaN");

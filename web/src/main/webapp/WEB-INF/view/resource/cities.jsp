@@ -68,10 +68,10 @@
 
                     <%--Logout button--%>
                     <div class="pull-right">
-                        <form method="post" action="logout">
+                        <form method="post" action="/logout">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        You signed in under ${pageContext.request.userPrincipal.name} Personal Number
-                        <button class="btn btn-danger offset-xs-6">Logout</button>
+                            You signed in under ${pageContext.request.userPrincipal.name} Personal Number
+                            <button class="btn btn-danger offset-xs-6">Logout</button>
                         </form>
                     </div>
 
@@ -94,18 +94,16 @@
                         <c:forEach items="${sessionScope.cities}" var="cityUnit">
 
                             <tr class="odd gradeX">
-                                <td>${cityUnit.name}</td>
+                                <td>${cityUnit.name}<span hidden>XXX${cityUnit.id}XXX${cityUnit.name}XXX</span></td>
                                 <td>${cityUnit.index}</td>
                                 <td>${cityUnit.coordinatesX}</td>
                                 <td>${cityUnit.coordinatesY}</td>
                                 <td>
                                     <a type="button" class="btn btn-edit btn-warning btn-xs"
-                                       id="${cityUnit.id}/${cityUnit.name}"
                                        data-toggle="modal" data-target="#editCityModal">Edit city data</a>
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-danger btn-xs btn-remove"
-                                       id="${cityUnit.id}*${cityUnit.name}"
                                        data-toggle="modal" data-target="#deleteCityModal">Remove city</a>
                                 </td>
                             </tr>
@@ -312,19 +310,9 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        // this is for datatables
-        $('#dto-Table').DataTable({
-            responsive: true,
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 25
-        });
-    });
-</script>
-
-<!--My generic script-->
-<script src="/resources/js/tables-handler.js"></script>
+<%--Datatable buttons handler and automatically opened modal window script--%>
+<script src="/resources/js/rsm-tables-handler.js"></script>
+<script src="/resources/js/wasnt-added.js"></script>
 
 </body>
 </html>

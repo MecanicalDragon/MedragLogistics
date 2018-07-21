@@ -6,15 +6,18 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <title>Ooops...</title>
 </head>
 <body>
+<c:set var="msg" value="${msg == null ? 'Something went wrong' : msg}"/>
 <div class="over404">
     <div class="darkOverlay"></div>
     <header>
-        <h1 class="glitch" data-text="Ooops...">Ooops...</h1>
+        <h1 class="glitch" data-text="${msg}">${msg}</h1>
     </header>
 </div>
 
@@ -62,12 +65,11 @@ font-family: 'Source Sans Pro', sans-serif;
 margin: 0;
 color: #fff;
 letter-spacing: .8px;
-text-transform: uppercase;
 }
 
 @media only screen and (min-width: 567px) {
 .over404 header h1 {
-font-size: 15rem;
+font-size: 7rem;
 }
 }
 

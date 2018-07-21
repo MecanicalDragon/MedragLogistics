@@ -5,11 +5,8 @@ import net.medrag.model.dto.UserDto;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.domain.enums.UserRole;
-import net.medrag.model.service.dto.DTOServiceImpl;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.model.service.dto.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -76,12 +73,6 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
     @Override
     public void removeUserIfItsDriver(UserDto user)throws MedragServiceException {
         DriverDto driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), user.getUsername());
-        removeUserAndDriverWithinSingleTransaction(user, driver);
-    }
-
-    @Override
-    @Transactional
-    public void removeUserAndDriverWithinSingleTransaction(UserDto user, DriverDto driver)throws MedragServiceException {
         userService.removeDto(user, new User());
         driverService.removeDto(driver, new Driver());
     }

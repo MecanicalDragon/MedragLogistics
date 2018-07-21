@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -39,6 +41,13 @@
 
                         <h1>Step 4: compile a brigade.</h1>
 
+                        <h2>Route length: ${distance} kms.</h2>
+                        <c:set var="tripHours"
+                               value="${fn:substringBefore(duration div 60, '.')}"/>
+                        <fmt:formatNumber var="tripMinutes" minIntegerDigits="2"
+                                          value="${duration - (tripHours*60) }"/>
+                        <h2>It will take about (including cargo works) ${tripHours}:${tripMinutes} hours.</h2>
+
                         <h3 id="msg">Now assigned 0 of ${sessionScope.brigade} drivers.</h3>
 
                     </div>
@@ -71,7 +80,13 @@
                                 <td>${driverUnit.personalNumber}</td>
                                 <td>${driverUnit.name}</td>
                                 <td>${driverUnit.surname}</td>
-                                <td>${driverUnit.workedTime}</td>
+                                <td>
+                                    <c:set var="hours"
+                                           value="${fn:substringBefore(driverUnit.workedTime div 60, '.')}"/>
+                                    <fmt:formatNumber var="minutes" minIntegerDigits="2"
+                                                      value="${driverUnit.workedTime - (hours*60) }"/>
+                                        ${hours}:${minutes}
+                                </td>
 
                             </tr>
 
@@ -115,46 +130,6 @@
 
 <script>
     var neededDrivers = parseInt("${sessionScope.brigade}", 10);
-    //    $(document).ready(function () {
-    //        var totalDrivers = 0;
-    //        $(".btn-choose").click(function () {
-    //            var idButton = $(this).attr("id");
-    //            var index = $(this).attr("id").split('-')[1];
-    //            var value = $("#driverHiddenField").val();
-    //
-    //            if (document.getElementById(idButton).classList.contains('btn-success')) {
-    //
-    //                totalDrivers++;
-    //                document.getElementById(idButton).classList.remove('btn-success');
-    //                document.getElementById(idButton).classList.remove('btn-enabled');
-    //                document.getElementById(idButton).classList.add('btn-danger');
-    //                $(this).text("Remove");
-    //                value = value + index + "/";
-    //                $("#driverHiddenField").val(value);
-    //
-    //                if (totalDrivers === neededDrivers) {
-    //                    $('#compile').prop('disabled', false);
-    //                    $(".btn-enabled").prop('disabled', true);
-    //                }
-    //
-    //            } else {
-    //
-    //                totalDrivers--;
-    //                document.getElementById(idButton).classList.remove('btn-danger');
-    //                document.getElementById(idButton).classList.add('btn-success');
-    //                document.getElementById(idButton).classList.add('btn-enabled');
-    //                $("#"+idButton).text("Assign");
-    //
-    //                value = value.replace("" + index + "/", "");
-    //                $("#driverHiddenField").val(value);
-    //                $('#compile').prop('disabled', true);
-    //                $(".btn-enabled").prop('disabled', false);
-    //            }
-    //
-    //            $("#msg").text("Now assigned " + totalDrivers + " of " + neededDrivers + " drivers.");
-    //        });
-    //    });
-
 </script>
 
 </body>

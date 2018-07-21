@@ -9,6 +9,7 @@ import net.medrag.validator.CityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,7 +54,7 @@ public class CityController {
     }
 
     @PostMapping("editCity")
-    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model)throws MedragServiceException{
+    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model, HttpServletRequest request)throws MedragServiceException{
 
         CityDto validatedCity = cityValidator.validateEdits(city, bindingResult);
 
@@ -65,6 +66,7 @@ public class CityController {
         }
 
         cityService.updateDtoStatus(validatedCity, new City());
+        request.getSession().setAttribute("cities", null);
 
         return "redirect: ../rsm-city";
     }

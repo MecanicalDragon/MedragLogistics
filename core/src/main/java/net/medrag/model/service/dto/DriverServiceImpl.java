@@ -6,13 +6,10 @@ import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.service.MedragServiceException;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 /**

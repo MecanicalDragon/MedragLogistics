@@ -7,8 +7,6 @@ import net.medrag.model.dto.DriverDto;
 import net.medrag.model.dto.WaypointDto;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.model.service.dto.WaypointService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +25,6 @@ public class RouteServiceImpl implements RouteService {
     private WaypointService<WaypointDto, Waypoint> waypointService;
 
     private MailService mailService;
-
-    private static final Logger logger = LoggerFactory.getLogger(RouteService.class);
 
     private DriverService<DriverDto, Driver> driverService;
 
@@ -111,7 +107,6 @@ public class RouteServiceImpl implements RouteService {
                     try {
                         mailService.sendDeliveredCargoEmail(completedWP.getCargo());
                     } catch (MessagingException e) {
-                        logger.error("Could not send email to customer with delivery info about {}", completedWP.getCargo());
                     }
                 }
 

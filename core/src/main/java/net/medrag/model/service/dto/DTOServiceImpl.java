@@ -1,8 +1,6 @@
 package net.medrag.model.service.dto;
 
 import net.medrag.model.service.MedragServiceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import net.medrag.model.dto.Dto;
 import net.medrag.model.dao.EntityDao;
 import net.medrag.model.dao.MedragRepositoryException;
@@ -83,6 +81,7 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         try {
             entityDao.saveOrUpdateEntity((E) new ModelMapper().map(dto, entity.getClass()));
         } catch (MedragRepositoryException e) {
+            throw new MedragServiceException(e);
         }
     }
 
@@ -122,6 +121,10 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
             throw new MedragServiceException(e);
         }
         List<D> dtoList = new ArrayList<>();
+//        List<Person> persons = getPersons();
+//        // Define the target type
+//        java.lang.reflect.Type targetListType = new TypeToken<List<PersonDTO>>() {}.getType();
+//        List<PersonDTO> personDTOs = mapper.map(persons, targetListType);
         for (E e : entityList) {
             D d = (D) new ModelMapper().map(e, dto.getClass());
             dtoList.add(d);

@@ -48,20 +48,20 @@
                     <c:choose>
                         <c:when test="${err}">
                             <%--Add new User Error Button--%>
-                            <button class="btn btn-danger" data-toggle="modal"
+                            <button class="btn btn-danger" data-toggle="modal" id="wasntAdded"
                                     data-target="#addNewUserModal">Wasn't added!
                             </button>
                         </c:when>
                         <c:otherwise>
                             <%--Add new User Button--%>
-                            <button class="btn btn-primary" data-toggle="modal" id="wasntAdded"
+                            <button class="btn btn-primary" data-toggle="modal"
                                     data-target="#addNewUserModal">Add new User
                             </button>
                         </c:otherwise>
                     </c:choose>
 
                     <div class="pull-right">
-                        <form method="post" action="logout">
+                        <form method="post" action="/logout">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             You signed in under ${pageContext.request.userPrincipal.name} Personal Number
                             <button class="btn btn-danger offset-xs-6">Logout</button>
@@ -87,7 +87,7 @@
                         <c:forEach items="${sessionScope.userList}" var="userUnit">
 
                             <tr class="odd gradeX">
-                                <td>${userUnit.username}</td>
+                                <td>${userUnit.username}<span hidden>XXX${userUnit.id}XXX${userUnit.username}XXX${userUnit.email}XXX</span></td>
                                 <td>${userUnit.email}</td>
                                 <td>
                                     <c:if test="${userUnit.role.equals('ROLE_DRIVER')}">
@@ -105,12 +105,10 @@
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-newPassword btn-info btn-xs"
-                                       id="${userUnit.id}/${userUnit.username}/${userUnit.email}"
                                        data-toggle="modal" data-target="#newPasswordModal">Send new password</a>
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-danger btn-xs btn-remove"
-                                       id="${userUnit.id}*${userUnit.username}"
                                        data-toggle="modal" data-target="#deleteUserModal">Delete user</a>
                                 </td>
                             </tr>
@@ -234,19 +232,9 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        // this is for datatables
-        $('#dto-Table').DataTable({
-            responsive: true,
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 25
-        });
-    });
-</script>
-
-<!--My generic script-->
-<script src="/resources/js/users-handler.js"></script>
+<%--Datatable buttons handler and automatically opened modal window script--%>
+<script src="/resources/js/rsm-users-handler.js"></script>
+<script src="/resources/js/wasnt-added.js"></script>
 
 </body>
 </html>

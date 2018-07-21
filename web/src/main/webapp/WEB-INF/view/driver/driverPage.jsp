@@ -57,8 +57,10 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="text-left col-xs-4">
-                                                    <c:set var="hours" value="${fn:substringBefore(driver.workedTime div 60, '.')}"/>
-                                                    <fmt:formatNumber var="minutes" minIntegerDigits="2" value="${driver.workedTime - (hours*60) }"/>
+                                                    <c:set var="hours"
+                                                           value="${fn:substringBefore(driver.workedTime div 60, '.')}"/>
+                                                    <fmt:formatNumber var="minutes" minIntegerDigits="2"
+                                                                      value="${driver.workedTime - (hours*60) }"/>
                                                     <h4>Worked time: ${hours}:${minutes}</h4>
                                                 </div>
                                                 <div class="col-xs-4">
@@ -83,33 +85,36 @@
                                                             </c:if>
                                                         </button>
                                                         <ul class="dropdown-menu pull-right" role="menu">
-                                                            <%--<c:if test="${driver.state.equals('REST') ||--%>
-                                                            <%--driver.state.equals('READY_TO_ROUTE')}">--%>
-                                                            <c:if test="${driver.currentTruck == null || driver.state.equals('PORTER')}">
-                                                                <li><a href="${contextPath}/drv-main/changeState/REST">
-                                                                    Go to rest</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="${contextPath}/drv-main/changeState/READY_TO_ROUTE">
-                                                                        Ready to route</a>
-                                                                </li>
-                                                            </c:if>
-                                                            <c:if test="${driver.currentTruck != null}">
-                                                                <li>
-                                                                    <a href="${contextPath}/drv-main/changeState/ON_SHIFT">
-                                                                        On the shift</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="${contextPath}/drv-main/changeState/DRIVING">
-                                                                        Is driving</a>
-                                                                </li>
-                                                            </c:if>
+                                                            <c:choose>
+                                                                <c:when test="${wps == null}">
+                                                                    <li>
+                                                                        <a href="${contextPath}/drv-main/changeState/REST">
+                                                                            Go to rest</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="${contextPath}/drv-main/changeState/READY_TO_ROUTE">
+                                                                            Ready to route</a>
+                                                                    </li>
+                                                                </c:when>
+                                                                <c:when test="${driver.currentTruck != null}">
+                                                                    <li>
+                                                                        <a href="${contextPath}/drv-main/changeState/ON_SHIFT">
+                                                                            On the shift</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="${contextPath}/drv-main/changeState/DRIVING">
+                                                                            Is driving</a>
+                                                                    </li>
+                                                                </c:when>
+                                                            </c:choose>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="text-right col-xs-4">
-                                                    <c:set var="pHours" value="${fn:substringBefore(driver.paidTime div 60, '.')}"/>
-                                                    <fmt:formatNumber var="pMinutes" minIntegerDigits="2" value="${driver.paidTime - (pHours*60) }"/>
+                                                    <c:set var="pHours"
+                                                           value="${fn:substringBefore(driver.paidTime div 60, '.')}"/>
+                                                    <fmt:formatNumber var="pMinutes" minIntegerDigits="2"
+                                                                      value="${driver.paidTime - (pHours*60) }"/>
                                                     <h4>Paid time: ${pHours}:${pMinutes}</h4>
                                                 </div>
                                             </div>
@@ -172,7 +177,7 @@
                                     <div id="collapseThree" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <c:choose>
-                                                <c:when test="${driver.currentTruck != null}">
+                                                <c:when test="${wps != null}">
                                                     <table width="100%"
                                                            class="table table-striped table-bordered table-hover"
                                                            id="dto-Table">
@@ -211,29 +216,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <c:if test="${driver.state.equals('PORTER')}">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-
-                                                    <%--Working information--%>
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Free
-                                                    truck</a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapseFour" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-xs-4 col-xs-offset-4">
-                                                        <a href="${contextPath}/drv-main/freeTruck" role="button"
-                                                           class="btn btn-danger btn-lg btn-block">
-                                                            Mark truck as staying idle</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:if>
                             </div>
                         </div>
                         <!-- .panel-body -->

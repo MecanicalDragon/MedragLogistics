@@ -14,5 +14,4 @@ public interface EmployeeIdentifierService {
     String generatePassword() throws MedragServiceException;
     void generateNewPassword(Integer id) throws MedragServiceException;
     void removeUserIfItsDriver(UserDto user) throws MedragServiceException;
-    void removeUserAndDriverWithinSingleTransaction(UserDto user, DriverDto driver) throws MedragServiceException;
 }

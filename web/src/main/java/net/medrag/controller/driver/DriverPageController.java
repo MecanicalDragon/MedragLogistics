@@ -14,6 +14,7 @@ import net.medrag.model.service.dto.WaypointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-@ControllerAdvice
+@Controller
 @RequestMapping("drv-main")
 public class DriverPageController {
 
@@ -61,59 +62,49 @@ public class DriverPageController {
     }
 
     @GetMapping()
-    public String returnView(Model model, HttpServletRequest request)throws MedragServiceException {
+    public String returnView(Model model, HttpServletRequest request) throws MedragServiceException {
 
         DriverDto driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), securityService.getUsernameOfSignedInUser());
-        List<WaypointDto> waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false", "TRUCK_ID", driver.getCurrentTruck().getId().toString());
+        List<WaypointDto> waypoints = null;
+        if (driver.getCurrentTruck() != null) {
+            waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false", "TRUCK_ID", driver.getCurrentTruck().getId().toString());
+            model.addAttribute("wps", waypoints);
+        }
 
         request.getSession().setAttribute("sessionDriver", driver);
         model.addAttribute("driver", driver);
-        model.addAttribute("wps", waypoints);
-
-        int workedHours = driver.getWorkedTime() / 60;
-        int workedMinutes = driver.getWorkedTime() % 60;
-        String workedTime = String.format("%d:%d", workedHours, workedMinutes);
-
-        int paidHours = driver.getPaidTime() / 60;
-        int paidMinutes = driver.getPaidTime() % 60;
-        String paidTime = String.format("%d:%d", paidHours, paidMinutes);
-
-        model.addAttribute("workedTime", workedTime);
-        model.addAttribute("paidTime", paidTime);
 
         return "driver/driverPage";
     }
 
     @GetMapping("changeState/{option}")
-    public String changeState(@PathVariable String option, HttpServletRequest request)throws MedragServiceException {
+    public String changeState(@PathVariable String option, HttpServletRequest request) throws MedragServiceException {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
         driver.setState(option);
-//        if (option.equals("REST") || option.equals("READY_TO_ROUTE")){
-//            driver.setCurrentTruck(null);
-//        }
+        if (option.equals("REST") || option.equals("READY_TO_ROUTE")) {
+            TruckDto truck = driver.getCurrentTruck();
+            if (truck != null) {
+                truckService.refreshDto(truck, new Truck());
+                if (truck.getBrigade().size() == 1) {
+                    truck.getBrigade().clear();
+                    truck.setStatus("STAY_IDLE");
+                    truckService.updateDtoStatus(truck, new Truck());
+                }
+            }
+            driver.setCurrentTruck(null);
+        }
         driverService.updateDtoStatus(driver, new Driver());
 
         return "redirect: ../../drv-main";
     }
 
-    @GetMapping("freeTruck")
-    public String freeTruck(HttpServletRequest request)throws MedragServiceException{
-
-        DriverDto driver = (DriverDto)request.getSession().getAttribute("sessionDriver");
-        TruckDto truck = driver.getCurrentTruck();
-        truck.setStatus("STAY_IDLE");
-        truckService.updateDtoStatus(truck, new Truck());
-
-        return "redirect: ../drv-main";
-    }
-
     @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
+    public String handleCustomException(MedragServiceException ex, Model model) {
+
         LOGGER.error("MedragServiceException happened: {}", ex);
+
         return "public/error";
 
     }
 }
-
-//olololo

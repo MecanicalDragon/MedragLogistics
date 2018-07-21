@@ -104,12 +104,12 @@ public class CityDto implements Dto {
         if (getId() != null) {
             return getId().equals(that.getId());
         } else {
-            return super.equals(o);
+            return getName().equals(that.getName());
         }
     }
 
     @Override
     public int hashCode() {
-        return getId() != null ? getId().hashCode() : super.hashCode();
+        return getId() != null ? getId().hashCode() : getName().hashCode();
     }
 }

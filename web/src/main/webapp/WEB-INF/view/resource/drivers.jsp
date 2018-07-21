@@ -102,7 +102,7 @@
                         <c:forEach items="${sessionScope.driverList}" var="driverUnit">
 
                             <tr class="odd gradeX">
-                                <td>${driverUnit.personalNumber}</td>
+                                <td>${driverUnit.personalNumber}<span hidden>XXX${driverUnit.id}XXX${driverUnit.personalNumber}XXX</span></td>
                                 <td>${driverUnit.name}</td>
                                 <td>${driverUnit.surname}</td>
                                 <td>${driverUnit.email}</td>
@@ -168,12 +168,10 @@
                                 <td>${driverUnit.currentTruck.regNumber}</td>
                                 <td>
                                     <a type="button" class="btn btn-edit btn-warning btn-xs"
-                                       id="${driverUnit.id}/${driverUnit.name}"
                                        data-toggle="modal" data-target="#editDriverModal">Edit driver</a>
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-danger btn-xs btn-remove"
-                                       id="${driverUnit.id}*${driverUnit.name}"
                                        data-toggle="modal" data-target="#deleteDriverModal">Remove driver</a>
                                 </td>
                             </tr>
@@ -384,19 +382,9 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        // this is for datatables
-        $('#dto-Table').DataTable({
-            responsive: true,
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 25
-        });
-    });
-</script>
-
-<!--My generic script-->
-<script src="/resources/js/tables-handler.js"></script>
+<%--Datatable buttons handler and automatically opened modal window script--%>
+<script src="/resources/js/rsm-tables-handler.js"></script>
+<script src="/resources/js/wasnt-added.js"></script>
 
 </body>
 </html>

@@ -28,10 +28,10 @@ public class City extends Identifier {
     private String name;
 
     @Column(name = "coordinates_X")
-    private Integer coordinatesX;
+    private Double coordinatesX;
 
     @Column(name = "coordinates_Y")
-    private Integer coordinatesY;
+    private Double coordinatesY;
 
     @Column(name = "city_index")
     private String index;
@@ -58,19 +58,19 @@ public class City extends Identifier {
         this.name = name;
     }
 
-    public int getCoordinatesX() {
+    public Double getCoordinatesX() {
         return coordinatesX;
     }
 
-    public void setCoordinatesX(int coordinatesX) {
+    public void setCoordinatesX(Double coordinatesX) {
         this.coordinatesX = coordinatesX;
     }
 
-    public int getCoordinatesY() {
+    public Double getCoordinatesY() {
         return coordinatesY;
     }
 
-    public void setCoordinatesY(int coordinatesY) {
+    public void setCoordinatesY(Double coordinatesY) {
         this.coordinatesY = coordinatesY;
     }
 

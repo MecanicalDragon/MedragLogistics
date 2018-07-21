@@ -68,7 +68,7 @@
                     </c:if>
 
                     <div class="pull-right">
-                        <form method="post" action="logout">
+                        <form method="post" action="/logout">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             You signed in under ${pageContext.request.userPrincipal.name} Personal Number
                             <button class="btn btn-danger offset-xs-6">Logout</button>
@@ -95,7 +95,7 @@
 
                         <c:forEach items="${sessionScope.truckList}" var="truckUnit">
                             <tr class="odd gradeX">
-                                <td>${truckUnit.regNumber}</td>
+                                <td>${truckUnit.regNumber}<span hidden>XXX${truckUnit.id}XXX${truckUnit.regNumber}XXX</span></td>
                                 <td>${truckUnit.brigadeStr}</td>
                                 <td>${truckUnit.capacity}</td>
                                 <td>${truckUnit.cityName}</td>
@@ -129,12 +129,10 @@
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-warning btn-xs btn-edit"
-                                       id="${truckUnit.id}/${truckUnit.regNumber}"
                                        data-toggle="modal" data-target="#editTruckModal">Edit truck data</a>
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-danger btn-xs btn-remove"
-                                       id="${truckUnit.id}*${truckUnit.regNumber}"
                                        data-toggle="modal" data-target="#deleteTruckModal">Remove truck</a>
                                 </td>
                             </tr>
@@ -349,18 +347,9 @@
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        // this is for datatables
-        $('#dto-Table').DataTable({
-            responsive: true,
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 25
-        });
-    });
-</script>
+<%--Datatable buttons handler and automatically opened modal window script--%>
+<script src="/resources/js/rsm-tables-handler.js"></script>
+<script src="/resources/js/wasnt-added.js"></script>
 
-<!--My generic script-->
-<script src="/resources/js/tables-handler.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@ import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.dto.TruckDto;
+import net.medrag.model.service.DirectionsService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.DriverService;
@@ -12,9 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +37,13 @@ public class AddingDriversController {
 
     private CityService<CityDto, City> cityService;
 
+    private DirectionsService directionsService;
+
+    @Autowired
+    public void setDirectionsService(DirectionsService directionsService) {
+        this.directionsService = directionsService;
+    }
+
     @Autowired
     public void setCityService(CityService<CityDto, City> cityService) {
         this.cityService = cityService;
@@ -50,22 +60,33 @@ public class AddingDriversController {
      * Finish it with the {@link RouteController}
      */
     @PostMapping
-    public String addDrivers(@RequestParam Integer index, HttpServletRequest request)throws MedragServiceException {
+    public String addDrivers(@RequestParam Integer index, HttpServletRequest request, Model model)throws MedragServiceException {
 
 //        Getting list of drivers
         TruckDto chosenTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
         List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver(),
                 "CURRENT_CITY_ID", chosenTruck.getCityId().toString(), "STATE", "'READY_TO_ROUTE'");
+        List<DriverDto> filteredDrivers = new ArrayList<>();
 
 //        Defining cities
         List<CityDto> cities = (List<CityDto>) request.getSession().getAttribute("cities");
         CityDto destinationCity = cities.get(index);
         CityDto departureCity = cityService.getDtoById(new CityDto(), new City(), chosenTruck.getCityId());
 
+//        Filtering drivers by the worked time
+        Integer[] trip = directionsService.getTripTime(departureCity, destinationCity);
+        for (DriverDto driver : drivers){
+            if (driver.getWorkedTime()+trip[1] <= 10560){
+                filteredDrivers.add(driver);
+            }
+        }
+
 //        Adding attributes
+        model.addAttribute("distance", trip[0]);
+        model.addAttribute("duration", trip[1]);
         request.getSession().setAttribute("destinationCity", destinationCity);
         request.getSession().setAttribute("departureCity", departureCity);
-        request.getSession().setAttribute("drivers", drivers);
+        request.getSession().setAttribute("drivers", filteredDrivers);
         request.getSession().setAttribute("brigade", chosenTruck.getBrigadeStr());
 
         return "logistic/addDrivers";
