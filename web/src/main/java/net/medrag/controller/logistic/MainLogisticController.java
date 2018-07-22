@@ -1,5 +1,6 @@
 package net.medrag.controller.logistic;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.service.MedragServiceException;
@@ -25,8 +26,6 @@ import java.util.List;
 @RequestMapping("mgr-main")
 public class MainLogisticController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainLogisticController.class);
-
     private CargoService<CargoDto, Cargo> cargoService;
 
     @Autowired
@@ -38,17 +37,15 @@ public class MainLogisticController {
      * Getting list of cargoes from database ant passing it to main page. Nothing interesting.
      */
     @GetMapping()
-    public String returnView(HttpServletRequest request)throws MedragServiceException{
-        List<CargoDto> cargoes = cargoService.getDtoList(new CargoDto(), new Cargo(), "STATE", "'TRANSIENT'");
+    public String returnView(HttpServletRequest request)throws MedragControllerException {
+        List<CargoDto> cargoes = null;
+        try {
+            cargoes = cargoService.getDtoList(new CargoDto(), new Cargo(), "STATE", "'TRANSIENT'");
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         request.getSession().setAttribute("globalCargoes", cargoes);
         return "logistic/main";
     }
 
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
-    }
 }

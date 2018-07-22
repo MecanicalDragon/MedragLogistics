@@ -36,7 +36,6 @@
         <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-
                     <div class="text-center">
 
                         <h3>Step 4: compile a brigade.</h3>

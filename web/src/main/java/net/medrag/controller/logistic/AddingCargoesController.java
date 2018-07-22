@@ -1,5 +1,6 @@
 package net.medrag.controller.logistic;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CityDto;
@@ -39,7 +40,7 @@ public class AddingCargoesController {
      * @param index - index of chosen truck in session city trucks list
      */
     @PostMapping
-    public String assignTruck(@RequestParam Integer index, HttpServletRequest request) throws MedragServiceException {
+    public String assignTruck(@RequestParam Integer index, HttpServletRequest request) throws MedragControllerException {
 
 //        Adding attribute of chosen truck in session and setting list of city trucks to null
         List<TruckDto> truckList = (List<TruckDto>) request.getSession().getAttribute("trucksInCity");
@@ -49,12 +50,22 @@ public class AddingCargoesController {
 
 //        Getting a city list, if it's null, and adding it to the session too.
         if (request.getSession().getAttribute("cities") == null) {
-            List<CityDto> cities = cityService.getDtoList(new CityDto(), new City());
+            List<CityDto> cities = null;
+            try {
+                cities = cityService.getDtoList(new CityDto(), new City());
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
             request.getSession().setAttribute("cities", cities);
         }
 
 //        Denoting a departure city and adding it to the session
-        CityDto departureCity = cityService.getDtoById(new CityDto(), new City(), chosenTruck.getCityId());
+        CityDto departureCity = null;
+        try {
+            departureCity = cityService.getDtoById(new CityDto(), new City(), chosenTruck.getCityId());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         request.getSession().setAttribute("departureCity", departureCity);
 
 //        Filtering global cargoes list to cargoes in city list

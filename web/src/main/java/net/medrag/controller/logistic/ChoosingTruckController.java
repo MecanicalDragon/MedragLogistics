@@ -1,5 +1,6 @@
 package net.medrag.controller.logistic;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.TruckDto;
@@ -25,8 +26,6 @@ import java.util.List;
 @RequestMapping("mgr-startManage")
 public class ChoosingTruckController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChoosingTruckController.class);
-
     private TruckService<TruckDto, Truck> truckService;
 
     @Autowired
@@ -41,15 +40,20 @@ public class ChoosingTruckController {
      * @param index - index of chosen cargo in session global cargo list
      */
     @PostMapping
-    public String startManage(@RequestParam Integer index, HttpServletRequest request)throws MedragServiceException {
+    public String startManage(@RequestParam Integer index, HttpServletRequest request)throws MedragControllerException {
 
 //        Getting cargo with index 'index' from globalCargoes list
         List<CargoDto> cargoList = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
         CargoDto cargo = cargoList.get(index);
 
 //        Getting list of trucks and filtering it with the requirements of capacity, status and city dislocation
-        List<TruckDto> truckList = truckService.getDtoList(new TruckDto(), new Truck(), "CURRENT_CITY_ID",
-                cargo.getCurrentCityId().toString(), "STATUS", "'STAY_IDLE'");
+        List<TruckDto> truckList = null;
+        try {
+            truckList = truckService.getDtoList(new TruckDto(), new Truck(), "CURRENT_CITY_ID",
+                    cargo.getCurrentCityId().toString(), "STATUS", "'STAY_IDLE'");
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         List<TruckDto> filteredTruckList = new ArrayList<>();
         for (TruckDto truckDto : truckList) {
             if (Integer.valueOf(truckDto.getCapacity()) >= Integer.valueOf(cargo.getWeight())) {
@@ -68,11 +72,4 @@ public class ChoosingTruckController {
         return "logistic/chooseTruck";
     }
 
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
-    }
 }

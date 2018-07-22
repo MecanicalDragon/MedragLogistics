@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public String handleException(HttpServletRequest request, Exception ex){
-        LOGGER.error("Exception happend: {}", ex);
+        LOGGER.error("Exception happened: ", ex);
         return "public/error";
     }
 

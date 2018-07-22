@@ -2,7 +2,11 @@ package net.medrag.model.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.medrag.model.domain.entity.City;
+import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CityDto;
+import net.medrag.model.service.dto.CityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -20,8 +24,14 @@ import java.net.URL;
 @Service
 public class DirectionsServiceImpl implements DirectionsService {
 
+    private CityService<CityDto, City> cityService;
     private static final String URL = "https://maps.googleapis.com/maps/api/directions/json?origin=";
     private static final String KEY = "&key=AIzaSyDGfoBub9yxLqFtIVYk_bwSE7Kn8SSvkdI";
+
+    @Autowired
+    public void setCityService(CityService<CityDto, City> cityService) {
+        this.cityService = cityService;
+    }
 
     public Integer[] getTripTime(CityDto departure, CityDto destination) throws MedragServiceException{
         final String request = URL + departure.getCoordinatesX() + "," + departure.getCoordinatesY() + "&destination=" +
@@ -36,9 +46,7 @@ public class DirectionsServiceImpl implements DirectionsService {
             JsonNode duration = firstElement.get("duration").get("value");
             Integer kms = distance.asInt()/1000;
             Integer minutes = duration.asInt()/60+240;
-            System.out.println(kms);
             //10560 limit
-            System.out.println(minutes);
             Integer[] trip = new Integer[2];
             trip[0] = kms;
             trip[1] = minutes;
@@ -49,5 +57,18 @@ public class DirectionsServiceImpl implements DirectionsService {
             throw new MedragServiceException(e);
         }
 
+    }
+
+    public Integer getComletePersent(CargoDto cargo) throws MedragServiceException {
+
+//        Get all three main transfer points of the cargo
+        CityDto departure = cityService.getDtoById(new CityDto(), new City(), cargo.getDepartureId());
+        CityDto currentCity = cityService.getDtoById(new CityDto(), new City(), cargo.getCurrentCityId());
+        CityDto destination = cityService.getDtoById(new CityDto(), new City(), cargo.getDestinationId());
+
+//        Counting the percent of delivery
+        Integer[]totalTime = getTripTime(departure, destination);
+        Integer[]leftTime = getTripTime(currentCity, destination);
+        return 100-(100*leftTime[0]/totalTime[0]);
     }
 }

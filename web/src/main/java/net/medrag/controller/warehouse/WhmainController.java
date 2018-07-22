@@ -1,5 +1,6 @@
 package net.medrag.controller.warehouse;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.service.MedragServiceException;
@@ -25,8 +26,6 @@ import java.util.List;
 @RequestMapping("whm-main")
 public class WhmainController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WhmainController.class);
-
     private CargoService<CargoDto, Cargo> cargoService;
 
     @Autowired
@@ -35,8 +34,13 @@ public class WhmainController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request)throws MedragServiceException{
-        List<CargoDto> cargos = cargoService.getDtoList(new CargoDto(), new Cargo());
+    public String returnView(HttpServletRequest request)throws MedragControllerException {
+        List<CargoDto> cargos = null;
+        try {
+            cargos = cargoService.getDtoList(new CargoDto(), new Cargo());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         request.getSession().setAttribute("globalCargoes", cargos);
         return "warehouse/main";
     }

@@ -1,7 +1,5 @@
 package net.medrag.model.dto;
 
-import java.util.Set;
-
 /**
  * Data Transfer Object of {net.medrag.model.domain.entity.City}
  *
@@ -19,10 +17,6 @@ public class CityDto implements Dto {
     private String coordinatesY;
 
     private String index;
-
-    private Set<TruckDto> truckSet;
-
-    private Set<DriverDto> driverSet;
 
     public Integer getId() {
         return id;
@@ -62,22 +56,6 @@ public class CityDto implements Dto {
 
     public void setIndex(String index) {
         this.index = index;
-    }
-
-    public Set<TruckDto> getTruckSet() {
-        return truckSet;
-    }
-
-    public void setTruckSet(Set<TruckDto> truckSet) {
-        this.truckSet = truckSet;
-    }
-
-    public Set<DriverDto> getDriverSet() {
-        return driverSet;
-    }
-
-    public void setDriverSet(Set<DriverDto> driverSet) {
-        this.driverSet = driverSet;
     }
 
     @Override

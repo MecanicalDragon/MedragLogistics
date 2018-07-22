@@ -1,18 +1,17 @@
 package net.medrag.model.service;
 
 import net.medrag.model.domain.entity.Cargo;
-import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Orderr;
 import net.medrag.model.domain.entity.Waypoint;
 import net.medrag.model.dto.*;
 import net.medrag.model.service.dto.CargoService;
-import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.OrderService;
 import net.medrag.model.service.dto.WaypointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class OrderCompilingServiceImpl implements OrderCompilingService {
+public class OrderHandlingServiceImpl implements OrderHandlingService {
 
     private IndexService indexService;
 
@@ -30,11 +29,18 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
 
     private OrderService<OrderrDto, Orderr> orderService;
 
+    private MailService mailService;
+
     private WaypointService<WaypointDto, Waypoint> waypointService;
 
     @Autowired
     public void setWaypointService(WaypointService<WaypointDto, Waypoint> waypointService) {
         this.waypointService = waypointService;
+    }
+
+    @Autowired
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
     }
 
     @Autowired
@@ -54,7 +60,7 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
 
     @Override
     @Transactional
-    public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer)throws MedragServiceException {
+    public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) throws MedragServiceException {
 
         OrderrDto order = new OrderrDto();
         order.setOwner(customer);
@@ -75,14 +81,25 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
         }
 
         order.setCargoes(cargoList);
+
+        if (order.getOwner().getEmail() != null) {
+            try {
+                mailService.sendTakenOrderMail(order);
+            } catch (MessagingException e) {
+                throw new MedragServiceException(e);
+            }
+        }
         return order;
     }
 
     @Override
     @Transactional
-    public void deliverCargo(CargoDto deliveredCargo)throws MedragServiceException {
+    public void deliverCargo(CargoDto deliveredCargo) throws MedragServiceException {
 
         deliveredCargo.setState("DELIVERED");
+        for (WaypointDto waypoint : deliveredCargo.getRoute()){
+                waypointService.removeDto(waypoint, new Waypoint());
+            }
         cargoService.updateDtoStatus(deliveredCargo, new Cargo());
         List<CargoDto> orderCargoes = deliveredCargo.getOrderr().getCargoes();
         int deliveredCargoes = 0;
@@ -94,8 +111,9 @@ public class OrderCompilingServiceImpl implements OrderCompilingService {
 
         if (deliveredCargoes == orderCargoes.size()) {
             deliveredCargo.getOrderr().setComplete(true);
-            cargoService.updateDtoStatus(deliveredCargo, new Cargo());
-        }
 
+            cargoService.updateDtoStatus(deliveredCargo, new Cargo());
+
+        }
     }
 }

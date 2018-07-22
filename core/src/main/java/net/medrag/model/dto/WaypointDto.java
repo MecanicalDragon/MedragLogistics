@@ -14,8 +14,6 @@ public class WaypointDto implements Dto{
 
     private CargoDto cargo;
 
-    private OrderrDto orderr;
-
     private CityDto city;
 
     private String wayPointType;
@@ -26,21 +24,12 @@ public class WaypointDto implements Dto{
 
     private Set<DriverDto> brigade;
 
-
     public String getComplete() {
         return complete;
     }
 
     public void setComplete(String complete) {
         this.complete = complete;
-    }
-
-    public OrderrDto getOrderr() {
-        return orderr;
-    }
-
-    public void setOrderr(OrderrDto orderr) {
-        this.orderr = orderr;
     }
 
     public Integer getId() {
@@ -96,7 +85,6 @@ public class WaypointDto implements Dto{
         return "WaypointDto{" +
                 "id=" + id +
                 ", cargo=" + cargo.getIndex() +
-                ", orderr=" + orderr.getIndex() +
                 ", city=" + city.getName() +
                 ", wayPointType='" + wayPointType + '\'' +
                 '}';

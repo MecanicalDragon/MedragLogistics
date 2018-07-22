@@ -1,5 +1,6 @@
 package net.medrag.model.service;
 
+import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CityDto;
 
 /**
@@ -10,4 +11,5 @@ import net.medrag.model.dto.CityDto;
  */
 public interface DirectionsService {
     Integer[] getTripTime(CityDto departure, CityDto destination) throws MedragServiceException;
+    public Integer getComletePersent(CargoDto cargo) throws MedragServiceException;
 }

@@ -1,5 +1,6 @@
 package net.medrag.controller.resource;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.TruckDto;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.service.MedragServiceException;
@@ -26,8 +27,6 @@ import java.util.List;
 @RequestMapping("rsm-truck")
 public class TruckController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TruckController.class);
-
     private TruckService<TruckDto, Truck> truckService;
 
     private TruckValidator truckValidator;
@@ -43,8 +42,13 @@ public class TruckController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model)throws MedragServiceException{
-        List<TruckDto> trucks = truckService.getDtoList(new TruckDto(), new Truck());
+    public String returnView(HttpServletRequest request, Model model)throws MedragControllerException {
+        List<TruckDto> trucks = null;
+        try {
+            trucks = truckService.getDtoList(new TruckDto(), new Truck());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         request.getSession().setAttribute("truckList", trucks);
         model.addAttribute("truck", new TruckDto());
         model.addAttribute("editableTruck", new TruckDto());
@@ -52,9 +56,14 @@ public class TruckController {
     }
 
     @PostMapping("editTruck")
-    public String editTruck(@ModelAttribute("editableTruck") TruckDto truck, BindingResult bindingResult, Model model)throws MedragServiceException{
+    public String editTruck(@ModelAttribute("editableTruck") TruckDto truck, BindingResult bindingResult, Model model)throws MedragControllerException{
 
-        TruckDto validatedTruck = truckValidator.validateEdits(truck, bindingResult);
+        TruckDto validatedTruck = null;
+        try {
+            validatedTruck = truckValidator.validateEdits(truck, bindingResult);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         if (bindingResult.hasErrors()){
             model.addAttribute("editErr", true);
@@ -63,15 +72,23 @@ public class TruckController {
             return "resource/trucks";
         }
 
-        truckService.updateDtoStatus(validatedTruck, new Truck());
+        try {
+            truckService.updateDtoStatus(validatedTruck, new Truck());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         return "redirect: ../rsm-truck";
     }
 
     @PostMapping("addTruck")
-    public String addTruck(@ModelAttribute("truck") TruckDto truck, BindingResult bindingResult, Model model)throws MedragServiceException{
+    public String addTruck(@ModelAttribute("truck") TruckDto truck, BindingResult bindingResult, Model model)throws MedragControllerException{
 
-        truckValidator.validate(truck, bindingResult);
+        try {
+            truckValidator.validate(truck, bindingResult);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         if (bindingResult.hasErrors()){
             model.addAttribute("err", true);
@@ -80,20 +97,28 @@ public class TruckController {
             return "resource/trucks";
         }
 
-        truckService.addDto(truck, new Truck());
+        try {
+            truckService.addDto(truck, new Truck());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         return "redirect: ../rsm-truck";
     }
 
     @GetMapping("remove/{id}")
-    public String removeTruck(@PathVariable Integer id, Model model)throws MedragServiceException{
+    public String removeTruck(@PathVariable Integer id, Model model)throws MedragControllerException{
         TruckDto deletableTruck = new TruckDto();
         deletableTruck.setId(id);
-        truckService.removeDto(deletableTruck, new Truck());
+        try {
+            truckService.removeDto(deletableTruck, new Truck());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         return "redirect: ../../rsm-truck";
     }
 
     @GetMapping("changeState")
-    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request)throws MedragServiceException {
+    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request)throws MedragControllerException {
         List<TruckDto> truckList = (List<TruckDto>) request.getSession().getAttribute("truckList");
         TruckDto repairingTruck = null;
         for (TruckDto truck : truckList) {
@@ -114,17 +139,13 @@ public class TruckController {
                 repairingTruck.setStatus("IN_SERVICE");
                 break;
         }
-        truckService.updateDtoStatus(repairingTruck, new Truck());
+        try {
+            truckService.updateDtoStatus(repairingTruck, new Truck());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         return "redirect: ../rsm-truck";
-    }
-
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
     }
 
 }

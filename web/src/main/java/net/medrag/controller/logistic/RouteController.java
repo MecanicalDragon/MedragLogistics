@@ -1,5 +1,6 @@
 package net.medrag.controller.logistic;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.*;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.RouteService;
@@ -24,8 +25,6 @@ import java.util.Set;
 @RequestMapping("mgr-compileRoute")
 public class RouteController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RouteController.class);
-
     private RouteService routeService;
 
     @Autowired
@@ -40,7 +39,7 @@ public class RouteController {
      * @param drivers - indexes of assigned drivers in the session attribute list drivers.
      */
     @PostMapping
-    public String compileWP(@RequestParam("drivers") String drivers, HttpServletRequest request) throws MedragServiceException{
+    public String compileWP(@RequestParam("drivers") String drivers, HttpServletRequest request) throws MedragControllerException {
 
 //        Getting attributes from session
         List<DriverDto> driverList = (List<DriverDto>) request.getSession().getAttribute("drivers");
@@ -56,39 +55,13 @@ public class RouteController {
             brigade.add(driverList.get(Integer.valueOf(s)));
         }
 
-//        Setting new statuses to truck and drivers
-        for (DriverDto driverDto : brigade) {
-            driverDto.setState("PORTER");
-            driverDto.setCurrentTruck(assignedTruck);
-        }
-        assignedTruck.setStatus("IN_USE");
-        assignedTruck.setBrigade(brigade);
-
-//        Adding waypoints for every cargo in truckload
-        for (CargoDto cargo : truckLoad) {
-            cargo.setState("PREPARED");
-            WaypointDto load = new WaypointDto();
-            load.setCity(departureCity);
-            load.setWayPointType("LOAD");
-            load.setComplete("false");
-            load.setCargo(cargo);
-            load.setOrderr(cargo.getOrderr());
-            load.setCurrentTruck(assignedTruck);
-            load.setBrigade(brigade);
-
 //            Transactional method in waypoint service
-            routeService.compileRoute(load, destinationCity);
-        }
+            try {
+                routeService.compileRoute(departureCity, destinationCity, truckLoad, assignedTruck, brigade);
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
 
         return "redirect: ../mgr-main";
     }
-
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
-    }
-
 }

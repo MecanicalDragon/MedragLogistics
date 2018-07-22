@@ -1,5 +1,6 @@
 package net.medrag.controller.resource;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.service.DriverIdentifierService;
@@ -28,8 +29,6 @@ import java.util.List;
 @RequestMapping("rsm-driver")
 public class DriverController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DriverController.class);
-
     private DriverService<DriverDto, Driver> driverService;
 
     private DriverValidator driverValidator;
@@ -52,8 +51,13 @@ public class DriverController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model) throws MedragServiceException{
-        List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver());
+    public String returnView(HttpServletRequest request, Model model) throws MedragControllerException {
+        List<DriverDto> drivers = null;
+        try {
+            drivers = driverService.getDtoList(new DriverDto(), new Driver());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         request.getSession().setAttribute("driverList", drivers);
         model.addAttribute("driver", new DriverDto());
         model.addAttribute("editableDriver", new DriverDto());
@@ -61,9 +65,13 @@ public class DriverController {
     }
 
     @PostMapping("addDriver")
-    public String addDriver(@ModelAttribute("driver") DriverDto driver, BindingResult bindingResult, Model model) throws MedragServiceException{
+    public String addDriver(@ModelAttribute("driver") DriverDto driver, BindingResult bindingResult, Model model) throws MedragControllerException{
 
-        driverValidator.validate(driver, bindingResult);
+        try {
+            driverValidator.validate(driver, bindingResult);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("err", true);
@@ -72,15 +80,24 @@ public class DriverController {
             return "resource/drivers";
         }
 
-        driverIdentifierService.identifyNewDriver(driver);
+        try {
+            driverIdentifierService.identifyNewDriver(driver);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         return "redirect: ../rsm-driver";
     }
 
     @PostMapping("editDriver")
-    public String editDriver(@ModelAttribute("editableDriver") DriverDto driver, BindingResult bindingResult, Model model)throws MedragServiceException{
+    public String editDriver(@ModelAttribute("editableDriver") DriverDto driver, BindingResult bindingResult, Model model)throws MedragControllerException{
 
-        DriverDto validatedDriver = driverValidator.validateEdits(driver, bindingResult);
+        DriverDto validatedDriver = null;
+        try {
+            validatedDriver = driverValidator.validateEdits(driver, bindingResult);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         if (bindingResult.hasErrors()){
             model.addAttribute("editErr", true);
@@ -90,9 +107,17 @@ public class DriverController {
         }
 
         if (!validatedDriver.getEmail().equalsIgnoreCase(driver.getEmail())){
-            driverIdentifierService.updateDriver(validatedDriver);
+            try {
+                driverIdentifierService.updateDriver(validatedDriver);
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
         } else {
-            driverService.updateDtoStatus(validatedDriver, new Driver());
+            try {
+                driverService.updateDtoStatus(validatedDriver, new Driver());
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
         }
 
         return "redirect: ../rsm-driver";
@@ -106,7 +131,7 @@ public class DriverController {
     }
 
     @GetMapping("changeState")
-    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) throws MedragServiceException{
+    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) throws MedragControllerException{
         List<DriverDto> driverList = (List<DriverDto>) request.getSession().getAttribute("driverList");
         DriverDto changingDriver = new DriverDto();
         for (DriverDto driver : driverList) {
@@ -135,17 +160,13 @@ public class DriverController {
             default: changingDriver.setState("REST");
         }
 
-        driverService.updateDtoStatus(changingDriver, new Driver());
+        try {
+            driverService.updateDtoStatus(changingDriver, new Driver());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         return "redirect: ../rsm-driver";
-    }
-
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
     }
 
 }

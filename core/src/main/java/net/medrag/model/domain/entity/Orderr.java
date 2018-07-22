@@ -1,5 +1,7 @@
 package net.medrag.model.domain.entity;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 @Table(name = "orderr")
 public class Orderr extends Identifier {
 
+    @NaturalId
     @Column(name = "order_index")
     private String index;
 
@@ -28,9 +31,9 @@ public class Orderr extends Identifier {
 
     @OneToMany(mappedBy = "orderr")
     private List<Cargo> cargoes;
-
-    @OneToMany(mappedBy = "orderr")
-    private List<Waypoint> waypoints;
+//
+//    @OneToMany(mappedBy = "orderr", fetch = FetchType.LAZY)
+//    private List<Waypoint> waypoints;
 
     public List<Cargo> getCargoes() {
         return cargoes;
@@ -55,14 +58,14 @@ public class Orderr extends Identifier {
     public void setComplete(Boolean implemented) {
         this.complete = implemented;
     }
-
-    public List<Waypoint> getWaypoints() {
-        return waypoints;
-    }
-
-    public void setWaypoints(List<Waypoint> waypoints) {
-        this.waypoints = waypoints;
-    }
+//
+//    public List<Waypoint> getWaypoints() {
+//        return waypoints;
+//    }
+//
+//    public void setWaypoints(List<Waypoint> waypoints) {
+//        this.waypoints = waypoints;
+//    }
 
     public Customer getOwner() {
         return owner;

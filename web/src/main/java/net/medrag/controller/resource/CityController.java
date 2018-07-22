@@ -1,6 +1,7 @@
 package net.medrag.controller.resource;
 
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.MedragServiceException;
@@ -28,8 +29,6 @@ import java.util.List;
 @RequestMapping("rsm-city")
 public class CityController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CityController.class);
-
     private CityService<CityDto, City> cityService;
 
     private CityValidator cityValidator;
@@ -45,8 +44,13 @@ public class CityController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model)throws MedragServiceException{
-        List<CityDto> cities = cityService.getDtoList(new CityDto(), new City());
+    public String returnView(HttpServletRequest request, Model model)throws MedragControllerException {
+        List<CityDto> cities = null;
+        try {
+            cities = cityService.getDtoList(new CityDto(), new City());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         request.getSession().setAttribute("cities", cities);
         model.addAttribute("city", new CityDto());
         model.addAttribute("editingCity", new CityDto());
@@ -54,9 +58,14 @@ public class CityController {
     }
 
     @PostMapping("editCity")
-    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model, HttpServletRequest request)throws MedragServiceException{
+    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model, HttpServletRequest request)throws MedragControllerException{
 
-        CityDto validatedCity = cityValidator.validateEdits(city, bindingResult);
+        CityDto validatedCity = null;
+        try {
+            validatedCity = cityValidator.validateEdits(city, bindingResult);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         if (bindingResult.hasErrors()){
             model.addAttribute("editErr", true);
@@ -65,15 +74,23 @@ public class CityController {
             return "resource/cities";
         }
 
-        cityService.updateDtoStatus(validatedCity, new City());
+        try {
+            cityService.updateDtoStatus(validatedCity, new City());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         return "redirect: ../rsm-city";
     }
 
     @PostMapping("addCity")
-    public String addCity(@ModelAttribute("city") CityDto city, BindingResult bindingResult, Model model)throws MedragServiceException{
+    public String addCity(@ModelAttribute("city") CityDto city, BindingResult bindingResult, Model model)throws MedragControllerException{
 
-        cityValidator.validate(city, bindingResult);
+        try {
+            cityValidator.validate(city, bindingResult);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         if (bindingResult.hasErrors()){
             model.addAttribute("err", true);
@@ -81,24 +98,24 @@ public class CityController {
             model.addAttribute("editingCity", new CityDto());
             return "resource/cities";
         }
-        cityService.addDto(city, new City());
+        try {
+            cityService.addDto(city, new City());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         return "redirect: ../rsm-city";
     }
 
     @GetMapping("remove/{id}")
-    public String removeCity(@PathVariable Integer id, Model model)throws MedragServiceException{
+    public String removeCity(@PathVariable Integer id, Model model)throws MedragControllerException{
         CityDto removingCity = new CityDto();
         removingCity.setId(id);
-        cityService.removeDto(removingCity, new City());
+        try {
+            cityService.removeDto(removingCity, new City());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         return "redirect: ../../rsm-city";
-    }
-
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
     }
 
 }

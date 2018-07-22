@@ -121,10 +121,6 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
             throw new MedragServiceException(e);
         }
         List<D> dtoList = new ArrayList<>();
-//        List<Person> persons = getPersons();
-//        // Define the target type
-//        java.lang.reflect.Type targetListType = new TypeToken<List<PersonDTO>>() {}.getType();
-//        List<PersonDTO> personDTOs = mapper.map(persons, targetListType);
         for (E e : entityList) {
             D d = (D) new ModelMapper().map(e, dto.getClass());
             dtoList.add(d);

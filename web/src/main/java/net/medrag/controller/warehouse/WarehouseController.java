@@ -1,5 +1,6 @@
 package net.medrag.controller.warehouse;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Waypoint;
 import net.medrag.model.dto.CityDto;
@@ -26,9 +27,6 @@ import java.util.List;
 @Controller
 @RequestMapping("whm-wp")
 public class WarehouseController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseController.class);
-
 
     private CityService<CityDto, City> cityService;
 
@@ -57,16 +55,26 @@ public class WarehouseController {
      * @param name - name of chosen city
      */
     @PostMapping("actual")
-    public String returnView(@RequestParam String name, HttpServletRequest request)throws MedragServiceException{
+    public String returnView(@RequestParam String name, HttpServletRequest request)throws MedragControllerException {
 
-        CityDto city = cityService.getDtoByNaturalId(new CityDto(), new City(), name);
+        CityDto city = null;
+        try {
+            city = cityService.getDtoByNaturalId(new CityDto(), new City(), name);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         if (city == null){
         return "redirect: ../whm-main";
         }
 
-        List<WaypointDto> actualWaypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(),
-                "CITY_ID", city.getId().toString(), "COMPLETE", "false");
+        List<WaypointDto> actualWaypoints = null;
+        try {
+            actualWaypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(),
+                    "CITY_ID", city.getId().toString(), "COMPLETE", "false");
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         request.getSession().setAttribute("wps", actualWaypoints);
         request.getSession().setAttribute("warehouseOfCity", name);
@@ -75,22 +83,18 @@ public class WarehouseController {
     }
 
     @GetMapping("complete/{index}")
-    public String completeWaypoint(@PathVariable Integer index, HttpServletRequest request)throws MedragServiceException{
+    public String completeWaypoint(@PathVariable Integer index, HttpServletRequest request)throws MedragControllerException{
 
         List<WaypointDto> waypoints = (List<WaypointDto>) request.getSession().getAttribute("wps");
         WaypointDto completedWP = waypoints.remove(index.intValue());
 
-        routeService.completeWaypoint(completedWP);
-
+        try {
+            routeService.completeWaypoint(completedWP);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         return "warehouse/warehouse";
-    }
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
     }
 
 }

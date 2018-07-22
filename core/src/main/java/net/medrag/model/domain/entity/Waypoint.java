@@ -21,10 +21,6 @@ public class Waypoint extends Identifier{
     private Cargo cargo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
-    private Orderr orderr;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
@@ -39,7 +35,7 @@ public class Waypoint extends Identifier{
     @JoinColumn(name = "truck_id")
     private Truck currentTruck;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "waypoint_drivers",
             joinColumns = @JoinColumn(name = "waypoint_id"),
             inverseJoinColumns = @JoinColumn(name = "driver_id"))
@@ -51,14 +47,6 @@ public class Waypoint extends Identifier{
 
     public void setComplete(Boolean complete) {
         this.complete = complete;
-    }
-
-    public Orderr getOrderr() {
-        return orderr;
-    }
-
-    public void setOrderr(Orderr orderr) {
-        this.orderr = orderr;
     }
 
     public Cargo getCargo() {
@@ -106,7 +94,6 @@ public class Waypoint extends Identifier{
         return "Waypoint{" +
                 "id=" + id +
                 ", cargo=" + cargo.getIndex() +
-                ", orderr=" + orderr.getIndex() +
                 ", city=" + city.getName() +
                 ", wayPointType=" + wayPointType +
                 '}';

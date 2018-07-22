@@ -17,8 +17,8 @@ public class OrderrDto implements Dto {
     private Boolean complete;
 
     private CustomerDto owner;
-
-    private List<WaypointDto> waypoints;
+//
+//    private List<WaypointDto> waypoints;
 
     private List<CargoDto> cargoes;
 
@@ -55,13 +55,13 @@ public class OrderrDto implements Dto {
         this.complete = complete;
     }
 
-    public List<WaypointDto> getWaypoints() {
-        return waypoints;
-    }
-
-    public void setWaypoints(List<WaypointDto> waypoints) {
-        this.waypoints = waypoints;
-    }
+//    public List<WaypointDto> getWaypoints() {
+//        return waypoints;
+//    }
+//
+//    public void setWaypoints(List<WaypointDto> waypoints) {
+//        this.waypoints = waypoints;
+//    }
 
     public CustomerDto getOwner() {
         return owner;
@@ -78,7 +78,6 @@ public class OrderrDto implements Dto {
                 ", index='" + index + '\'' +
                 ", complete=" + complete +
                 ", owner=" + owner +
-                ", waypoints=" + waypoints +
                 '}';
     }
 

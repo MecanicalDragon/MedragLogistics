@@ -1,16 +1,14 @@
 package net.medrag.controller.warehouse;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CustomerDto;
 import net.medrag.model.dto.OrderrDto;
 import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.OrderCompilingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.medrag.model.service.OrderHandlingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,24 +26,27 @@ import java.util.List;
 @RequestMapping("whm-order")
 public class OrderController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
-
-    private OrderCompilingService orderCompilingService;
+    private OrderHandlingService orderHandlingService;
 
     @Autowired
-    public void setOrderCompilingService(OrderCompilingService orderCompilingService) {
-        this.orderCompilingService = orderCompilingService;
+    public void setOrderHandlingService(OrderHandlingService orderHandlingService) {
+        this.orderHandlingService = orderHandlingService;
     }
 
     @GetMapping("compile")
-    public String compileOrder(HttpServletRequest request, Model model)throws MedragServiceException {
+    public String compileOrder(HttpServletRequest request, Model model)throws MedragControllerException {
 
         if (request.getSession().getAttribute("cargoList") != null) {
 
             List<CargoDto> cargoList = (List<CargoDto>) request.getSession().getAttribute("cargoList");
             CustomerDto owner = (CustomerDto) request.getSession().getAttribute("owner");
 
-            OrderrDto order = orderCompilingService.compileOrder(cargoList, owner);
+            OrderrDto order = null;
+            try {
+                order = orderHandlingService.compileOrder(cargoList, owner);
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
             request.getSession().setAttribute("cargoList", null);
             model.addAttribute("order", order);
         }
@@ -54,18 +55,15 @@ public class OrderController {
     }
 
     @GetMapping("deliver/{index}")
-    public String deliver(@PathVariable Integer index, HttpServletRequest request) throws MedragServiceException{
+    public String deliver(@PathVariable Integer index, HttpServletRequest request) throws MedragControllerException{
         List<CargoDto> cargoes = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
         CargoDto deliveredCargo = cargoes.get(index);
-        orderCompilingService.deliverCargo(deliveredCargo);
+        try {
+            orderHandlingService.deliverCargo(deliveredCargo);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         return "redirect: ../../whm-main";
     }
 
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
-    }
 }

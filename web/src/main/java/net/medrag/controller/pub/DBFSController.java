@@ -9,12 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DBFSController {
 
     @GetMapping()
-    public String showInfo(){
+    public String showInfo() {
         return "public/DBFS";
-    }
-
-    @GetMapping("error")
-    public String error(){
-        return "public/error";
     }
 }

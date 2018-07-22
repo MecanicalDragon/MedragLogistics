@@ -1,5 +1,6 @@
 package net.medrag.controller.pub;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.dto.CityDto;
 import net.medrag.model.service.MedragServiceException;
@@ -70,7 +71,7 @@ public class TitleController {
     }
 
     @PostMapping("sout")
-    public String sout(@RequestParam Integer index) throws MedragServiceException {
+    public String sout(@RequestParam Integer index) {
 
 
         System.out.println();

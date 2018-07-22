@@ -13,17 +13,9 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <style>
-        .greentext {
-            color: darkseagreen;
-        }
-        .bluetext {
-            color: deepskyblue;
-        }
-        .othertext {
-            color: mediumorchid;
-        }
-    </style>
+    <!-- My palitre -->
+    <link href="/resources/css/palitre.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 <div class="container">

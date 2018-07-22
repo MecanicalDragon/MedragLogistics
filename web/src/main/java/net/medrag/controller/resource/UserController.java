@@ -1,5 +1,6 @@
 package net.medrag.controller.resource;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.UserDto;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.service.EmployeeIdentifierService;
@@ -27,8 +28,6 @@ import java.util.List;
 @RequestMapping("rsm-user")
 public class UserController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
     private UserService<UserDto, User> userService;
 
     private EmployeeIdentifierService employeeIdentifierService;
@@ -51,8 +50,13 @@ public class UserController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model)throws MedragServiceException {
-        List<UserDto>userList = userService.getDtoList(new UserDto(), new User());
+    public String returnView(HttpServletRequest request, Model model)throws MedragControllerException {
+        List<UserDto>userList = null;
+        try {
+            userList = userService.getDtoList(new UserDto(), new User());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         request.getSession().setAttribute("userList", userList);
         model.addAttribute("newUser", new UserDto());
         model.addAttribute("removableUser", new UserDto());
@@ -60,7 +64,7 @@ public class UserController {
     }
 
     @PostMapping("addUser")
-    public String addUser(@ModelAttribute("newUser") UserDto user, BindingResult bindingResult, Model model)throws MedragServiceException {
+    public String addUser(@ModelAttribute("newUser") UserDto user, BindingResult bindingResult, Model model)throws MedragControllerException {
 
         userValidator.validate(user, bindingResult);
 
@@ -70,36 +74,44 @@ public class UserController {
             return "resource/users";
         }
 
-        employeeIdentifierService.identifyEmployee(user);
-
-        return "redirect: ../rsm-user";
-    }
-
-    @GetMapping("generate")
-    public String generate(@RequestParam String id)throws MedragServiceException{
-        employeeIdentifierService.generateNewPassword(Integer.valueOf(id));
-
-        return "redirect: ../rsm-user";
-    }
-
-    @PostMapping("remove")
-    public String remove(@ModelAttribute("removableUser") UserDto user)throws MedragServiceException{
-
-        if(user.getUsername().substring(0, 3).equalsIgnoreCase("DRV")){
-            employeeIdentifierService.removeUserIfItsDriver(user);
-        } else{
-        userService.removeDto(user, new User());
+        try {
+            employeeIdentifierService.identifyEmployee(user);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
         }
 
         return "redirect: ../rsm-user";
     }
 
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
+    @GetMapping("generate")
+    public String generate(@RequestParam String id)throws MedragControllerException{
+        try {
+            employeeIdentifierService.generateNewPassword(Integer.valueOf(id));
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
-        return "public/error";
+        return "redirect: ../rsm-user";
+    }
 
+    @PostMapping("remove")
+    public String remove(@ModelAttribute("removableUser") UserDto user)throws MedragControllerException{
+
+        if(user.getUsername().substring(0, 3).equalsIgnoreCase("DRV")){
+            try {
+                employeeIdentifierService.removeUserIfItsDriver(user);
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
+        } else{
+            try {
+                userService.removeDto(user, new User());
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
+        }
+
+        return "redirect: ../rsm-user";
     }
 
 }

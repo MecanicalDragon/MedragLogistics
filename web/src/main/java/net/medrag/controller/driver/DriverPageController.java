@@ -1,5 +1,6 @@
 package net.medrag.controller.driver;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.domain.entity.Waypoint;
@@ -31,8 +32,6 @@ import java.util.List;
 @RequestMapping("drv-main")
 public class DriverPageController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DriverPageController.class);
-
     private SecurityService securityService;
 
     private DriverService<DriverDto, Driver> driverService;
@@ -62,12 +61,21 @@ public class DriverPageController {
     }
 
     @GetMapping()
-    public String returnView(Model model, HttpServletRequest request) throws MedragServiceException {
+    public String returnView(Model model, HttpServletRequest request) throws MedragControllerException {
 
-        DriverDto driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), securityService.getUsernameOfSignedInUser());
+        DriverDto driver = null;
+        try {
+            driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), securityService.getUsernameOfSignedInUser());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         List<WaypointDto> waypoints = null;
         if (driver.getCurrentTruck() != null) {
-            waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false", "TRUCK_ID", driver.getCurrentTruck().getId().toString());
+            try {
+                waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false", "TRUCK_ID", driver.getCurrentTruck().getId().toString());
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
             model.addAttribute("wps", waypoints);
         }
 
@@ -78,33 +86,37 @@ public class DriverPageController {
     }
 
     @GetMapping("changeState/{option}")
-    public String changeState(@PathVariable String option, HttpServletRequest request) throws MedragServiceException {
+    public String changeState(@PathVariable String option, HttpServletRequest request) throws MedragControllerException {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
         driver.setState(option);
         if (option.equals("REST") || option.equals("READY_TO_ROUTE")) {
             TruckDto truck = driver.getCurrentTruck();
             if (truck != null) {
-                truckService.refreshDto(truck, new Truck());
+                try {
+                    truckService.refreshDto(truck, new Truck());
+                } catch (MedragServiceException e) {
+                    throw new MedragControllerException(e);
+                }
                 if (truck.getBrigade().size() == 1) {
                     truck.getBrigade().clear();
                     truck.setStatus("STAY_IDLE");
-                    truckService.updateDtoStatus(truck, new Truck());
+                    try {
+                        truckService.updateDtoStatus(truck, new Truck());
+                    } catch (MedragServiceException e) {
+                        throw new MedragControllerException(e);
+                    }
                 }
             }
             driver.setCurrentTruck(null);
         }
-        driverService.updateDtoStatus(driver, new Driver());
+        try {
+            driverService.updateDtoStatus(driver, new Driver());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         return "redirect: ../../drv-main";
     }
 
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex, Model model) {
-
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
-    }
 }

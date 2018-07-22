@@ -1,7 +1,6 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.CustomerDto;
+import net.medrag.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,9 @@ public class MailServiceImpl implements MailService {
         this.mailSender = mailSender;
     }
 
-//    public void sendConfirmEmail(String email, String confirmCode) throws MessagingException {
+//      This is for the case, if it'll be needed to load server address from properties
+//
+//        public void sendConfirmEmail(String email, String confirmCode) throws MessagingException {
 //        MimeMessage message = mailSender.createMimeMessage();
 //        Properties properties = new Properties();
 //        try {
@@ -54,10 +55,10 @@ public class MailServiceImpl implements MailService {
     /**
      * Email with login and password to a new employee or already existing.
      *
-     * @param email - email
+     * @param email    - email
      * @param username - username
      * @param password - password
-     * @param type - type of email: with new authorities of restored.
+     * @param type     - type of email: with new authorities of restored.
      * @throws MessagingException
      */
     @Override
@@ -66,14 +67,15 @@ public class MailServiceImpl implements MailService {
         message.addRecipients(Message.RecipientType.TO, email);
         message.setSubject("Your Medrag Logistics account data");
 
-        switch(type){
+        switch (type) {
             case "new":
                 type = newAccount;
                 break;
             case "restore":
                 type = restoreAccount;
                 break;
-            default: type = newAccount;
+            default:
+                type = newAccount;
         }
 
         String text = String.format(type +
@@ -99,6 +101,46 @@ public class MailServiceImpl implements MailService {
         String text = String.format("Dear %s %s! Your cargo %s with index %s nas been delivered in city %s! " +
                         "Come and get it. Your MedragLogistics.", cargo.getOwner().getName(),
                 cargo.getOwner().getSurname(), cargo.getName(), cargo.getIndex(), cargo.getDestinationName());
+        message.setText(text);
+        mailSender.send(message);
+    }
+
+    /**
+     * Email to customer with order information and link to order status page.
+     *
+     * @param order customer's order
+     * @throws MessagingException
+     */
+    @Override
+    public void sendTakenOrderMail(OrderrDto order) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        message.addRecipients(Message.RecipientType.TO, order.getOwner().getEmail());
+        message.setSubject("Your cargo has been taken to handling.");
+
+        StringBuilder cargoList = new StringBuilder("This is your cargoes list: \n");
+        for (CargoDto cargo : order.getCargoes()) {
+            cargoList.append("Cargo: ").append(cargo.getName()).append("\n")
+                    .append("Index: ").append(cargo.getIndex()).append("\n")
+                    .append("Departure: ").append(cargo.getDepartureName()).append("\n")
+                    .append("Destination: ").append(cargo.getDestinationName()).append("\n\n");
+        }
+
+        String text = String.format("Dear %s %s! Your order, registered by the index %s nas been taken to handling. \n" +
+                        "%s You can watch it's delivery status, following the next link: \n" +
+                        "http://localhost:8080/orderInfo/%s", order.getOwner().getName(),
+                order.getOwner().getSurname(), order.getIndex(), cargoList.toString(), order.getIndex());
+        message.setText(text);
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendCompiledRouteMesaage(DriverDto driver, CityDto destination) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        message.addRecipients(Message.RecipientType.TO, driver.getEmail());
+        message.setSubject("You assigned to the route.");
+
+        String text = String.format("%s %s, you assigned to the route to the city %s. Take your workplace on the truck %s.",
+                driver.getName(), driver.getSurname(), destination.getName(), driver.getCurrentTruck().getRegNumber());
         message.setText(text);
         mailSender.send(message);
     }

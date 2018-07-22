@@ -2,9 +2,7 @@ package net.medrag.model.service;
 
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.domain.entity.Waypoint;
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dto.DriverDto;
-import net.medrag.model.dto.WaypointDto;
+import net.medrag.model.dto.*;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.model.service.dto.WaypointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * {@link}
@@ -45,33 +45,61 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     @Transactional
-    public void compileRoute(WaypointDto load, CityDto destination)throws MedragServiceException {
+    public void compileRoute(CityDto departure, CityDto destination, List<CargoDto> truckLoad,
+                             TruckDto assignedTruck, Set<DriverDto> brigade) throws MedragServiceException {
 
-        for (DriverDto driver : load.getBrigade()) {
+//        Setting new statuses to truck and drivers
+        for (DriverDto driverDto : brigade) {
+            driverDto.setState("PORTER");
+            driverDto.setCurrentTruck(assignedTruck);
+        }
+        assignedTruck.setStatus("IN_USE");
+        assignedTruck.setBrigade(brigade);
+
+        for (DriverDto driver : brigade) {
             driverService.updateDtoStatus(driver, new Driver());
+            try {
+                mailService.sendCompiledRouteMesaage(driver, destination);
+            } catch (MessagingException e) {
+            }
         }
 
-        Integer id = waypointService.addDto(load, new Waypoint());
-        load.setId(id);
-        waypointService.updateDtoStatus(load, new Waypoint());
+//        Adding waypoints for every cargo in truckload
+        for (CargoDto cargo : truckLoad) {
+            cargo.setState("PREPARED");
+            WaypointDto load = new WaypointDto();
+            load.setCity(departure);
+            load.setWayPointType("LOAD");
+            load.setComplete("false");
+            load.setCargo(cargo);
+            load.setCurrentTruck(assignedTruck);
+            load.setBrigade(brigade);
 
-        load.setCity(destination);
-        load.setWayPointType("UNLOAD");
-        load.setId(null);
-        id = waypointService.addDto(load, new Waypoint());
-        load.setId(id);
-        waypointService.updateDtoStatus(load, new Waypoint());
+//            Create LOAD waypoint
+            Integer id = waypointService.addDto(load, new Waypoint());
+            load.setId(id);
+            waypointService.updateDtoStatus(load, new Waypoint());
+
+//            Create UNLOAD waypoint
+            load.setCity(destination);
+            load.setWayPointType("UNLOAD");
+            load.setId(null);
+            id = waypointService.addDto(load, new Waypoint());
+            load.setId(id);
+            waypointService.updateDtoStatus(load, new Waypoint());
+        }
 
     }
 
 
     /**
      * Method from the warehouse of the city, that sets waypoint complete.
+     *
      * @param completedWP - waypoint, that becomes completed itself.
      */
     @Override
     @Transactional
-    public void completeWaypoint(WaypointDto completedWP) throws MedragServiceException{
+    public void completeWaypoint(WaypointDto completedWP) throws MedragServiceException {
 
         completedWP.setComplete("true");
 

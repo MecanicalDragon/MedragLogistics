@@ -1,5 +1,6 @@
 package net.medrag.controller.logistic;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.dto.CityDto;
@@ -30,8 +31,6 @@ import java.util.List;
 @RequestMapping("mgr-destination")
 public class AddingDriversController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AddingDriversController.class);
-
     private DriverService<DriverDto, Driver> driverService;
 
     private DirectionsService directionsService;
@@ -52,12 +51,17 @@ public class AddingDriversController {
      * Finish it with the {@link RouteController}
      */
     @PostMapping
-    public String addDrivers(@RequestParam Integer index, HttpServletRequest request, Model model)throws MedragServiceException {
+    public String addDrivers(@RequestParam Integer index, HttpServletRequest request, Model model)throws MedragControllerException {
 
 //        Getting list of drivers
         TruckDto chosenTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
-        List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver(),
-                "CURRENT_CITY_ID", chosenTruck.getCityId().toString(), "STATE", "'READY_TO_ROUTE'");
+        List<DriverDto> drivers = null;
+        try {
+            drivers = driverService.getDtoList(new DriverDto(), new Driver(),
+                    "CURRENT_CITY_ID", chosenTruck.getCityId().toString(), "STATE", "'READY_TO_ROUTE'");
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         List<DriverDto> filteredDrivers = new ArrayList<>();
 
 //        Defining cities
@@ -66,7 +70,12 @@ public class AddingDriversController {
         CityDto departureCity = (CityDto) request.getSession().getAttribute("departureCity");
 
 //        Filtering drivers by the worked time
-        Integer[] trip = directionsService.getTripTime(departureCity, destinationCity);
+        Integer[] trip = new Integer[0];
+        try {
+            trip = directionsService.getTripTime(departureCity, destinationCity);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         for (DriverDto driver : drivers){
             if (driver.getWorkedTime()+trip[1] <= 10560){
                 filteredDrivers.add(driver);
@@ -83,11 +92,4 @@ public class AddingDriversController {
         return "logistic/addDrivers";
     }
 
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
-    }
 }

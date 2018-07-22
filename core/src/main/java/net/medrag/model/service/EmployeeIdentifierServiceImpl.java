@@ -126,5 +126,4 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
         return passwordBuilder.toString().substring(0, 8);
     }
 
-
 }

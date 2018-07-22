@@ -86,7 +86,7 @@
                                                         </button>
                                                         <ul class="dropdown-menu pull-right" role="menu">
                                                             <c:choose>
-                                                                <c:when test="${wps == null}">
+                                                                <c:when test="${wps.size() == 0 || wps == null}">
                                                                     <li>
                                                                         <a href="${contextPath}/drv-main/changeState/REST">
                                                                             Go to rest</a>
@@ -96,7 +96,8 @@
                                                                             Ready to route</a>
                                                                     </li>
                                                                 </c:when>
-                                                                <c:when test="${driver.currentTruck != null}">
+                                                                <%--<c:when test="${driver.currentTruck != null}">--%>
+                                                                <c:otherwise>
                                                                     <li>
                                                                         <a href="${contextPath}/drv-main/changeState/ON_SHIFT">
                                                                             On the shift</a>
@@ -105,7 +106,7 @@
                                                                         <a href="${contextPath}/drv-main/changeState/DRIVING">
                                                                             Is driving</a>
                                                                     </li>
-                                                                </c:when>
+                                                                </c:otherwise>
                                                             </c:choose>
                                                         </ul>
                                                     </div>

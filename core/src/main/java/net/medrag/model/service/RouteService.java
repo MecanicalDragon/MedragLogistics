@@ -1,7 +1,9 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dto.WaypointDto;
+import net.medrag.model.dto.*;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Standard interface for {@link  }
@@ -11,7 +13,8 @@ import net.medrag.model.dto.WaypointDto;
  */
 public interface RouteService {
 
-    void compileRoute(WaypointDto waypoint, CityDto destination) throws MedragServiceException;
+    void compileRoute(CityDto departure, CityDto destination, List<CargoDto> truckLoad,
+                      TruckDto assignedTruck, Set<DriverDto> brigade)throws MedragServiceException;
 
     void completeWaypoint(WaypointDto completedWP) throws MedragServiceException;
 }

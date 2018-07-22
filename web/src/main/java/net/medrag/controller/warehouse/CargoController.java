@@ -1,5 +1,6 @@
 package net.medrag.controller.warehouse;
 
+import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.service.MedragServiceException;
@@ -26,8 +27,6 @@ import java.util.List;
 @RequestMapping("whm-cargo")
 public class CargoController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CargoController.class);
-
     private CargoValidator cargoValidator;
 
     private CargoService<CargoDto, Cargo> cargoService;
@@ -44,9 +43,13 @@ public class CargoController {
 
     @PostMapping("addCargo")
     public String addCargo(@ModelAttribute("cargo") CargoDto newCargo, BindingResult bindingResult,
-                           HttpServletRequest request, Model model)throws MedragServiceException {
+                           HttpServletRequest request, Model model)throws MedragControllerException {
 
-        cargoValidator.validate(newCargo, bindingResult);
+        try {
+            cargoValidator.validate(newCargo, bindingResult);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("err", true);
@@ -59,14 +62,6 @@ public class CargoController {
         }
         model.addAttribute("cargo", new CargoDto());
         return "warehouse/order";
-    }
-
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
     }
 
 }

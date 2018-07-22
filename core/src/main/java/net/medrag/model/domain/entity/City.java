@@ -1,17 +1,9 @@
-/*
- * City
- *
- * v.1.0
- *
- * created by Stanislav Tretyakov 20.06.18
- */
 package net.medrag.model.domain.entity;
 
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import java.util.Set;
 
 /**
  * Simple JavaBean domain object, that represents a City
@@ -35,12 +27,6 @@ public class City extends Identifier {
 
     @Column(name = "city_index")
     private String index;
-
-    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
-    private Set<Truck>truckSet;
-
-    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
-    private Set<Driver>driverSet;
 
     public String getIndex() {
         return index;
@@ -72,22 +58,6 @@ public class City extends Identifier {
 
     public void setCoordinatesY(Double coordinatesY) {
         this.coordinatesY = coordinatesY;
-    }
-
-    public Set<Truck> getTruckSet() {
-        return truckSet;
-    }
-
-    public void setTruckSet(Set<Truck> truckSet) {
-        this.truckSet = truckSet;
-    }
-
-    public Set<Driver> getDriverSet() {
-        return driverSet;
-    }
-
-    public void setDriverSet(Set<Driver> driverSet) {
-        this.driverSet = driverSet;
     }
 
     @Override

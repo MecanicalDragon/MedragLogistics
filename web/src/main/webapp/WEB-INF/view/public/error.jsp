@@ -95,7 +95,7 @@ animation: glitchText 2s infinite linear alternate-reverse;
 
 .glitch::after {
 left: -2px;
-text-shadow: -1px solid blue;
+text-shadow: -1px 0 blue;
 clip: rect(424px, 450px, 526px, 0);
 -webkit-animation: glitchText2 2s infinite linear alternate-reverse;
 -moz-animation: glitchText2 2s infinite linear alternate-reverse;

@@ -12,7 +12,7 @@ import java.util.List;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-public interface OrderCompilingService {
+public interface OrderHandlingService {
 
     OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) throws MedragServiceException;
 
