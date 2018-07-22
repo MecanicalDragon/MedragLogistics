@@ -30,11 +30,11 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
 
-                        <h1>Step 2: add more cargoes to the truck.</h1>
+                        <h3>Step 2: add more cargoes to the truck.</h3>
                         <h3 id="msg">Now loaded 0 kgs of ${sessionScope.chosenTruck.capacity} total capacity.</h3>
                     </div>
                 </div>

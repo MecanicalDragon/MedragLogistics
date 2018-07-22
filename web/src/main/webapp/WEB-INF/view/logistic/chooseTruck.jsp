@@ -34,10 +34,10 @@
     <%--Data Table--%>
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h1>Step 1: choose a truck for delivery.</h1>
+                        <h3>Step 1: choose a truck for delivery.</h3>
                     </div>
                 </div>
 

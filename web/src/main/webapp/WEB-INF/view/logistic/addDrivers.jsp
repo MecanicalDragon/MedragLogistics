@@ -34,19 +34,18 @@
     <%--Data Table--%>
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
 
                     <div class="text-center">
 
-                        <h1>Step 4: compile a brigade.</h1>
+                        <h3>Step 4: compile a brigade.</h3>
 
-                        <h2>Route length: ${distance} kms.</h2>
                         <c:set var="tripHours"
                                value="${fn:substringBefore(duration div 60, '.')}"/>
                         <fmt:formatNumber var="tripMinutes" minIntegerDigits="2"
                                           value="${duration - (tripHours*60) }"/>
-                        <h2>It will take about (including cargo works) ${tripHours}:${tripMinutes} hours.</h2>
+                        <h4>Route length: ${distance} kms. It will take about (including cargo works) ${tripHours}:${tripMinutes} hours.</h4>
 
                         <h3 id="msg">Now assigned 0 of ${sessionScope.brigade} drivers.</h3>
 
@@ -98,8 +97,6 @@
                 <div class="panel-footer">
                     <div class="text-center">
                         <a class="btn btn-danger" href="${contextPath}/mgr-main" role="button">Dismiss</a>
-
-
                         <button class="btn btn-success" form="driverForm" id="compile" disabled>Compile</button>
                     </div>
                 </div>

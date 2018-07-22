@@ -71,6 +71,7 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
     }
 
     @Override
+    @Transactional
     public void removeUserIfItsDriver(UserDto user)throws MedragServiceException {
         DriverDto driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), user.getUsername());
         userService.removeDto(user, new User());

@@ -66,7 +66,6 @@ public class CityController {
         }
 
         cityService.updateDtoStatus(validatedCity, new City());
-        request.getSession().setAttribute("cities", null);
 
         return "redirect: ../rsm-city";
     }

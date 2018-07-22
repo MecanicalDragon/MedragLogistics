@@ -71,7 +71,7 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-
+<%--<a href="${contextPath}/title/map">To the map</a>--%>
         </div>
     </div>
     <div class="footer">

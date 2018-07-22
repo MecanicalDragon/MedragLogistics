@@ -33,7 +33,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h3>Step 3: Choose the next destination city (departure - ${sessionScope.departureCity.name})</h3>
+                        <h3>Step 3: Choose the next destination city.</h3>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -59,16 +59,18 @@
 
 </div>
 
-<form action="${contextPath}/mgr-destination" method="POST" id="targetForm">
+<form action="${contextPath}/title/sout" method="POST" id="targetForm">
     <input type="hidden" id="targetField" name="index" value="">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 
 <!-- jQuery -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!-- Map Initializing Script -->
+
+<%--Map initializing script--%>
 <script>
     function initMap() {
 //        Initializing style
@@ -83,7 +85,7 @@
         ];
 
 //        Initializing map and departure point.
-        var departure = {lat: ${sessionScope.departureCity.coordinatesX}, lng: ${sessionScope.departureCity.coordinatesY}};
+        var departure = {lat: ${cities.get(2).coordinatesX}, lng: ${cities.get(2).coordinatesY}};
         var image = '/resources/vendor/images/marker.png';
         var map = new google.maps.Map(
             document.getElementById('map'), {zoom: 6, center: departure});
@@ -93,16 +95,16 @@
             map: map,
             icon: image,
             label: {
-                text: "${sessionScope.departureCity.name}",
+                text: "${cities.get(2).name}",
                 fontSize: "20px",
                 fontWeight: "700"
             }
         });
 
 //        Adding other city markers
-        <c:forEach items="${sessionScope.cities}" var="city" varStatus="index">
+        <c:forEach items="${cities}" var="city" varStatus="index">
         var position = {lat: ${city.coordinatesX}, lng: ${city.coordinatesY}};
-        if (${!sessionScope.departureCity.name.equals(city.name)}) {
+        if (${!cities.get(2).name.equals(city.name)}) {
             var marker = new google.maps.Marker({
                 position: position,
                 map: map,

@@ -32,21 +32,13 @@ public class AddingDriversController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddingDriversController.class);
 
-
     private DriverService<DriverDto, Driver> driverService;
-
-    private CityService<CityDto, City> cityService;
 
     private DirectionsService directionsService;
 
     @Autowired
     public void setDirectionsService(DirectionsService directionsService) {
         this.directionsService = directionsService;
-    }
-
-    @Autowired
-    public void setCityService(CityService<CityDto, City> cityService) {
-        this.cityService = cityService;
     }
 
     @Autowired
@@ -71,7 +63,7 @@ public class AddingDriversController {
 //        Defining cities
         List<CityDto> cities = (List<CityDto>) request.getSession().getAttribute("cities");
         CityDto destinationCity = cities.get(index);
-        CityDto departureCity = cityService.getDtoById(new CityDto(), new City(), chosenTruck.getCityId());
+        CityDto departureCity = (CityDto) request.getSession().getAttribute("departureCity");
 
 //        Filtering drivers by the worked time
         Integer[] trip = directionsService.getTripTime(departureCity, destinationCity);
@@ -85,7 +77,6 @@ public class AddingDriversController {
         model.addAttribute("distance", trip[0]);
         model.addAttribute("duration", trip[1]);
         request.getSession().setAttribute("destinationCity", destinationCity);
-        request.getSession().setAttribute("departureCity", departureCity);
         request.getSession().setAttribute("drivers", filteredDrivers);
         request.getSession().setAttribute("brigade", chosenTruck.getBrigadeStr());
 

@@ -3,6 +3,7 @@ package net.medrag.controller.logistic;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.dto.CityDto;
+import net.medrag.model.dto.TruckDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import org.slf4j.Logger;
@@ -28,22 +29,12 @@ import java.util.List;
 @RequestMapping("mgr-addCargoes")
 public class ChoosingCityController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChoosingCityController.class);
-
-
-    private CityService<CityDto, City> cityService;
-
-    @Autowired
-    public void setCityService(CityService<CityDto, City> cityService) {
-        this.cityService = cityService;
-    }
-
     /**
      * Third step - adding compiled truck load  and cities list to the session.
      * Next step - {@link AddingDriversController}
      */
     @PostMapping()
-    public String addCargoes(@RequestParam("cargoesList") String cargoesList, HttpServletRequest request)throws MedragServiceException {
+    public String addCargoes(@RequestParam("cargoesList") String cargoesList, HttpServletRequest request){
 
         List<CargoDto> cityCargoes = (List<CargoDto>) request.getSession().getAttribute("cityCargoes");
 
@@ -55,20 +46,8 @@ public class ChoosingCityController {
         }
         request.getSession().setAttribute("truckLoad", truckLoad);
 
-//        Getting a city list, if it's null, and adding it to the session too.
-        if (request.getSession().getAttribute("cities") == null) {
-            List<CityDto> cities = cityService.getDtoList(new CityDto(), new City());
-            request.getSession().setAttribute("cities", cities);
-        }
 
         return "logistic/chooseCity";
     }
 
-    @ExceptionHandler(MedragServiceException.class)
-    public String handleCustomException(MedragServiceException ex) {
-        LOGGER.error("MedragServiceException happened: {}", ex);
-
-        return "public/error";
-
-    }
 }

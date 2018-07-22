@@ -85,7 +85,7 @@
                 <div class="row justify-content-center">
                     <div class="btn-group">
 
-                        <a class="btn btn-danger" href="${contextPath}}/whm-main" role="button">Dismiss orderr</a>
+                        <a class="btn btn-danger" href="${contextPath}/whm-main" role="button">Dismiss orderr</a>
                     </div>
                     <div class="btn-group">
 

@@ -133,64 +133,63 @@
                 <h4 class="modal-title" id="myModalLabel">Add new City</h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
 
-                <form:form class="form" id="addNewCityForm" method="post" modelAttribute="city"
-                           action="${contextPath}/rsm-city/addCity">
+                        <form:form class="form" id="addNewCityForm" method="post" modelAttribute="city"
+                                   action="${contextPath}/rsm-city/addCity">
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="name">
-                                <form:input name="name" placeholder="City" path="name" autofocus="true"
-                                            class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="name"/>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <spring:bind path="name">
+                                        <form:input name="name" placeholder="City" path="name" autofocus="true"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <form:errors path="name"/>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="index">
-                                <form:input name="index" placeholder="index" path="index" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="index"/>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <spring:bind path="index">
+                                        <form:input name="index" placeholder="index" path="index"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <form:errors path="index"/>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="coordinatesX">
-                                <form:input name="x" placeholder="X" path="coordinatesX" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="coordinatesX"/>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <spring:bind path="coordinatesX">
+                                        <form:input name="x" placeholder="latitude" path="coordinatesX"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <form:errors path="coordinatesX"/>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="coordinatesY">
-                                <form:input name="y" placeholder="Y" path="coordinatesY" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="coordinatesY"/>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <spring:bind path="coordinatesY">
+                                        <form:input name="y" placeholder="longitude" path="coordinatesY"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <form:errors path="coordinatesY"/>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                </form:form>
+                        </form:form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -210,67 +209,67 @@
                 <h4 class="modal-title" id="editdtoLabel"></h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
 
-                <form:form class="form" id="editCityForm" method="post" modelAttribute="editingCity"
-                           action="${contextPath}/rsm-city/editCity">
+                        <form:form class="form" id="editCityForm" method="post" modelAttribute="editingCity"
+                                   action="${contextPath}/rsm-city/editCity">
 
-                    <spring:bind path="id">
-                        <form:input type="hidden" name="id" value="" path="id" id="editeddtoId"/>
-                    </spring:bind>
-
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="name">
-                                <form:input name="name" placeholder="City name" path="name" class="form-control col-8"/>
+                            <spring:bind path="id">
+                                <form:input type="hidden" name="id" value="" path="id" id="editeddtoId"/>
                             </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="name"/>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="index">
-                                <form:input name="index" placeholder="index" path="index" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="index"/>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <spring:bind path="name">
+                                        <form:input name="name" placeholder="City name" path="name"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <form:errors path="name"/>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="coordinatesX">
-                                <form:input name="x" placeholder="X" path="coordinatesX" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="coordinatesX"/>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <spring:bind path="index">
+                                        <form:input name="index" placeholder="index" path="index"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <form:errors path="index"/>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="coordinatesY">
-                                <form:input name="y" placeholder="Y" path="coordinatesY" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="coordinatesY"/>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <spring:bind path="coordinatesX">
+                                        <form:input name="x" placeholder="latitude" path="coordinatesX"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <form:errors path="coordinatesX"/>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                </form:form>
+                            <div class="row">
+                                <div class="col-xs-6 col-xs-offset-3">
+                                    <spring:bind path="coordinatesY">
+                                        <form:input name="y" placeholder="longitude" path="coordinatesY"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <form:errors path="coordinatesY"/>
+                                </div>
+                            </div>
+
+                        </form:form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
