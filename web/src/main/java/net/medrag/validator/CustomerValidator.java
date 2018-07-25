@@ -47,6 +47,8 @@ public class CustomerValidator{
                     if (!customer.getEmail().matches("\\w+@\\w+\\.\\w+")){
                         errors.rejectValue("email", "not.email");
                     }
+                } else {
+                    customer.setEmail(null);
                 }
 
                 if (!errors.hasErrors()) {

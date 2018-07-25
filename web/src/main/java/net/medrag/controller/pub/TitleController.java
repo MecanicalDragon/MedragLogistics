@@ -70,6 +70,12 @@ public class TitleController {
         return "public/map";
     }
 
+    @GetMapping("jackson")
+    public String jackson(Model model) throws MedragServiceException {
+
+        return "public/jackson";
+    }
+
     @PostMapping("sout")
     public String sout(@RequestParam Integer index) {
 

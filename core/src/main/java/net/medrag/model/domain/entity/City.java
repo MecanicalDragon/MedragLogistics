@@ -28,6 +28,10 @@ public class City extends Identifier {
     @Column(name = "city_index")
     private String index;
 
+
+
+
+
     public String getIndex() {
         return index;
     }

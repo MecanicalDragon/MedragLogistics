@@ -54,6 +54,10 @@ public class Cargo extends Identifier {
     @OneToMany(mappedBy = "cargo", fetch = FetchType.LAZY)
     private Set<Waypoint> route;
 
+
+
+
+
     public Set<Waypoint> getRoute() {
         return route;
     }

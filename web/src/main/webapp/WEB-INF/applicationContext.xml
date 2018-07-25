@@ -21,6 +21,6 @@
 
     <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
 
-    <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>-->
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
 </beans>

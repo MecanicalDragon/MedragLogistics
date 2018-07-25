@@ -33,9 +33,7 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
     public void updateDtoStatus(D driver, E entity) throws MedragServiceException {
 
         if (!driver.getState().equals(driver.getPreviousState())) {
-
-            Instant now = assignNewTime(driver);
-            driver.setLastChange(now.getEpochSecond());
+            assignNewTime(driver);
             driver.setPreviousState(driver.getState());
         }
         try {
@@ -46,10 +44,10 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
         }
     }
 
-    @NotNull
-    private Instant assignNewTime(D driver) {
+    private void assignNewTime(D driver) {
         Instant now = Instant.now();
         int minutes = (int) Instant.ofEpochSecond(driver.getLastChange()).until(now, ChronoUnit.MINUTES);
+        driver.setLastChange(now.getEpochSecond());
         switch (driver.getPreviousState()) {
             case "READY_TO_ROUTE":
                 driver.setWorkedTime(driver.getWorkedTime() + minutes);
@@ -69,7 +67,6 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
                 break;
             default:
         }
-        return now;
     }
 
     @Override

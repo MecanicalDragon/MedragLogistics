@@ -85,6 +85,13 @@
             <!--<scope>runtime</scope>-->
         <!--</dependency>-->
 
+        <!--RabbitMQ-->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
         <!--Model Mapper-->
         <dependency>
             <groupId>org.modelmapper</groupId>

@@ -38,7 +38,7 @@ public class DirectionsServiceImpl implements DirectionsService {
                 destination.getCoordinatesX() + "," + destination.getCoordinatesY() + KEY;
 
         try (InputStream is = new URL(request).openStream()) {
-            final BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+//            final BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             JsonNode response = new ObjectMapper().readTree(is);
             JsonNode legs = response.findValue("legs");
             JsonNode firstElement = legs.get(0);

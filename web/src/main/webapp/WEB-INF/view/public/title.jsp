@@ -72,6 +72,7 @@
                 </c:choose>
             </div>
 <a href="${contextPath}/title/map">To the map</a>
+<a href="${contextPath}/title/jackson">To the jackson</a>
         </div>
     </div>
     <div class="footer">

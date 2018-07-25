@@ -20,9 +20,11 @@ public class CargoDto implements Dto {
 
     private String state;
 
+
     private CustomerDto owner;
 
     private OrderrDto orderr;
+
 
     private Integer departureId;
 
@@ -35,6 +37,7 @@ public class CargoDto implements Dto {
     private String destinationName;
 
     private String currentCityName;
+
 
     private Set<WaypointDto> route;
 

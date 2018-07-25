@@ -12,17 +12,21 @@ public class WaypointDto implements Dto{
 
     private Integer id;
 
-    private CargoDto cargo;
-
-    private CityDto city;
-
     private String wayPointType;
 
     private String complete;
 
+
+
+    private CargoDto cargo;
+
+    private CityDto city;
+
     private TruckDto currentTruck;
 
     private Set<DriverDto> brigade;
+
+
 
     public String getComplete() {
         return complete;

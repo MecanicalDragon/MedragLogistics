@@ -12,6 +12,22 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!--<listener>-->
+        <!--<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>-->
+    <!--</listener>-->
+
+    <!--&lt;!&ndash;Remote servlet&ndash;&gt;-->
+    <!--<servlet>-->
+        <!--<servlet-name>remote</servlet-name>-->
+        <!--<servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>remote</servlet-name>-->
+        <!--<url-pattern>/remote</url-pattern>-->
+    <!--</servlet-mapping>-->
+
     <!--Dispatcher servlet-->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
