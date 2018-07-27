@@ -1,7 +1,7 @@
 package net.medrag.controller.watcher;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.dto.CargoDto;
+import net.medrag.model.dto.CargoForm;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.WatcherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +30,21 @@ public class WatcherController {
         this.watcherService = watcherService;
     }
 
-    @GetMapping
-    public List<CargoDto> getLastOrders() throws MedragControllerException{
-
+    @GetMapping("cargoes")
+    public List<CargoForm> getLastOrders() throws MedragControllerException{
         try {
+            watcherService.getStats();
             return watcherService.getCargoesList();
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
+    }
+
+    @GetMapping("stats")
+    public Integer[] getStats() throws MedragControllerException{
+        try {
+            watcherService.getStats();
+            return watcherService.getStats();
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }

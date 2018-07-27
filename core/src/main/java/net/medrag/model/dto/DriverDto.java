@@ -36,7 +36,7 @@ public class DriverDto implements Dto {
 
     private TruckDto currentTruck;
 
-    private Set<WaypointDto> route;
+//    private Set<WaypointDto> route;
 
 
     public String getPreviousState() {
@@ -54,14 +54,14 @@ public class DriverDto implements Dto {
     public void setLastChange(Long lastChange) {
         this.lastChange = lastChange;
     }
-
-    public Set<WaypointDto> getRoute() {
-        return route;
-    }
-
-    public void setRoute(Set<WaypointDto> route) {
-        this.route = route;
-    }
+//
+//    public Set<WaypointDto> getRoute() {
+//        return route;
+//    }
+//
+//    public void setRoute(Set<WaypointDto> route) {
+//        this.route = route;
+//    }
 
     public Integer getCityId() {
         return cityId;

@@ -20,5 +20,6 @@ public interface DTOService<D extends Dto, E extends Entity> {
     void refreshDto(D dto, E entity) throws MedragServiceException;
     D getDtoById(D dto, E entity, Integer id) throws MedragServiceException;
     D getDtoByNaturalId(D dto, E entity, String id) throws MedragServiceException;
+    Integer getDtoCount(E entity, String... args) throws MedragServiceException;
     List<D> getDtoList(D dto, E entity, String... args) throws MedragServiceException;
 }

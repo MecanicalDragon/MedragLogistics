@@ -1,6 +1,6 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.CargoDto;
+import net.medrag.model.dto.CargoForm;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -13,10 +13,8 @@ import java.util.List;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-//@WebService
-//@SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface WatcherService {
 
-//    @WebMethod
-    List<CargoDto> getCargoesList() throws MedragServiceException;
+    List<CargoForm> getCargoesList() throws MedragServiceException;
+    Integer[] getStats() throws MedragServiceException;
 }

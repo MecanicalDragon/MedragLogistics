@@ -11,14 +11,19 @@
 <html>
 <head>
     <title>Ooops...</title>
+    <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
+    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <c:set var="msg" value="${msg == null ? 'Something went wrong' : msg}"/>
 <div class="over404">
     <div class="darkOverlay"></div>
+    <div class="text-center">
+
     <header>
-        <h1 class="glitch" data-text="${msg}">${msg}</h1>
+        <h1 class="glitch" style="font-size: 10rem;" data-text="${msg}">${msg}</h1>
     </header>
+    </div>
 </div>
 
 

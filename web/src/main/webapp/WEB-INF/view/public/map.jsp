@@ -12,8 +12,7 @@
     <title>
         Choose city
     </title>
-    <meta name="msapplication-TileImage" content="/resources/vendor/images/favicon.png">
-
+    <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 

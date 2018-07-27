@@ -1,7 +1,5 @@
 package net.medrag.model.dao;
 
-import org.jetbrains.annotations.Contract;
-
 import javax.persistence.PersistenceException;
 
 /**
@@ -30,7 +28,6 @@ public class MedragRepositoryException extends Exception {
             this.failedOperation = failedOperation;
         }
 
-        @Contract(pure = true)
         @Override
         public String toString(){
             return failedOperation;

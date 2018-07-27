@@ -55,8 +55,8 @@ public class Driver extends Identifier {
     @JoinColumn(name = "current_truck_id")
     private Truck currentTruck;
 
-    @ManyToMany(mappedBy = "brigade", fetch = FetchType.LAZY)
-    private Set<Waypoint> route;
+//    @ManyToMany(mappedBy = "brigade", fetch = FetchType.LAZY)
+//    private Set<Waypoint> route;
 
     public Long getLastChange() {
         return lastChange;
@@ -73,14 +73,14 @@ public class Driver extends Identifier {
     public void setPreviousState(DriverState previousState) {
         this.previousState = previousState;
     }
-
-    public Set<Waypoint> getRoute() {
-        return route;
-    }
-
-    public void setRoute(Set<Waypoint> route) {
-        this.route = route;
-    }
+//
+//    public Set<Waypoint> getRoute() {
+//        return route;
+//    }
+//
+//    public void setRoute(Set<Waypoint> route) {
+//        this.route = route;
+//    }
 
     public String getPersonalNumber() {
         return personalNumber;

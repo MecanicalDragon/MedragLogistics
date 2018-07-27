@@ -18,5 +18,6 @@ public interface EntityDao<E extends Entity>  {
     void refreshEntity(E entity) throws MedragRepositoryException;
     E getEntityById(E entity, Integer id)throws MedragRepositoryException;
     E getEntityByNaturalId(E entity, String id)throws MedragRepositoryException;
+    Integer getEntityCount(E entity, String... args) throws MedragRepositoryException;
     List<E> getEntityList(E entity, String... args) throws  MedragRepositoryException;
 }

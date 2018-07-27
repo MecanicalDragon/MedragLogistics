@@ -113,6 +113,16 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
 
     @Override
     @Transactional
+    public Integer getDtoCount(E entity, String... args) throws MedragServiceException {
+        try {
+            return entityDao.getEntityCount(entity, args);
+        } catch (MedragRepositoryException e) {
+            throw new MedragServiceException(e);
+        }
+    }
+
+    @Override
+    @Transactional
     public List<D>getDtoList(D dto, E entity, String... args) throws MedragServiceException{
         List<E> entityList = null;
         try {

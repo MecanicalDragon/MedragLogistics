@@ -21,5 +21,4 @@
         <appender-ref ref="console"/>
     </root>
 
-
 </configuration>

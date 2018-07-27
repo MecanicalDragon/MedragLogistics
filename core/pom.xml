@@ -113,16 +113,6 @@
             <artifactId>database</artifactId>
             <version>${application.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>RELEASE</version>
-        </dependency>
     </dependencies>
 
     <build>

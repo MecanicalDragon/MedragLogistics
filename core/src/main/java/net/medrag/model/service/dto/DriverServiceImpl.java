@@ -5,7 +5,6 @@ import net.medrag.model.dao.MedragRepositoryException;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.service.MedragServiceException;
-import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -12,21 +12,17 @@ public class WaypointDto implements Dto{
 
     private Integer id;
 
-    private String wayPointType;
-
-    private String complete;
-
-
-
     private CargoDto cargo;
 
     private CityDto city;
 
+    private String wayPointType;
+
+    private String complete;
+
     private TruckDto currentTruck;
 
     private Set<DriverDto> brigade;
-
-
 
     public String getComplete() {
         return complete;
@@ -88,9 +84,12 @@ public class WaypointDto implements Dto{
     public String toString() {
         return "WaypointDto{" +
                 "id=" + id +
-                ", cargo=" + cargo.getIndex() +
-                ", city=" + city.getName() +
+                ", cargo=" + cargo +
+                ", city=" + city +
                 ", wayPointType='" + wayPointType + '\'' +
+                ", complete='" + complete + '\'' +
+                ", currentTruck=" + currentTruck +
+                ", brigade=" + brigade +
                 '}';
     }
 

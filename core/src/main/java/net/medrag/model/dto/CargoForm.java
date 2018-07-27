@@ -8,7 +8,7 @@ import java.util.Set;
  * @author Stanislav Tretyakov
  * @version 1.0
  */
-public class CargoDto implements Dto {
+public class CargoForm implements Dto {
 
     private Integer id;
 
@@ -20,9 +20,13 @@ public class CargoDto implements Dto {
 
     private String state;
 
-    private CustomerDto owner;
+    private String orderrIndex;
 
-    private OrderrDto orderr;
+    private Integer orderrId;
+
+    private Integer ownerId;
+
+    private String ownerPassport;
 
     private Integer departureId;
 
@@ -36,23 +40,48 @@ public class CargoDto implements Dto {
 
     private String currentCityName;
 
-    private Set<WaypointDto> route;
+
+    private Set<WaypointForm> route;
 
 
-    public Set<WaypointDto> getRoute() {
+    public Set<WaypointForm> getRoute() {
         return route;
     }
 
-    public void setRoute(Set<WaypointDto> route) {
+    public void setRoute(Set<WaypointForm> route) {
         this.route = route;
     }
 
-    public OrderrDto getOrderr() {
-        return orderr;
+    public String getOrderrIndex() {
+        return orderrIndex;
     }
 
-    public void setOrderr(OrderrDto orderr) {
-        this.orderr = orderr;
+    public void setOrderrIndex(String orderrIndex) {
+        this.orderrIndex = orderrIndex;
+    }
+
+    public Integer getOrderrId() {
+        return orderrId;
+    }
+
+    public void setOrderrId(Integer orderrId) {
+        this.orderrId = orderrId;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerPassport() {
+        return ownerPassport;
+    }
+
+    public void setOwnerPassport(String ownerPassport) {
+        this.ownerPassport = ownerPassport;
     }
 
     public Integer getCurrentCityId() {
@@ -111,14 +140,6 @@ public class CargoDto implements Dto {
         this.state = state;
     }
 
-    public CustomerDto getOwner() {
-        return owner;
-    }
-
-    public void setOwner(CustomerDto owner) {
-        this.owner = owner;
-    }
-
     public Integer getDepartureId() {
         return departureId;
     }
@@ -153,17 +174,23 @@ public class CargoDto implements Dto {
 
     @Override
     public String toString() {
-        return "CargoDto{" +
+        return "CargoForm{" +
                 "id=" + id +
                 ", index='" + index + '\'' +
                 ", name='" + name + '\'' +
                 ", weight='" + weight + '\'' +
                 ", state='" + state + '\'' +
-                ", owner=" + owner.getPassport() +
-                ", order=" + orderr.getIndex() +
+                ", orderrIndex='" + orderrIndex + '\'' +
+                ", orderrId=" + orderrId +
+                ", ownerId=" + ownerId +
+                ", ownerPassport='" + ownerPassport + '\'' +
+                ", departureId=" + departureId +
+                ", destinationId=" + destinationId +
+                ", currentCityId=" + currentCityId +
                 ", departureName='" + departureName + '\'' +
                 ", destinationName='" + destinationName + '\'' +
                 ", currentCityName='" + currentCityName + '\'' +
+                ", route=" + route +
                 '}';
     }
 
@@ -175,7 +202,7 @@ public class CargoDto implements Dto {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        CargoDto that = (CargoDto) o;
+        CargoForm that = (CargoForm) o;
 
         if (getId() != null) {
             return getId().equals(that.getId());
