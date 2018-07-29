@@ -31,6 +31,10 @@ public class Truck extends Identifier{
     @Column(name = "status", columnDefinition = "enum('in_use', 'in_service', 'stay_idle')")
     private TruckStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "previous_status", columnDefinition = "enum('in_use', 'in_service', 'stay_idle')")
+    private TruckStatus prevStatus;
+
     @ManyToOne
     @JoinColumn(name = "current_city_id")
     private City city;
@@ -41,6 +45,13 @@ public class Truck extends Identifier{
     @OneToMany(mappedBy = "currentTruck", fetch = FetchType.LAZY)
     private Set<Waypoint> route;
 
+    public TruckStatus getPrevStatus() {
+        return prevStatus;
+    }
+
+    public void setPrevStatus(TruckStatus prevStatus) {
+        this.prevStatus = prevStatus;
+    }
 
     public Set<Waypoint> getRoute() {
         return route;

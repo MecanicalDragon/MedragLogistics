@@ -28,6 +28,15 @@ public class TruckDto implements Dto {
 
     private Set<WaypointDto> route;
 
+    private String prevStatus;
+
+    public String getPrevStatus() {
+        return prevStatus;
+    }
+
+    public void setPrevStatus(String prevStatus) {
+        this.prevStatus = prevStatus;
+    }
 
     public Set<WaypointDto> getRoute() {
         return route;

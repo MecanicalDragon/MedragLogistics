@@ -7,8 +7,6 @@ import net.medrag.model.service.DriverIdentifierService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.validator.DriverValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

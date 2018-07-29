@@ -1,9 +1,11 @@
 package net.medrag.model.service;
 
 import net.medrag.model.domain.entity.Driver;
+import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.domain.entity.Waypoint;
 import net.medrag.model.dto.*;
 import net.medrag.model.service.dto.DriverService;
+import net.medrag.model.service.dto.TruckService;
 import net.medrag.model.service.dto.WaypointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,13 @@ public class RouteServiceImpl implements RouteService {
 
     private DriverService<DriverDto, Driver> driverService;
 
+    private TruckService<TruckDto, Truck> truckService;
+
+    @Autowired
+    public void setTruckService(TruckService<TruckDto, Truck> truckService) {
+        this.truckService = truckService;
+    }
+
     @Autowired
     public void setDriverService(DriverService<DriverDto, Driver> driverService) {
         this.driverService = driverService;
@@ -43,6 +52,15 @@ public class RouteServiceImpl implements RouteService {
         this.waypointService = waypointService;
     }
 
+    /**
+     * Method of logistics, that assigns new route.
+     * @param departure - departure city
+     * @param destination - destination city
+     * @param truckLoad - cargoes list
+     * @param assignedTruck - try to guess
+     * @param brigade - drivers, assigned to this route
+     * @throws MedragServiceException - yes, throws.
+     */
     @Override
     @Transactional
     public void compileRoute(CityDto departure, CityDto destination, List<CargoDto> truckLoad,
@@ -55,6 +73,7 @@ public class RouteServiceImpl implements RouteService {
         }
         assignedTruck.setStatus("IN_USE");
         assignedTruck.setBrigade(brigade);
+        truckService.updateDtoStatus(assignedTruck, new Truck());
 
         for (DriverDto driver : brigade) {
             driverService.updateDtoStatus(driver, new Driver());
@@ -94,7 +113,6 @@ public class RouteServiceImpl implements RouteService {
 
     /**
      * Method from the warehouse of the city, that sets waypoint complete.
-     *
      * @param completedWP - waypoint, that becomes completed itself.
      */
     @Override

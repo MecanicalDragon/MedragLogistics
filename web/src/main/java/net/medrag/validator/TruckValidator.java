@@ -93,6 +93,7 @@ public class TruckValidator{
             }
 
             truck.setStatus("STAY_IDLE");
+            truck.setPrevStatus("STAY_IDLE");
         }
     }
 

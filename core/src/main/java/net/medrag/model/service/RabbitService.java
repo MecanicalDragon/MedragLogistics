@@ -9,4 +9,6 @@ package net.medrag.model.service;
 public interface RabbitService {
 
     void run() throws MedragServiceException;
+
+    void sendMessage(String message) throws MedragServiceException;
 }

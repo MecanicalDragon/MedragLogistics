@@ -5,7 +5,9 @@ import net.medrag.model.dao.MedragRepositoryException;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.service.MedragServiceException;
+import net.medrag.model.service.RabbitService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,17 +29,37 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
 
     private static final String implementation = "driverDaoImpl";
 
+    private RabbitService rabbitService;
+
+    @Autowired
+    public void setRabbitService(RabbitService rabbitService) {
+        this.rabbitService = rabbitService;
+    }
+
     @Override
     @Transactional
     public void updateDtoStatus(D driver, E entity) throws MedragServiceException {
+        String message = null;
 
         if (!driver.getState().equals(driver.getPreviousState())) {
             assignNewTime(driver);
+            if (!((driver.getPreviousState().equals("PORTER") ||
+                    driver.getPreviousState().equals("ON_SHIFT") ||
+                    driver.getPreviousState().equals("DRIVING"))
+                    &&
+                    (driver.getState().equals("PORTER") ||
+                            driver.getState().equals("ON_SHIFT") ||
+                            driver.getState().equals("DRIVING")))) {
+                message = "driver->" + driver.getPreviousState() + "->" + driver.getState();
+            }
             driver.setPreviousState(driver.getState());
         }
         try {
             E e = (E) new ModelMapper().map(driver, entity.getClass());
             entityDao.updateEntityStatus(e);
+            if (message != null) {
+                rabbitService.sendMessage(message);
+            }
         } catch (MedragRepositoryException e) {
             throw new MedragServiceException(e);
         }
@@ -54,15 +76,15 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
                 break;
             case "ON_SHIFT":
                 driver.setWorkedTime(driver.getWorkedTime() + minutes);
-                driver.setPaidTime(driver.getPaidTime() + (int)(1.4*minutes));
+                driver.setPaidTime(driver.getPaidTime() + (int) (1.4 * minutes));
                 break;
             case "DRIVING":
                 driver.setWorkedTime(driver.getWorkedTime() + minutes);
-                driver.setPaidTime(driver.getPaidTime() + (int)(1.6*minutes));
+                driver.setPaidTime(driver.getPaidTime() + (int) (1.6 * minutes));
                 break;
             case "PORTER":
                 driver.setWorkedTime(driver.getWorkedTime() + minutes);
-                driver.setPaidTime(driver.getPaidTime() + (int)(1.2*minutes));
+                driver.setPaidTime(driver.getPaidTime() + (int) (1.2 * minutes));
                 break;
             default:
         }
@@ -70,7 +92,7 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
 
     @Override
     @Transactional
-    public List<D> getDtoList(D dto, E entity, String... args) throws MedragServiceException{
+    public List<D> getDtoList(D dto, E entity, String... args) throws MedragServiceException {
         List<E> entityList = null;
         try {
             entityList = entityDao.getEntityList(entity, args);
