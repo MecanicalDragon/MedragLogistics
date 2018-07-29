@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 /**
  * Typical superclass for all entities
- *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
