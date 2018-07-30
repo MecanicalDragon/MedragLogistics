@@ -1,6 +1,10 @@
 package net.medrag.model.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
+import net.medrag.model.dto.CargoDto;
+import net.medrag.model.dto.CargoForm;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,7 +21,9 @@ public class RabbitServiceImpl implements RabbitService {
 
     private static ConnectionFactory rabbit;
 
-    private static final String EXCHANGE_NAME = "watcher";
+    private static final String RESOURCES = "resources";
+
+    private static final String DELIVERY = "delivery";
 
     @Override
     public void run() throws MedragServiceException{
@@ -34,8 +40,26 @@ public class RabbitServiceImpl implements RabbitService {
             try (Connection connection = rabbit.newConnection();
                  Channel channel = connection.createChannel()) {
 
-                channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
-                channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes("UTF-8"));
+                channel.exchangeDeclare(RESOURCES, BuiltinExchangeType.FANOUT);
+                channel.basicPublish(RESOURCES, "", null, message.getBytes("UTF-8"));
+                System.out.println(" [x] Sent '" + message + "'");
+            } catch (IOException | TimeoutException e) {
+                throw new MedragServiceException(e);
+            }
+        }
+    }
+
+    @Override
+    public void sendCargo(CargoDto cargo) throws MedragServiceException {
+        if (rabbit != null) {
+            try (Connection connection = rabbit.newConnection();
+                 Channel channel = connection.createChannel()) {
+                channel.exchangeDeclare(DELIVERY, BuiltinExchangeType.FANOUT);
+
+                CargoForm cargoForm = new ModelMapper().map(cargo, CargoForm.class);
+                String message = new ObjectMapper().writeValueAsString(cargoForm);
+
+                channel.basicPublish(DELIVERY, "", null, message.getBytes("UTF-8"));
                 System.out.println(" [x] Sent '" + message + "'");
             } catch (IOException | TimeoutException e) {
                 throw new MedragServiceException(e);

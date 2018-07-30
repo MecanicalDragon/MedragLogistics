@@ -11,15 +11,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>
-        Drivers Page
-    </title>
+    <title>Drivers Page</title>
+
     <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-
     <!-- DataTables CSS -->
     <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!-- DataTables Responsive CSS -->
+    <link href="/resources/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
 
 </head>
 <body>
@@ -381,6 +382,7 @@
 <!-- DataTables JavaScript -->
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="/resources/vendor/datatables-responsive/dataTables.responsive.js"></script>
 
 <%--Datatable buttons handler and automatically opened modal window script--%>
 <script src="/resources/js/rsm-tables-handler.js"></script>

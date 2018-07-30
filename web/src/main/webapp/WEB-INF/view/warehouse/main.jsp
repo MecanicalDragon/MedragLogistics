@@ -81,7 +81,7 @@
                                                 <button type="button" class="btn btn-xs btn-outline btn-info" disabled>Prepared</button>
                                             </c:if>
                                             <c:if test="${cargo.state.equals('ON_BOARD')}">
-                                                <button type="button" class="btn btn-xs btn-outline btn-warning" disabled>On the way</button>
+                                                <button type="button" class="btn btn-xs btn-outline btn-warning" disabled>En route</button>
                                             </c:if>
                                             <c:if test="${cargo.state.equals('DESTINATION')}">
                                                 <a type="button" class="btn btn-xs btn-success"

@@ -33,6 +33,14 @@ public class OrderHandlingServiceImpl implements OrderHandlingService {
 
     private WaypointService<WaypointDto, Waypoint> waypointService;
 
+    private RabbitService rabbitService;
+
+    @Autowired
+    public void setRabbitService(RabbitService rabbitService) {
+        this.rabbitService = rabbitService;
+    }
+
+
     @Autowired
     public void setWaypointService(WaypointService<WaypointDto, Waypoint> waypointService) {
         this.waypointService = waypointService;
@@ -78,6 +86,8 @@ public class OrderHandlingServiceImpl implements OrderHandlingService {
 
             Integer id = cargoService.addDto(cargoDto, new Cargo());
             cargoDto.setId(id);
+
+            rabbitService.sendCargo(cargoDto);
         }
 
         order.setCargoes(cargoList);
@@ -115,5 +125,7 @@ public class OrderHandlingServiceImpl implements OrderHandlingService {
             cargoService.updateDtoStatus(deliveredCargo, new Cargo());
 
         }
+
+        rabbitService.sendCargo(deliveredCargo);
     }
 }

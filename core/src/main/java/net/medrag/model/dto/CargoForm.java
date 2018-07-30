@@ -24,6 +24,8 @@ public class CargoForm implements Dto {
 
     private Integer orderrId;
 
+    private Boolean orderrComplete;
+
     private Integer ownerId;
 
     private String ownerPassport;
@@ -40,16 +42,12 @@ public class CargoForm implements Dto {
 
     private String currentCityName;
 
-
-    private Set<WaypointForm> route;
-
-
-    public Set<WaypointForm> getRoute() {
-        return route;
+    public Boolean getOrderrComplete() {
+        return orderrComplete;
     }
 
-    public void setRoute(Set<WaypointForm> route) {
-        this.route = route;
+    public void setOrderrComplete(Boolean orderrComplete) {
+        this.orderrComplete = orderrComplete;
     }
 
     public String getOrderrIndex() {
@@ -190,7 +188,6 @@ public class CargoForm implements Dto {
                 ", departureName='" + departureName + '\'' +
                 ", destinationName='" + destinationName + '\'' +
                 ", currentCityName='" + currentCityName + '\'' +
-                ", route=" + route +
                 '}';
     }
 

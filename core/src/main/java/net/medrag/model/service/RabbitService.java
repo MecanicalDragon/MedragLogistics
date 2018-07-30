@@ -1,5 +1,7 @@
 package net.medrag.model.service;
 
+import net.medrag.model.dto.CargoDto;
+
 /**
  * {@link}
  *
@@ -11,4 +13,5 @@ public interface RabbitService {
     void run() throws MedragServiceException;
 
     void sendMessage(String message) throws MedragServiceException;
+    void sendCargo(CargoDto cargo) throws MedragServiceException;
 }

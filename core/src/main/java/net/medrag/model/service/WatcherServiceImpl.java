@@ -57,7 +57,7 @@ public class WatcherServiceImpl implements WatcherService {
     @Override
     public List<CargoForm> getCargoesList() throws MedragServiceException {
 
-        List<CargoDto>cargoDtoList = cargoService.getDtoList(new CargoDto(), new Cargo(), "ORDER BY id DESC%20");
+        List<CargoDto>cargoDtoList = cargoService.getDtoList(new CargoDto(), new Cargo(), "ORDER BY id DESC%10");
         List<CargoForm> cargoformList = new ArrayList<>();
         for (CargoDto c : cargoDtoList) {
             CargoForm d = new ModelMapper().map(c, CargoForm.class);

@@ -32,6 +32,13 @@ public class RouteServiceImpl implements RouteService {
 
     private TruckService<TruckDto, Truck> truckService;
 
+    private RabbitService rabbitService;
+
+    @Autowired
+    public void setRabbitService(RabbitService rabbitService) {
+        this.rabbitService = rabbitService;
+    }
+
     @Autowired
     public void setTruckService(TruckService<TruckDto, Truck> truckService) {
         this.truckService = truckService;
@@ -67,21 +74,18 @@ public class RouteServiceImpl implements RouteService {
                              TruckDto assignedTruck, Set<DriverDto> brigade) throws MedragServiceException {
 
 //        Setting new statuses to truck and drivers
-        for (DriverDto driverDto : brigade) {
-            driverDto.setState("PORTER");
-            driverDto.setCurrentTruck(assignedTruck);
-        }
-        assignedTruck.setStatus("IN_USE");
-        assignedTruck.setBrigade(brigade);
-        truckService.updateDtoStatus(assignedTruck, new Truck());
-
         for (DriverDto driver : brigade) {
+            driver.setState("PORTER");
+            driver.setCurrentTruck(assignedTruck);
             driverService.updateDtoStatus(driver, new Driver());
             try {
                 mailService.sendCompiledRouteMesaage(driver, destination);
             } catch (MessagingException e) {
             }
         }
+        assignedTruck.setStatus("IN_USE");
+        assignedTruck.setBrigade(brigade);
+        truckService.updateDtoStatus(assignedTruck, new Truck());
 
 //        Adding waypoints for every cargo in truckload
         for (CargoDto cargo : truckLoad) {
@@ -106,6 +110,7 @@ public class RouteServiceImpl implements RouteService {
             id = waypointService.addDto(load, new Waypoint());
             load.setId(id);
             waypointService.updateDtoStatus(load, new Waypoint());
+            rabbitService.sendCargo(cargo);
         }
 
     }
@@ -165,6 +170,9 @@ public class RouteServiceImpl implements RouteService {
 
 //        update waypoint status
         waypointService.updateDtoStatus(completedWP, new Waypoint());
+
+//        send update to watcher
+        rabbitService.sendCargo(completedWP.getCargo());
 
     }
 }
