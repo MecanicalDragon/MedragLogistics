@@ -28,17 +28,17 @@
                 <%--Panel heading--%>
                 <div class="panel-heading">
 
-                        <%--This button starts a process of adding new orderr.--%>
-                        <%--First step is adding new customer or choosing one of added earlier.--%>
-                        <%--goto .../warehouse/CustomerController, GetMethod--%>
+                    <%--This button starts a process of adding new orderr.--%>
+                    <%--First step is adding new customer or choosing one of added earlier.--%>
+                    <%--goto .../warehouse/CustomerController, GetMethod--%>
                     <a class="btn btn-primary" href="${contextPath}/whm-newCustomer" role="button">Add new orderr</a>
 
-                        <%--Open modal window of choosing city, what warehouse you want to go--%>
+                    <%--Open modal window of choosing city, what warehouse you want to go--%>
                     <button class="btn btn-success" data-toggle="modal"
                             data-target="#cityModal">Go to the city warehouse
                     </button>
 
-                        <%--Logout button--%>
+                    <%--Logout button--%>
                     <div class="pull-right">
                         <form method="post" action="${contextPath}/logout">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -68,28 +68,71 @@
                         <c:forEach items="${sessionScope.globalCargoes}" var="cargo" varStatus="index">
                             <tr class="odd gradeX">
 
-                                <td>${cargo.index}</td>
+                                <td>${cargo.index}<span hidden>XXX${cargo.id}XXX</span></td>
                                 <td>${cargo.owner.passport}</td>
                                 <td>${cargo.currentCityName}</td>
                                 <td>${cargo.destinationName}</td>
                                 <td>
-                                            <%--Cases for enum--%>
-                                            <c:if test="${cargo.state.equals('TRANSIENT')}">
-                                                <button type="button" class="btn btn-xs btn-outline btn-primary" disabled>Transient</button>
-                                            </c:if>
-                                            <c:if test="${cargo.state.equals('PREPARED')}">
-                                                <button type="button" class="btn btn-xs btn-outline btn-info" disabled>Prepared</button>
-                                            </c:if>
-                                            <c:if test="${cargo.state.equals('ON_BOARD')}">
-                                                <button type="button" class="btn btn-xs btn-outline btn-warning" disabled>En route</button>
-                                            </c:if>
-                                            <c:if test="${cargo.state.equals('DESTINATION')}">
-                                                <a type="button" class="btn btn-xs btn-success"
-                                                href="${contextPath}/whm-order/deliver/${index.index}">Destination</a>
-                                            </c:if>
-                                            <c:if test="${cargo.state.equals('DELIVERED')}">
-                                                <button type="button" class="btn btn-xs btn-outline btn-success" disabled>Delivered</button>
-                                            </c:if>
+                                        <%--Cases for enum--%>
+                                        <c:if test="${cargo.state.equals('TRANSIENT')}">
+                                        <button type="button" class="btn btn-xs btn-outline btn-primary" disabled>
+                                        Transient
+                                        </button>
+                                        </c:if>
+                                        <c:if test="${cargo.state.equals('PREPARED')}">
+                                        <button type="button" class="btn btn-xs btn-outline btn-info" disabled>
+                                        Prepared
+                                        </button>
+                                        </c:if>
+                                        <c:if test="${cargo.state.equals('ON_BOARD')}">
+                                        <button type="button" class="btn btn-xs btn-outline btn-warning" disabled>En
+                                        route
+                                        </button>
+                                        </c:if>
+                                        <c:if test="${cargo.state.equals('DESTINATION')}">
+                                        <a type="button" class="btn btn-xs btn-success"
+                                        href="${contextPath}/whm-order/deliver/${index.index}">Destination</a>
+                                        </c:if>
+                                        <c:if test="${cargo.state.equals('DELIVERED')}">
+                                        <button type="button" class="btn btn-xs btn-outline btn-success" disabled>
+                                        Delivered
+                                        </button>
+                                        </c:if>
+                                    <%--<div class="btn-group">--%>
+                                        <%--<button type="button" class="btn btn-info btn-xs dropdown-toggle"--%>
+                                                <%--data-toggle="dropdown">--%>
+                                            <%--<c:if test="${cargo.state.equals('TRANSIENT')}">--%>
+                                                <%--Transient--%>
+                                            <%--</c:if>--%>
+                                            <%--<c:if test="${cargo.state.equals('PREPARED')}">--%>
+                                                <%--Prepared--%>
+                                            <%--</c:if>--%>
+                                            <%--<c:if test="${cargo.state.equals('ON_BOARD')}">--%>
+                                                <%--En route--%>
+                                            <%--</c:if>--%>
+                                            <%--<c:if test="${cargo.state.equals('DESTINATION')}">--%>
+                                                <%--Destination--%>
+                                            <%--</c:if>--%>
+                                            <%--<c:if test="${cargo.state.equals('DELIVERED')}">--%>
+                                                <%--Delivered--%>
+                                            <%--</c:if>--%>
+                                            <%--<span class="caret"></span>--%>
+                                        <%--</button>--%>
+                                        <%--<ul class="dropdown-menu pull-right" role="menu">--%>
+                                            <%--<li>--%>
+                                                <%--<a href="${contextPath}/whm-cargo/changeState?id=${cargo.id}&op=TRANSIENT">--%>
+                                                    <%--Transient</a>--%>
+                                            <%--</li>--%>
+                                            <%--<li>--%>
+                                                <%--<a href="${contextPath}/whm-cargo/changeState?id=${cargo.id}&op=PREPARED">--%>
+                                                    <%--Prepared</a>--%>
+                                            <%--</li>--%>
+                                            <%--<li>--%>
+                                                <%--<a href="${contextPath}/whm-cargo/changeState?id=${cargo.id}&op=ON_BOARD">--%>
+                                                    <%--En route</a>--%>
+                                            <%--</li>--%>
+                                        <%--</ul>--%>
+                                    <%--</div>--%>
                                 </td>
                             </tr>
 

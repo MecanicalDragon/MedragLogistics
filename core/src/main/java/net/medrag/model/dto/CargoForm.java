@@ -10,101 +10,19 @@ import java.util.Set;
  */
 public class CargoForm implements Dto {
 
-    private Integer id;
-
     private String index;
-
-    private String name;
-
-    private String weight;
 
     private String state;
 
     private String orderrIndex;
 
-    private Integer orderrId;
-
-    private Boolean orderrComplete;
-
-    private Integer ownerId;
+    private String orderrComplete;
 
     private String ownerPassport;
-
-    private Integer departureId;
-
-    private Integer destinationId;
-
-    private Integer currentCityId;
-
-    private String departureName;
 
     private String destinationName;
 
     private String currentCityName;
-
-    public Boolean getOrderrComplete() {
-        return orderrComplete;
-    }
-
-    public void setOrderrComplete(Boolean orderrComplete) {
-        this.orderrComplete = orderrComplete;
-    }
-
-    public String getOrderrIndex() {
-        return orderrIndex;
-    }
-
-    public void setOrderrIndex(String orderrIndex) {
-        this.orderrIndex = orderrIndex;
-    }
-
-    public Integer getOrderrId() {
-        return orderrId;
-    }
-
-    public void setOrderrId(Integer orderrId) {
-        this.orderrId = orderrId;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public String getOwnerPassport() {
-        return ownerPassport;
-    }
-
-    public void setOwnerPassport(String ownerPassport) {
-        this.ownerPassport = ownerPassport;
-    }
-
-    public Integer getCurrentCityId() {
-        return currentCityId;
-    }
-
-    public void setCurrentCityId(Integer currentCityId) {
-        this.currentCityId = currentCityId;
-    }
-
-    public String getCurrentCityName() {
-        return currentCityName;
-    }
-
-    public void setCurrentCityName(String currentCityName) {
-        this.currentCityName = currentCityName;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getIndex() {
         return index;
@@ -112,22 +30,6 @@ public class CargoForm implements Dto {
 
     public void setIndex(String index) {
         this.index = index;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
     }
 
     public String getState() {
@@ -138,28 +40,28 @@ public class CargoForm implements Dto {
         this.state = state;
     }
 
-    public Integer getDepartureId() {
-        return departureId;
+    public String getOrderrIndex() {
+        return orderrIndex;
     }
 
-    public void setDepartureId(Integer departureId) {
-        this.departureId = departureId;
+    public void setOrderrIndex(String orderrIndex) {
+        this.orderrIndex = orderrIndex;
     }
 
-    public Integer getDestinationId() {
-        return destinationId;
+    public String getOrderrComplete() {
+        return orderrComplete;
     }
 
-    public void setDestinationId(Integer destinationId) {
-        this.destinationId = destinationId;
+    public void setOrderrComplete(String orderrComplete) {
+        this.orderrComplete = orderrComplete;
     }
 
-    public String getDepartureName() {
-        return departureName;
+    public String getOwnerPassport() {
+        return ownerPassport;
     }
 
-    public void setDepartureName(String departureName) {
-        this.departureName = departureName;
+    public void setOwnerPassport(String ownerPassport) {
+        this.ownerPassport = ownerPassport;
     }
 
     public String getDestinationName() {
@@ -170,24 +72,24 @@ public class CargoForm implements Dto {
         this.destinationName = destinationName;
     }
 
+    public String getCurrentCityName() {
+        return currentCityName;
+    }
+
+    public void setCurrentCityName(String currentCityName) {
+        this.currentCityName = currentCityName;
+    }
+
     @Override
     public String toString() {
         return "CargoForm{" +
-                "id=" + id +
-                ", index='" + index + '\'' +
-                ", name='" + name + '\'' +
-                ", weight='" + weight + '\'' +
-                ", state='" + state + '\'' +
+                "index='" + index + '\'' +
                 ", orderrIndex='" + orderrIndex + '\'' +
-                ", orderrId=" + orderrId +
-                ", ownerId=" + ownerId +
+                ", orderrComplete='" + orderrComplete + '\'' +
                 ", ownerPassport='" + ownerPassport + '\'' +
-                ", departureId=" + departureId +
-                ", destinationId=" + destinationId +
-                ", currentCityId=" + currentCityId +
-                ", departureName='" + departureName + '\'' +
-                ", destinationName='" + destinationName + '\'' +
                 ", currentCityName='" + currentCityName + '\'' +
+                ", destinationName='" + destinationName + '\'' +
+                ", state='" + state + '\'' +
                 '}';
     }
 
@@ -201,19 +103,15 @@ public class CargoForm implements Dto {
         }
         CargoForm that = (CargoForm) o;
 
-        if (getId() != null) {
-            return getId().equals(that.getId());
+        if (getIndex() != null) {
+            return getIndex().equals(that.getIndex());
         } else {
-            return that.getName().equals(this.name) &&
-                    that.getWeight().equals(this.weight) &&
-                    that.getDepartureId().equals(this.departureId) &&
-                    that.getDestinationId().equals(this.destinationId) &&
-                    that.getCurrentCityId().equals(this.currentCityId);
+            return super.equals(that);
         }
     }
 
     @Override
     public int hashCode() {
-        return getId() != null ? getId().hashCode() : super.hashCode();
+        return getIndex() != null ? getIndex().hashCode() : super.hashCode();
     }
 }

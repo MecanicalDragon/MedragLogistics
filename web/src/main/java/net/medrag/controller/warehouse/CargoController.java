@@ -4,6 +4,7 @@ import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.CargoDto;
 import net.medrag.model.domain.entity.Cargo;
 import net.medrag.model.service.MedragServiceException;
+import net.medrag.model.service.RabbitService;
 import net.medrag.model.service.dto.CargoService;
 import net.medrag.validator.CargoValidator;
 import org.slf4j.Logger;
@@ -29,21 +30,28 @@ public class CargoController {
 
     private CargoValidator cargoValidator;
 
-    private CargoService<CargoDto, Cargo> cargoService;
-
-    @Autowired
-    public void setCargoService(CargoService<CargoDto, Cargo> cargoService) {
-        this.cargoService = cargoService;
-    }
-
-    @Autowired
-    public void setCargoValidator(CargoValidator cargoValidator) {
-        this.cargoValidator = cargoValidator;
-    }
+//    private CargoService<CargoDto, Cargo> cargoService;
+//
+//    private RabbitService rabbitService;
+//
+//    @Autowired
+//    public void setRabbitService(RabbitService rabbitService) {
+//        this.rabbitService = rabbitService;
+//    }
+//
+//    @Autowired
+//    public void setCargoService(CargoService<CargoDto, Cargo> cargoService) {
+//        this.cargoService = cargoService;
+//    }
+//
+//    @Autowired
+//    public void setCargoValidator(CargoValidator cargoValidator) {
+//        this.cargoValidator = cargoValidator;
+//    }
 
     @PostMapping("addCargo")
     public String addCargo(@ModelAttribute("cargo") CargoDto newCargo, BindingResult bindingResult,
-                           HttpServletRequest request, Model model)throws MedragControllerException {
+                           HttpServletRequest request, Model model) throws MedragControllerException {
 
         try {
             cargoValidator.validate(newCargo, bindingResult);
@@ -57,11 +65,25 @@ public class CargoController {
         }
 
         List<CargoDto> cargoList = (List<CargoDto>) request.getSession().getAttribute("cargoList");
-        if(!cargoList.contains(newCargo)) {
+        if (!cargoList.contains(newCargo)) {
             cargoList.add(newCargo);
         }
         model.addAttribute("cargo", new CargoDto());
         return "warehouse/order";
     }
 
+//    @GetMapping("changeState")
+//    public String changeState(@RequestParam Integer id, @RequestParam String op) throws MedragControllerException {
+//        CargoDto dtoById = null;
+//        try {
+//            dtoById = cargoService.getDtoById(new CargoDto(), new Cargo(), id);
+//            dtoById.setState(op);
+//            rabbitService.sendCargo(dtoById);
+//        } catch (MedragServiceException e) {
+//            throw new MedragControllerException(e);
+//        }
+//        return "redirect: ../whm-main";
+//    }
 }
+
+
