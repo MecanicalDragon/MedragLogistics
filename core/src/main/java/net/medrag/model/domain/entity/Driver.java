@@ -36,6 +36,9 @@ public class Driver extends Identifier {
     @Column(name = "paid_time")
     private Integer paidTime;
 
+    @Column(name = "HOURS_LAST_MONTH")
+    private Integer hoursLastMonth;
+
     @Column(name = "last_status_change")
     private Long lastChange;
 
@@ -81,6 +84,15 @@ public class Driver extends Identifier {
 //    public void setRoute(Set<Waypoint> route) {
 //        this.route = route;
 //    }
+
+
+    public Integer getHoursLastMonth() {
+        return hoursLastMonth;
+    }
+
+    public void setHoursLastMonth(Integer hoursLastMonth) {
+        this.hoursLastMonth = hoursLastMonth;
+    }
 
     public String getPersonalNumber() {
         return personalNumber;

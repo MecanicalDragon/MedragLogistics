@@ -7,6 +7,7 @@ import net.medrag.model.dto.CityDto;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.dto.TruckDto;
 import net.medrag.model.service.DirectionsService;
+import net.medrag.model.service.DriverHandlerService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.model.service.dto.DriverService;
@@ -18,6 +19,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +39,7 @@ import java.util.List;
 @RequestMapping("mgr-destination")
 public class AddingDriversController {
 
-    private DriverService<DriverDto, Driver> driverService;
+    private DriverHandlerService driverHandlerService;
 
     private DirectionsService directionsService;
 
@@ -41,53 +49,43 @@ public class AddingDriversController {
     }
 
     @Autowired
-    public void setDriverService(DriverService<DriverDto, Driver> driverService) {
-        this.driverService = driverService;
+    public void setDriverHandlerService(DriverHandlerService driverHandlerService) {
+        this.driverHandlerService = driverHandlerService;
     }
-
 
     /**
      * Fourth step: getting and assigning drivers to the route.
      * Finish it with the {@link RouteController}
      */
     @PostMapping
-    public String addDrivers(@RequestParam Integer index, HttpServletRequest request, Model model)throws MedragControllerException {
-
-//        Getting list of drivers
-        TruckDto chosenTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
-        List<DriverDto> drivers = null;
-        try {
-            drivers = driverService.getDtoList(new DriverDto(), new Driver(),
-                    "CURRENT_CITY_ID", chosenTruck.getCityId().toString(), "STATE", "'READY_TO_ROUTE'");
-        } catch (MedragServiceException e) {
-            throw new MedragControllerException(e);
-        }
-        List<DriverDto> filteredDrivers = new ArrayList<>();
+    public String addDrivers(@RequestParam Integer index, HttpServletRequest request, Model model) throws MedragControllerException {
 
 //        Defining cities
         List<CityDto> cities = (List<CityDto>) request.getSession().getAttribute("cities");
         CityDto destinationCity = cities.get(index);
         CityDto departureCity = (CityDto) request.getSession().getAttribute("departureCity");
 
-//        Filtering drivers by the worked time
-        Integer[] trip = new Integer[0];
+//        Get the trip distance and time, needed for that trip
+        Integer[] trip;
         try {
             trip = directionsService.getTripTime(departureCity, destinationCity);
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
-        for (DriverDto driver : drivers){
-            if (driver.getWorkedTime()+trip[1] <= 10560){
-                filteredDrivers.add(driver);
-            }
+
+//        Get the list of available drivers
+        List<DriverDto> drivers;
+        try {
+            drivers = driverHandlerService.getDriverList(departureCity.getId(), trip[1]);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
         }
 
 //        Adding attributes
         model.addAttribute("distance", trip[0]);
         model.addAttribute("duration", trip[1]);
         request.getSession().setAttribute("destinationCity", destinationCity);
-        request.getSession().setAttribute("drivers", filteredDrivers);
-        request.getSession().setAttribute("brigade", chosenTruck.getBrigadeStr());
+        request.getSession().setAttribute("drivers", drivers);
 
         return "logistic/addDrivers";
     }

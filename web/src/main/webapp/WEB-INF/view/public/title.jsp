@@ -75,7 +75,7 @@
 
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <br>
-                    <button class="btn btn-block btn-info ripple-effect" type="submit" name="Submit" alt="sign in">Sign
+                    <button class="btn btn-block btn-primary ripple-effect" type="submit" name="Submit" alt="sign in">Sign
                         in
                     </button>
                 </form>

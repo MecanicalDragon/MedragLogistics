@@ -55,12 +55,12 @@ public class RouteController {
             brigade.add(driverList.get(Integer.valueOf(s)));
         }
 
-//            Transactional method in waypoint service
-            try {
-                routeService.compileRoute(departureCity, destinationCity, truckLoad, assignedTruck, brigade);
-            } catch (MedragServiceException e) {
-                throw new MedragControllerException(e);
-            }
+//        Transactional method in waypoint service
+        try {
+            routeService.compileRoute(departureCity, destinationCity, truckLoad, assignedTruck, brigade);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
 
         return "redirect: ../mgr-main";
     }

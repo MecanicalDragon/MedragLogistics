@@ -3,7 +3,7 @@ package net.medrag.controller.resource;
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.service.DriverIdentifierService;
+import net.medrag.model.service.DriverHandlerService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.DriverService;
 import net.medrag.validator.DriverValidator;
@@ -31,11 +31,11 @@ public class DriverController {
 
     private DriverValidator driverValidator;
 
-    private DriverIdentifierService driverIdentifierService;
+    private DriverHandlerService driverHandlerService;
 
     @Autowired
-    public void setDriverIdentifierService(DriverIdentifierService driverIdentifierService) {
-        this.driverIdentifierService = driverIdentifierService;
+    public void setDriverHandlerService(DriverHandlerService driverHandlerService) {
+        this.driverHandlerService = driverHandlerService;
     }
 
     @Autowired
@@ -79,7 +79,7 @@ public class DriverController {
         }
 
         try {
-            driverIdentifierService.identifyNewDriver(driver);
+            driverHandlerService.identifyNewDriver(driver);
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
@@ -106,7 +106,7 @@ public class DriverController {
 
         if (!validatedDriver.getEmail().equalsIgnoreCase(driver.getEmail())){
             try {
-                driverIdentifierService.updateDriver(validatedDriver);
+                driverHandlerService.updateDriver(validatedDriver);
             } catch (MedragServiceException e) {
                 throw new MedragControllerException(e);
             }
@@ -124,7 +124,7 @@ public class DriverController {
     @GetMapping("remove/{id}")
     public String removeDriver(@PathVariable Integer id, Model model)throws MedragServiceException{
         DriverDto removableDriver = driverService.getDtoById(new DriverDto(), new Driver(), id);
-        driverIdentifierService.removeDriver(removableDriver);
+        driverHandlerService.removeDriver(removableDriver);
         return "redirect: ../../rsm-driver";
     }
 

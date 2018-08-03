@@ -38,7 +38,7 @@ public class MainLogisticController {
      */
     @GetMapping()
     public String returnView(HttpServletRequest request)throws MedragControllerException {
-        List<CargoDto> cargoes = null;
+        List<CargoDto> cargoes;
         try {
             cargoes = cargoService.getDtoList(new CargoDto(), new Cargo(), "STATE", "'TRANSIENT'");
         } catch (MedragServiceException e) {

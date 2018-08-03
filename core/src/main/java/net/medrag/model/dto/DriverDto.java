@@ -24,6 +24,8 @@ public class DriverDto implements Dto {
 
     private Integer paidTime;
 
+    private Integer hoursLastMonth;
+
     private Long lastChange;
 
     private String state;
@@ -38,6 +40,14 @@ public class DriverDto implements Dto {
 
 //    private Set<WaypointDto> route;
 
+
+    public Integer getHoursLastMonth() {
+        return hoursLastMonth;
+    }
+
+    public void setHoursLastMonth(Integer hoursLastMonth) {
+        this.hoursLastMonth = hoursLastMonth;
+    }
 
     public String getPreviousState() {
         return previousState;

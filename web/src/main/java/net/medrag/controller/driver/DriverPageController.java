@@ -7,6 +7,7 @@ import net.medrag.model.domain.entity.Waypoint;
 import net.medrag.model.dto.DriverDto;
 import net.medrag.model.dto.TruckDto;
 import net.medrag.model.dto.WaypointDto;
+import net.medrag.model.service.DriverHandlerService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.SecurityService;
 import net.medrag.model.service.dto.DriverService;
@@ -38,11 +39,11 @@ public class DriverPageController {
 
     private WaypointService<WaypointDto, Waypoint> waypointService;
 
-    private TruckService<TruckDto, Truck> truckService;
+    private DriverHandlerService driverHandlerService;
 
     @Autowired
-    public void setTruckService(TruckService<TruckDto, Truck> truckService) {
-        this.truckService = truckService;
+    public void setDriverHandlerService(DriverHandlerService driverHandlerService) {
+        this.driverHandlerService = driverHandlerService;
     }
 
     @Autowired
@@ -63,13 +64,13 @@ public class DriverPageController {
     @GetMapping()
     public String returnView(Model model, HttpServletRequest request) throws MedragControllerException {
 
-        DriverDto driver = null;
+        DriverDto driver;
         try {
             driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), securityService.getUsernameOfSignedInUser());
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
-        List<WaypointDto> waypoints = null;
+        List<WaypointDto> waypoints;
         if (driver.getCurrentTruck() != null) {
             try {
                 waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false", "TRUCK_ID", driver.getCurrentTruck().getId().toString());
@@ -90,30 +91,20 @@ public class DriverPageController {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
         driver.setState(option);
-        if (option.equals("REST") || option.equals("READY_TO_ROUTE")) {
-            TruckDto truck = driver.getCurrentTruck();
-            if (truck != null) {
-                try {
-                    truckService.refreshDto(truck, new Truck());
-                } catch (MedragServiceException e) {
-                    throw new MedragControllerException(e);
-                }
-                if (truck.getBrigade().size() == 1) {
-                    truck.getBrigade().clear();
-                    truck.setStatus("STAY_IDLE");
-                    try {
-                        truckService.updateDtoStatus(truck, new Truck());
-                    } catch (MedragServiceException e) {
-                        throw new MedragControllerException(e);
-                    }
-                }
+
+        if (driver.getCurrentTruck() != null &&
+                (option.equals("REST") || option.equals("READY_TO_ROUTE") || option.equals("DRIVING"))){
+            try {
+                driverHandlerService.changeDriverState(driver);
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
             }
-            driver.setCurrentTruck(null);
-        }
-        try {
-            driverService.updateDtoStatus(driver, new Driver());
-        } catch (MedragServiceException e) {
-            throw new MedragControllerException(e);
+        } else {
+            try {
+                driverService.updateDtoStatus(driver, new Driver());
+            } catch (MedragServiceException e) {
+                throw new MedragControllerException(e);
+            }
         }
 
         return "redirect: ../../drv-main";

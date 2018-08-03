@@ -46,11 +46,11 @@ public class AddingCargoesController {
         List<TruckDto> truckList = (List<TruckDto>) request.getSession().getAttribute("trucksInCity");
         TruckDto chosenTruck = truckList.get(index);
         request.getSession().setAttribute("chosenTruck", chosenTruck);
-
+        request.getSession().setAttribute("brigade", chosenTruck.getBrigadeStr());
 
 //        Getting a city list, if it's null, and adding it to the session too.
         if (request.getSession().getAttribute("cities") == null) {
-            List<CityDto> cities = null;
+            List<CityDto> cities;
             try {
                 cities = cityService.getDtoList(new CityDto(), new City());
             } catch (MedragServiceException e) {
@@ -60,7 +60,7 @@ public class AddingCargoesController {
         }
 
 //        Denoting a departure city and adding it to the session
-        CityDto departureCity = null;
+        CityDto departureCity;
         try {
             departureCity = cityService.getDtoById(new CityDto(), new City(), chosenTruck.getCityId());
         } catch (MedragServiceException e) {

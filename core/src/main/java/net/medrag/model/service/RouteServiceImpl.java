@@ -78,10 +78,12 @@ public class RouteServiceImpl implements RouteService {
             driver.setState("PORTER");
             driver.setCurrentTruck(assignedTruck);
             driverService.updateDtoStatus(driver, new Driver());
-            try {
-                mailService.sendCompiledRouteMesaage(driver, destination);
-            } catch (MessagingException e) {
-            }
+            new Thread(() -> {
+                try {
+                    mailService.sendCompiledRouteMesaage(driver, destination);
+                } catch (MessagingException e) {
+                }
+            }).start();
         }
         assignedTruck.setStatus("IN_USE");
         assignedTruck.setBrigade(brigade);
@@ -130,7 +132,6 @@ public class RouteServiceImpl implements RouteService {
         if (completedWP.getWayPointType().equals("LOAD")) {
             completedWP.getCargo().setState("ON_BOARD");
 
-
         } else {
 //            If not - set new current city to cargo
             completedWP.getCargo().setCurrentCityId(completedWP.getCity().getId());
@@ -155,10 +156,12 @@ public class RouteServiceImpl implements RouteService {
 
 //                Sending email to owner, if it's not null
                 if (completedWP.getCargo().getOwner().getEmail() != null) {
-                    try {
-                        mailService.sendDeliveredCargoEmail(completedWP.getCargo());
-                    } catch (MessagingException e) {
-                    }
+                    new Thread(() -> {
+                        try {
+                            mailService.sendDeliveredCargoEmail(completedWP.getCargo());
+                        } catch (MessagingException e) {
+                        }
+                    }).start();
                 }
 
             } else {

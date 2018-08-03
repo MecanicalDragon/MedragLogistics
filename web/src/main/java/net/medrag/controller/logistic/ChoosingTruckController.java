@@ -47,7 +47,7 @@ public class ChoosingTruckController {
         CargoDto cargo = cargoList.get(index);
 
 //        Getting list of trucks and filtering it with the requirements of capacity, status and city dislocation
-        List<TruckDto> truckList = null;
+        List<TruckDto> truckList;
         try {
             truckList = truckService.getDtoList(new TruckDto(), new Truck(), "CURRENT_CITY_ID",
                     cargo.getCurrentCityId().toString(), "STATUS", "'STAY_IDLE'");

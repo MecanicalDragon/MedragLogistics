@@ -144,4 +144,16 @@ public class MailServiceImpl implements MailService {
         message.setText(text);
         mailSender.send(message);
     }
+
+    @Override
+    public void sendWorkedTimeLimitMail(DriverDto driver) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        message.addRecipients(Message.RecipientType.TO, driver.getEmail());
+        message.setSubject("You have reached time limit!");
+
+        String text = String.format("%s %s, you have reached the limit of worked time this month. Your working status has been set to 'resting', and now you cannot be assigned to any routes. Your time is paid no more. Have a nice rest till the next month.",
+                driver.getName(), driver.getSurname());
+        message.setText(text);
+        mailSender.send(message);
+    }
 }

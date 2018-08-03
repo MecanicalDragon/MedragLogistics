@@ -18,4 +18,5 @@ public interface MailService {
     void sendDeliveredCargoEmail (CargoDto cargo) throws MessagingException;
     void sendTakenOrderMail(OrderrDto order) throws MessagingException ;
     void sendCompiledRouteMesaage(DriverDto driver, CityDto destination) throws MessagingException;
+    void sendWorkedTimeLimitMail(DriverDto driver) throws MessagingException;
 }

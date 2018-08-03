@@ -85,17 +85,17 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dto-Table">
                         <thead>
                         <tr>
-                            <th>Personal Number</th>
+                            <th>P.I.N.</th>
                             <th>Name</th>
                             <th>Surname</th>
-                            <th>Email</th>
-                            <th>Worked time</th>
-                            <th>Paid time</th>
-                            <th>State</th>
-                            <th>Current city</th>
-                            <th>Current truck</th>
+                            <th>Worked</th>
+                            <th>Paid</th>
+                            <th>Prev.</th>
+                            <th>Status</th>
+                            <th>City</th>
+                            <th>Truck</th>
                             <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Remove</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -106,7 +106,6 @@
                                 <td>${driverUnit.personalNumber}<span hidden>XXX${driverUnit.id}XXX${driverUnit.personalNumber}XXX</span></td>
                                 <td>${driverUnit.name}</td>
                                 <td>${driverUnit.surname}</td>
-                                <td>${driverUnit.email}</td>
                                 <td>
                                     <c:set var="hours"
                                            value="${fn:substringBefore(driverUnit.workedTime div 60, '.')}"/>
@@ -121,9 +120,15 @@
                                         ${pHours}:${pMinutes}
                                 </td>
                                 <td>
+                                    <c:set var="lastMonthHours" value="${fn:substringBefore(driverUnit.hoursLastMonth div 60, '.')}"/>
+                                    <fmt:formatNumber var="lastMonthMinutes" minIntegerDigits="2"
+                                                      value="${driverUnit.hoursLastMonth - (lastMonthHours*60) }"/>
+                                        ${lastMonthHours}:${lastMonthMinutes}
+                                </td>
+                                <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info btn-xs dropdown-toggle"
-                                                data-toggle="dropdown">
+                                                data-toggle="dropdown" style="width:105px; text-align:right;">
                                             <c:if test="${driverUnit.state.equals('REST')}">
                                                 Is resting
                                             </c:if>
@@ -173,7 +178,7 @@
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-danger btn-xs btn-remove"
-                                       data-toggle="modal" data-target="#deleteDriverModal">Remove driver</a>
+                                       data-toggle="modal" data-target="#deleteDriverModal">Remove</a>
                                 </td>
                             </tr>
 

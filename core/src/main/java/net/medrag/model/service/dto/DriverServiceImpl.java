@@ -4,6 +4,7 @@ import net.medrag.model.dao.DriverDao;
 import net.medrag.model.dao.MedragRepositoryException;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.dto.DriverDto;
+import net.medrag.model.service.MailService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.RabbitService;
 import org.modelmapper.ModelMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -30,6 +32,13 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
     private static final String implementation = "driverDaoImpl";
 
     private RabbitService rabbitService;
+
+    private MailService mailService;
+
+    @Autowired
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
+    }
 
     @Autowired
     public void setRabbitService(RabbitService rabbitService) {
@@ -103,7 +112,18 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
         for (E e : entityList) {
             D driver = (D) new ModelMapper().map(e, dto.getClass());
             assignNewTime(driver);
-            dtoList.add(driver);
+            if (driver.getWorkedTime() > 10560 && driver.getState().equals("READY_TO_ROUTE")) {
+                driver.setState("REST");
+                updateDtoStatus(driver, (E) new Driver());
+                new Thread(() -> {
+                    try {
+                        mailService.sendWorkedTimeLimitMail(driver);
+                    } catch (MessagingException e1) {
+                    }
+                }).start();
+            } else {
+                dtoList.add(driver);
+            }
         }
         return dtoList;
     }

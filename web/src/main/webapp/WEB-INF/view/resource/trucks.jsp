@@ -102,7 +102,7 @@
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-info btn-xs dropdown-toggle"
-                                                data-toggle="dropdown">
+                                                data-toggle="dropdown" style="width:105px; text-align:right;">
                                             <c:if test="${truckUnit.status.equals('IN_USE')}">
                                                 On the route
                                             </c:if>
@@ -119,7 +119,7 @@
                                                 On the route</a>
                                             </li>
                                             <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=1">
-                                                Stay idle</a>
+                                                Staying idle</a>
                                             </li>
                                             <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=2">
                                                 In service</a>

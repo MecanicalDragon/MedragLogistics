@@ -82,6 +82,7 @@ CREATE TABLE DRIVER (
   EMAIL              VARCHAR(255)                                                     NOT NULL,
   WORKED_TIME        INTEGER                                                          NOT NULL,
   PAID_TIME          INTEGER                                                          NOT NULL,
+  HOURS_LAST_MONTH   INTEGER,
   LAST_STATUS_CHANGE BIGINT                                                           NOT NULL,
   STATE              ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER', 'READY_TO_ROUTE') NOT NULL,
   PREVIOUS_STATE     ENUM ('REST', 'ON_SHIFT', 'DRIVING', 'PORTER', 'READY_TO_ROUTE') NOT NULL,

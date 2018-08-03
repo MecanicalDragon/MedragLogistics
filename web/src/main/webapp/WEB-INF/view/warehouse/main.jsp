@@ -75,26 +75,26 @@
                                 <td>
                                         <%--Cases for enum--%>
                                         <c:if test="${cargo.state.equals('TRANSIENT')}">
-                                        <button type="button" class="btn btn-xs btn-outline btn-primary" disabled>
+                                        <button type="button" class="btn btn-xs btn-outline btn-primary" style="width:75px;" disabled>
                                         Transient
                                         </button>
                                         </c:if>
                                         <c:if test="${cargo.state.equals('PREPARED')}">
-                                        <button type="button" class="btn btn-xs btn-outline btn-info" disabled>
+                                        <button type="button" class="btn btn-xs btn-outline btn-info" style="width:75px;" disabled>
                                         Prepared
                                         </button>
                                         </c:if>
                                         <c:if test="${cargo.state.equals('ON_BOARD')}">
-                                        <button type="button" class="btn btn-xs btn-outline btn-warning" disabled>En
+                                        <button type="button" class="btn btn-xs btn-outline btn-warning" style="width:75px;" disabled>En
                                         route
                                         </button>
                                         </c:if>
                                         <c:if test="${cargo.state.equals('DESTINATION')}">
-                                        <a type="button" class="btn btn-xs btn-success"
-                                        href="${contextPath}/whm-order/deliver/${index.index}">Destination</a>
+                                        <a type="button" class="btn btn-xs btn-success" style="width:75px;"
+                                           href="${contextPath}/whm-order/deliver/${index.index}">Destination</a>
                                         </c:if>
                                         <c:if test="${cargo.state.equals('DELIVERED')}">
-                                        <button type="button" class="btn btn-xs btn-outline btn-success" disabled>
+                                        <button type="button" class="btn btn-xs btn-outline btn-success" style="width:75px;" disabled>
                                         Delivered
                                         </button>
                                         </c:if>
@@ -167,8 +167,7 @@
                 <div class="container-fluid">
                     <form class="form" id="gotoCity" method="post" action="${contextPath}/whm-wp/actual">
                         <div class="col-4">
-                            <input name="name" placeholder="Enter city name" autofocus="true"
-                                   class="form-control col-4"/>
+                            <input name="name" placeholder="Enter city name" class="form-control col-4" autofocus>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </div>
                     </form>
@@ -197,6 +196,9 @@
     $(document).ready(function () {
         $('#dto-Table').DataTable({
             responsive: true
+        });
+        $('.modal').on('shown.bs.modal', function() {
+            $(this).find('[autofocus]').focus();
         });
     });
 </script>
