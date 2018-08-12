@@ -2,9 +2,9 @@ package net.medrag.controller.logistic;
 
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.City;
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dto.TruckDto;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.CityDto;
+import net.medrag.model.domain.dto.TruckDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
  * @version 1.0
  */
 @Controller
-@RequestMapping("mgr-confirmTruck")
+@RequestMapping("mgr-addCargoes")
 public class AddingCargoesController {
 
     private CityService<CityDto, City> cityService;
@@ -80,6 +80,12 @@ public class AddingCargoesController {
 //        Adding to session new attribute of city cargoes list and nulling global cargoes.
         request.getSession().setAttribute("cityCargoes", filteredCargoList);
 
+        return "logistic/addCargoes";
+    }
+
+    @GetMapping
+    public String stepBack(HttpServletRequest request){
+        request.getSession().setAttribute("truckLoad", null);
         return "logistic/addCargoes";
     }
 }

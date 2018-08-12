@@ -1,32 +1,17 @@
 package net.medrag.controller.logistic;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.entity.City;
-import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dto.DriverDto;
-import net.medrag.model.dto.TruckDto;
+import net.medrag.model.domain.dto.CityDto;
+import net.medrag.model.domain.dto.DriverDto;
 import net.medrag.model.service.DirectionsService;
 import net.medrag.model.service.DriverHandlerService;
 import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.CityService;
-import net.medrag.model.service.dto.DriverService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +21,7 @@ import java.util.List;
  * @version 1.0
  */
 @Controller
-@RequestMapping("mgr-destination")
+@RequestMapping("mgr-assignDrivers")
 public class AddingDriversController {
 
     private DriverHandlerService driverHandlerService;

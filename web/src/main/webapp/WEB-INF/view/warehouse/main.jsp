@@ -17,6 +17,8 @@
     <!-- DataTables CSS -->
     <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
+    <link href="/resources/css/palitre.css" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 <br>
@@ -60,6 +62,7 @@
                             <th>Owner document</th>
                             <th>Current city</th>
                             <th>Destination point</th>
+                            <th>Current truck</th>
                             <th>Cargo state</th>
                         </tr>
                         </thead>
@@ -68,72 +71,62 @@
                         <c:forEach items="${sessionScope.globalCargoes}" var="cargo" varStatus="index">
                             <tr class="odd gradeX">
 
-                                <td>${cargo.index}<span hidden>XXX${cargo.id}XXX</span></td>
+                                <td>${cargo.index}<span hidden>XXX${cargo.currentTruck.brigade}XXX</span></td>
                                 <td>${cargo.owner.passport}</td>
                                 <td>${cargo.currentCityName}</td>
                                 <td>${cargo.destinationName}</td>
+                                <c:choose>
+                                    <c:when test="${cargo.currentTruck != null}">
+                                        <td class="purpletext">
+                                            <%--<button type="button" class="btn btn-xs btn-outline btn-primary"--%>
+                                                    <%--style="width:65px;" data-container="body"--%>
+                                                    <%--data-toggle="popover" data-placement="top" data-content="--%>
+<%--<c:forEach items='${cargo.currentTruck.brigade}' var='driver'>--%>
+<%--${driver.personalNumber}: ${driver.name} ${driver.surname}--%>
+<%--</c:forEach>">${cargo.currentTruck.regNumber}</button>--%>
+                                            <button type="button" class="btn btn-xs btn-outline btn-primary"
+                                                    style="width:65px;"
+                                                    data-toggle="modal" data-target="#info">
+                                                    ${cargo.currentTruck.regNumber}</button>
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td class="redtext">
+                                            Undefined
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>
                                 <td>
                                         <%--Cases for enum--%>
-                                        <c:if test="${cargo.state.equals('TRANSIENT')}">
-                                        <button type="button" class="btn btn-xs btn-outline btn-primary" style="width:75px;" disabled>
-                                        Transient
+                                    <c:if test="${cargo.state.equals('TRANSIENT')}">
+                                        <button type="button" class="btn btn-xs btn-primary" style="width:75px;"
+                                                disabled>
+                                            Transient
                                         </button>
-                                        </c:if>
-                                        <c:if test="${cargo.state.equals('PREPARED')}">
-                                        <button type="button" class="btn btn-xs btn-outline btn-info" style="width:75px;" disabled>
-                                        Prepared
+                                    </c:if>
+                                    <c:if test="${cargo.state.equals('PREPARED')}">
+                                        <button type="button" class="btn btn-xs btn-info" style="width:75px;" disabled>
+                                            Prepared
                                         </button>
-                                        </c:if>
-                                        <c:if test="${cargo.state.equals('ON_BOARD')}">
-                                        <button type="button" class="btn btn-xs btn-outline btn-warning" style="width:75px;" disabled>En
-                                        route
+                                    </c:if>
+                                    <c:if test="${cargo.state.equals('ON_BOARD')}">
+                                        <button type="button" class="btn btn-xs btn-warning" style="width:75px;"
+                                                disabled>En
+                                            route
                                         </button>
-                                        </c:if>
-                                        <c:if test="${cargo.state.equals('DESTINATION')}">
+                                    </c:if>
+                                    <c:if test="${cargo.state.equals('DESTINATION')}">
                                         <a type="button" class="btn btn-xs btn-success" style="width:75px;"
                                            href="${contextPath}/whm-order/deliver/${index.index}">Destination</a>
-                                        </c:if>
-                                        <c:if test="${cargo.state.equals('DELIVERED')}">
-                                        <button type="button" class="btn btn-xs btn-outline btn-success" style="width:75px;" disabled>
-                                        Delivered
+                                    </c:if>
+                                    <c:if test="${cargo.state.equals('DELIVERED')}">
+                                        <button type="button" class="btn btn-xs btn-success" style="width:75px;"
+                                                disabled>
+                                            Delivered
                                         </button>
-                                        </c:if>
-                                    <%--<div class="btn-group">--%>
-                                        <%--<button type="button" class="btn btn-info btn-xs dropdown-toggle"--%>
-                                                <%--data-toggle="dropdown">--%>
-                                            <%--<c:if test="${cargo.state.equals('TRANSIENT')}">--%>
-                                                <%--Transient--%>
-                                            <%--</c:if>--%>
-                                            <%--<c:if test="${cargo.state.equals('PREPARED')}">--%>
-                                                <%--Prepared--%>
-                                            <%--</c:if>--%>
-                                            <%--<c:if test="${cargo.state.equals('ON_BOARD')}">--%>
-                                                <%--En route--%>
-                                            <%--</c:if>--%>
-                                            <%--<c:if test="${cargo.state.equals('DESTINATION')}">--%>
-                                                <%--Destination--%>
-                                            <%--</c:if>--%>
-                                            <%--<c:if test="${cargo.state.equals('DELIVERED')}">--%>
-                                                <%--Delivered--%>
-                                            <%--</c:if>--%>
-                                            <%--<span class="caret"></span>--%>
-                                        <%--</button>--%>
-                                        <%--<ul class="dropdown-menu pull-right" role="menu">--%>
-                                            <%--<li>--%>
-                                                <%--<a href="${contextPath}/whm-cargo/changeState?id=${cargo.id}&op=TRANSIENT">--%>
-                                                    <%--Transient</a>--%>
-                                            <%--</li>--%>
-                                            <%--<li>--%>
-                                                <%--<a href="${contextPath}/whm-cargo/changeState?id=${cargo.id}&op=PREPARED">--%>
-                                                    <%--Prepared</a>--%>
-                                            <%--</li>--%>
-                                            <%--<li>--%>
-                                                <%--<a href="${contextPath}/whm-cargo/changeState?id=${cargo.id}&op=ON_BOARD">--%>
-                                                    <%--En route</a>--%>
-                                            <%--</li>--%>
-                                        <%--</ul>--%>
-                                    <%--</div>--%>
+                                    </c:if>
                                 </td>
+
                             </tr>
 
                         </c:forEach>
@@ -165,10 +158,10 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form class="form" id="gotoCity" method="post" action="${contextPath}/whm-wp/actual">
+                    <form class="form" id="gotoCity" action="${contextPath}/whm-wp">
                         <div class="col-4">
-                            <input name="name" placeholder="Enter city name" class="form-control col-4" autofocus>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <input name="city" placeholder="Enter city name" class="form-control col-4" autofocus>
+                            <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
                         </div>
                     </form>
                 </div>
@@ -176,6 +169,29 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button class="btn btn-success" form="gotoCity">Go</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="infoLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="infoLabel"></h3>
+            </div>
+            <div class="container-fluid">
+                <div class="jumbotron" style="margin-bottom: 10px; margin-top: 10px;">
+
+                    <div class="modal-body" id="infoField">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -197,8 +213,39 @@
         $('#dto-Table').DataTable({
             responsive: true
         });
-        $('.modal').on('shown.bs.modal', function() {
+        $('.modal').on('shown.bs.modal', function () {
             $(this).find('[autofocus]').focus();
+        });
+
+        var table = $('#dto-Table').DataTable();
+
+        $('#dto-Table tbody').on('click', 'tr', 'td', function () {
+            var data = table.row(this).data()[0];
+
+//            Set header
+            var t = table.row(this).data()[4];
+            if (t !== "Undefined") {
+                var tr = t.split(">")[1];
+                var truck = tr.split("<")[0];
+                $("#infoLabel").text("Truck number " + truck + " brigade:");
+
+//            Set body
+                var b = data.split('XXX')[1];
+                var brigade = b.split('DriverDto');
+                var field = $("#infoField");
+                $(field).empty();
+                brigade.forEach(function (driver) {
+                    if (driver !== "[") {
+//                        alert(driver);
+                        var dismemberedDriver = driver.split("'");
+                        $(field).html(field.html() + "<div class='row'><div class='col-xs-6 text-left'><h4>"+
+                            dismemberedDriver[1] +
+                            "</h4></div> <div class='col-xs-6 text-right'><h4>"
+                            + dismemberedDriver[3] + " " + dismemberedDriver[5] +
+                                "</h4></div></div>");
+                    }
+                });
+            }
         });
     });
 </script>

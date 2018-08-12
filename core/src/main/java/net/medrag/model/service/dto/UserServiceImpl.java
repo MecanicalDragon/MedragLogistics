@@ -1,11 +1,9 @@
 package net.medrag.model.service.dto;
 
 import net.medrag.model.dao.MedragRepositoryException;
-import net.medrag.model.dto.UserDto;
-import net.medrag.model.dao.UserDao;
+import net.medrag.model.domain.dto.UserDto;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.service.MedragServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

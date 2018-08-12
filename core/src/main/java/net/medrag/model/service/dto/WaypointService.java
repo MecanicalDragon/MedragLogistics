@@ -1,6 +1,6 @@
 package net.medrag.model.service.dto;
 
-import net.medrag.model.dto.WaypointDto;
+import net.medrag.model.domain.dto.WaypointDto;
 import net.medrag.model.domain.entity.Waypoint;
 
 /**

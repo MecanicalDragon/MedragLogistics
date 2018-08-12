@@ -1,6 +1,6 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.CargoDto;
+import net.medrag.model.domain.dto.CargoDto;
 
 /**
  * {@link}

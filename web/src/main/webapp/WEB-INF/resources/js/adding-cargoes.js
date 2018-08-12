@@ -18,6 +18,8 @@ $(document).ready(function () {
 
             if (capacity < totalLoad) {
                 $('#compile').prop('disabled', true);
+            } else if (totalLoad !== 0) {
+                $('#compile').prop('disabled', false);
             }
 
         } else {
@@ -29,7 +31,9 @@ $(document).ready(function () {
 
             value = value.replace("" + index + "/", "");
             $("#cargoHiddenField").val(value);
-            if (capacity > totalLoad) {
+            if (totalLoad === 0) {
+                $('#compile').prop('disabled', true);
+            } else if (capacity > totalLoad) {
                 $('#compile').prop('disabled', false);
             }
         }

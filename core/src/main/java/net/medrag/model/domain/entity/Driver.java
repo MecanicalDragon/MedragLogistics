@@ -54,6 +54,10 @@ public class Driver extends Identifier {
     @JoinColumn(name = "current_city_id")
     private City city;
 
+    @ManyToOne
+    @JoinColumn(name = "destination_city_id")
+    private City destination;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "current_truck_id")
     private Truck currentTruck;
@@ -85,6 +89,14 @@ public class Driver extends Identifier {
 //        this.route = route;
 //    }
 
+
+    public City getDestination() {
+        return destination;
+    }
+
+    public void setDestination(City destination) {
+        this.destination = destination;
+    }
 
     public Integer getHoursLastMonth() {
         return hoursLastMonth;

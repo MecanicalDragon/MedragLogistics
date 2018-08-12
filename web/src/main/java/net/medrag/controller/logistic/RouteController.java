@@ -1,16 +1,18 @@
 package net.medrag.controller.logistic;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.dto.*;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.CityDto;
+import net.medrag.model.domain.dto.DriverDto;
+import net.medrag.model.domain.dto.TruckDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.RouteService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,7 +51,7 @@ public class RouteController {
         CityDto departureCity = (CityDto) request.getSession().getAttribute("departureCity");
 
 //        Creating brigade driver set
-        Set<DriverDto> brigade = new HashSet<>();
+        List<DriverDto> brigade = new ArrayList<>();
         String[] split = drivers.split("/");
         for (String s : split) {
             brigade.add(driverList.get(Integer.valueOf(s)));
@@ -62,6 +64,53 @@ public class RouteController {
             throw new MedragControllerException(e);
         }
 
-        return "redirect: ../mgr-main";
+        return "redirect: mgr-main";
+
     }
+
+    @PostMapping("uncompleted")
+    public String compileUncompleted(@RequestParam Integer index, @RequestParam Boolean currentBrigade, HttpServletRequest request) throws MedragControllerException {
+
+        List<CityDto> cities = (List<CityDto>) request.getSession().getAttribute("cities");
+        CityDto destinationCity = cities.get(index);
+        CityDto departureCity = (CityDto) request.getSession().getAttribute("departureCity");
+
+//        Getting attributes from session
+        List<CargoDto> truckLoad = (List<CargoDto>) request.getSession().getAttribute("newTruckLoad");
+        TruckDto assignedTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
+
+//        Transactional method in waypoint service
+        try {
+            routeService.compileUncompletedRoute(departureCity, destinationCity, truckLoad, assignedTruck, currentBrigade);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
+        return "redirect: ../mgr-route";
+
+    }
+
+    @PostMapping("complete")
+    public String completeRoute(@RequestParam("drivers") String drivers, HttpServletRequest request) throws MedragControllerException {
+
+//        Getting attributes from session
+        TruckDto assignedTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
+        List<DriverDto>driverList = (List<DriverDto>)request.getSession().getAttribute("drivers");
+
+//        Creating brigade driver set
+        List<DriverDto> brigade = new ArrayList<>();
+        String[] split = drivers.split("/");
+        for (String s : split) {
+            brigade.add(driverList.get(Integer.valueOf(s)));
+        }
+
+//        Transactional method in waypoint service
+        try {
+            routeService.compileRouteForTruck(assignedTruck, brigade);
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
+
+        return "redirect: ../mgr-route";
+    }
+
 }

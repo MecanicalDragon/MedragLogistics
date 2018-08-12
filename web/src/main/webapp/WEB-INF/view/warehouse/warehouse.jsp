@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Drivers Page
+        ${sessionScope.warehouseOfCity}
     </title>
     <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
@@ -24,19 +24,19 @@
 <br>
 <div class="container">
 
-                    <form class="form" id="refresh" method="post" action="${contextPath}/whm-wp/actual">
-                            <input type="hidden" name="name" value="${sessionScope.warehouseOfCity}"/>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <form class="form" id="refresh" action="${contextPath}/whm-wp">
+                            <input type="hidden" name="city" value="${sessionScope.warehouseOfCity}"/>
+                            <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
                     </form>
 
+                    <div class="text-center">
+                    <h1>Warehouse of city ${sessionScope.warehouseOfCity}</h1>
+                    </div>
     <%--Data Table--%>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="text-center">
-                    <h1>Warehouse of city ${sessionScope.warehouseOfCity}</h1>
-                    </div>
                     <%--To cargo page button--%>
                     <a href = ${contextPath}/whm-main type="button" class="btn btn-primary" role="button">To cargo page</a>
                     <button class="btn btn-warning" form="refresh">Refresh</button>
@@ -68,12 +68,12 @@
                         <c:forEach items="${sessionScope.wps}" var="wp" varStatus="index">
 
                             <tr class="odd gradeX">
-                                <td>${wp.currentTruck.regNumber}</td>
+                                <td>${wp.currentTruck.regNumber}<span hidden>XXX${index.index}XXX</span></td>
                                 <td>${wp.cargo.index}</td>
                                 <td>${wp.wayPointType}</td>
                                 <td>
-                                    <a type="button" class="btn btn-success btn-xs btn-wp"
-                                       href="${contextPath}/whm-wp/complete/${index.index}">Complete</a>
+                                    <button class="btn btn-success btn-xs btn-wp"
+                                       form="completeWP">Complete</button>
                                 </td>
                             </tr>
 
@@ -92,6 +92,11 @@
 
 </div>
 
+<form action="${contextPath}/whm-wp" method="POST" id="completeWP">
+    <input type="hidden" id="targetField" name="index" value="">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
+
 <!-- jQuery -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 
@@ -101,14 +106,7 @@
 <!-- DataTables JavaScript -->
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="/resources/js/dt-base.js"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function () {
-        $('#dto-Table').DataTable({
-            responsive: true
-        });
-    });
-</script>
 </body>
 </html>

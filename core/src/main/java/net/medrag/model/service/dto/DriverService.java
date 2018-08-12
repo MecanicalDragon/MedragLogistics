@@ -1,7 +1,7 @@
 package net.medrag.model.service.dto;
 
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.dto.DriverDto;
+import net.medrag.model.domain.dto.DriverDto;
 
 /**
  * Standard service interface for DAO interface{@link net.medrag.model.dao.DriverDao},

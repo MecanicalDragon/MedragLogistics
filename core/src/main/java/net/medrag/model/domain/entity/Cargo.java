@@ -35,7 +35,7 @@ public class Cargo extends Identifier {
     @JoinColumn(name = "owner_id")
     private Customer owner;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "order_id")
     private Orderr orderr;
 
@@ -54,9 +54,18 @@ public class Cargo extends Identifier {
     @OneToMany(mappedBy = "cargo", fetch = FetchType.LAZY)
     private Set<Waypoint> route;
 
+    @ManyToOne
+    @JoinColumn(name = "current_truck_id")
+    private Truck currentTruck;
 
 
+    public Truck getCurrentTruck() {
+        return currentTruck;
+    }
 
+    public void setCurrentTruck(Truck currentTruck) {
+        this.currentTruck = currentTruck;
+    }
 
     public Set<Waypoint> getRoute() {
         return route;

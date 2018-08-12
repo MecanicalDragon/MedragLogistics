@@ -1,10 +1,9 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.DriverDto;
-import net.medrag.model.dto.UserDto;
+import net.medrag.model.domain.dto.UserDto;
 
 /**
- * Standard interface for {@link  }
+ * Interface for EmployeeIdentifierServiceImpl.
  *
  * @author Stanislav Tretyakov
  * @version 1.0

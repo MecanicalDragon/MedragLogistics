@@ -1,10 +1,7 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.CargoForm;
+import net.medrag.model.domain.dto.CargoForm;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**

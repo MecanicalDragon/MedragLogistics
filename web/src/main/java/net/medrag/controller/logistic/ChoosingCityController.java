@@ -1,16 +1,8 @@
 package net.medrag.controller.logistic;
 
-import net.medrag.model.domain.entity.City;
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dto.TruckDto;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.CityService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import net.medrag.model.domain.dto.CargoDto;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +18,7 @@ import java.util.List;
  * @version 1.0
  */
 @Controller
-@RequestMapping("mgr-addCargoes")
+@RequestMapping("mgr-chooseCity")
 public class ChoosingCityController {
 
     /**
@@ -35,6 +27,10 @@ public class ChoosingCityController {
      */
     @PostMapping()
     public String addCargoes(@RequestParam("cargoesList") String cargoesList, HttpServletRequest request){
+
+        if (cargoesList.length() == 0){
+            return "redirect: mgr-main";
+        }
 
         List<CargoDto> cityCargoes = (List<CargoDto>) request.getSession().getAttribute("cityCargoes");
 
@@ -46,7 +42,13 @@ public class ChoosingCityController {
         }
         request.getSession().setAttribute("truckLoad", truckLoad);
 
+        return "logistic/chooseCity";
+    }
 
+    @GetMapping
+    public String stepBack(HttpServletRequest request){
+        request.getSession().setAttribute("destinationCity", null);
+        request.getSession().setAttribute("drivers", null);
         return "logistic/chooseCity";
     }
 

@@ -3,7 +3,7 @@ package net.medrag.model.service.dto;
 import net.medrag.model.dao.MedragRepositoryException;
 import net.medrag.model.dao.TruckDao;
 import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.dto.TruckDto;
+import net.medrag.model.domain.dto.TruckDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.RabbitService;
 import org.modelmapper.ModelMapper;

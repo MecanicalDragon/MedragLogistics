@@ -1,6 +1,6 @@
 package net.medrag.validator;
 
-import net.medrag.model.dto.CustomerDto;
+import net.medrag.model.domain.dto.CustomerDto;
 import net.medrag.model.domain.entity.Customer;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CustomerService;
@@ -9,7 +9,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 
 /**
  * Standard validator for class {@link CustomerDto}

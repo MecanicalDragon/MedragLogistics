@@ -43,7 +43,9 @@
                                              aria-valuenow="100"
                                              aria-valuemin="0" aria-valuemax="100"
                                              style="width: 100%">
-                                            <span>Delivered</span>
+                                            <div class="text-left">
+                                            <h4>&nbsp Delivered</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </c:when>
@@ -53,7 +55,9 @@
                                              aria-valuenow="90}"
                                              aria-valuemin="0" aria-valuemax="100"
                                              style="width: 90%">
-                                            <span>On it's destination </span>
+                                            <div class="text-left">
+                                            <h4>&nbsp On destination </h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </c:when>
@@ -64,7 +68,9 @@
                                              aria-valuenow="15}"
                                              aria-valuemin="0" aria-valuemax="100"
                                              style="width: 15%">
-                                            <span>On the way</span>
+                                            <div class="text-left">
+                                            <h4>&nbsp En route</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </c:when>
@@ -75,17 +81,21 @@
                                              aria-valuenow="10}"
                                              aria-valuemin="0" aria-valuemax="100"
                                              style="width: 10%">
-                                            <span>Making the route</span>
+                                            <div class="text-left">
+                                            <h4>&nbsp Routing</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="progress progress-striped active">
                                         <div class="progress-bar progress-bar-info" role="progressbar"
-                                             aria-valuenow="${completeness.get(index.index)}"
+                                             aria-valuenow="${completeness.get(index.index) < 15 ? 15 : completeness.get(index.index) > 90 ? 90 : completeness.get(index.index)}"
                                              aria-valuemin="0" aria-valuemax="100"
-                                             style="width: ${completeness.get(index.index)}%">
-                                            <span>Last seen: ${cargo.currentCityName}</span>
+                                             style="width: ${completeness.get(index.index) < 15 ? 15 : completeness.get(index.index) > 90 ? 90 : completeness.get(index.index)}%">
+                                            <div class="text-left">
+                                            <h4>&nbsp Last seen: ${cargo.currentCityName}</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </c:otherwise>

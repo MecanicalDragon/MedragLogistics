@@ -1,6 +1,6 @@
 package net.medrag.validator;
 
-import net.medrag.model.dto.CityDto;
+import net.medrag.model.domain.dto.CityDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
@@ -9,7 +9,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 
 /**
  * {@link}
@@ -39,7 +38,7 @@ public class CityValidator{
             errors.rejectValue("name", "city.exists");
         }
 
-        if (!city.getName().matches("\\w+")) {
+        if (!city.getName().trim().replace(" ", "_").matches("\\w+")) {
             errors.rejectValue("name", "letters.only");
         }
 
@@ -64,7 +63,7 @@ public class CityValidator{
         if (city.getName().trim().length() > 0) {
             CityDto namedCity = cityService.getDtoByNaturalId(city, new City(), city.getName());
             if (namedCity == null) {
-                if (city.getName().trim().matches("\\w+")) {
+                if (city.getName().trim().replace(" ", "_").matches("\\w+")) {
                     dbCity.setName(city.getName().trim());
                 } else {
                     errors.rejectValue("name", "letters.only");

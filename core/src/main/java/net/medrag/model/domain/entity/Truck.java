@@ -1,5 +1,6 @@
 package net.medrag.model.domain.entity;
 
+import net.medrag.model.domain.enums.Manageable;
 import net.medrag.model.domain.enums.TruckStatus;
 import org.hibernate.annotations.NaturalId;
 
@@ -35,15 +36,40 @@ public class Truck extends Identifier{
     @Column(name = "previous_status", columnDefinition = "enum('in_use', 'in_service', 'stay_idle')")
     private TruckStatus prevStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "manageable", columnDefinition = "enum('true', 'false', 'uncompleted', 'need_to_complete', 'save_brigade')")
+    private Manageable manageable;
+
     @ManyToOne
     @JoinColumn(name = "current_city_id")
     private City city;
+
+    @ManyToOne
+    @JoinColumn(name = "destination_city_id")
+    private City destination;
 
     @OneToMany(mappedBy = "currentTruck", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Set<Driver> brigade;
 
     @OneToMany(mappedBy = "currentTruck", fetch = FetchType.LAZY)
     private Set<Waypoint> route;
+
+
+    public Manageable getManageable() {
+        return manageable;
+    }
+
+    public void setManageable(Manageable manageable) {
+        this.manageable = manageable;
+    }
+
+    public City getDestination() {
+        return destination;
+    }
+
+    public void setDestination(City destination) {
+        this.destination = destination;
+    }
 
     public TruckStatus getPrevStatus() {
         return prevStatus;

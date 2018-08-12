@@ -1,6 +1,8 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.*;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.DriverDto;
+import net.medrag.model.domain.dto.OrderrDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -28,30 +30,6 @@ public class MailServiceImpl implements MailService {
         this.mailSender = mailSender;
     }
 
-//      This is for the case, if it'll be needed to load server address from properties
-//
-//        public void sendConfirmEmail(String email, String confirmCode) throws MessagingException {
-//        MimeMessage message = mailSender.createMimeMessage();
-//        Properties properties = new Properties();
-//        try {
-//            URL url = getClass().getResource("/mail.properties");
-//            Path path = Paths.get(url.toURI());
-//            properties.load(new FileInputStream(path.toFile()));
-//        } catch (IOException | URISyntaxException e) {
-//            e.printStackTrace();
-//            throw new MessagingException("Can not load server.properties.");
-//        }
-//        message.addRecipients(Message.RecipientType.TO, email);
-//        message.setSubject("Please, confirm your registration in My Web App");
-//        String link = String.format("http://%s:%s/register/confirm/%s",
-//                properties.get("server.address"),
-//                properties.get("server.http.port"),
-//                confirmCode);
-//        message.setText("To confirm your registration, please, follow the next link: \n" + link +
-//                "\n(Or triple click on it, copy and paste in your browser's address form, if your mail provider hasn't recognized it)");
-//        mailSender.send(message);
-//    }
-
     /**
      * Email with login and password to a new employee or already existing.
      *
@@ -59,7 +37,7 @@ public class MailServiceImpl implements MailService {
      * @param username - username
      * @param password - password
      * @param type     - type of email: with new authorities of restored.
-     * @throws MessagingException
+     * @throws MessagingException - true
      */
     @Override
     public void sendLoginPasswordEmail(String email, String username, String password, String type) throws MessagingException {
@@ -90,7 +68,7 @@ public class MailServiceImpl implements MailService {
      * Message to customer about delivering his cargo.
      *
      * @param cargo - delivered cargo
-     * @throws MessagingException
+     * @throws MessagingException - it happens
      */
     @Override
     public void sendDeliveredCargoEmail(CargoDto cargo) throws MessagingException {
@@ -98,9 +76,12 @@ public class MailServiceImpl implements MailService {
         message.addRecipients(Message.RecipientType.TO, cargo.getOwner().getEmail());
         message.setSubject("Your cargo has been delivered!");
 
-        String text = String.format("Dear %s %s! Your cargo %s with index %s nas been delivered in city %s! " +
-                        "Come and get it. Your MedragLogistics.", cargo.getOwner().getName(),
-                cargo.getOwner().getSurname(), cargo.getName(), cargo.getIndex(), cargo.getDestinationName());
+        String text = String.format("Dear %s %s! Your cargo %s with index %s (order number %s) nas been delivered in city %s! " +
+                        "Come and get it. \n (You can watch your order complete status, following the link below)\n \n" +
+                        "http://localhost:8080/orderInfo/%s \n \n" +
+                        "Your MedragLogistics.", cargo.getOwner().getName(),
+                cargo.getOwner().getSurname(), cargo.getName(), cargo.getIndex(), cargo.getOrderr().getIndex(),
+                cargo.getDestinationName(), cargo.getOrderr().getIndex());
         message.setText(text);
         mailSender.send(message);
     }
@@ -109,15 +90,15 @@ public class MailServiceImpl implements MailService {
      * Email to customer with order information and link to order status page.
      *
      * @param order customer's order
-     * @throws MessagingException
+     * @throws MessagingException - sometimes
      */
     @Override
     public void sendTakenOrderMail(OrderrDto order) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(Message.RecipientType.TO, order.getOwner().getEmail());
-        message.setSubject("Your cargo has been taken to handling.");
+        message.setSubject("Your order has been taken to handling.");
 
-        StringBuilder cargoList = new StringBuilder("This is your cargoes list: \n");
+        StringBuilder cargoList = new StringBuilder("This is your cargoes list: \n\n");
         for (CargoDto cargo : order.getCargoes()) {
             cargoList.append("Cargo: ").append(cargo.getName()).append("\n")
                     .append("Index: ").append(cargo.getIndex()).append("\n")
@@ -134,13 +115,13 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendCompiledRouteMesaage(DriverDto driver, CityDto destination) throws MessagingException {
+    public void sendCompiledRouteMesaage(DriverDto driver, String destination) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(Message.RecipientType.TO, driver.getEmail());
         message.setSubject("You assigned to the route.");
 
         String text = String.format("%s %s, you assigned to the route to the city %s. Take your workplace on the truck %s.",
-                driver.getName(), driver.getSurname(), destination.getName(), driver.getCurrentTruck().getRegNumber());
+                driver.getName(), driver.getSurname(), destination, driver.getCurrentTruck().getRegNumber());
         message.setText(text);
         mailSender.send(message);
     }
@@ -151,7 +132,9 @@ public class MailServiceImpl implements MailService {
         message.addRecipients(Message.RecipientType.TO, driver.getEmail());
         message.setSubject("You have reached time limit!");
 
-        String text = String.format("%s %s, you have reached the limit of worked time this month. Your working status has been set to 'resting', and now you cannot be assigned to any routes. Your time is paid no more. Have a nice rest till the next month.",
+        String text = String.format("%s %s, you have reached the limit of worked time this month. " +
+                        "Your working status has been set to 'resting', and now you cannot be assigned to any routes. " +
+                        "Your time is paid no more. Have a nice rest till the next month.",
                 driver.getName(), driver.getSurname());
         message.setText(text);
         mailSender.send(message);

@@ -1,9 +1,9 @@
 package net.medrag.model.service;
 
 import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.dto.DriverDto;
-import net.medrag.model.dto.TruckDto;
-import net.medrag.model.dto.UserDto;
+import net.medrag.model.domain.dto.DriverDto;
+import net.medrag.model.domain.dto.TruckDto;
+import net.medrag.model.domain.dto.UserDto;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.domain.enums.UserRole;
@@ -24,13 +24,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * {@link}
+ * This service handles some driver requests.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -140,7 +138,6 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
         }
     }
 
-
     /**
      * Method returns all available and matching for the route drives.
      *
@@ -156,6 +153,19 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
 //        Get all free drivers in current city
         List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver(),
                 "CURRENT_CITY_ID", cityId.toString(), "STATE", "'READY_TO_ROUTE'");
+        return getReadyDrivers(time, drivers);
+
+
+    }
+
+    /**
+     * Method filters list of drivers by matching the time requirements of the next route.
+     * @param time -time, required for the route.
+     * @param drivers - list of all available drivers.
+     * @return - filtered list of drivers.
+     */
+    @Override
+    public List<DriverDto> getReadyDrivers(Integer time, List<DriverDto> drivers) {
 
 //        Filtering drivers by the worked time
         List<DriverDto> filteredDrivers = new ArrayList<>();
@@ -175,7 +185,6 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
         return filteredDrivers;
     }
 
-
     /**
      * Method frees truck, if it's last driver goes to rest and sets "ON_SHIFT" statuses to rest drivers,
      * if one of them takes control of the truck.
@@ -185,7 +194,7 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
      */
     @Override
     @Transactional
-    public void changeDriverState(DriverDto driver) throws MedragServiceException {
+    public boolean changeDriverState(DriverDto driver) throws MedragServiceException {
 
 //        Free truck part
         if (driver.getState().equals("REST") || driver.getState().equals("READY_TO_ROUTE")) {
@@ -193,32 +202,66 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
             truckService.refreshDto(truck, new Truck());
 
             if (truck.getBrigade().size() == 1) {
+                if (truck.getDestinationId() != null){
+                    return false;
+                }
                 truck.getBrigade().clear();
                 truck.setStatus("STAY_IDLE");
+                truck.setManageable("FALSE");
+                truck.setDestinationId(null);
+                truck.setDestinationName(null);
                 truckService.updateDtoStatus(truck, new Truck());
             }
             driver.setCurrentTruck(null);
+            driver.setDestinationId(null);
+            driver.setDestinationName(null);
 
 //        Change comrades statuses part
         } else {
             if (driver.getState().equals("DRIVING")) {
                 for (DriverDto comrade : driver.getCurrentTruck().getBrigade()) {
-                    if (!comrade.equals(driver)) {
+                    if (!comrade.equals(driver) && comrade.getDestinationId() != null) {
                         comrade.setState("ON_SHIFT");
-                        driverService.updateDtoStatus(comrade, new Driver());
+                    } else {
+                        if (comrade.getDestinationId() == null) {
+                            comrade.setState("REST");
+                            comrade.setCurrentTruck(null);
+                        }
                     }
+                    driverService.updateDtoStatus(comrade, new Driver());
                 }
             }
         }
 
         driverService.updateDtoStatus(driver, new Driver());
+
+        return true;
     }
 
+    /**
+     * Methods returns list of drivers, available to the route for the truck, including current truck brigade.
+     * @param truck - routing truck.
+     * @param time - time, required for the route.
+     * @return - list of available drivers.
+     * @throws MedragServiceException - if "getReadyDrivers" fails.
+     */
+    @Override
+    @Transactional
+    public List<DriverDto> getDriverListWithTruckBrigade(TruckDto truck, Integer time) throws MedragServiceException {
+
+//        Get all free drivers in current city
+        List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver(),
+                "CURRENT_CITY_ID", truck.getCityId().toString(), "STATE", "'READY_TO_ROUTE'");
+        List<DriverDto> brigade = truck.getBrigade();
+        drivers.addAll(0, brigade);
+
+        return getReadyDrivers(time, drivers);
+    }
 
     /**
      * This method launches a separate thread, that sleeps all day long, wakes up at 00:00, checks if it's not a
-     * first day of the month ahd fells to sleep again. If it's suddenly a fist day of the month, thread sets to each
-     * driver value of paid hours for last month, nulls workedHours and paidHours anf fells in sleep again. Nice job.
+     * first day of the month ahd fells into sleep again. If it's suddenly a fist day of the month, thread sets to each
+     * driver value of paid hours for last month, nulls workedHours and paidHours anf fells into sleep again. Nice job.
      */
     @PostConstruct
     public void nullWorkedHours() {

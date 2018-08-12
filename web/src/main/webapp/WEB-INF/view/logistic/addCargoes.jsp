@@ -13,17 +13,17 @@
     <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-
     <!-- DataTables CSS -->
     <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-
+    <link href="/resources/css/palitre.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
 <br>
 <div class="container">
 
-    <form action="${contextPath}/mgr-addCargoes" method="POST" id="cargoForm">
+    <form action="${contextPath}/${reroute != null ? 'mgr-nextDestination' : 'mgr-chooseCity'}" method="POST"
+          id="cargoForm">
         <input type="hidden" id="cargoHiddenField" name="cargoesList" value="">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
@@ -34,7 +34,10 @@
                 <div class="panel-heading">
                     <div class="text-center">
 
-                        <h3>Step 2: add more cargoes to the truck.</h3>
+
+                        <h3>${reroute != null ? 'Step 1: recompile truck '.concat(sessionScope.chosenTruck.regNumber)
+                        .concat(' cargoes in city ').concat(sessionScope.chosenTruck.destinationName) :
+                                'Step 2: add more cargoes to the truck.'}</h3>
                         <h3 id="msg">Now loaded 0 kgs of ${sessionScope.chosenTruck.capacity} total capacity.</h3>
                     </div>
                 </div>
@@ -56,7 +59,7 @@
                             <tr class="odd gradeX">
                                 <td>
                                     <c:choose>
-                                        <c:when test="${cargoItem.id.equals(sessionScope.chosenCargoId)}">
+                                        <c:when test="${reroute == null && cargoItem.id.equals(sessionScope.chosenCargoId)}">
                                             <button class="btn btn-xs btn-choose btn-enabled btn-success chosenCargo"
                                                     id="choose-${index.index}-${cargoItem.weight}">Add this
                                             </button>
@@ -70,7 +73,9 @@
                                 </td>
                                 <td>${cargoItem.index}</td>
                                 <td>${cargoItem.weight}</td>
-                                <td>${cargoItem.currentCityName}</td>
+                                <td class="${cargoItem.currentTruck == null ? '' : 'purpletext'}">
+                                        ${reroute == null ? cargoItem.currentCityName : cargoItem.currentTruck == null
+                                        ? cargoItem.currentCityName : 'Loaded in truck'}</td>
                                 <td>${cargoItem.destinationName}</td>
                             </tr>
                         </c:forEach>
@@ -82,9 +87,14 @@
                 <div class="panel-footer">
                     <div class="text-center">
                         <div class="row">
-                            <a class="btn btn-danger" href="${contextPath}/mgr-main" role="button">Dismiss</a>
-                            <a class="btn btn-warning" href="${contextPath}/mgr-startManage" role="button">Choose another truck</a>
-                            <button class="btn btn-success" form="cargoForm" id="compile">Compile</button>
+                            <c:if test="${reroute == null}">
+                                <a class="btn btn-warning" href="${contextPath}/mgr-chooseTruck" role="button">< Back</a>
+                            </c:if>
+                            <a class="btn btn-danger"
+                               href="${contextPath}/${reroute == null ? 'mgr-main' : 'mgr-route'}"
+                               role="button">Dismiss</a>
+                            <button class="btn btn-success" form="cargoForm" id="compile"
+                            ${reroute == null ? "": "disabled"}>Next ></button>
                         </div>
                     </div>
                 </div>

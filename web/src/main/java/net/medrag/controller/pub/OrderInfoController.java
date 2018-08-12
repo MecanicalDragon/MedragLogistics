@@ -2,8 +2,8 @@ package net.medrag.controller.pub;
 
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.Orderr;
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.OrderrDto;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.OrderrDto;
 import net.medrag.model.service.DirectionsService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.OrderService;
@@ -38,7 +38,7 @@ public class OrderInfoController {
     @GetMapping("{index}")
     public String getInfo(@PathVariable String index, Model model) throws MedragControllerException {
 
-        OrderrDto order = null;
+        OrderrDto order;
         try {
             order = orderService.getDtoByNaturalId(new OrderrDto(), new Orderr(), index);
         } catch (MedragServiceException e) {

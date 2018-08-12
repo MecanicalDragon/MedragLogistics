@@ -1,7 +1,7 @@
 package net.medrag.validator;
 
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dto.TruckDto;
+import net.medrag.model.domain.dto.CityDto;
+import net.medrag.model.domain.dto.TruckDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.service.MedragServiceException;
@@ -12,7 +12,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 
 /**
  * Typical validator for {@link Truck}
@@ -94,6 +93,7 @@ public class TruckValidator{
 
             truck.setStatus("STAY_IDLE");
             truck.setPrevStatus("STAY_IDLE");
+            truck.setManageable("FALSE");
         }
     }
 

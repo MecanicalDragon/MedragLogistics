@@ -29,7 +29,7 @@ public class Orderr extends Identifier {
     @Column(name = "complete")
     private Boolean complete;
 
-    @OneToMany(mappedBy = "orderr")
+    @OneToMany(mappedBy = "orderr", cascade = CascadeType.REMOVE)
     private List<Cargo> cargoes;
 //
 //    @OneToMany(mappedBy = "orderr", fetch = FetchType.LAZY)

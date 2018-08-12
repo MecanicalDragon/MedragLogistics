@@ -1,7 +1,7 @@
 package net.medrag.validator;
 
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dto.DriverDto;
+import net.medrag.model.domain.dto.CityDto;
+import net.medrag.model.domain.dto.DriverDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.service.MedragServiceException;

@@ -2,19 +2,14 @@ package net.medrag.controller.driver;
 
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.domain.entity.Truck;
 import net.medrag.model.domain.entity.Waypoint;
-import net.medrag.model.dto.DriverDto;
-import net.medrag.model.dto.TruckDto;
-import net.medrag.model.dto.WaypointDto;
+import net.medrag.model.domain.dto.DriverDto;
+import net.medrag.model.domain.dto.WaypointDto;
 import net.medrag.model.service.DriverHandlerService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.SecurityService;
 import net.medrag.model.service.dto.DriverService;
-import net.medrag.model.service.dto.TruckService;
 import net.medrag.model.service.dto.WaypointService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,7 +68,8 @@ public class DriverPageController {
         List<WaypointDto> waypoints;
         if (driver.getCurrentTruck() != null) {
             try {
-                waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false", "TRUCK_ID", driver.getCurrentTruck().getId().toString());
+                waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false",
+                        "TRUCK_ID", driver.getCurrentTruck().getId().toString());
             } catch (MedragServiceException e) {
                 throw new MedragControllerException(e);
             }
@@ -81,13 +77,18 @@ public class DriverPageController {
         }
 
         request.getSession().setAttribute("sessionDriver", driver);
+        if (request.getSession().getAttribute("standalone") != null &&
+                request.getSession().getAttribute("standalone").equals(true)){
+            model.addAttribute("standalone", true);
+            request.getSession().setAttribute("standalone", false);
+        }
         model.addAttribute("driver", driver);
 
         return "driver/driverPage";
     }
 
-    @GetMapping("changeState/{option}")
-    public String changeState(@PathVariable String option, HttpServletRequest request) throws MedragControllerException {
+    @PostMapping()
+    public String changeState(@RequestParam String option, HttpServletRequest request) throws MedragControllerException {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
         driver.setState(option);
@@ -95,7 +96,10 @@ public class DriverPageController {
         if (driver.getCurrentTruck() != null &&
                 (option.equals("REST") || option.equals("READY_TO_ROUTE") || option.equals("DRIVING"))){
             try {
-                driverHandlerService.changeDriverState(driver);
+                if (!driverHandlerService.changeDriverState(driver)){
+                    request.getSession().setAttribute("standalone", true);
+                    return "redirect: ../../drv-main";
+                }
             } catch (MedragServiceException e) {
                 throw new MedragControllerException(e);
             }

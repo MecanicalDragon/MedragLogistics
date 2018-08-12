@@ -3,7 +3,7 @@ package net.medrag.model.service.dto;
 import net.medrag.model.dao.DriverDao;
 import net.medrag.model.dao.MedragRepositoryException;
 import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.dto.DriverDto;
+import net.medrag.model.domain.dto.DriverDto;
 import net.medrag.model.service.MailService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.RabbitService;
@@ -112,7 +112,7 @@ public class DriverServiceImpl<D extends DriverDto, E extends Driver> extends DT
         for (E e : entityList) {
             D driver = (D) new ModelMapper().map(e, dto.getClass());
             assignNewTime(driver);
-            if (driver.getWorkedTime() > 10560 && driver.getState().equals("READY_TO_ROUTE")) {
+            if (driver.getWorkedTime() >= 10560 && driver.getState().equals("READY_TO_ROUTE")) {
                 driver.setState("REST");
                 updateDtoStatus(driver, (E) new Driver());
                 new Thread(() -> {

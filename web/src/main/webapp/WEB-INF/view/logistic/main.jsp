@@ -23,7 +23,7 @@
 <br>
 <div class="container">
 
-    <form action="${contextPath}/mgr-startManage" method="POST" id="targetForm">
+    <form action="${contextPath}/mgr-chooseTruck" method="POST" id="targetForm">
         <input type="hidden" id="targetField" name="index" value="">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
@@ -32,7 +32,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a class="btn btn-warning" href="" role="button">Refresh</a>
+                    <a class="btn btn-primary" href="${contextPath}/mgr-route" role="button">Route trucks</a>
 
                     <%--Logout button--%>
                     <div class="pull-right">

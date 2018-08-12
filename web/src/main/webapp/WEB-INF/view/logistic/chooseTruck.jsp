@@ -26,7 +26,7 @@
 <br>
 <div class="container">
 
-    <form action="${contextPath}/mgr-confirmTruck" method="POST" id="targetForm">
+    <form action="${contextPath}/mgr-addCargoes" method="POST" id="targetForm">
         <input type="hidden" id="targetField" name="index" value="">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>

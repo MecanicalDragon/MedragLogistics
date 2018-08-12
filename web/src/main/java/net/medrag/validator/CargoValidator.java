@@ -1,8 +1,7 @@
 package net.medrag.validator;
 
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dao.CargoDao;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.CityDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
@@ -11,7 +10,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 
 /**
  * {@link}

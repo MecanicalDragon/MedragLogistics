@@ -35,11 +35,11 @@ public class Waypoint extends Identifier{
     @JoinColumn(name = "truck_id")
     private Truck currentTruck;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "waypoint_drivers",
-            joinColumns = @JoinColumn(name = "waypoint_id"),
-            inverseJoinColumns = @JoinColumn(name = "driver_id"))
-    private Set<Driver> brigade;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "waypoint_drivers",
+//            joinColumns = @JoinColumn(name = "waypoint_id"),
+//            inverseJoinColumns = @JoinColumn(name = "driver_id"))
+//    private Set<Driver> brigade;
 
     public Boolean getComplete() {
         return complete;
@@ -80,14 +80,14 @@ public class Waypoint extends Identifier{
     public void setCurrentTruck(Truck currentTruck) {
         this.currentTruck = currentTruck;
     }
-
-    public Set<Driver> getBrigade() {
-        return brigade;
-    }
-
-    public void setBrigade(Set<Driver> brigade) {
-        this.brigade = brigade;
-    }
+//
+//    public Set<Driver> getBrigade() {
+//        return brigade;
+//    }
+//
+//    public void setBrigade(Set<Driver> brigade) {
+//        this.brigade = brigade;
+//    }
 
     @Override
     public String toString() {

@@ -21,6 +21,9 @@
     <!-- DataTables CSS -->
     <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
+    <!-- My palitre -->
+    <link href="/resources/css/palitre.css" rel="stylesheet" type="text/css">
+
 
 </head>
 <body>
@@ -36,6 +39,7 @@
                     <h2>${driver.name} ${driver.surname}</h2>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
@@ -56,6 +60,9 @@
                                     </div>
                                     <div id="collapseOne" class="panel-collapse collapse in">
                                         <div class="panel-body">
+                                            <c:if test="${standalone != null && standalone == true}">
+                                                <span class="redtext">You can't leave truck now, wait for shift change or call operator.</span>
+                                            </c:if>
                                             <div class="row">
                                                 <div class="text-left col-xs-4">
                                                     <c:set var="hours"
@@ -66,17 +73,17 @@
                                                 </div>
                                                 <div class="col-xs-4">
                                                     <div class="btn-group">
-                                                        <button type="button"
+                                                        <button type="button" style="width: 150px;"
                                                                 class="btn btn-info btn-lg btn-block dropdown-toggle"
                                                                 data-toggle="dropdown">
                                                             <c:if test="${driver.state.equals('REST')}">
-                                                                Is resting
+                                                                Rest
                                                             </c:if>
                                                             <c:if test="${driver.state.equals('ON_SHIFT')}">
                                                                 On the shift
                                                             </c:if>
                                                             <c:if test="${driver.state.equals('DRIVING')}">
-                                                                Is driving
+                                                                Driving
                                                             </c:if>
                                                             <c:if test="${driver.state.equals('PORTER')}">
                                                                 Cargo works
@@ -87,25 +94,23 @@
                                                         </button>
                                                         <ul class="dropdown-menu pull-right" role="menu">
                                                             <c:choose>
-                                                                <c:when test="${wps.size() == 0 || wps == null}">
+                                                                <%--<c:when test="${wps.size() == 0 || wps == null}">--%>
+                                                                <c:when test="${driver.destinationId == null || driver.destinationId.equals(driver.cityId)}">
+
                                                                     <li>
-                                                                        <a href="${contextPath}/drv-main/changeState/REST">
-                                                                            Go to rest</a>
+                                                                        <a id="REST" role="button" class="changeState">Go to rest</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="${contextPath}/drv-main/changeState/READY_TO_ROUTE">
-                                                                            Ready to route</a>
+                                                                        <a id="READY_TO_ROUTE" role="button" class="changeState" >Ready to route</a>
                                                                     </li>
                                                                 </c:when>
                                                                 <%--<c:when test="${driver.currentTruck != null}">--%>
                                                                 <c:otherwise>
                                                                     <li>
-                                                                        <a href="${contextPath}/drv-main/changeState/ON_SHIFT">
-                                                                            On the shift</a>
+                                                                        <a id="ON_SHIFT"  role="button" class="changeState">On the shift</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="${contextPath}/drv-main/changeState/DRIVING">
-                                                                            Is driving</a>
+                                                                        <a id="DRIVING" role="button" class="changeState">Is driving</a>
                                                                     </li>
                                                                 </c:otherwise>
                                                             </c:choose>
@@ -179,15 +184,25 @@
                                     <div id="collapseThree" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <c:choose>
-                                                <c:when test="${wps != null}">
+                                                <c:when test="${wps != null && wps.size() != 0}">
+                                                    <c:if test="${driver.destinationId != null}">
+                                                        <div class="row">
+                                                            <div class="text-left col-xs-6">
+                                                                <h2>Current destination:</h2>
+                                                            </div>
+                                                            <div class="text-right col-xs-6">
+                                                                <h2>${driver.destinationName}</h2>
+                                                            </div>
+                                                        </div>
+                                                    </c:if>
                                                     <table width="100%"
                                                            class="table table-striped table-bordered table-hover"
                                                            id="dto-Table">
                                                         <thead>
                                                         <tr>
-                                                            <th>type</th>
-                                                            <th>city</th>
-                                                            <th>cargo index</th>
+                                                            <th>Type</th>
+                                                            <th>City</th>
+                                                            <th>Cargo index</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -241,6 +256,12 @@
     </div>
 </div>
 
+<form action="${contextPath}/drv-main" method="POST" id="driverForm">
+    <input type="hidden" id="driverHiddenField" name="option" value="">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <button id="that" hidden></button>
+</form>
+
 
 <!-- jQuery -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
@@ -254,9 +275,13 @@
 
 <script>
     $(document).ready(function () {
-        // this is for datatables
         $('#dto-Table').DataTable({
             responsive: true
+        });
+        $(".changeState").click(function () {
+            var state = $(this).attr("id");
+            $("#driverHiddenField").val(state);
+            $("#that").trigger("click");
         });
     });
 </script>

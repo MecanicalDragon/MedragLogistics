@@ -2,7 +2,7 @@ package net.medrag.model.service.dto;
 
 import net.medrag.model.dao.CityDao;
 import net.medrag.model.domain.entity.City;
-import net.medrag.model.dto.CityDto;
+import net.medrag.model.domain.dto.CityDto;
 import org.springframework.stereotype.Service;
 
 /**

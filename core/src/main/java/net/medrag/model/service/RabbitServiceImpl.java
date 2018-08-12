@@ -2,8 +2,8 @@ package net.medrag.model.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.CargoForm;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.CargoForm;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

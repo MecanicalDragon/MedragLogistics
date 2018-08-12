@@ -1,8 +1,8 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.CustomerDto;
-import net.medrag.model.dto.OrderrDto;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.CustomerDto;
+import net.medrag.model.domain.dto.OrderrDto;
 
 import java.util.List;
 

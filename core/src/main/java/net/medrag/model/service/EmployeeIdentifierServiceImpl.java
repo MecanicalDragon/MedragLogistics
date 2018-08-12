@@ -1,7 +1,7 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.DriverDto;
-import net.medrag.model.dto.UserDto;
+import net.medrag.model.domain.dto.DriverDto;
+import net.medrag.model.domain.dto.UserDto;
 import net.medrag.model.domain.entity.Driver;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.domain.enums.UserRole;
@@ -56,6 +56,11 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
     private static final String resourcePrefix = "RSM-";
     private static final String logisticPrefix = "MGR-";
 
+    /**
+     * Method generates new password for user.
+     * @param id - user id.
+     * @throws MedragServiceException - if there is no database, connected to app.
+     */
     @Override
     @Transactional
     public void generateNewPassword(Integer id)throws MedragServiceException {
@@ -70,6 +75,11 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
         }
     }
 
+    /**
+     * Method is needed for removing driver and bounded toit user.
+     * @param user
+     * @throws MedragServiceException
+     */
     @Override
     @Transactional
     public void removeUserIfItsDriver(UserDto user)throws MedragServiceException {

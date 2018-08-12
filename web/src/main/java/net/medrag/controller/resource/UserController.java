@@ -1,14 +1,12 @@
 package net.medrag.controller.resource;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.dto.UserDto;
+import net.medrag.model.domain.dto.UserDto;
 import net.medrag.model.domain.entity.User;
 import net.medrag.model.service.EmployeeIdentifierService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.UserService;
 import net.medrag.validator.UserValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

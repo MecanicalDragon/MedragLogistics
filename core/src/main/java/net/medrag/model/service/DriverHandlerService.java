@@ -1,13 +1,12 @@
 package net.medrag.model.service;
 
-import net.medrag.model.dto.CityDto;
-import net.medrag.model.dto.DriverDto;
-import net.medrag.model.dto.TruckDto;
+import net.medrag.model.domain.dto.DriverDto;
+import net.medrag.model.domain.dto.TruckDto;
 
 import java.util.List;
 
 /**
- * Standard interface for {@link  }
+ * Interface, that is responsible for some request, bounded with drivers.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -22,5 +21,9 @@ public interface DriverHandlerService {
 
     List<DriverDto> getDriverList(Integer cityId, Integer time) throws MedragServiceException;
 
-    void changeDriverState(DriverDto driver) throws MedragServiceException;
+    boolean changeDriverState(DriverDto driver) throws MedragServiceException;
+
+    List<DriverDto> getDriverListWithTruckBrigade(TruckDto chosenTruck, Integer integer) throws MedragServiceException;
+
+    List<DriverDto> getReadyDrivers(Integer time, List<DriverDto> drivers);
 }

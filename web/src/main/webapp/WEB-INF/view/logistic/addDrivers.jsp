@@ -17,7 +17,6 @@
     <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-
     <!-- DataTables CSS -->
     <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
@@ -26,7 +25,7 @@
 <br>
 <div class="container">
 
-    <form action="${contextPath}/mgr-compileRoute" method="POST" id="driverForm">
+    <form action="${contextPath}/${reroute != null ? 'mgr-compileRoute/complete' : 'mgr-compileRoute'}" method="POST" id="driverForm">
         <input type="hidden" id="driverHiddenField" name="drivers" value="">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
@@ -38,7 +37,10 @@
                 <div class="panel-heading">
                     <div class="text-center">
 
-                        <h3>Step 4: compile a brigade.</h3>
+                        <%--<h3>Step 4: compile a brigade.</h3>--%>
+                        <h3>${reroute == null ? 'Step 4: compile a brigade.' : 'Brigade compiling for truck '
+                        .concat(sessionScope.chosenTruck.regNumber). concat(' (destination: ')
+                        .concat(sessionScope.chosenTruck.destinationName).concat(').')}</h3>
 
                         <c:set var="tripHours"
                                value="${fn:substringBefore(duration div 60, '.')}"/>
@@ -75,7 +77,7 @@
                                         Assign
                                     </button>
                                 </td>
-                                <td>${driverUnit.personalNumber}</td>
+                                <td>${driverUnit.personalNumber} ${reroute != null && driverUnit.currentTruck != null ? '(now in brigade)' : '' }</td>
                                 <td>${driverUnit.name}</td>
                                 <td>${driverUnit.surname}</td>
                                 <td>
@@ -95,14 +97,16 @@
                 </div>
                 <div class="panel-footer">
                     <div class="text-center">
-                        <a class="btn btn-danger" href="${contextPath}/mgr-main" role="button">Dismiss</a>
+                        <c:if test="${reroute == null}">
+                            <a class="btn btn-warning" href="${contextPath}/mgr-chooseCity" role="button">< Back</a>
+                        </c:if>
+                        <a class="btn btn-danger" href="${contextPath}/${reroute == null ? 'mgr-main' : 'mgr-route'}" role="button">Dismiss</a>
                         <button class="btn btn-success" form="driverForm" id="compile" disabled>Compile</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="footer">
         <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>

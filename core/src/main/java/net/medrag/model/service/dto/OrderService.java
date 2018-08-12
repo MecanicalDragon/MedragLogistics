@@ -1,6 +1,6 @@
 package net.medrag.model.service.dto;
 
-import net.medrag.model.dto.OrderrDto;
+import net.medrag.model.domain.dto.OrderrDto;
 import net.medrag.model.domain.entity.Orderr;
 
 /**

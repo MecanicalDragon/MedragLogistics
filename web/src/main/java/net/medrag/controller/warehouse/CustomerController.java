@@ -1,12 +1,10 @@
 package net.medrag.controller.warehouse;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.CustomerDto;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.CustomerDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.validator.CustomerValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

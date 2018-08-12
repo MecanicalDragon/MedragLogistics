@@ -1,7 +1,7 @@
 package net.medrag.controller.watcher;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.dto.CargoForm;
+import net.medrag.model.domain.dto.CargoForm;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.WatcherService;
 import org.springframework.beans.factory.annotation.Autowired;

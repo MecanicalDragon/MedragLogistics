@@ -1,6 +1,6 @@
 package net.medrag.model.service.dto;
 
-import net.medrag.model.dto.Dto;
+import net.medrag.model.domain.dto.Dto;
 import net.medrag.model.domain.entity.Entity;
 import net.medrag.model.service.MedragServiceException;
 

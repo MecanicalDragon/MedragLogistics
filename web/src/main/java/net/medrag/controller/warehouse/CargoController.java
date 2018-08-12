@@ -1,14 +1,9 @@
 package net.medrag.controller.warehouse;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.domain.entity.Cargo;
+import net.medrag.model.domain.dto.CargoDto;
 import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.RabbitService;
-import net.medrag.model.service.dto.CargoService;
 import net.medrag.validator.CargoValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,11 +38,11 @@ public class CargoController {
 //    public void setCargoService(CargoService<CargoDto, Cargo> cargoService) {
 //        this.cargoService = cargoService;
 //    }
-//
-//    @Autowired
-//    public void setCargoValidator(CargoValidator cargoValidator) {
-//        this.cargoValidator = cargoValidator;
-//    }
+
+    @Autowired
+    public void setCargoValidator(CargoValidator cargoValidator) {
+        this.cargoValidator = cargoValidator;
+    }
 
     @PostMapping("addCargo")
     public String addCargo(@ModelAttribute("cargo") CargoDto newCargo, BindingResult bindingResult,

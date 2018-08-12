@@ -2,14 +2,11 @@ package net.medrag.controller.logistic;
 
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.entity.Cargo;
-import net.medrag.model.dto.CargoDto;
+import net.medrag.model.domain.dto.CargoDto;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CargoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -38,6 +35,19 @@ public class MainLogisticController {
      */
     @GetMapping()
     public String returnView(HttpServletRequest request)throws MedragControllerException {
+
+        request.getSession().setAttribute("chosenTruck", null);
+        request.getSession().setAttribute("brigade", null);
+        request.getSession().setAttribute("departureCity", null);
+        request.getSession().setAttribute("cityCargoes", null);
+        request.getSession().setAttribute("destinationCity", null);
+        request.getSession().setAttribute("drivers", null);
+        request.getSession().setAttribute("truckLoad", null);
+        request.getSession().setAttribute("newTruckLoad", null);
+        request.getSession().setAttribute("chosenCargoId", null);
+        request.getSession().setAttribute("truckLoadCount", null);
+        request.getSession().setAttribute("trucksInUse", null);
+
         List<CargoDto> cargoes;
         try {
             cargoes = cargoService.getDtoList(new CargoDto(), new Cargo(), "STATE", "'TRANSIENT'");

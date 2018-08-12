@@ -2,15 +2,12 @@ package net.medrag.controller.resource;
 
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.dto.CityDto;
+import net.medrag.model.domain.dto.CityDto;
 import net.medrag.model.domain.entity.City;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.validator.CityValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

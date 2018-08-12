@@ -19,9 +19,10 @@
 
     <style>
         #map {
-            height: 640px; /* The height is 400 pixels */
+            height: 500px; /* The height is 400 pixels */
             width: 100%; /* The width is the width of the web page */
-            margin-top: 20px;
+            margin-top: 1px;
+            margin-bottom: 1px;
         }
     </style>
 </head>
@@ -33,7 +34,8 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h3>Step 3: Choose the next destination city (departure - ${sessionScope.departureCity.name})</h3>
+                        <h3>${reroute == null ? 'Step 3: Choose the next destination city (departure - '.concat(sessionScope.departureCity.name)
+                                .concat(').') : 'Step 2: Choose the next destination.'}</h3>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -42,10 +44,24 @@
                 <div class="panel-footer">
                     <div class="row">
                         <div class="text-center">
-
-                            <a class="btn btn-danger" href="${contextPath}/mgr-main" role="button">Dismiss</a>
+                            <c:if test="${reroute == null}">
+                            <a class="btn btn-warning" href="${contextPath}/mgr-addCargoes" role="button">< Back</a>
+                            </c:if>
+                            <a class="btn btn-danger"
+                               href="${contextPath}/${reroute == null ? 'mgr-main' : 'mgr-route'}"
+                               role="button">Dismiss</a>
                             <span id="question" style="font-weight: bold;"></span>
-                            <button class="btn btn-success" form="targetForm" id="confirm" disabled>Confirm</button>
+                            <c:choose>
+                                <c:when test="${reroute == null}">
+                                    <button class="btn btn-success" form="targetForm" id="confirm" disabled>Next >
+                                    </button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="btn btn-success" data-toggle="modal" data-target="#oldBrigadeModal"
+                                            id="confirm" disabled>Next >
+                                    </button>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>
@@ -59,8 +75,48 @@
 
 </div>
 
-<form action="${contextPath}/mgr-destination" method="POST" id="targetForm">
+<div class="modal fade" id="oldBrigadeModal" tabindex="-1" role="dialog" aria-labelledby="oldBrigadeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Try to assign to the route current brigade?</h3>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron">
+                        <c:forEach items="${sessionScope.chosenTruck.brigade}" var="driver">
+                            <c:if test="${driver.destinationId == sessionScope.chosenTruck.destinationId}">
+                            <div class='row'>
+                                <div class='col-xs-6 text-left'>
+                                    <h4>${driver.personalNumber}</h4>
+                                </div>
+                                <div class='col-xs-6 text-right'>
+                                    <h4>${driver.name} ${driver.surname}</h4>
+                                </div>
+                            </div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" form="targetForm" id="no" style="width:100px;">No
+                </button>
+                <button class="btn btn-success" form="targetForm" id="yes" style="width:100px;">Yes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="${contextPath}/${reroute == null ? 'mgr-assignDrivers' : 'mgr-compileRoute/uncompleted'}" method="POST"
+      id="targetForm">
     <input type="hidden" id="targetField" name="index" value="">
+    <c:if test="${reroute != null}">
+        <input type="hidden" id="currentBrigadeBoolean" name="currentBrigade" value="">
+    </c:if>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 
@@ -68,6 +124,18 @@
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#no").click(function () {
+            $("#currentBrigadeBoolean").val(false);
+        });
+        $("#yes").click(function () {
+            $("#currentBrigadeBoolean").val(true);
+        });
+    });
+</script>
+
 <!-- Map Initializing Script -->
 <script>
     function initMap() {
@@ -83,10 +151,13 @@
         ];
 
 //        Initializing map and departure point.
-        var departure = {lat: ${sessionScope.departureCity.coordinatesX}, lng: ${sessionScope.departureCity.coordinatesY}};
+        var departure = {
+            lat: ${sessionScope.departureCity.coordinatesX},
+            lng: ${sessionScope.departureCity.coordinatesY}
+        };
         var image = '/resources/vendor/images/marker.png';
         var map = new google.maps.Map(
-            document.getElementById('map'), {zoom: 6, center: departure});
+            document.getElementById('map'), {zoom: 6, center: departure, disableDefaultUI: true});
         map.setOptions({styles: style});
         var departureMarker = new google.maps.Marker({
             position: departure,

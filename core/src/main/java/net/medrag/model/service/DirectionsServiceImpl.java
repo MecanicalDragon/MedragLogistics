@@ -3,20 +3,19 @@ package net.medrag.model.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.medrag.model.domain.entity.City;
-import net.medrag.model.dto.CargoDto;
-import net.medrag.model.dto.CityDto;
+import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.model.domain.dto.CityDto;
+import net.medrag.model.domain.dto.TruckDto;
 import net.medrag.model.service.dto.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 /**
- * {@link}
+ * This service is responsible for google directions api.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -33,6 +32,14 @@ public class DirectionsServiceImpl implements DirectionsService {
         this.cityService = cityService;
     }
 
+    /**
+     * Method calculates distance between two cities and time, needed for getting from one to another.
+     * @param departure - departure city.
+     * @param destination - destination city.
+     * @return - array of integers, that has distance in kms in his first cell and time in minutes in second.
+     * @throws MedragServiceException - if google refuses request
+     */
+    @Override
     public Integer[] getTripTime(CityDto departure, CityDto destination) throws MedragServiceException{
         final String request = URL + departure.getCoordinatesX() + "," + departure.getCoordinatesY() + "&destination=" +
                 destination.getCoordinatesX() + "," + destination.getCoordinatesY() + KEY;
@@ -59,6 +66,13 @@ public class DirectionsServiceImpl implements DirectionsService {
 
     }
 
+    /**
+     * Method calculates percent of cargo delivery completeness.
+     * @param cargo - that cargo
+     * @return - founded percent
+     * @throws MedragServiceException - didn't heared about it
+     */
+    @Override
     public Integer getComletePersent(CargoDto cargo) throws MedragServiceException {
 
 //        Get all three main transfer points of the cargo
@@ -70,5 +84,18 @@ public class DirectionsServiceImpl implements DirectionsService {
         Integer[]totalTime = getTripTime(departure, destination);
         Integer[]leftTime = getTripTime(currentCity, destination);
         return 100-(100*leftTime[0]/totalTime[0]);
+    }
+
+    /**
+     * Method calculates distance between two cities and time, needed for getting from one to another, basing on the truck data.
+     * @param truck - data source
+     * @return - array of integers, that has distance in kms in his first cell and time in minutes in second.
+     * @throws MedragServiceException - if "getTripTime" fails.
+     */
+    @Override
+    public Integer[] getTripTimeByTruck(TruckDto truck) throws MedragServiceException {
+        CityDto departure = cityService.getDtoById(new CityDto(), new City(), truck.getCityId());
+        CityDto destination = cityService.getDtoById(new CityDto(), new City(), truck.getDestinationId());
+        return getTripTime(departure, destination);
     }
 }
