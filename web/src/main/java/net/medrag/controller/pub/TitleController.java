@@ -55,4 +55,9 @@ public class TitleController {
     public String getError(){
         return "public/error";
     }
+
+    @GetMapping("403")
+    public String get403(){
+        return "public/403";
+    }
 }

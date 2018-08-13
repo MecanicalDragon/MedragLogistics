@@ -16,7 +16,16 @@ public class UserDto implements Dto {
 
     private String role;
 
+    private Integer driverId;
 
+
+    public Integer getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(Integer driverId) {
+        this.driverId = driverId;
+    }
 
     public Integer getId() {
         return id;
@@ -57,6 +66,7 @@ public class UserDto implements Dto {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
+                ", driverId='" + driverId + '\'' +
                 '}';
     }
 }

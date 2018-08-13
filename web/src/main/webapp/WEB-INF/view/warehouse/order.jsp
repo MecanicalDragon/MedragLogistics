@@ -72,7 +72,7 @@
                     </c:otherwise>
                 </c:choose>
 
-                <a class="btn btn-success" href="${contextPath}/whm-order/compile" role="button">Compile orderr</a>
+                <button class="btn btn-success" form="compile">Compile orderr</button>
             </div>
         </div>
     </div>
@@ -80,6 +80,10 @@
         <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 </div>
+
+<form action="${contextPath}/whm-order/compile" method="POST" id="compile">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 
 
 <%--Add cargo modal window--%>

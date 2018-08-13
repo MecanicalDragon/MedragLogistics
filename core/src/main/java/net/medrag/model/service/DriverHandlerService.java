@@ -17,8 +17,6 @@ public interface DriverHandlerService {
 
     void updateDriver(DriverDto newDriver) throws MedragServiceException;
 
-    void removeDriver(DriverDto removableDriver) throws MedragServiceException;
-
     List<DriverDto> getDriverList(Integer cityId, Integer time) throws MedragServiceException;
 
     boolean changeDriverState(DriverDto driver) throws MedragServiceException;

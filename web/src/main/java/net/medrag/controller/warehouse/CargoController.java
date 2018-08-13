@@ -25,20 +25,6 @@ public class CargoController {
 
     private CargoValidator cargoValidator;
 
-//    private CargoService<CargoDto, Cargo> cargoService;
-//
-//    private RabbitService rabbitService;
-//
-//    @Autowired
-//    public void setRabbitService(RabbitService rabbitService) {
-//        this.rabbitService = rabbitService;
-//    }
-//
-//    @Autowired
-//    public void setCargoService(CargoService<CargoDto, Cargo> cargoService) {
-//        this.cargoService = cargoService;
-//    }
-
     @Autowired
     public void setCargoValidator(CargoValidator cargoValidator) {
         this.cargoValidator = cargoValidator;
@@ -67,18 +53,6 @@ public class CargoController {
         return "warehouse/order";
     }
 
-//    @GetMapping("changeState")
-//    public String changeState(@RequestParam Integer id, @RequestParam String op) throws MedragControllerException {
-//        CargoDto dtoById = null;
-//        try {
-//            dtoById = cargoService.getDtoById(new CargoDto(), new Cargo(), id);
-//            dtoById.setState(op);
-//            rabbitService.sendCargo(dtoById);
-//        } catch (MedragServiceException e) {
-//            throw new MedragControllerException(e);
-//        }
-//        return "redirect: ../whm-main";
-//    }
 }
 
 

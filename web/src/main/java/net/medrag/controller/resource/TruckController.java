@@ -40,7 +40,7 @@ public class TruckController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model)throws MedragControllerException {
+    public String returnView(HttpServletRequest request, Model model) throws MedragControllerException {
         List<TruckDto> trucks = null;
         try {
             trucks = truckService.getDtoList(new TruckDto(), new Truck());
@@ -54,7 +54,7 @@ public class TruckController {
     }
 
     @PostMapping("editTruck")
-    public String editTruck(@ModelAttribute("editableTruck") TruckDto truck, BindingResult bindingResult, Model model)throws MedragControllerException{
+    public String editTruck(@ModelAttribute("editableTruck") TruckDto truck, BindingResult bindingResult, Model model) throws MedragControllerException {
 
         TruckDto validatedTruck = null;
         try {
@@ -63,7 +63,7 @@ public class TruckController {
             throw new MedragControllerException(e);
         }
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("editErr", true);
             model.addAttribute("truck", new TruckDto());
             model.addAttribute("editableTruck", truck);
@@ -80,7 +80,7 @@ public class TruckController {
     }
 
     @PostMapping("addTruck")
-    public String addTruck(@ModelAttribute("truck") TruckDto truck, BindingResult bindingResult, Model model)throws MedragControllerException{
+    public String addTruck(@ModelAttribute("truck") TruckDto truck, BindingResult bindingResult, Model model) throws MedragControllerException {
 
         try {
             truckValidator.validate(truck, bindingResult);
@@ -88,7 +88,7 @@ public class TruckController {
             throw new MedragControllerException(e);
         }
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("err", true);
             model.addAttribute("truck", truck);
             model.addAttribute("editableTruck", new TruckDto());
@@ -103,42 +103,27 @@ public class TruckController {
         return "redirect: ../rsm-truck";
     }
 
-    @GetMapping("remove/{id}")
-    public String removeTruck(@PathVariable Integer id, Model model)throws MedragControllerException{
-        TruckDto deletableTruck = new TruckDto();
-        deletableTruck.setId(id);
+    @PostMapping("remove")
+    public String removeTruck(@RequestParam Integer index, HttpServletRequest request) throws MedragControllerException {
+
+        List<TruckDto>trucks = (List<TruckDto>)request.getSession().getAttribute("truckList");
+        TruckDto deletableTruck = trucks.get(index);
         try {
             truckService.removeDto(deletableTruck, new Truck());
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
-        return "redirect: ../../rsm-truck";
+        return "redirect: ../rsm-truck";
     }
 
-    @GetMapping("changeState")
-    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request)throws MedragControllerException {
+    @PostMapping("changeState")
+    public String changeState(@RequestParam Integer index, @RequestParam String state, HttpServletRequest request) throws MedragControllerException {
         List<TruckDto> truckList = (List<TruckDto>) request.getSession().getAttribute("truckList");
-        TruckDto repairingTruck = null;
-        for (TruckDto truck : truckList) {
-            if (truck.getId().equals(id)) {
-                repairingTruck = truck;
-                break;
-            }
-        }
+        TruckDto truck = truckList.get(index);
+        truck.setStatus(state);
 
-        switch (op) {
-            case 0:
-                repairingTruck.setStatus("IN_USE");
-                break;
-            case 1:
-                repairingTruck.setStatus("STAY_IDLE");
-                break;
-            case 2:
-                repairingTruck.setStatus("IN_SERVICE");
-                break;
-        }
         try {
-            truckService.updateDtoStatus(repairingTruck, new Truck());
+            truckService.updateDtoStatus(truck, new Truck());
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }

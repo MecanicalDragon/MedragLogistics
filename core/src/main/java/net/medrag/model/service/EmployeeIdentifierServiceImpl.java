@@ -26,16 +26,9 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
 
     private UserService<UserDto, User> userService;
 
-    private DriverService<DriverDto, Driver> driverService;
-
     private MailService mailService;
 
     private BCryptPasswordEncoder encoder;
-
-    @Autowired
-    public void setDriverService(DriverService<DriverDto, Driver> driverService) {
-        this.driverService = driverService;
-    }
 
     @Autowired
     public void setEncoder(BCryptPasswordEncoder encoder) {
@@ -58,39 +51,28 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
 
     /**
      * Method generates new password for user.
+     *
      * @param id - user id.
      * @throws MedragServiceException - if there is no database, connected to app.
      */
     @Override
     @Transactional
-    public void generateNewPassword(Integer id)throws MedragServiceException {
+    public void generateNewPassword(Integer id) throws MedragServiceException {
         User user = userService.getUser(id);
         String password = generatePassword();
         user.setPassword(encoder.encode(password));
-        try {
-            mailService.sendLoginPasswordEmail(user.getEmail(), user.getUsername(), password, "restore");
-            userService.updateUser(user);
-        } catch (MessagingException e) {
-            throw new MedragServiceException(e);
-        }
-    }
-
-    /**
-     * Method is needed for removing driver and bounded toit user.
-     * @param user
-     * @throws MedragServiceException
-     */
-    @Override
-    @Transactional
-    public void removeUserIfItsDriver(UserDto user)throws MedragServiceException {
-        DriverDto driver = driverService.getDtoByNaturalId(new DriverDto(), new Driver(), user.getUsername());
-        userService.removeDto(user, new User());
-        driverService.removeDto(driver, new Driver());
+        userService.updateUser(user);
+        new Thread(() -> {
+            try {
+                mailService.sendLoginPasswordEmail(user.getEmail(), user.getUsername(), password, "restore");
+            } catch (MessagingException e) {
+            }
+        }).start();
     }
 
     @Override
     @Transactional
-    public void identifyEmployee(UserDto user)throws MedragServiceException {
+    public void identifyEmployee(UserDto user) throws MedragServiceException {
 
         String prefix = logisticPrefix;
         switch (user.getRole()) {

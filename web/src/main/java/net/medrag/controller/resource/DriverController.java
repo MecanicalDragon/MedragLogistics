@@ -121,42 +121,19 @@ public class DriverController {
         return "redirect: ../rsm-driver";
     }
 
-    @GetMapping("remove/{id}")
-    public String removeDriver(@PathVariable Integer id, Model model)throws MedragServiceException{
-        DriverDto removableDriver = driverService.getDtoById(new DriverDto(), new Driver(), id);
-        driverHandlerService.removeDriver(removableDriver);
-        return "redirect: ../../rsm-driver";
+    @PostMapping("remove")
+    public String removeDriver(@RequestParam Integer index, HttpServletRequest request)throws MedragServiceException{
+        List<DriverDto> drivers = (List<DriverDto>)request.getSession().getAttribute("driverList");
+        DriverDto removableDriver = drivers.get(index);
+        driverService.removeDto(removableDriver, new Driver());
+        return "redirect: ../rsm-driver";
     }
 
-    @GetMapping("changeState")
-    public String changeState(@RequestParam Integer id, @RequestParam Integer op, HttpServletRequest request) throws MedragControllerException{
+    @PostMapping("changeState")
+    public String changeState(@RequestParam Integer index, @RequestParam String state, HttpServletRequest request) throws MedragControllerException{
         List<DriverDto> driverList = (List<DriverDto>) request.getSession().getAttribute("driverList");
-        DriverDto changingDriver = new DriverDto();
-        for (DriverDto driver : driverList) {
-            if (driver.getId().equals(id)) {
-                changingDriver = driver;
-                break;
-            }
-        }
-
-        switch (op) {
-            case 0:
-                changingDriver.setState("REST");
-                break;
-            case 1:
-                changingDriver.setState("ON_SHIFT");
-                break;
-            case 2:
-                changingDriver.setState("DRIVING");
-                break;
-            case 3:
-                changingDriver.setState("PORTER");
-                break;
-            case 4:
-                changingDriver.setState("READY_TO_ROUTE");
-                break;
-            default: changingDriver.setState("REST");
-        }
+        DriverDto changingDriver = driverList.get(index);
+        changingDriver.setState(state);
 
         try {
             driverService.updateDtoStatus(changingDriver, new Driver());

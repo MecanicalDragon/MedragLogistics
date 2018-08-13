@@ -81,7 +81,7 @@ public class UserController {
         return "redirect: ../rsm-user";
     }
 
-    @GetMapping("generate")
+    @PostMapping("generate")
     public String generate(@RequestParam String id)throws MedragControllerException{
         try {
             employeeIdentifierService.generateNewPassword(Integer.valueOf(id));
@@ -93,21 +93,15 @@ public class UserController {
     }
 
     @PostMapping("remove")
-    public String remove(@ModelAttribute("removableUser") UserDto user)throws MedragControllerException{
+    public String remove(@RequestParam Integer index, HttpServletRequest request)throws MedragControllerException{
 
-        if(user.getUsername().substring(0, 3).equalsIgnoreCase("DRV")){
             try {
-                employeeIdentifierService.removeUserIfItsDriver(user);
-            } catch (MedragServiceException e) {
-                throw new MedragControllerException(e);
-            }
-        } else{
-            try {
+                List<UserDto> userList = (List<UserDto>)request.getSession().getAttribute("userList");
+                UserDto user = userList.get(index);
                 userService.removeDto(user, new User());
             } catch (MedragServiceException e) {
                 throw new MedragControllerException(e);
             }
-        }
 
         return "redirect: ../rsm-user";
     }

@@ -62,7 +62,7 @@
 
                     <%--This will be shown in wrong edit case--%>
                     <c:if test="${editErr}">
-                        <button class="btn btn-danger" data-toggle="modal"
+                        <button class="btn btn-danger" data-toggle="modal" id="editButton"
                                 data-target="#editCityModal">Wasn't saved!
                         </button>
                     </c:if>
@@ -87,15 +87,16 @@
                             <th>Coordinates X</th>
                             <th>Coordinates Y</th>
                             <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Remove</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${sessionScope.cities}" var="cityUnit">
+                        <c:forEach items="${sessionScope.cities}" var="cityUnit" varStatus="index">
 
                             <tr class="odd gradeX">
-                                <td>${cityUnit.name}<span hidden>XXX${cityUnit.id}XXX${cityUnit.name}XXX</span></td>
+                                <td>${cityUnit.name}<span hidden>XXX${cityUnit.id}XXX${cityUnit.name}XXX${index.index}XXX</span>
+                                </td>
                                 <td>${cityUnit.index}</td>
                                 <td>${cityUnit.coordinatesX}</td>
                                 <td>${cityUnit.coordinatesY}</td>
@@ -292,9 +293,37 @@
             <div class="modal-body">
                 <h2 id="deletingdtoQuestion"></h2>
             </div>
+            <form action="${contextPath}/rsm-city/remove" method="POST" id="targetForm">
+                <input type="hidden" id="targetField" name="index" value="">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a type="button" class="btn btn-danger" id="deldtoButton" href="">Remove city</a>
+                <button class="btn btn-danger" form="targetForm" id="deldtoButton">Remove city</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--Modal window couldn't remove city--%>
+<div class="modal fade" id="notSoFast" tabindex="-1" role="dialog" aria-labelledby="nr"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="nr"><b>Not so fast...</b></h3>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 1px; margin-top: 1px;">
+                        <h3>Couldn't remove this city: it still has active orders, drivers or trucks.</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -313,6 +342,14 @@
 <%--Datatable buttons handler and automatically opened modal window script--%>
 <script src="/resources/js/rsm-tables-handler.js"></script>
 <script src="/resources/js/wasnt-added.js"></script>
+
+<script>
+    <c:if test="${active != null && active == true}">
+    $(window).on('load',function(){
+        $('#notSoFast').modal('show');
+    });
+    </c:if>
+</script>
 
 </body>
 </html>

@@ -10,11 +10,12 @@
     <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <!-- My palitre -->
-    <link href="/resources/css/palitre.css" rel="stylesheet" type="text/css">
+
+    <link href="/resources/css/info.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
+<br>
 <br>
 <div class="container">
     <div class="row">
@@ -90,9 +91,9 @@
                                 <c:otherwise>
                                     <div class="progress progress-striped active">
                                         <div class="progress-bar progress-bar-info" role="progressbar"
-                                             aria-valuenow="${completeness.get(index.index) < 15 ? 15 : completeness.get(index.index) > 90 ? 90 : completeness.get(index.index)}"
+                                             aria-valuenow="${completeness.get(index.index) < 20 ? 20 : completeness.get(index.index) > 90 ? 90 : completeness.get(index.index)}"
                                              aria-valuemin="0" aria-valuemax="100"
-                                             style="width: ${completeness.get(index.index) < 15 ? 15 : completeness.get(index.index) > 90 ? 90 : completeness.get(index.index)}%">
+                                             style="width: ${completeness.get(index.index) < 20 ? 20 : completeness.get(index.index) > 90 ? 90 : completeness.get(index.index)}%">
                                             <div class="text-left">
                                             <h4>&nbsp Last seen: ${cargo.currentCityName}</h4>
                                             </div>
@@ -105,9 +106,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="footer">
-        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 </div>
 </body>

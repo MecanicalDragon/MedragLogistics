@@ -62,7 +62,7 @@
 
                     <%--This will be shown in wrong edit case--%>
                     <c:if test="${editErr}">
-                        <button class="btn btn-danger" data-toggle="modal"
+                        <button class="btn btn-danger" data-toggle="modal"  id="editButton"
                                 data-target="#editTruckModal">Wasn't saved!
                         </button>
                     </c:if>
@@ -88,20 +88,21 @@
                             <th>Current city</th>
                             <th>Status</th>
                             <th>Update</th>
-                            <th>Delete</th>
+                            <th>Remove</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${sessionScope.truckList}" var="truckUnit">
+                        <c:forEach items="${sessionScope.truckList}" var="truckUnit" varStatus="index">
                             <tr class="odd gradeX">
-                                <td>${truckUnit.regNumber}<span hidden>XXX${truckUnit.id}XXX${truckUnit.regNumber}XXX</span></td>
+                                <td>${truckUnit.regNumber}<span hidden>XXX${truckUnit.id}XXX${truckUnit.regNumber}XXX${index.index}XXX</span></td>
                                 <td>${truckUnit.brigadeStr}</td>
                                 <td>${truckUnit.capacity}</td>
                                 <td>${truckUnit.cityName}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info btn-xs dropdown-toggle"
+                                        <button type="button" class="btn ${truckUnit.status.equals('IN_USE') ? 'btn-success'
+                                        : truckUnit.status.equals('STAY_IDLE') ? 'btn-info' : 'btn-primary'} btn-xs dropdown-toggle"
                                                 data-toggle="dropdown" style="width:105px; text-align:right;">
                                             <c:if test="${truckUnit.status.equals('IN_USE')}">
                                                 On the route
@@ -115,13 +116,13 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
-                                            <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=0">
+                                            <li><a role="button" class="in-use">
                                                 On the route</a>
                                             </li>
-                                            <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=1">
+                                            <li><a role="button" class="staying-idle">
                                                 Staying idle</a>
                                             </li>
-                                            <li><a href="${contextPath}/rsm-truck/changeState?id=${truckUnit.id}&op=2">
+                                            <li><a role="button" class="in-service">
                                                 In service</a>
                                             </li>
                                         </ul>
@@ -329,13 +330,24 @@
             <div class="modal-body">
                 <h2 id="deletingdtoQuestion"></h2>
             </div>
+            <form action="${contextPath}/rsm-truck/remove" method="POST" id="targetForm">
+                <input type="hidden" id="targetField" name="index" value="">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a type="button" class="btn btn-danger" id="deldtoButton" href="">Remove truck</a>
+                <button class="btn btn-danger" form="targetForm" id="deldtoButton">Remove truck</button>
             </div>
         </div>
     </div>
 </div>
+
+<form action="${contextPath}/rsm-truck/changeState" method="POST" id="unitForm">
+    <input type="hidden" id="unitIndex" name="index" value="">
+    <input type="hidden" id="unitState" name="state" value="">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <button id="that" hidden></button>
+</form>
 
 <!-- jQuery -->
 <script src="/resources/vendor/jquery/jquery.min.js"></script>

@@ -65,7 +65,7 @@
 
                     <%--This will be shown in wrong edit case--%>
                     <c:if test="${editErr}">
-                        <button class="btn btn-danger" data-toggle="modal"
+                        <button class="btn btn-danger" data-toggle="modal" id="editButton"
                                 data-target="#editDriverModal">Wasn't saved!
                         </button>
                     </c:if>
@@ -100,10 +100,10 @@
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${sessionScope.driverList}" var="driverUnit">
+                        <c:forEach items="${sessionScope.driverList}" var="driverUnit" varStatus="index">
 
                             <tr class="odd gradeX">
-                                <td>${driverUnit.personalNumber}<span hidden>XXX${driverUnit.id}XXX${driverUnit.personalNumber}XXX</span></td>
+                                <td>${driverUnit.personalNumber}<span hidden>XXX${driverUnit.id}XXX${driverUnit.personalNumber}XXX${index.index}XXX</span></td>
                                 <td>${driverUnit.name}</td>
                                 <td>${driverUnit.surname}</td>
                                 <td>
@@ -127,7 +127,8 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info btn-xs dropdown-toggle"
+                                        <button type="button" class="btn ${driverUnit.state.equals('REST') ? 'btn-primary'
+                                        : driverUnit.state.equals('READY_TO_ROUTE') ? 'btn-info' : 'btn-success'} btn-xs dropdown-toggle"
                                                 data-toggle="dropdown" style="width:105px; text-align:right;">
                                             <c:if test="${driverUnit.state.equals('REST')}">
                                                 Is resting
@@ -148,23 +149,23 @@
                                         </button>
                                         <ul class="dropdown-menu pull-right" role="menu">
                                             <li>
-                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=0">
+                                                <a role="button" class="rest">
                                                     Is resting</a>
                                             </li>
                                             <li>
-                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=1">
+                                                <a role="button" class="shift">
                                                     On the shift</a>
                                             </li>
                                             <li>
-                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=2">
+                                                <a role="button" class="drive">
                                                     Is driving</a>
                                             </li>
                                             <li>
-                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=3">
+                                                <a role="button" class="porter">
                                                     Cargo works</a>
                                             </li>
                                             <li>
-                                                <a href="${contextPath}/rsm-driver/changeState?id=${driverUnit.id}&op=4">
+                                                <a role="button" class="ready">
                                                     Ready to route</a>
                                             </li>
                                         </ul>
@@ -196,6 +197,13 @@
     </div>
 
 </div>
+
+<form action="${contextPath}/rsm-driver/changeState" method="POST" id="unitForm">
+    <input type="hidden" id="unitIndex" name="index" value="">
+    <input type="hidden" id="unitState" name="state" value="">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <button id="that" hidden></button>
+</form>
 
 <!-- Modal window add Driver-->
 <div class="modal fade" id="addNewDriverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -370,9 +378,13 @@
             <div class="modal-body">
                 <h2 id="deletingdtoQuestion"></h2>
             </div>
+            <form action="${contextPath}/rsm-driver/remove" method="POST" id="targetForm">
+                <input type="hidden" id="targetField" name="index" value="">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <a type="button" class="btn btn-danger" id="deldtoButton" href="">Remove driver</a>
+                <button class="btn btn-danger" form="targetForm" id="deldtoButton">Remove driver</button>
             </div>
         </div>
     </div>

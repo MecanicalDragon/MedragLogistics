@@ -97,7 +97,10 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
         driverUser.setPassword(encoder.encode(password));
         try {
             mailService.sendLoginPasswordEmail(driverUser.getEmail(), driverUser.getUsername(), password, "new");
-            driverService.addDto(driverDto, new Driver());
+            Integer id = driverService.addDto(driverDto, new Driver());
+            Driver driver = new Driver();
+            driver.setId(id);
+            driverUser.setDriver(driver);
             userService.addNewUser(driverUser);
         } catch (MessagingException e) {
             throw new MedragServiceException(e);
@@ -120,22 +123,6 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
             userService.updateUser(user);
         }
         driverService.updateDtoStatus(driver, new Driver());
-    }
-
-    /**
-     * This method deletes appropriate user, if driver has been removed.
-     *
-     * @param removableDriver - that cursed sinner.
-     * @throws MedragServiceException - as usual.
-     */
-    @Override
-    @Transactional
-    public void removeDriver(DriverDto removableDriver) throws MedragServiceException {
-        driverService.removeDto(removableDriver, new Driver());
-        User user = userService.getUserByUsername(removableDriver.getPersonalNumber());
-        if (user != null) {
-            userService.deleteUser(user);
-        }
     }
 
     /**

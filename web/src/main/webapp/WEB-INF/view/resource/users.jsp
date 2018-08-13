@@ -79,15 +79,15 @@
                             <th>Email</th>
                             <th>User role</th>
                             <th>Send new password</th>
-                            <th>Delete</th>
+                            <th>Remove</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${sessionScope.userList}" var="userUnit">
+                        <c:forEach items="${sessionScope.userList}" var="userUnit" varStatus="index">
 
                             <tr class="odd gradeX">
-                                <td>${userUnit.username}<span hidden>XXX${userUnit.id}XXX${userUnit.username}XXX${userUnit.email}XXX</span></td>
+                                <td>${userUnit.username}<span hidden>XXX${userUnit.id}XXX${userUnit.username}XXX${userUnit.email}XXX${index.index}XXX</span></td>
                                 <td>${userUnit.email}</td>
                                 <td>
                                     <c:if test="${userUnit.role.equals('ROLE_DRIVER')}">
@@ -109,7 +109,7 @@
                                 </td>
                                 <td>
                                     <a type="button" class="btn btn-danger btn-xs btn-remove"
-                                       data-toggle="modal" data-target="#deleteUserModal">Delete user</a>
+                                       data-toggle="modal" data-target="#deleteUserModal">Remove user</a>
                                 </td>
                             </tr>
 
@@ -140,10 +140,12 @@
             <div class="modal-body">
                 <h2 id="newPasswordQuestion"></h2>
 
-                <form class="form" id="newPasswordForm"
+                <form class="form" id="newPasswordForm" method="post"
                       action="${contextPath}/rsm-user/generate">
 
                     <input type="hidden" name="id" value="" id="newPasswordId"/>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
 
                 </form>
 
@@ -175,7 +177,7 @@
                     </spring:bind>
 
                     <spring:bind path="role">
-                        <form:select path="role" placeholder="ololo" class="form-control">
+                        <form:select path="role" placeholder="User Role" class="form-control">
                             <option value="rsm" id="rsm">Resource manager</option>
                             <option value="whm" id="whm">Warehouseman</option>
                             <option value="mgr" id="mgr">Logistican</option>
@@ -205,18 +207,18 @@
             <div class="modal-body">
                 <h2 id="deletingdtoQuestion"></h2>
 
-                <form:form class="form" id="removableUserForm" method="post" modelAttribute="removableUser"
+                <form class="form" id="removableUserForm" method="post"
                            action="${contextPath}/rsm-user/remove">
 
-                    <form:input type="hidden" name="id" value="" path="id" id="removableUserId"/>
-                    <form:input type="hidden" name="id" value="" path="username" id="removableUserName"/>
+                    <input type="hidden" name="index" value="" id="userIndex"/>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                </form:form>
+                </form>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-success" form="removableUserForm">Yes, remove</button>
+                <button class="btn btn-danger" form="removableUserForm">Remove user</button>
             </div>
         </div>
     </div>

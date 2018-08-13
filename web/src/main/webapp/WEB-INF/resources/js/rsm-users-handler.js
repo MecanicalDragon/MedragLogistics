@@ -7,6 +7,7 @@ $(document).ready(function () {
         var unitId = data.split('XXX')[1];
         var unitName = data.split('XXX')[2];
         var unitEmail = data.split('XXX')[3];
+        var index = data.split('XXX')[4];
 
 //            Filling new password modal window
         $("#newPasswordId").val(unitId);
@@ -14,8 +15,7 @@ $(document).ready(function () {
 
 
 //            Filling removing modal window
-        $("#removableUserId").val(unitId);
-        $("#removableUserName").val(unitName);
+        $("#userIndex").val(index);
         $("#deletingdtoQuestion").text("Are you sure you want to remove user number " + unitName + " from the database?");
 
     });

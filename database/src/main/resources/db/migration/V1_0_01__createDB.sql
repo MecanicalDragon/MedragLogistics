@@ -1,12 +1,3 @@
-CREATE TABLE USER (
-  ID       INT                                                                        NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  USERNAME VARCHAR(32)                                                                NOT NULL UNIQUE,
-  PASSWORD VARCHAR(255)                                                               NOT NULL,
-  ROLE     ENUM ('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE') NOT NULL,
-  EMAIL    VARCHAR(255)                                                               NOT NULL
-)
-  ENGINE = InnoDB;
-
 CREATE TABLE CITY (
   ID            INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
   NAME          VARCHAR(127) NOT NULL UNIQUE,
@@ -38,15 +29,15 @@ CREATE TABLE ORDERR (
   ENGINE = InnoDB;
 
 CREATE TABLE TRUCK (
-  ID                  INT                                                       NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  REG_NUMBER          VARCHAR(7)                                                NOT NULL UNIQUE,
-  BRIGADE_STR         INTEGER                                                   NOT NULL,
-  CAPACITY            INTEGER                                                   NOT NULL,
-  STATUS              ENUM ('IN_USE', 'IN_SERVICE', 'STAY_IDLE')                NOT NULL,
-  PREVIOUS_STATUS     ENUM ('IN_USE', 'IN_SERVICE', 'STAY_IDLE')                NOT NULL,
+  ID                  INT                                                                       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  REG_NUMBER          VARCHAR(7)                                                                NOT NULL UNIQUE,
+  BRIGADE_STR         INTEGER                                                                   NOT NULL,
+  CAPACITY            INTEGER                                                                   NOT NULL,
+  STATUS              ENUM ('IN_USE', 'IN_SERVICE', 'STAY_IDLE')                                NOT NULL,
+  PREVIOUS_STATUS     ENUM ('IN_USE', 'IN_SERVICE', 'STAY_IDLE')                                NOT NULL,
   MANAGEABLE          ENUM ('TRUE', 'FALSE', 'UNCOMPLETED', 'NEED_TO_COMPLETE', 'SAVE_BRIGADE') NOT NULL DEFAULT 'FALSE',
   CURRENT_CITY_ID     INT,
-  DESTINATION_CITY_ID INT                                                                DEFAULT NULL,
+  DESTINATION_CITY_ID INT                                                                                DEFAULT NULL,
   FOREIGN KEY (CURRENT_CITY_ID) REFERENCES CITY (ID)
     ON DELETE SET NULL,
   FOREIGN KEY (DESTINATION_CITY_ID) REFERENCES CITY (ID)
@@ -122,6 +113,18 @@ CREATE TABLE WAYPOINT (
     ON UPDATE CASCADE,
 
   UNIQUE (CITY_ID, CARGO_ID, WP_TYPE)
+)
+  ENGINE = InnoDB;
+
+CREATE TABLE USER (
+  ID        INT                                                                        NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  USERNAME  VARCHAR(32)                                                                NOT NULL UNIQUE,
+  PASSWORD  VARCHAR(255)                                                               NOT NULL,
+  ROLE      ENUM ('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE') NOT NULL,
+  EMAIL     VARCHAR(255)                                                               NOT NULL,
+  DRIVER_ID INT                                                                                 DEFAULT NULL,
+  FOREIGN KEY (DRIVER_ID) REFERENCES DRIVER (ID)
+    ON UPDATE CASCADE
 )
   ENGINE = InnoDB;
 

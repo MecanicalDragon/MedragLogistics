@@ -9,9 +9,7 @@ import net.medrag.model.service.OrderHandlingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -33,7 +31,7 @@ public class OrderController {
         this.orderHandlingService = orderHandlingService;
     }
 
-    @GetMapping("compile")
+    @PostMapping("compile")
     public String compileOrder(HttpServletRequest request, Model model)throws MedragControllerException {
 
         if (request.getSession().getAttribute("cargoList") != null) {
@@ -54,8 +52,8 @@ public class OrderController {
         return "warehouse/compiledOrder";
     }
 
-    @GetMapping("deliver/{index}")
-    public String deliver(@PathVariable Integer index, HttpServletRequest request) throws MedragControllerException{
+    @PostMapping("deliver")
+    public String deliver(@RequestParam Integer index, HttpServletRequest request) throws MedragControllerException{
         List<CargoDto> cargoes = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
         CargoDto deliveredCargo = cargoes.get(index);
         try {

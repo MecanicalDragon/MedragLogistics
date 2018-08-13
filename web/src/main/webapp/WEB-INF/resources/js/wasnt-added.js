@@ -4,4 +4,9 @@ $(document).ready(function () {
             $("#wasntAdded").trigger("click");
         }
     });
+    $(function () {
+        if ($(this).attr("editErr") !== null) {
+            $("#editButton").trigger("click");
+        }
+    });
 });

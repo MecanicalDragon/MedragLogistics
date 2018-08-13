@@ -71,7 +71,7 @@
                         <c:forEach items="${sessionScope.globalCargoes}" var="cargo" varStatus="index">
                             <tr class="odd gradeX">
 
-                                <td>${cargo.index}<span hidden>XXX${cargo.currentTruck.brigade}XXX</span></td>
+                                <td>${cargo.index}<span hidden>XXX${index.index}XXX${cargo.currentTruck.brigade}XXX</span></td>
                                 <td>${cargo.owner.passport}</td>
                                 <td>${cargo.currentCityName}</td>
                                 <td>${cargo.destinationName}</td>
@@ -116,8 +116,8 @@
                                         </button>
                                     </c:if>
                                     <c:if test="${cargo.state.equals('DESTINATION')}">
-                                        <a type="button" class="btn btn-xs btn-success" style="width:75px;"
-                                           href="${contextPath}/whm-order/deliver/${index.index}">Destination</a>
+                                        <button class="btn btn-xs btn-success" style="width:75px;"
+                                           form="targetForm">Destination</button>
                                     </c:if>
                                     <c:if test="${cargo.state.equals('DELIVERED')}">
                                         <button type="button" class="btn btn-xs btn-success" style="width:75px;"
@@ -144,6 +144,11 @@
         <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 </div>
+
+<form action="${contextPath}/whm-order/deliver" method="POST" id="targetForm">
+    <input type="hidden" id="targetField" name="index" value="">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 
 <%--Modal window of choosing city warehouse--%>
 <div class="modal fade" id="cityModal" tabindex="-1" role="dialog"
@@ -174,6 +179,7 @@
     </div>
 </div>
 
+<%--Modal window of truck brigade--%>
 <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="infoLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -206,49 +212,10 @@
 <!-- DataTables JavaScript -->
 <script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="/resources/js/dt-base.js"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function () {
-        $('#dto-Table').DataTable({
-            responsive: true
-        });
-        $('.modal').on('shown.bs.modal', function () {
-            $(this).find('[autofocus]').focus();
-        });
-
-        var table = $('#dto-Table').DataTable();
-
-        $('#dto-Table tbody').on('click', 'tr', 'td', function () {
-            var data = table.row(this).data()[0];
-
-//            Set header
-            var t = table.row(this).data()[4];
-            if (t !== "Undefined") {
-                var tr = t.split(">")[1];
-                var truck = tr.split("<")[0];
-                $("#infoLabel").text("Truck number " + truck + " brigade:");
-
-//            Set body
-                var b = data.split('XXX')[1];
-                var brigade = b.split('DriverDto');
-                var field = $("#infoField");
-                $(field).empty();
-                brigade.forEach(function (driver) {
-                    if (driver !== "[") {
-//                        alert(driver);
-                        var dismemberedDriver = driver.split("'");
-                        $(field).html(field.html() + "<div class='row'><div class='col-xs-6 text-left'><h4>"+
-                            dismemberedDriver[1] +
-                            "</h4></div> <div class='col-xs-6 text-right'><h4>"
-                            + dismemberedDriver[3] + " " + dismemberedDriver[5] +
-                                "</h4></div></div>");
-                    }
-                });
-            }
-        });
-    });
-</script>
+<!-- Brigade modal window data filling script and cities selector autofocus -->
+<script src="/resources/js/whmain.js"></script>
 
 </body>
 </html>

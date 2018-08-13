@@ -4,6 +4,7 @@ package net.medrag.controller.resource;
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.model.domain.dto.CityDto;
 import net.medrag.model.domain.entity.City;
+import net.medrag.model.service.CityHandlingService;
 import net.medrag.model.service.MedragServiceException;
 import net.medrag.model.service.dto.CityService;
 import net.medrag.validator.CityValidator;
@@ -30,6 +31,13 @@ public class CityController {
 
     private CityValidator cityValidator;
 
+    private CityHandlingService cityHandlingService;
+
+    @Autowired
+    public void setCityHandlingService(CityHandlingService cityHandlingService) {
+        this.cityHandlingService = cityHandlingService;
+    }
+
     @Autowired
     public void setCityValidator(CityValidator cityValidator) {
         this.cityValidator = cityValidator;
@@ -41,7 +49,7 @@ public class CityController {
     }
 
     @GetMapping()
-    public String returnView(HttpServletRequest request, Model model)throws MedragControllerException {
+    public String returnView(HttpServletRequest request, Model model) throws MedragControllerException {
         List<CityDto> cities = null;
         try {
             cities = cityService.getDtoList(new CityDto(), new City());
@@ -55,7 +63,7 @@ public class CityController {
     }
 
     @PostMapping("editCity")
-    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model, HttpServletRequest request)throws MedragControllerException{
+    public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model) throws MedragControllerException {
 
         CityDto validatedCity = null;
         try {
@@ -64,7 +72,7 @@ public class CityController {
             throw new MedragControllerException(e);
         }
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("editErr", true);
             model.addAttribute("city", new CityDto());
             model.addAttribute("editingCity", city);
@@ -81,7 +89,7 @@ public class CityController {
     }
 
     @PostMapping("addCity")
-    public String addCity(@ModelAttribute("city") CityDto city, BindingResult bindingResult, Model model)throws MedragControllerException{
+    public String addCity(@ModelAttribute("city") CityDto city, BindingResult bindingResult, Model model) throws MedragControllerException {
 
         try {
             cityValidator.validate(city, bindingResult);
@@ -89,7 +97,7 @@ public class CityController {
             throw new MedragControllerException(e);
         }
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("err", true);
             model.addAttribute("city", city);
             model.addAttribute("editingCity", new CityDto());
@@ -103,16 +111,23 @@ public class CityController {
         return "redirect: ../rsm-city";
     }
 
-    @GetMapping("remove/{id}")
-    public String removeCity(@PathVariable Integer id, Model model)throws MedragControllerException{
-        CityDto removingCity = new CityDto();
-        removingCity.setId(id);
+    @PostMapping("remove")
+    public String removeCity(@RequestParam Integer index, HttpServletRequest request, Model model) throws MedragControllerException {
+        List<CityDto> cities = (List<CityDto>) request.getSession().getAttribute("cities");
+        CityDto removingCity = cities.get(index);
         try {
-            cityService.removeDto(removingCity, new City());
+            if (cityHandlingService.removeCity(removingCity)) {
+                cityService.removeDto(removingCity, new City());
+                return "redirect: ../rsm-city";
+            } else {
+                model.addAttribute("active", true);
+                model.addAttribute("city", new CityDto());
+                model.addAttribute("editingCity", new CityDto());
+                return "resource/cities";
+            }
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
-        return "redirect: ../../rsm-city";
     }
 
 }
