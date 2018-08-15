@@ -1,9 +1,9 @@
 package net.medrag.validator;
 
-import net.medrag.model.domain.dto.CityDto;
-import net.medrag.model.domain.entity.City;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.CityService;
+import net.medrag.domain.dto.CityDto;
+import net.medrag.domain.entity.City;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.dto.api.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;

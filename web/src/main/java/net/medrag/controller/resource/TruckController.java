@@ -1,10 +1,10 @@
 package net.medrag.controller.resource;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.dto.TruckDto;
-import net.medrag.model.domain.entity.Truck;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.TruckService;
+import net.medrag.domain.dto.TruckDto;
+import net.medrag.domain.entity.Truck;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.dto.api.TruckService;
 import net.medrag.validator.TruckValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

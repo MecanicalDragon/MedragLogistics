@@ -1,17 +1,19 @@
 package net.medrag.controller.warehouse;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.entity.City;
-import net.medrag.model.domain.entity.Waypoint;
-import net.medrag.model.domain.dto.CityDto;
-import net.medrag.model.domain.dto.WaypointDto;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.RouteService;
-import net.medrag.model.service.dto.CityService;
-import net.medrag.model.service.dto.WaypointService;
+import net.medrag.domain.entity.City;
+import net.medrag.domain.entity.Waypoint;
+import net.medrag.domain.dto.CityDto;
+import net.medrag.domain.dto.WaypointDto;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.api.RouteService;
+import net.medrag.service.dto.api.CityService;
+import net.medrag.service.dto.api.WaypointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -81,19 +83,20 @@ public class WarehouseController {
     }
 
     @PostMapping()
-    public String completeWaypoint(@RequestParam Integer index, HttpServletRequest request) throws MedragControllerException {
+    public String completeWaypoint(@RequestParam Integer index, HttpServletRequest request, RedirectAttributes redirect) throws MedragControllerException {
 
         List<WaypointDto> waypoints = (List<WaypointDto>) request.getSession().getAttribute("wps");
         WaypointDto completedWP = waypoints.get(index);
 
         try {
-            routeService.completeWaypoint(completedWP);
+            Boolean firstWp = routeService.completeWaypoint(completedWP);
             waypoints.remove(index.intValue());
+            redirect.addFlashAttribute("changed", firstWp);
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
 
-        return "warehouse/warehouse";
+        return "redirect:/whm-wp?city=".concat(completedWP.getCity().getName());
     }
 
 }

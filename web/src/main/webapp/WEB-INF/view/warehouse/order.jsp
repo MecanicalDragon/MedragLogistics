@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -108,7 +109,8 @@
                             <div class="col-xs-6 col-xs-offset-3">
                                 <spring:bind path="name">
                                     <form:input name="name" placeholder="name" path="name" autofocus="true"
-                                                class="form-control col-8"/>
+                                                class="form-control col-8" pattern="[\w+\s]{2,63}"
+                                                title="Letters and digits only, 2-63 symbols"/>
                                 </spring:bind>
                             </div>
                             <div class="secondary-text text-center text-danger">
@@ -121,7 +123,8 @@
                         <div class="row">
                             <div class="col-xs-6 col-xs-offset-3">
                                 <spring:bind path="weight">
-                                    <form:input name="weight" placeholder="weight" path="weight"
+                                    <form:input name="weight" placeholder="weight" path="weight" pattern="[\d]{1,4}"
+                                                title="Digits only, 2-9999 kgs."
                                                 class="form-control col-8"/>
                                 </spring:bind>
                             </div>
@@ -135,7 +138,8 @@
                             <div class="col-xs-6 col-xs-offset-3">
                                 <spring:bind path="departureName">
                                     <form:input name="departureName" placeholder="departure" path="departureName"
-                                                class="form-control col-8"/>
+                                                class="form-control col-8" pattern="[\w+\s]{2,127}"
+                                                title="Letters and digits only, 2-127 symbols"/>
                                 </spring:bind>
                             </div>
                             <div class="secondary-text text-center text-danger">
@@ -148,7 +152,8 @@
                             <div class="col-xs-6 col-xs-offset-3">
                                 <spring:bind path="destinationName">
                                     <form:input name="destinationName" placeholder="destination"
-                                                path="destinationName"
+                                                path="destinationName" pattern="[\w+\s]{2,127}"
+                                                title="Letters and digits only, 2-127 symbols"
                                                 class="form-control col-8"/>
                                 </spring:bind>
                             </div>

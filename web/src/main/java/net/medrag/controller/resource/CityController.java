@@ -2,11 +2,11 @@ package net.medrag.controller.resource;
 
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.dto.CityDto;
-import net.medrag.model.domain.entity.City;
-import net.medrag.model.service.CityHandlingService;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.CityService;
+import net.medrag.domain.dto.CityDto;
+import net.medrag.domain.entity.City;
+import net.medrag.service.api.CityHandlingService;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.dto.api.CityService;
 import net.medrag.validator.CityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

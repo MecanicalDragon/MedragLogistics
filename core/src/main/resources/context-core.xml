@@ -15,7 +15,7 @@
     http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <mvc:annotation-driven/>
-    <context:component-scan base-package="net.medrag.model"/>
+    <context:component-scan base-package="net.medrag"/>
     <tx:annotation-driven/>
 
     <!--<context:property-placeholder/>-->
@@ -60,14 +60,14 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="annotatedClasses">
             <list>
-                <value>net.medrag.model.domain.entity.Truck</value>
-                <value>net.medrag.model.domain.entity.Driver</value>
-                <value>net.medrag.model.domain.entity.City</value>
-                <value>net.medrag.model.domain.entity.Cargo</value>
-                <value>net.medrag.model.domain.entity.User</value>
-                <value>net.medrag.model.domain.entity.Customer</value>
-                <value>net.medrag.model.domain.entity.Waypoint</value>
-                <value>net.medrag.model.domain.entity.Orderr</value>
+                <value>net.medrag.domain.entity.Truck</value>
+                <value>net.medrag.domain.entity.Driver</value>
+                <value>net.medrag.domain.entity.City</value>
+                <value>net.medrag.domain.entity.Cargo</value>
+                <value>net.medrag.domain.entity.User</value>
+                <value>net.medrag.domain.entity.Customer</value>
+                <value>net.medrag.domain.entity.Waypoint</value>
+                <value>net.medrag.domain.entity.Orderr</value>
             </list>
         </property>
         <property name="hibernateProperties">

@@ -98,19 +98,23 @@
                                                                 <c:when test="${driver.destinationId == null || driver.destinationId.equals(driver.cityId)}">
 
                                                                     <li>
-                                                                        <a id="REST" role="button" class="changeState">Go to rest</a>
+                                                                        <a id="REST" role="button" class="changeState">Go
+                                                                            to rest</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a id="READY_TO_ROUTE" role="button" class="changeState" >Ready to route</a>
+                                                                        <a id="READY_TO_ROUTE" role="button"
+                                                                           class="changeState">Ready to route</a>
                                                                     </li>
                                                                 </c:when>
                                                                 <%--<c:when test="${driver.currentTruck != null}">--%>
                                                                 <c:otherwise>
                                                                     <li>
-                                                                        <a id="ON_SHIFT"  role="button" class="changeState">On the shift</a>
+                                                                        <a id="ON_SHIFT" role="button"
+                                                                           class="changeState">On the shift</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a id="DRIVING" role="button" class="changeState">Is driving</a>
+                                                                        <a id="DRIVING" role="button"
+                                                                           class="changeState">Is driving</a>
                                                                     </li>
                                                                 </c:otherwise>
                                                             </c:choose>
@@ -283,6 +287,22 @@
             $("#driverHiddenField").val(state);
             $("#that").trigger("click");
         });
+    });
+</script>
+
+<%--Websockets state notifier--%>
+<script src="/resources/js/sockjs.js"></script>
+<script src="/resources/js/stomp.js"></script>
+<script>
+    $(document).ready(function () {
+        var ch = ${changed};
+        if (ch === true) {
+            var socket = new SockJS('/drivers');
+            var stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                stompClient.send("/medrag/drivers", {}, "stateChanged");
+            });
+        }
     });
 </script>
 

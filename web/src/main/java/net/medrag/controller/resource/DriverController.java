@@ -1,11 +1,11 @@
 package net.medrag.controller.resource;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.dto.DriverDto;
-import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.service.DriverHandlerService;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.DriverService;
+import net.medrag.domain.dto.DriverDto;
+import net.medrag.domain.entity.Driver;
+import net.medrag.service.api.DriverHandlerService;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.dto.api.DriverService;
 import net.medrag.validator.DriverValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

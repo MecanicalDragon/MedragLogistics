@@ -1,7 +1,7 @@
 //package net.medrag.controller.warehouse;
 //
-//import net.medrag.model.domain.dto.CargoDto;
-//import net.medrag.model.domain.dto.DriverDto;
+//import CargoDto;
+//import DriverDto;
 //import org.springframework.http.MediaType;
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RequestMapping;

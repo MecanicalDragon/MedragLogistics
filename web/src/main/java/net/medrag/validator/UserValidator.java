@@ -1,6 +1,6 @@
 package net.medrag.validator;
 
-import net.medrag.model.domain.dto.UserDto;
+import net.medrag.domain.dto.UserDto;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

@@ -1,12 +1,12 @@
 package net.medrag.controller.pub;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.entity.Orderr;
-import net.medrag.model.domain.dto.CargoDto;
-import net.medrag.model.domain.dto.OrderrDto;
-import net.medrag.model.service.DirectionsService;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.OrderService;
+import net.medrag.domain.entity.Orderr;
+import net.medrag.domain.dto.CargoDto;
+import net.medrag.domain.dto.OrderrDto;
+import net.medrag.service.api.DirectionsService;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.dto.api.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

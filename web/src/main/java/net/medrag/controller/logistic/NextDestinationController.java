@@ -2,12 +2,12 @@ package net.medrag.controller.logistic;
 
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.entity.City;
-import net.medrag.model.domain.dto.CargoDto;
-import net.medrag.model.domain.dto.CityDto;
-import net.medrag.model.domain.dto.TruckDto;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.CityService;
+import net.medrag.domain.entity.City;
+import net.medrag.domain.dto.CargoDto;
+import net.medrag.domain.dto.CityDto;
+import net.medrag.domain.dto.TruckDto;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.dto.api.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

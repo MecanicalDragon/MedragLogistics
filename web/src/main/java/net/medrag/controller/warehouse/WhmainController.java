@@ -1,17 +1,16 @@
 package net.medrag.controller.warehouse;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.dto.CargoDto;
-import net.medrag.model.domain.entity.Cargo;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.CargoService;
+import net.medrag.domain.dto.CargoDto;
+import net.medrag.domain.entity.Cargo;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.dto.api.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Controller, that handles warehousePage

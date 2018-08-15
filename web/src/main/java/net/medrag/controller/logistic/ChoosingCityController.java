@@ -1,6 +1,6 @@
 package net.medrag.controller.logistic;
 
-import net.medrag.model.domain.dto.CargoDto;
+import net.medrag.domain.dto.CargoDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

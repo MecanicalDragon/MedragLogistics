@@ -1,19 +1,20 @@
 package net.medrag.controller.driver;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.entity.Driver;
-import net.medrag.model.domain.entity.Waypoint;
-import net.medrag.model.domain.dto.DriverDto;
-import net.medrag.model.domain.dto.WaypointDto;
-import net.medrag.model.service.DriverHandlerService;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.SecurityService;
-import net.medrag.model.service.dto.DriverService;
-import net.medrag.model.service.dto.WaypointService;
+import net.medrag.domain.entity.Driver;
+import net.medrag.domain.entity.Waypoint;
+import net.medrag.domain.dto.DriverDto;
+import net.medrag.domain.dto.WaypointDto;
+import net.medrag.service.api.DriverHandlerService;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.api.SecurityService;
+import net.medrag.service.dto.api.DriverService;
+import net.medrag.service.dto.api.WaypointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.List;
  * @version 1.0
  */
 @Controller
-@RequestMapping("drv-main")
+@RequestMapping("/drv-main")
 public class DriverPageController {
 
     private SecurityService securityService;
@@ -65,53 +66,49 @@ public class DriverPageController {
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
-        List<WaypointDto> waypoints;
+
         if (driver.getCurrentTruck() != null) {
             try {
-                waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false",
+                List<WaypointDto> waypoints = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "COMPLETE", "false",
                         "TRUCK_ID", driver.getCurrentTruck().getId().toString());
+                model.addAttribute("wps", waypoints);
             } catch (MedragServiceException e) {
                 throw new MedragControllerException(e);
             }
-            model.addAttribute("wps", waypoints);
         }
 
         request.getSession().setAttribute("sessionDriver", driver);
-        if (request.getSession().getAttribute("standalone") != null &&
-                request.getSession().getAttribute("standalone").equals(true)){
-            model.addAttribute("standalone", true);
-            request.getSession().setAttribute("standalone", false);
-        }
         model.addAttribute("driver", driver);
 
         return "driver/driverPage";
     }
 
     @PostMapping()
-    public String changeState(@RequestParam String option, HttpServletRequest request) throws MedragControllerException {
+    public String changeState(@RequestParam String option, HttpServletRequest request, RedirectAttributes redirect) throws MedragControllerException {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
         driver.setState(option);
 
         if (driver.getCurrentTruck() != null &&
-                (option.equals("REST") || option.equals("READY_TO_ROUTE") || option.equals("DRIVING"))){
+                (option.equals("REST") || option.equals("READY_TO_ROUTE") || option.equals("DRIVING"))) {
             try {
-                if (!driverHandlerService.changeDriverState(driver)){
-                    request.getSession().setAttribute("standalone", true);
-                    return "redirect: ../../drv-main";
+                if (!driverHandlerService.changeDriverState(driver)) {
+                    redirect.addFlashAttribute("standalone", true);
+                    return "redirect:/drv-main";
                 }
-            } catch (MedragServiceException e) {
-                throw new MedragControllerException(e);
-            }
-        } else {
-            try {
-                driverService.updateDtoStatus(driver, new Driver());
             } catch (MedragServiceException e) {
                 throw new MedragControllerException(e);
             }
         }
 
-        return "redirect: ../../drv-main";
+        try {
+            driverService.updateDtoStatus(driver, new Driver());
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
+
+        redirect.addFlashAttribute("changed", true);
+        return "redirect:/drv-main";
     }
 
 }

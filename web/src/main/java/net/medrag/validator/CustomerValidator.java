@@ -1,9 +1,9 @@
 package net.medrag.validator;
 
-import net.medrag.model.domain.dto.CustomerDto;
-import net.medrag.model.domain.entity.Customer;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.dto.CustomerService;
+import net.medrag.domain.dto.CustomerDto;
+import net.medrag.domain.entity.Customer;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.dto.api.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;

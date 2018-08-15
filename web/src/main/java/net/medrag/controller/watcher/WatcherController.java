@@ -1,9 +1,9 @@
 package net.medrag.controller.watcher;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.dto.CargoForm;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.WatcherService;
+import net.medrag.domain.dto.CargoForm;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.api.WatcherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

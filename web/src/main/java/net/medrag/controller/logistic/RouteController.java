@@ -1,21 +1,19 @@
 package net.medrag.controller.logistic;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.dto.CargoDto;
-import net.medrag.model.domain.dto.CityDto;
-import net.medrag.model.domain.dto.DriverDto;
-import net.medrag.model.domain.dto.TruckDto;
-import net.medrag.model.service.MedragServiceException;
-import net.medrag.model.service.RouteService;
+import net.medrag.domain.dto.CargoDto;
+import net.medrag.domain.dto.CityDto;
+import net.medrag.domain.dto.DriverDto;
+import net.medrag.domain.dto.TruckDto;
+import net.medrag.service.MedragServiceException;
+import net.medrag.service.api.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This controller compiles waypoints, adds it to the database and returns the main page.

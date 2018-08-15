@@ -108,5 +108,21 @@
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="/resources/js/dt-base.js"></script>
 
+<%--Websockets state notifier--%>
+<script src="/resources/js/sockjs.js"></script>
+<script src="/resources/js/stomp.js"></script>
+<script>
+    $(document).ready(function () {
+        var ch = ${changed};
+        if (ch === true) {
+            var socket = new SockJS('/waypoints');
+            var stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                stompClient.send("/medrag/waypoints", {}, "arrival");
+            });
+        }
+    });
+</script>
+
 </body>
 </html>

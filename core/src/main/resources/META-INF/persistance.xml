@@ -9,14 +9,14 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>net.medrag.model.domain.entity.City</class>
-        <class>net.medrag.model.domain.entity.Driver</class>
-        <class>net.medrag.model.domain.entity.Truck</class>
-        <class>net.medrag.model.domain.entity.Cargo</class>
-        <class>net.medrag.model.domain.entity.User</class>
-        <class>net.medrag.model.domain.entity.Customer</class>
-        <class>net.medrag.model.domain.entity.Orderr</class>
-        <class>net.medrag.model.domain.entity.Waypoint</class>
+        <class>net.medrag.domain.entity.City</class>
+        <class>net.medrag.domain.entity.Driver</class>
+        <class>net.medrag.domain.entity.Truck</class>
+        <class>net.medrag.domain.entity.Cargo</class>
+        <class>net.medrag.domain.entity.User</class>
+        <class>net.medrag.domain.entity.Customer</class>
+        <class>net.medrag.domain.entity.Orderr</class>
+        <class>net.medrag.domain.entity.Waypoint</class>
 
     </persistence-unit>
 </persistence>

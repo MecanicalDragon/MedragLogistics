@@ -94,5 +94,20 @@
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="/resources/js/dt-base.js"></script>
 
+<%--Websockets status changer--%>
+<script src="/resources/js/sockjs.js"></script>
+<script src="/resources/js/stomp.js"></script>
+<script>
+    $(document).ready(function () {
+        var socket = new SockJS('/waypoints');
+        var stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/changes/inWaypoints', function () {
+                location.reload(true);
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

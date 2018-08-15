@@ -1,11 +1,11 @@
 package net.medrag.controller.logistic;
 
 import net.medrag.controller.advice.MedragControllerException;
-import net.medrag.model.domain.dto.CityDto;
-import net.medrag.model.domain.dto.DriverDto;
-import net.medrag.model.service.DirectionsService;
-import net.medrag.model.service.DriverHandlerService;
-import net.medrag.model.service.MedragServiceException;
+import net.medrag.domain.dto.CityDto;
+import net.medrag.domain.dto.DriverDto;
+import net.medrag.service.api.DirectionsService;
+import net.medrag.service.api.DriverHandlerService;
+import net.medrag.service.MedragServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

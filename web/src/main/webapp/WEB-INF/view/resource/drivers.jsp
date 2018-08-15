@@ -103,7 +103,9 @@
                         <c:forEach items="${sessionScope.driverList}" var="driverUnit" varStatus="index">
 
                             <tr class="odd gradeX">
-                                <td>${driverUnit.personalNumber}<span hidden>XXX${driverUnit.id}XXX${driverUnit.personalNumber}XXX${index.index}XXX</span></td>
+                                <td>${driverUnit.personalNumber}<span
+                                        hidden>XXX${driverUnit.id}XXX${driverUnit.personalNumber}XXX${index.index}XXX</span>
+                                </td>
                                 <td>${driverUnit.name}</td>
                                 <td>${driverUnit.surname}</td>
                                 <td>
@@ -120,7 +122,8 @@
                                         ${pHours}:${pMinutes}
                                 </td>
                                 <td>
-                                    <c:set var="lastMonthHours" value="${fn:substringBefore(driverUnit.hoursLastMonth div 60, '.')}"/>
+                                    <c:set var="lastMonthHours"
+                                           value="${fn:substringBefore(driverUnit.hoursLastMonth div 60, '.')}"/>
                                     <fmt:formatNumber var="lastMonthMinutes" minIntegerDigits="2"
                                                       value="${driverUnit.hoursLastMonth - (lastMonthHours*60) }"/>
                                         ${lastMonthHours}:${lastMonthMinutes}
@@ -404,6 +407,21 @@
 <%--Datatable buttons handler and automatically opened modal window script--%>
 <script src="/resources/js/rsm-tables-handler.js"></script>
 <script src="/resources/js/wasnt-added.js"></script>
+
+<%--Websockets status changer--%>
+<script src="/resources/js/sockjs.js"></script>
+<script src="/resources/js/stomp.js"></script>
+<script>
+    $(document).ready(function () {
+        var socket = new SockJS('/drivers');
+        var stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/changes/inDrivers', function () {
+                    location.reload(true);
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
