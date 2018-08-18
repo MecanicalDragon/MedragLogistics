@@ -17,7 +17,7 @@ import java.util.List;
  * @version 1.0
  */
 @SuppressWarnings("unchecked")
-public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
+public class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
 
     private SessionFactory sessionFactory;
 
@@ -26,6 +26,13 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * Adding new entity to database method.
+     *
+     * @param entity - added entity
+     * @return - newly added entity id.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
     @Override
     public Integer addEntity(E entity) throws MedragRepositoryException {
         try {
@@ -36,6 +43,12 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         }
     }
 
+    /**
+     * Updating entity in database method.
+     *
+     * @param entity - updated entity.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
     @Override
     public void updateEntityStatus(E entity) throws MedragRepositoryException {
         try {
@@ -46,6 +59,13 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         }
     }
 
+    /**
+     * Refresing entity method.
+     *
+     * @param entity - entity, that must be refreshed.
+     * @return - refreshed entity.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
     @Override
     public E refreshEntity(E entity) throws MedragRepositoryException {
         try {
@@ -57,6 +77,12 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         }
     }
 
+    /**
+     * Removing entty from database method.
+     *
+     * @param entity - removed entity.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
     @Override
     public void removeEntity(E entity) throws MedragRepositoryException {
         try {
@@ -67,16 +93,14 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         }
     }
 
-    @Override
-    public void saveOrUpdateEntity(E entity) throws MedragRepositoryException {
-        try {
-            Session session = sessionFactory.getCurrentSession();
-            session.saveOrUpdate(entity);
-        } catch (HibernateException e) {
-            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.SAVE_OR_UPDATE + entity.getClass().getSimpleName());
-        }
-    }
-
+    /**
+     * Getting from database entity with denoted id parameter.
+     *
+     * @param entity - blank entity object for ModelMapper.
+     * @param id     - id of required entity.
+     * @return - entity object with denoted id parameter.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
     @Override
     public E getEntityById(E entity, Integer id) throws MedragRepositoryException {
         try {
@@ -87,6 +111,14 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         }
     }
 
+    /**
+     * Getting from database entity with specified id parameter.
+     *
+     * @param entity - blank entity object for ModelMapper.
+     * @param id     - natural id of required entity.
+     * @return - entity with specified id feom database.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
     @Override
     public E getEntityByNaturalId(E entity, String id) throws MedragRepositoryException {
         try {
@@ -97,6 +129,14 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         }
     }
 
+    /**
+     * Getting number of entities of specified type, saved in the database.
+     *
+     * @param entity - blank entity object for ModelMapper.
+     * @param args   - parameters for filtering entities.
+     * @return number of entities with specified parameters in the database.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
     @Override
     public Integer getEntityCount(E entity, String... args) throws MedragRepositoryException {
         String fromTable = String.format("select count(*) from %s", entity.getClass().getSimpleName().toLowerCase());
@@ -121,6 +161,14 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         }
     }
 
+    /**
+     * Getting from database list of entities with specified parameters.
+     *
+     * @param entity - blank entity object for ModelMapper.
+     * @param args   - parameters for filtering.
+     * @return - list of entities with specified parameters from the database.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
     @Override
     public List<E> getEntityList(E entity, String... args) throws MedragRepositoryException {
         String fromTable = String.format("from %s", entity.getClass().getSimpleName());
@@ -136,17 +184,6 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
                 } else break;
             }
             fromTable = sb.toString();
-        } else if (args.length == 1 && args[0].trim().length() > 1) {
-            String[] conditions = args[0].split("%");
-            fromTable = fromTable + " " + conditions[0];
-            if (conditions.length > 1) {
-                try {
-                    Session session = sessionFactory.getCurrentSession();
-                    return (List<E>) session.createQuery(fromTable).setMaxResults(Integer.valueOf(conditions[1])).list();
-                } catch (HibernateException e) {
-                    throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST + entity.getClass().getSimpleName());
-                }
-            }
         }
         try {
             Session session = sessionFactory.getCurrentSession();
@@ -154,5 +191,25 @@ public abstract class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
         } catch (HibernateException e) {
             throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST + entity.getClass().getSimpleName());
         }
+    }
+
+    /**
+     * Getting from the database list of last persisted entities.
+     *
+     * @param entity - blank entity object for ModelMapper.
+     * @param count  - number of entities, that you wish to get.
+     * @return - last {@param count} persisted to the database entities.
+     * @throws MedragRepositoryException - throws MedragRepositoryException.
+     */
+    @Override
+    public List<E> getLastEntities(E entity, Integer count) throws MedragRepositoryException {
+        String fromTable = String.format("from %s ORDER BY id DESC", entity.getClass().getSimpleName());
+        try {
+            Session session = sessionFactory.getCurrentSession();
+            return (List<E>) session.createQuery(fromTable).setMaxResults(count).list();
+        } catch (HibernateException e) {
+            throw new MedragRepositoryException("" + MedragRepositoryException.OperationType.LIST + entity.getClass().getSimpleName());
+        }
+
     }
 }

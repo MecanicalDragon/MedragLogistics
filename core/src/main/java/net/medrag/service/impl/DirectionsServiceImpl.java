@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 /**
- * This service is responsible for google directions api.
+ * This service is responsible for cooperation with google directions api.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -47,7 +47,6 @@ public class DirectionsServiceImpl implements DirectionsService {
                 destination.getCoordinatesX() + "," + destination.getCoordinatesY() + KEY;
 
         try (InputStream is = new URL(request).openStream()) {
-//            final BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             JsonNode response = new ObjectMapper().readTree(is);
             JsonNode legs = response.findValue("legs");
             JsonNode firstElement = legs.get(0);
@@ -55,7 +54,8 @@ public class DirectionsServiceImpl implements DirectionsService {
             JsonNode duration = firstElement.get("duration").get("value");
             Integer kms = distance.asInt()/1000;
             Integer minutes = duration.asInt()/60+240;
-            //10560 limit
+
+//            10560 limit of minutes
             Integer[] trip = new Integer[2];
             trip[0] = kms;
             trip[1] = minutes;

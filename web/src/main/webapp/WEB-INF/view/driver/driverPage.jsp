@@ -76,19 +76,19 @@
                                                         <button type="button" style="width: 150px;"
                                                                 class="btn btn-info btn-lg btn-block dropdown-toggle"
                                                                 data-toggle="dropdown">
-                                                            <c:if test="${driver.state.equals('REST')}">
+                                                            <c:if test="${driver.state.toString().equals('REST')}">
                                                                 Rest
                                                             </c:if>
-                                                            <c:if test="${driver.state.equals('ON_SHIFT')}">
+                                                            <c:if test="${driver.state.toString().equals('ON_SHIFT')}">
                                                                 On the shift
                                                             </c:if>
-                                                            <c:if test="${driver.state.equals('DRIVING')}">
+                                                            <c:if test="${driver.state.toString().equals('DRIVING')}">
                                                                 Driving
                                                             </c:if>
-                                                            <c:if test="${driver.state.equals('PORTER')}">
+                                                            <c:if test="${driver.state.toString().equals('PORTER')}">
                                                                 Cargo works
                                                             </c:if>
-                                                            <c:if test="${driver.state.equals('READY_TO_ROUTE')}">
+                                                            <c:if test="${driver.state.toString().equals('READY_TO_ROUTE')}">
                                                                 Ready to route
                                                             </c:if>
                                                         </button>

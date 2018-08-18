@@ -70,7 +70,7 @@
                             <tr class="odd gradeX">
                                 <td>${wp.currentTruck.regNumber}<span hidden>XXX${index.index}XXX</span></td>
                                 <td>${wp.cargo.index}</td>
-                                <td>${wp.wayPointType}</td>
+                                <td>${wp.wayPointType.toString()}</td>
                                 <td>
                                     <button class="btn btn-success btn-xs btn-wp"
                                        form="completeWP">Complete</button>

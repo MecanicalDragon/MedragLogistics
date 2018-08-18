@@ -5,6 +5,7 @@ import net.medrag.domain.entity.Driver;
 import net.medrag.domain.entity.Waypoint;
 import net.medrag.domain.dto.DriverDto;
 import net.medrag.domain.dto.WaypointDto;
+import net.medrag.domain.enums.DriverState;
 import net.medrag.service.api.DriverHandlerService;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.api.SecurityService;
@@ -87,7 +88,7 @@ public class DriverPageController {
     public String changeState(@RequestParam String option, HttpServletRequest request, RedirectAttributes redirect) throws MedragControllerException {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
-        driver.setState(option);
+        driver.setState(DriverState.valueOf(option));
 
         if (driver.getCurrentTruck() != null &&
                 (option.equals("REST") || option.equals("READY_TO_ROUTE") || option.equals("DRIVING"))) {

@@ -1,7 +1,10 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.User;
+import net.medrag.domain.enums.UserRole;
+
 /**
- * {@link}
+ * Data Transfer Object of {@link User}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -14,7 +17,7 @@ public class UserDto implements Dto {
 
     private String email;
 
-    private String role;
+    private UserRole role;
 
     private Integer driverId;
 
@@ -51,11 +54,11 @@ public class UserDto implements Dto {
         this.email = email;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

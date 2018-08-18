@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 public class WaypointServiceImpl<D extends WaypointDto, E extends Waypoint> extends DTOServiceImpl<D, E>
         implements WaypointService<D, E> {
 
+    /**
+     * String, that denotes correct implementation for generalised superclass
+     */
     private static final String implementation = "waypointDaoImpl";
 
 }

@@ -1,7 +1,10 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.Driver;
+import net.medrag.domain.enums.DriverState;
+
 /**
- * Data Transfer Object of {Driver}
+ * Data Transfer Object of {@link Driver}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -26,9 +29,9 @@ public class DriverDto implements Dto {
 
     private Long lastChange;
 
-    private String state;
+    private DriverState state;
 
-    private String previousState;
+    private DriverState previousState;
 
     private Integer cityId;
 
@@ -51,11 +54,11 @@ public class DriverDto implements Dto {
         this.hoursLastMonth = hoursLastMonth;
     }
 
-    public String getPreviousState() {
+    public DriverState getPreviousState() {
         return previousState;
     }
 
-    public void setPreviousState(String previousState) {
+    public void setPreviousState(DriverState previousState) {
         this.previousState = previousState;
     }
 
@@ -155,11 +158,11 @@ public class DriverDto implements Dto {
         this.paidTime = paidTime;
     }
 
-    public String getState() {
+    public DriverState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(DriverState state) {
         this.state = state;
     }
 

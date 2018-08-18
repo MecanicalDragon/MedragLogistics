@@ -5,6 +5,7 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,7 +53,7 @@ public class Cargo extends Identifier {
     private City currentCity;
 
     @OneToMany(mappedBy = "cargo", fetch = FetchType.LAZY)
-    private Set<Waypoint> route;
+    private List<Waypoint> route;
 
     @ManyToOne
     @JoinColumn(name = "current_truck_id")
@@ -67,11 +68,11 @@ public class Cargo extends Identifier {
         this.currentTruck = currentTruck;
     }
 
-    public Set<Waypoint> getRoute() {
+    public List<Waypoint> getRoute() {
         return route;
     }
 
-    public void setRoute(Set<Waypoint> route) {
+    public void setRoute(List<Waypoint> route) {
         this.route = route;
     }
 

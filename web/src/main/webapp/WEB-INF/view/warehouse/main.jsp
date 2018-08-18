@@ -98,28 +98,28 @@
                                 </c:choose>
                                 <td>
                                         <%--Cases for enum--%>
-                                    <c:if test="${cargo.state.equals('TRANSIENT')}">
+                                    <c:if test="${cargo.state.toString().equals('TRANSIENT')}">
                                         <button type="button" class="btn btn-xs btn-primary" style="width:75px;"
                                                 disabled>
                                             Transient
                                         </button>
                                     </c:if>
-                                    <c:if test="${cargo.state.equals('PREPARED')}">
+                                    <c:if test="${cargo.state.toString().equals('PREPARED')}">
                                         <button type="button" class="btn btn-xs btn-info" style="width:75px;" disabled>
                                             Prepared
                                         </button>
                                     </c:if>
-                                    <c:if test="${cargo.state.equals('ON_BOARD')}">
+                                    <c:if test="${cargo.state.toString().equals('ON_BOARD')}">
                                         <button type="button" class="btn btn-xs btn-warning" style="width:75px;"
                                                 disabled>En
                                             route
                                         </button>
                                     </c:if>
-                                    <c:if test="${cargo.state.equals('DESTINATION')}">
+                                    <c:if test="${cargo.state.toString().equals('DESTINATION')}">
                                         <button class="btn btn-xs btn-success" style="width:75px;"
                                            form="targetForm">Destination</button>
                                     </c:if>
-                                    <c:if test="${cargo.state.equals('DELIVERED')}">
+                                    <c:if test="${cargo.state.toString().equals('DELIVERED')}">
                                         <button type="button" class="btn btn-xs btn-success" style="width:75px;"
                                                 disabled>
                                             Delivered

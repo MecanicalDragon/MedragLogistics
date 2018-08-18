@@ -130,22 +130,22 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn ${driverUnit.state.equals('REST') ? 'btn-primary'
-                                        : driverUnit.state.equals('READY_TO_ROUTE') ? 'btn-info' : 'btn-success'} btn-xs dropdown-toggle"
+                                        <button type="button" class="btn ${driverUnit.state.toString().equals('REST') ? 'btn-primary'
+                                        : driverUnit.state.toString().equals('READY_TO_ROUTE') ? 'btn-info' : 'btn-success'} btn-xs dropdown-toggle"
                                                 data-toggle="dropdown" style="width:105px; text-align:right;">
-                                            <c:if test="${driverUnit.state.equals('REST')}">
+                                            <c:if test="${driverUnit.state.toString().equals('REST')}">
                                                 Is resting
                                             </c:if>
-                                            <c:if test="${driverUnit.state.equals('ON_SHIFT')}">
+                                            <c:if test="${driverUnit.state.toString().equals('ON_SHIFT')}">
                                                 On the shift
                                             </c:if>
-                                            <c:if test="${driverUnit.state.equals('DRIVING')}">
+                                            <c:if test="${driverUnit.state.toString().equals('DRIVING')}">
                                                 Is driving
                                             </c:if>
-                                            <c:if test="${driverUnit.state.equals('PORTER')}">
+                                            <c:if test="${driverUnit.state.toString().equals('PORTER')}">
                                                 Cargo works
                                             </c:if>
-                                            <c:if test="${driverUnit.state.equals('READY_TO_ROUTE')}">
+                                            <c:if test="${driverUnit.state.toString().equals('READY_TO_ROUTE')}">
                                                 Ready to route
                                             </c:if>
                                             <span class="caret"></span>

@@ -1,27 +1,50 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.Customer;
+
 import java.util.List;
 
 /**
- * Data Transfer Object of {Customer}
+ * Data Transfer Object of {@link Customer}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
 public class CustomerDto implements Dto{
 
+    /**
+     * Customer id
+     */
     private Integer id;
 
+    /**
+     * Customer document
+     */
     private String passport;
 
+    /**
+     * Customer's name
+     */
     private String name;
 
+    /**
+     * Customer's surname
+     */
     private String surname;
 
+    /**
+     * Customer's phone number
+     */
     private String phone;
 
+    /**
+     * Customer's email
+     */
     private String email;
 
+    /**
+     * Customer's parcel list
+     */
     private List<CargoDto> parcelList;
 
 

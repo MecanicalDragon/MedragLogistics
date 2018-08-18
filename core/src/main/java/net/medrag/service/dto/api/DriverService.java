@@ -6,7 +6,7 @@ import net.medrag.domain.dto.DriverDto;
 
 /**
  * Standard service interface for DAO interface{@link DriverDao},
- * working with domain object, {@link Driver}
+ * working with domain object {@link Driver}
  *
  * @author Stanislav Tretyakov
  * @version 1.0

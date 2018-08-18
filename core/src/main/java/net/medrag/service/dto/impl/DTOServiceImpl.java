@@ -15,16 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link}
+ * Superclass for all DTO services.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
 @SuppressWarnings("unchecked")
-public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements DTOService<D, E> {
+public class DTOServiceImpl<D extends Dto, E extends Entity> implements DTOService<D, E> {
 
     protected EntityDao<E> entityDao;
 
+    /**
+     * String, that denotes correct implementation for subclasses. Needed here for being overridden in subclasses.
+     */
     private static final String implementation = "userDaoImpl";
 
     @Autowired
@@ -32,9 +35,17 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         this.entityDao = entityDao;
     }
 
+    /**
+     * Persist new dto do database.
+     *
+     * @param dto    - blank dto object for ModelMapper.
+     * @param entity - blank entity object for ModelMapper.
+     * @return - id parameter of persisted object.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
     @Override
     @Transactional
-    public Integer addDto(D dto, E entity) throws MedragServiceException{
+    public Integer addDto(D dto, E entity) throws MedragServiceException {
         E result = (E) new ModelMapper().map(dto, entity.getClass());
         try {
             return entityDao.addEntity(result);
@@ -43,6 +54,15 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         }
     }
 
+    /**
+     * Get object from database by id.
+     *
+     * @param dto    - blank dto object for ModelMapper.
+     * @param entity - blank entity object for ModelMapper.
+     * @param id     - id of requested object.
+     * @return - requested object.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
     @Override
     @Transactional
     public D getDtoById(D dto, E entity, Integer id) throws MedragServiceException {
@@ -55,6 +75,13 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         return (D) new ModelMapper().map(entityById, dto.getClass());
     }
 
+    /**
+     * Updating object in database.
+     *
+     * @param dto    - blank dto object for ModelMapper.
+     * @param entity - blank entity object for ModelMapper.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
     @Override
     @Transactional
     public void updateDtoStatus(D dto, E entity) throws MedragServiceException {
@@ -66,6 +93,13 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         }
     }
 
+    /**
+     * Remove object from database.
+     *
+     * @param dto    - blank dto object for ModelMapper.
+     * @param entity - blank entity object for ModelMapper.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
     @Override
     @Transactional
     public void removeDto(D dto, E entity) throws MedragServiceException {
@@ -76,19 +110,17 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         }
     }
 
+    /**
+     * reload object from database
+     *
+     * @param dto    - blank dto object for ModelMapper.
+     * @param entity - blank entity object for ModelMapper.
+     * @return - refreshed object.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
     @Override
     @Transactional
-    public void saveOrUpdateDto(D dto, E entity) throws MedragServiceException {
-        try {
-            entityDao.saveOrUpdateEntity((E) new ModelMapper().map(dto, entity.getClass()));
-        } catch (MedragRepositoryException e) {
-            throw new MedragServiceException(e);
-        }
-    }
-
-    @Override
-    @Transactional
-    public D refreshDto(D dto, E entity) throws MedragServiceException{
+    public D refreshDto(D dto, E entity) throws MedragServiceException {
         try {
             E refreshed = entityDao.refreshEntity((E) new ModelMapper().map(dto, entity.getClass()));
             return (D) new ModelMapper().map(refreshed, dto.getClass());
@@ -97,6 +129,15 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         }
     }
 
+    /**
+     * Getting from database object by it's natural id.
+     *
+     * @param dto    - blank dto object for ModelMapper.
+     * @param entity - blank entity object for ModelMapper.
+     * @param id - object natural id.
+     * @return - requested object.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
     @Override
     @Transactional
     public D getDtoByNaturalId(D dto, E entity, String id) throws MedragServiceException {
@@ -113,6 +154,14 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         }
     }
 
+    /**
+     * Getting number of objects in database with specified parameters.
+     *
+     * @param entity - blank entity object for ModelMapper.
+     * @param args - parameters of filtering.
+     * @return - filtered list of objects.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
     @Override
     @Transactional
     public Integer getDtoCount(E entity, String... args) throws MedragServiceException {
@@ -123,20 +172,49 @@ public abstract class DTOServiceImpl<D extends Dto, E extends Entity> implements
         }
     }
 
+    /**
+     * Getting from database list of objects, filtered by specified parameters.
+     *
+     * @param dto    - blank dto object for ModelMapper.
+     * @param entity - blank entity object for ModelMapper.
+     * @param args - filter parameters.
+     * @return - filtered list of objects from database.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
     @Override
     @Transactional
-    public List<D>getDtoList(D dto, E entity, String... args) throws MedragServiceException{
-        List<E> entityList = null;
+    public List<D> getDtoList(D dto, E entity, String... args) throws MedragServiceException {
+        List<E> entityList;
         try {
             entityList = entityDao.getEntityList(entity, args);
         } catch (MedragRepositoryException e) {
             throw new MedragServiceException(e);
         }
         List<D> dtoList = new ArrayList<>();
-        for (E e : entityList) {
-            D d = (D) new ModelMapper().map(e, dto.getClass());
-            dtoList.add(d);
+        entityList.forEach(e -> dtoList.add((D) new ModelMapper().map(e, dto.getClass())));
+        return dtoList;
+    }
+
+    /**
+     * Getting from database list of last added objects.
+     *
+     * @param dto    - blank dto object for ModelMapper.
+     * @param entity - blank entity object for ModelMapper.
+     * @param count - number of last added objects.
+     * @return - list of last added objects.
+     * @throws MedragServiceException - throws MedragServiceException.
+     */
+    @Override
+    @Transactional
+    public List<D> getLastObjects(D dto, E entity, Integer count) throws MedragServiceException {
+        List<E> entityList;
+        try {
+            entityList = entityDao.getLastEntities(entity, count);
+        } catch (MedragRepositoryException e) {
+            throw new MedragServiceException(e);
         }
+        List<D> dtoList = new ArrayList<>();
+        entityList.forEach(e -> dtoList.add((D) new ModelMapper().map(e, dto.getClass())));
         return dtoList;
     }
 }

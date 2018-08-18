@@ -4,7 +4,7 @@ import net.medrag.domain.entity.Driver;
 
 /**
  * Enum of field state from domain object {@link Driver}.
- * Needs for indicate driver status.
+ * Needed for indicate driver status.
  *
  * @author Stanislav Tretyakov
  * @version 1.0

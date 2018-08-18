@@ -3,8 +3,8 @@ package net.medrag.domain.enums;
 import net.medrag.domain.entity.Truck;
 
 /**
- * Enum of field state from domain object {@link Truck}.
- * Needs for indicate truck status.
+ * Enum of field status from domain object {@link Truck}.
+ * Needed for indicate truck status.
  *
  * @author Stanislav Tretyakov
  * @version 1.0

@@ -3,6 +3,7 @@ package net.medrag.service.impl;
 import net.medrag.domain.dto.CargoDto;
 import net.medrag.domain.dto.CityDto;
 import net.medrag.domain.dto.Dto;
+import net.medrag.domain.dto.OrderrDto;
 import net.medrag.domain.entity.City;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.api.IndexService;
@@ -10,13 +11,13 @@ import net.medrag.service.dto.api.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 /**
- * {@link}
+ * Class for indexing {@link CargoDto} and {@link OrderrDto}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -34,7 +35,14 @@ public class IndexServiceImpl implements IndexService {
         this.cityService = cityService;
     }
 
-    public String indicate(Dto dto)throws MedragServiceException {
+    /**
+     * The only method indexes cargoes and orders with taking time and city indexes.
+     *
+     * @param dto - {@link CargoDto} or {@link OrderrDto}, that is needed to be indexed.
+     * @return - indexed {@link CargoDto} or {@link OrderrDto}
+     * @throws MedragServiceException - hasn't been happened.
+     */
+    public String indicate(Dto dto) throws MedragServiceException {
 
         String index = dto instanceof CargoDto ? cargoIndex : orderIndex;
         StringBuilder sb = new StringBuilder(index);
@@ -51,7 +59,7 @@ public class IndexServiceImpl implements IndexService {
             sb.append(departure.getIndex()).append("-")
                     .append(destination.getIndex()).append("-");
         }
-        sb.append(new Random().nextInt(8999) + 1000);
+        sb.append(new SecureRandom().nextInt(8999) + 1000);
 
         return sb.toString();
     }

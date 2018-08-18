@@ -3,6 +3,7 @@ package net.medrag.controller.resource;
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.domain.dto.DriverDto;
 import net.medrag.domain.entity.Driver;
+import net.medrag.domain.enums.DriverState;
 import net.medrag.service.api.DriverHandlerService;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.dto.api.DriverService;
@@ -133,7 +134,7 @@ public class DriverController {
     public String changeState(@RequestParam Integer index, @RequestParam String state, HttpServletRequest request) throws MedragControllerException{
         List<DriverDto> driverList = (List<DriverDto>) request.getSession().getAttribute("driverList");
         DriverDto changingDriver = driverList.get(index);
-        changingDriver.setState(state);
+        changingDriver.setState(DriverState.valueOf(state));
 
         try {
             driverService.updateDtoStatus(changingDriver, new Driver());

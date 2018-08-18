@@ -1,22 +1,41 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.City;
+
 /**
- * Data Transfer Object of {City}
+ * Data Transfer Object of {@link City}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
 public class CityDto implements Dto {
 
+    /**
+     * City id
+     */
     private Integer id;
 
+    /**
+     * City name
+     */
     private String name;
 
+    /**
+     * latitude
+     */
     private String coordinatesX;
 
+    /**
+     * longitude
+     */
     private String coordinatesY;
 
+    /**
+     * Index for marking cargoes
+     */
     private String index;
+
+
 
     public Integer getId() {
         return id;
@@ -82,7 +101,11 @@ public class CityDto implements Dto {
         if (getId() != null) {
             return getId().equals(that.getId());
         } else {
-            return getName().equals(that.getName());
+            if (getName() != null) {
+                return getName().equals(that.getName());
+            } else {
+                return super.equals(o);
+            }
         }
     }
 

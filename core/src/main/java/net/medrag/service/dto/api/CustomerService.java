@@ -7,6 +7,7 @@ import net.medrag.domain.entity.Customer;
 /**
  * Standard service interface for DAO interface{@link CustomerDao},
  * working with domain object {@link Customer}
+ *
  * @author Stanislav Tretyakov
  * @version 1.0
  */

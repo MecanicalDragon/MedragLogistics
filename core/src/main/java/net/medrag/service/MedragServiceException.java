@@ -1,7 +1,7 @@
 package net.medrag.service;
 
 /**
- * {@link}
+ * Intercepting exception of service tier. Being thrown in service tier exception case.
  *
  * @author Stanislav Tretyakov
  * @version 1.0

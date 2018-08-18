@@ -13,7 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 /**
- * MailService implementation
+ * MailService - unbelievable, but it sales emails.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -115,6 +115,13 @@ public class MailServiceImpl implements MailService {
         mailSender.send(message);
     }
 
+    /**
+     * Route assigning mail to driver.
+     *
+     * @param driver - assigned driver.
+     * @param destination - Destination city name.
+     * @throws MessagingException - we ignore it.
+     */
     @Override
     public void sendCompiledRouteMesaage(DriverDto driver, String destination) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -127,6 +134,12 @@ public class MailServiceImpl implements MailService {
         mailSender.send(message);
     }
 
+    /**
+     * When driver reaches his worked time limit.
+     *
+     * @param driver - overworked driver.
+     * @throws MessagingException - noway.
+     */
     @Override
     public void sendWorkedTimeLimitMail(DriverDto driver) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();

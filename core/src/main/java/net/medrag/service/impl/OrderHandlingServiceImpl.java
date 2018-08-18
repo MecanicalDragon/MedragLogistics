@@ -7,6 +7,7 @@ import net.medrag.domain.dto.WaypointDto;
 import net.medrag.domain.entity.Cargo;
 import net.medrag.domain.entity.Orderr;
 import net.medrag.domain.entity.Waypoint;
+import net.medrag.domain.enums.CargoState;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.api.IndexService;
 import net.medrag.service.api.MailService;
@@ -28,9 +29,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * {@link}
+ * Service for handling some {@link Orderr} requests.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -57,7 +60,6 @@ public class OrderHandlingServiceImpl implements OrderHandlingService {
         this.rabbitService = rabbitService;
     }
 
-
     @Autowired
     public void setWaypointService(WaypointService<WaypointDto, Waypoint> waypointService) {
         this.waypointService = waypointService;
@@ -83,6 +85,14 @@ public class OrderHandlingServiceImpl implements OrderHandlingService {
         this.cargoService = cargoService;
     }
 
+    /**
+     * Compiling order method. Compiles order and all it's cargoes.
+     *
+     * @param cargoList - list of new cargoes.
+     * @param customer  - owner of cargoList
+     * @return - compiled order.
+     * @throws MedragServiceException - if it was happening, then a long-long time ago.
+     */
     @Override
     @Transactional
     public OrderrDto compileOrder(List<CargoDto> cargoList, CustomerDto customer) throws MedragServiceException {
@@ -97,7 +107,7 @@ public class OrderHandlingServiceImpl implements OrderHandlingService {
 
         for (CargoDto cargoDto : cargoList) {
             cargoDto.setOwner(customer);
-            cargoDto.setState("TRANSIENT");
+            cargoDto.setState(CargoState.TRANSIENT);
             cargoDto.setOrderr(order);
             cargoDto.setIndex(indexService.indicate(cargoDto));
 
@@ -119,33 +129,42 @@ public class OrderHandlingServiceImpl implements OrderHandlingService {
         return order;
     }
 
+    /**
+     * Method delivers cargo, and completes order, if this cargo was last in it.
+     *
+     * @param deliveredCargo - delivered cargo, surprise.
+     * @throws MedragServiceException - I don't remember.
+     */
     @Override
     @Transactional
     public void deliverCargo(CargoDto deliveredCargo) throws MedragServiceException {
 
-        deliveredCargo.setState("DELIVERED");
+        deliveredCargo.setState(CargoState.DELIVERED);
         for (WaypointDto waypoint : deliveredCargo.getRoute()) {
             waypointService.removeDto(waypoint, new Waypoint());
         }
         cargoService.updateDtoStatus(deliveredCargo, new Cargo());
         List<CargoDto> orderCargoes = deliveredCargo.getOrderr().getCargoes();
-        int deliveredCargoes = 0;
-        for (CargoDto orderCargo : orderCargoes) {
-            if (orderCargo.getState().equals("DELIVERED")) {
-                deliveredCargoes++;
-            }
-        }
 
-        if (deliveredCargoes == orderCargoes.size()) {
+        List<CargoDto> delivered = orderCargoes.stream().filter(e -> e.getState().equals(CargoState.DELIVERED))
+                .collect(Collectors.toList());
+
+        if (delivered.size() == orderCargoes.size()) {
             deliveredCargo.getOrderr().setComplete(true);
-
             cargoService.updateDtoStatus(deliveredCargo, new Cargo());
-
+            for(CargoDto cargo : delivered){
+                cargo.getOrderr().setComplete(true);
+                rabbitService.sendCargo(cargo);
+            }
+        } else {
+            rabbitService.sendCargo(deliveredCargo);
         }
-
-        rabbitService.sendCargo(deliveredCargo);
     }
 
+    /**
+     * Method removes from database first half of all completed orders every first day of the month.
+     * Sleeps all rest time. Doesn't do anything else.
+     */
     @PostConstruct
     public void clearCompletedOrders() {
 

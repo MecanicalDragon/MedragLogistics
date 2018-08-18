@@ -101,16 +101,16 @@
                                 <td>${truckUnit.cityName}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn ${truckUnit.status.equals('IN_USE') ? 'btn-success'
-                                        : truckUnit.status.equals('STAY_IDLE') ? 'btn-info' : 'btn-primary'} btn-xs dropdown-toggle"
+                                        <button type="button" class="btn ${truckUnit.status.toString().equals('IN_USE') ? 'btn-success'
+                                        : truckUnit.status.toString().equals('STAY_IDLE') ? 'btn-info' : 'btn-primary'} btn-xs dropdown-toggle"
                                                 data-toggle="dropdown" style="width:105px; text-align:right;">
-                                            <c:if test="${truckUnit.status.equals('IN_USE')}">
+                                            <c:if test="${truckUnit.status.toString().equals('IN_USE')}">
                                                 On the route
                                             </c:if>
-                                            <c:if test="${truckUnit.status.equals('STAY_IDLE')}">
+                                            <c:if test="${truckUnit.status.toString().equals('STAY_IDLE')}">
                                                 Staying idle
                                             </c:if>
-                                            <c:if test="${truckUnit.status.equals('IN_SERVICE')}">
+                                            <c:if test="${truckUnit.status.toString().equals('IN_SERVICE')}">
                                                 In service
                                             </c:if>
                                             <span class="caret"></span>

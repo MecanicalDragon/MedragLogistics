@@ -3,6 +3,8 @@ package net.medrag.service.impl;
 import net.medrag.dao.MedragRepositoryException;
 import net.medrag.dao.api.UserDao;
 import net.medrag.domain.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,12 +17,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * {@link}
+ * Implementation of {@link UserDetails} for this app.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
 public class UserDetailsServiceImpl implements UserDetailsService{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DriverHandlerServiceImpl.class);
 
     private UserDao<User> userDao;
 
@@ -29,6 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         this.userDao = userDao;
     }
 
+    /**
+     * Signing in user in app.
+     *
+     * @param username - username
+     * @return - Spring security user.
+     * @throws UsernameNotFoundException - we have avoided it.
+     */
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,6 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         try {
             user = userDao.getEntityByNaturalId(new User(), username);
         } catch (MedragRepositoryException e) {
+            LOGGER.error("Could not load user with username {}. {}", username, e);
         }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().toString()));

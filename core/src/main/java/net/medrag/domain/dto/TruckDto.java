@@ -1,10 +1,14 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.Truck;
+import net.medrag.domain.enums.Manageable;
+import net.medrag.domain.enums.TruckStatus;
+
 import java.util.List;
 import java.util.Set;
 
 /**
- * Data Transfer Object of {Truck}
+ * Data Transfer Object of {@link Truck}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -19,7 +23,7 @@ public class TruckDto implements Dto {
 
     private String capacity;
 
-    private String status;
+    private TruckStatus status;
 
     private Integer cityId;
 
@@ -29,23 +33,16 @@ public class TruckDto implements Dto {
 
     private String destinationName;
 
-    private String manageable;
+    private Manageable manageable;
 
     private List<DriverDto> brigade;
 
     private Set<WaypointDto> route;
 
-    private String prevStatus;
+    private TruckStatus prevStatus;
 
 
 
-    public String getManageable() {
-        return manageable;
-    }
-
-    public void setManageable(String manageable) {
-        this.manageable = manageable;
-    }
 
     public Integer getDestinationId() {
         return destinationId;
@@ -63,11 +60,19 @@ public class TruckDto implements Dto {
         this.destinationName = destinationName;
     }
 
-    public String getPrevStatus() {
+    public Manageable getManageable() {
+        return manageable;
+    }
+
+    public void setManageable(Manageable manageable) {
+        this.manageable = manageable;
+    }
+
+    public TruckStatus getPrevStatus() {
         return prevStatus;
     }
 
-    public void setPrevStatus(String prevStatus) {
+    public void setPrevStatus(TruckStatus prevStatus) {
         this.prevStatus = prevStatus;
     }
 
@@ -119,11 +124,11 @@ public class TruckDto implements Dto {
         this.capacity = capacity;
     }
 
-    public String getStatus() {
+    public TruckStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TruckStatus status) {
         this.status = status;
     }
 

@@ -1,26 +1,51 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.Cargo;
+
 /**
- * Data Transfer Object of {Cargo}
+ * Data Transfer Object of {@link Cargo} entity for the watcher app.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
 public class CargoForm implements Dto {
 
+    /**
+     * Cargo index.
+     */
     private String index;
 
+    /**
+     * Stringified cargo state {@link net.medrag.domain.enums.CargoState}
+     */
     private String state;
 
+    /**
+     * Index of cargo order.
+     */
     private String orderrIndex;
 
+    /**
+     * Stringified completeness boolean.
+     */
     private String orderrComplete;
 
+    /**
+     * Document of cargo owner
+     */
     private String ownerPassport;
 
+    /**
+     * Name of destination city.
+     */
     private String destinationName;
 
+    /**
+     * Name of current city.
+     */
     private String currentCityName;
+
+
 
     public String getIndex() {
         return index;

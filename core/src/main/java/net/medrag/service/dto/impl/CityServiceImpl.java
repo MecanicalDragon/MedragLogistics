@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 public class CityServiceImpl<D extends CityDto, E extends City> extends DTOServiceImpl<D, E>
         implements CityService<D, E> {
 
+    /**
+     * String, that denotes correct implementation for generalised superclass
+     */
     private static final String implementation = "cityDaoImpl";
 
 }

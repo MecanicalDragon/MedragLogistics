@@ -3,6 +3,7 @@ package net.medrag.controller.resource;
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.domain.dto.TruckDto;
 import net.medrag.domain.entity.Truck;
+import net.medrag.domain.enums.TruckStatus;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.dto.api.TruckService;
 import net.medrag.validator.TruckValidator;
@@ -120,7 +121,7 @@ public class TruckController {
     public String changeState(@RequestParam Integer index, @RequestParam String state, HttpServletRequest request) throws MedragControllerException {
         List<TruckDto> truckList = (List<TruckDto>) request.getSession().getAttribute("truckList");
         TruckDto truck = truckList.get(index);
-        truck.setStatus(state);
+        truck.setStatus(TruckStatus.valueOf(state));
 
         try {
             truckService.updateDtoStatus(truck, new Truck());

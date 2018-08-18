@@ -6,6 +6,9 @@ import net.medrag.domain.dto.TruckDto;
 import net.medrag.domain.dto.UserDto;
 import net.medrag.domain.entity.Driver;
 import net.medrag.domain.entity.User;
+import net.medrag.domain.enums.DriverState;
+import net.medrag.domain.enums.Manageable;
+import net.medrag.domain.enums.TruckStatus;
 import net.medrag.domain.enums.UserRole;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.api.DriverHandlerService;
@@ -29,9 +32,10 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
- * This service handles some driver requests.
+ * This service handles some requests, bounded with {@link Driver} entity.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -81,6 +85,7 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
      * authorities and the same name.
      *
      * @param driverDto - inputted driverDto
+     * @throws MedragServiceException - maybe.
      */
     @Override
     @Transactional
@@ -129,7 +134,7 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
     }
 
     /**
-     * Method returns all available and matching for the route drives.
+     * Method returns all available and matching with the route time drives.
      *
      * @param cityId - id of the departure city.
      * @param time   - time, needed for the route.
@@ -150,34 +155,27 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
 
     /**
      * Method filters list of drivers by matching the time requirements of the next route.
-     * @param time -time, required for the route.
+     *
+     * @param time    -time, required for the route.
      * @param drivers - list of all available drivers.
      * @return - filtered list of drivers.
      */
     @Override
     public List<DriverDto> getReadyDrivers(Integer time, List<DriverDto> drivers) {
 
-//        Filtering drivers by the worked time
-        List<DriverDto> filteredDrivers = new ArrayList<>();
-        for (DriverDto driver : drivers) {
-            if (driver.getWorkedTime() + time <= 10560) {
-                filteredDrivers.add(driver);
-            } else {
-                ZonedDateTime now = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Moscow"));
-                ZonedDateTime rim = now.with(TemporalAdjusters.firstDayOfNextMonth()).withHour(0).withMinute(0).withSecond(0).withNano(0);
-                Long difference = ChronoUnit.MINUTES.between(now, rim);
-                if (difference < 10560 - driver.getWorkedTime()) {
-                    filteredDrivers.add(driver);
-                }
-            }
-        }
+        int timeLimit = 10560;
+        ZonedDateTime now = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Europe/Moscow"));
+        ZonedDateTime rim = now.with(TemporalAdjusters.firstDayOfNextMonth()).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        long difference = ChronoUnit.MINUTES.between(now, rim);
 
-        return filteredDrivers;
+        return drivers.stream().filter(d -> d.getWorkedTime() + time <= timeLimit ||
+                difference < timeLimit - d.getWorkedTime()).collect(Collectors.toList());
+
     }
 
     /**
-     * Method frees truck, if it's last driver goes to rest and sets "ON_SHIFT" statuses to rest drivers,
-     * if one of them takes control of the truck.
+     * Method frees truck, if it's last driver goes to rest and sets "ON_SHIFT" statuses to rest drivers of current
+     * brigade, if one of them takes control of the truck.
      *
      * @param driver - that driver.
      * @throws MedragServiceException - maybe.
@@ -187,17 +185,16 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
     public boolean changeDriverState(DriverDto driver) throws MedragServiceException {
 
 //        Free truck part
-        if (driver.getState().equals("REST") || driver.getState().equals("READY_TO_ROUTE")) {
+        if (driver.getState().equals(DriverState.REST) || driver.getState().equals(DriverState.READY_TO_ROUTE)) {
             TruckDto truck = driver.getCurrentTruck();
-            truckService.refreshDto(truck, new Truck());
 
             if (truck.getBrigade().size() == 1) {
-                if (truck.getDestinationId() != null){
+                if (truck.getDestinationId() != null) {
                     return false;
                 }
                 truck.getBrigade().clear();
-                truck.setStatus("STAY_IDLE");
-                truck.setManageable("FALSE");
+                truck.setStatus(TruckStatus.STAY_IDLE);
+                truck.setManageable(Manageable.FALSE);
                 truck.setDestinationId(null);
                 truck.setDestinationName(null);
                 truckService.updateDtoStatus(truck, new Truck());
@@ -208,17 +205,17 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
 
 //        Change comrades statuses part
         } else {
-            if (driver.getState().equals("DRIVING")) {
+            if (driver.getState().equals(DriverState.DRIVING)) {
                 for (DriverDto comrade : driver.getCurrentTruck().getBrigade()) {
-                    if (!comrade.equals(driver) && comrade.getDestinationId() != null) {
-                        comrade.setState("ON_SHIFT");
-                    } else {
-                        if (comrade.getDestinationId() == null) {
-                            comrade.setState("REST");
+                    if (!comrade.equals(driver)) {
+                        if (comrade.getDestinationId() != null) {
+                            comrade.setState(DriverState.ON_SHIFT);
+                        } else {
+                            comrade.setState(DriverState.REST);
                             comrade.setCurrentTruck(null);
                         }
+                        driverService.updateDtoStatus(comrade, new Driver());
                     }
-                    driverService.updateDtoStatus(comrade, new Driver());
                 }
             }
         }
@@ -230,8 +227,9 @@ public class DriverHandlerServiceImpl implements DriverHandlerService {
 
     /**
      * Methods returns list of drivers, available to the route for the truck, including current truck brigade.
+     *
      * @param truck - routing truck.
-     * @param time - time, required for the route.
+     * @param time  - time, required for the route.
      * @return - list of available drivers.
      * @throws MedragServiceException - if "getReadyDrivers" fails.
      */

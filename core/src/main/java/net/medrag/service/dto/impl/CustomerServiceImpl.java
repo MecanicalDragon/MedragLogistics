@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 public class CustomerServiceImpl<D extends CustomerDto, E extends Customer> extends DTOServiceImpl<D, E>
         implements CustomerService<D, E> {
 
+    /**
+     * String, that denotes correct implementation for generalised superclass
+     */
     private static final String implementation = "customerDaoImpl";
 
 }

@@ -4,7 +4,7 @@ import net.medrag.domain.entity.Waypoint;
 
 /**
  * Enum of field waypointType from domain object {@link Waypoint}.
- * Needs for indicate the type of waypoint.
+ * Needed for indicate the type of waypoint.
  *
  * @author Stanislav Tretyakov
  * @version 1.0

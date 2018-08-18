@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * {@link}
+ * MQ service. Sends information to Watcher app about cargoes, orders, trucks and drivers changes in the database.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -27,6 +27,15 @@ public class RabbitServiceImpl implements RabbitService {
 
     private static final String DELIVERY = "delivery";
 
+    static void setRabbit(ConnectionFactory rabbit) {
+        RabbitServiceImpl.rabbit = rabbit;
+    }
+
+    /**
+     * Method is being called through the fist request from the Watcher app. Activates RabbitMQ.
+     *
+     * @throws MedragServiceException - nope.
+     */
     @Override
     public void run() throws MedragServiceException {
 
@@ -36,6 +45,12 @@ public class RabbitServiceImpl implements RabbitService {
         }
     }
 
+    /**
+     * Method sends message with changes in truck or driver statuses.
+     *
+     * @param message - changes in truck or driver.
+     * @throws MedragServiceException - never been.
+     */
     @Override
     public void sendMessage(String message) throws MedragServiceException {
         if (rabbit != null) {
@@ -44,13 +59,19 @@ public class RabbitServiceImpl implements RabbitService {
 
                 channel.exchangeDeclare(RESOURCES, BuiltinExchangeType.FANOUT);
                 channel.basicPublish(RESOURCES, "", null, message.getBytes("UTF-8"));
-                System.out.println(" [x] Sent '" + message + "'");
+//                System.out.println(" [x] Sent '" + message + "'");
             } catch (IOException | TimeoutException e) {
                 throw new MedragServiceException(e);
             }
         }
     }
 
+    /**
+     * Method sends to Watcher app the changed cargo.
+     *
+     * @param cargo - changed cargo.
+     * @throws MedragServiceException - as a previous method.
+     */
     @Override
     public void sendCargo(CargoDto cargo) throws MedragServiceException {
         if (rabbit != null) {
@@ -62,7 +83,7 @@ public class RabbitServiceImpl implements RabbitService {
                 String message = new ObjectMapper().writeValueAsString(cargoForm);
 
                 channel.basicPublish(DELIVERY, "", null, message.getBytes("UTF-8"));
-                System.out.println(" [x] Sent '" + message + "'");
+//                System.out.println(" [x] Sent '" + message + "'");
             } catch (IOException | TimeoutException e) {
                 throw new MedragServiceException(e);
             }

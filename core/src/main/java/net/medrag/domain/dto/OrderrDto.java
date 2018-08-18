@@ -1,9 +1,11 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.Orderr;
+
 import java.util.List;
 
 /**
- * Data Transfer Object of {Orderr}
+ * Data Transfer Object of {@link Orderr}
  *
  * @author Stanislav Tretyakov
  * @version 1.0

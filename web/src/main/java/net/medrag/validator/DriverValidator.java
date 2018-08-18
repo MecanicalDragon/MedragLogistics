@@ -4,6 +4,7 @@ import net.medrag.domain.dto.CityDto;
 import net.medrag.domain.dto.DriverDto;
 import net.medrag.domain.entity.City;
 import net.medrag.domain.entity.Driver;
+import net.medrag.domain.enums.DriverState;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.dto.api.CityService;
 import net.medrag.service.dto.api.DriverService;
@@ -75,8 +76,8 @@ public class DriverValidator {
                     driverDto.setCityId(city.getId());
                     driverDto.setWorkedTime(0);
                     driverDto.setPaidTime(0);
-                    driverDto.setState("REST");
-                    driverDto.setPreviousState("REST");
+                    driverDto.setState(DriverState.REST);
+                    driverDto.setPreviousState(DriverState.REST);
 
                     do {
                         int random = new Random().nextInt(89999) + 10000;

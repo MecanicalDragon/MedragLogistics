@@ -1,6 +1,7 @@
 package net.medrag.validator;
 
 import net.medrag.domain.dto.UserDto;
+import net.medrag.domain.enums.UserRole;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -28,18 +29,18 @@ public class UserValidator implements Validator {
             errors.rejectValue("email", "not.email");
         }
 
-        switch (newUser.getRole()) {
+        switch (newUser.getRole().toString()) {
             case "rsm":
-                newUser.setRole("ROLE_RESOURCE");
+                newUser.setRole(UserRole.ROLE_RESOURCE);
                 break;
             case "whm":
-                newUser.setRole("ROLE_WAREHOUSEMAN");
+                newUser.setRole(UserRole.ROLE_WAREHOUSEMAN);
                 break;
             case "mgr":
-                newUser.setRole("ROLE_MANAGER");
+                newUser.setRole(UserRole.ROLE_MANAGER);
                 break;
             default:
-                newUser.setRole("ROLE_RESOURCE");
+                newUser.setRole(UserRole.ROLE_RESOURCE);
         }
     }
 }

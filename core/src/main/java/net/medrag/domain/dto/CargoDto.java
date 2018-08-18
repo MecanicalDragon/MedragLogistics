@@ -1,44 +1,93 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.Cargo;
+import net.medrag.domain.enums.CargoState;
+
+import java.util.List;
 import java.util.Set;
 
 /**
- * Data Transfer Object of {Cargo}
+ * Data Transfer Object of {@link Cargo} entity.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
  */
 public class CargoDto implements Dto {
 
+    /**
+     * Id parameter.
+     */
     private Integer id;
 
+    /**
+     * Unique index parameter (natural id in database)
+     */
     private String index;
 
+    /**
+     * Cargo name. Does't in affect on something important.
+     */
     private String name;
 
+    /**
+     * Weight in kgs.
+     */
     private String weight;
 
-    private String state;
+    /**
+     * Cargo's state. {@link CargoState}
+     */
+    private CargoState state;
 
+    /**
+     * Cargo's owner
+     */
     private CustomerDto owner;
 
+    /**
+     * Order for this cargo.
+     */
     private OrderrDto orderr;
 
+    /**
+     * Id of departure city.
+     */
     private Integer departureId;
 
+    /**
+     * Id of destination city.
+     */
     private Integer destinationId;
 
+    /**
+     * Id of current city.
+     */
     private Integer currentCityId;
 
+    /**
+     * Departure city name.
+     */
     private String departureName;
 
+    /**
+     * Destination city name.
+     */
     private String destinationName;
 
+    /**
+     * current city name.
+     */
     private String currentCityName;
 
+    /**
+     * Current truck of cargo.
+     */
     private TruckDto currentTruck;
 
-    private Set<WaypointDto> route;
+    /**
+     * Route of cargo.
+     */
+    private List<WaypointDto> route;
 
 
 
@@ -50,11 +99,11 @@ public class CargoDto implements Dto {
         this.currentTruck = currentTruck;
     }
 
-    public Set<WaypointDto> getRoute() {
+    public List<WaypointDto> getRoute() {
         return route;
     }
 
-    public void setRoute(Set<WaypointDto> route) {
+    public void setRoute(List<WaypointDto> route) {
         this.route = route;
     }
 
@@ -114,11 +163,11 @@ public class CargoDto implements Dto {
         this.weight = weight;
     }
 
-    public String getState() {
+    public CargoState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(CargoState state) {
         this.state = state;
     }
 

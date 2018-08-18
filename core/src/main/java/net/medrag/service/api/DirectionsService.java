@@ -12,7 +12,29 @@ import net.medrag.service.MedragServiceException;
  * @version 1.0
  */
 public interface DirectionsService {
+
+    /**
+     * Method calculates distance between two cities and time, needed for getting from one to another.
+     * @param departure - departure city.
+     * @param destination - destination city.
+     * @return - array of integers, that has distance in kms in his first cell and time in minutes in second.
+     * @throws MedragServiceException - if google refuses request
+     */
     Integer[] getTripTime(CityDto departure, CityDto destination) throws MedragServiceException;
+
+    /**
+     * Method calculates percent of cargo delivery completeness.
+     * @param cargo - that cargo
+     * @return - founded percent
+     * @throws MedragServiceException - didn't heared about it
+     */
     Integer getComletePersent(CargoDto cargo) throws MedragServiceException;
+
+    /**
+     * Method calculates distance between two cities and time, needed for getting from one to another, basing on the truck data.
+     * @param truck - data source
+     * @return - array of integers, that has distance in kms in his first cell and time in minutes in second.
+     * @throws MedragServiceException - if "getTripTime" fails.
+     */
     Integer[] getTripTimeByTruck(TruckDto truck) throws MedragServiceException;
 }

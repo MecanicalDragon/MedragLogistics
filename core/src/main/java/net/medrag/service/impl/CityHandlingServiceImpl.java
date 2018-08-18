@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service is needed for single method of removing city.
+ */
 @Service
 public class CityHandlingServiceImpl implements CityHandlingService {
 
@@ -41,19 +44,29 @@ public class CityHandlingServiceImpl implements CityHandlingService {
         this.truckService = truckService;
     }
 
+    /**
+     * Removing city.
+     * @param city - city that is able to be removed.
+     * @return - true, if it's done or false, if it's can't be done.
+     * @throws MedragServiceException - it would be very often, if there would not be this method.
+     */
     @Override
     public boolean removeCity(CityDto city) throws MedragServiceException {
 
+//        Checking for cargoes in this city
         List<CargoDto> departures = cargoService.getDtoList(new CargoDto(), new Cargo(), "DEPARTURE_ID", city.getId().toString());
         List<CargoDto> destinations = cargoService.getDtoList(new CargoDto(), new Cargo(), "DESTINATION_ID", city.getId().toString());
         List<CargoDto> currents = cargoService.getDtoList(new CargoDto(), new Cargo(), "CURRENT_CITY_ID", city.getId().toString());
 
+//        Checking for drivers in this city
         List<DriverDto> drivers = driverService.getDtoList(new DriverDto(), new Driver(), "CURRENT_CITY_ID", city.getId().toString());
         List<DriverDto> driversDest = driverService.getDtoList(new DriverDto(), new Driver(), "DESTINATION_CITY_ID", city.getId().toString());
 
+//        Checking for trucks in this city
         List<TruckDto> trucks = truckService.getDtoList(new TruckDto(), new Truck(),"CURRENT_CITY_ID", city.getId().toString());
         List<TruckDto> trucksDest = truckService.getDtoList(new TruckDto(), new Truck(),"DESTINATION_CITY_ID", city.getId().toString());
 
+//        Verdict
         return departures.size() + destinations.size() + currents.size() + drivers.size() + driversDest.size() + trucks.size() + trucksDest.size() == 0;
     }
 }

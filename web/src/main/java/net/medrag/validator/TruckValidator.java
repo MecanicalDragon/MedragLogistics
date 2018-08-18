@@ -4,6 +4,8 @@ import net.medrag.domain.dto.CityDto;
 import net.medrag.domain.dto.TruckDto;
 import net.medrag.domain.entity.City;
 import net.medrag.domain.entity.Truck;
+import net.medrag.domain.enums.Manageable;
+import net.medrag.domain.enums.TruckStatus;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.dto.api.CityService;
 import net.medrag.service.dto.api.TruckService;
@@ -91,9 +93,9 @@ public class TruckValidator{
                 truck.setCityId(currentCity.getId());
             }
 
-            truck.setStatus("STAY_IDLE");
-            truck.setPrevStatus("STAY_IDLE");
-            truck.setManageable("FALSE");
+            truck.setStatus(TruckStatus.STAY_IDLE);
+            truck.setPrevStatus(TruckStatus.STAY_IDLE);
+            truck.setManageable(Manageable.FALSE);
         }
     }
 

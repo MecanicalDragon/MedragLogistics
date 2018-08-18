@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link}
+ * Service, that handles Watcher app requests and works with it.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -57,10 +57,16 @@ public class WatcherServiceImpl implements WatcherService {
         this.cargoService = cargoService;
     }
 
+    /**
+     * Method sends list of last cargoes to the Watcher App.
+     *
+     * @return - last 10 cargoes list.
+     * @throws MedragServiceException - it's not.
+     */
     @Override
     public List<CargoForm> getCargoesList() throws MedragServiceException {
 
-        List<CargoDto>cargoDtoList = cargoService.getDtoList(new CargoDto(), new Cargo(), "ORDER BY id DESC%10");
+        List<CargoDto>cargoDtoList = cargoService.getLastObjects(new CargoDto(), new Cargo(), 10);
         List<CargoForm> cargoformList = new ArrayList<>();
         for (CargoDto c : cargoDtoList) {
             CargoForm d = new ModelMapper().map(c, CargoForm.class);
@@ -71,6 +77,12 @@ public class WatcherServiceImpl implements WatcherService {
         return cargoformList;
     }
 
+    /**
+     * Method sends information about drivers and trucks to Watcher App.
+     *
+     * @return - information about drivers and trucks.
+     * @throws MedragServiceException - as usual.
+     */
     @Override
     public Integer[] getStats() throws MedragServiceException {
 

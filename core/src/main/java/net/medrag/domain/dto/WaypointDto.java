@@ -1,7 +1,10 @@
 package net.medrag.domain.dto;
 
+import net.medrag.domain.entity.Waypoint;
+import net.medrag.domain.enums.WaypointType;
+
 /**
- * Data Transfer Object of {Waypoint}
+ * Data Transfer Object of {@link Waypoint}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -14,7 +17,7 @@ public class WaypointDto implements Dto{
 
     private CityDto city;
 
-    private String wayPointType;
+    private WaypointType wayPointType;
 
     private String complete;
 
@@ -54,11 +57,11 @@ public class WaypointDto implements Dto{
         this.city = city;
     }
 
-    public String getWayPointType() {
+    public WaypointType getWayPointType() {
         return wayPointType;
     }
 
-    public void setWayPointType(String wayPointType) {
+    public void setWayPointType(WaypointType wayPointType) {
         this.wayPointType = wayPointType;
     }
 
