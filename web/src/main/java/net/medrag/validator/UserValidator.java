@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
- * {@link}
+ * {@link UserDto} validator
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -21,6 +21,11 @@ public class UserValidator implements Validator {
         return UserDto.class.equals(aClass);
     }
 
+    /**
+     * Validating new user
+     * @param o - new user
+     * @param errors - {@link Errors}
+     */
     @Override
     public void validate(@Nullable Object o, Errors errors) {
         UserDto newUser = (UserDto) o;

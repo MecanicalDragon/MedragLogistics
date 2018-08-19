@@ -12,7 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 
 /**
- * {@link}
+ * Class for validating {@link CargoDto}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -27,6 +27,12 @@ public class CargoValidator{
         this.cityService = cityService;
     }
 
+    /**
+     * Validating new Cargo
+     * @param target - new cargo
+     * @param errors - {@link Errors}
+     * @throws MedragServiceException - throws.
+     */
     public void validate(@Nullable Object target, Errors errors)throws MedragServiceException {
 
         CargoDto cargo = (CargoDto) target;

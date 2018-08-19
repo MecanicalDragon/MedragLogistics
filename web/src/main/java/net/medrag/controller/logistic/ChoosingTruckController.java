@@ -36,6 +36,9 @@ public class ChoosingTruckController {
      * Next step - {@link AddingCargoesController}
      *
      * @param index - index of chosen cargo in session global cargo list
+     * @param request - request
+     * @return - chooseTruck.jsp
+     * @throws MedragControllerException - throws MedragControllerException
      */
     @PostMapping
     public String startManage(@RequestParam Integer index, HttpServletRequest request)throws MedragControllerException {
@@ -65,6 +68,12 @@ public class ChoosingTruckController {
         return "logistic/chooseTruck";
     }
 
+    /**
+     * Step back in wizard
+     *
+     * @param request - request
+     * @return - chooseTruck.jsp
+     */
     @GetMapping
     public String stepBack(HttpServletRequest request){
         request.getSession().setAttribute("chosenTruck", null);

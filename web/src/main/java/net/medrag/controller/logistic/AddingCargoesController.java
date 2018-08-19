@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This controller handles addCargoes.jsp
+ * This controller handles requests to addCargoes.jsp
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -38,6 +38,9 @@ public class AddingCargoesController {
      * Next point - {@link ChoosingCityController}
      *
      * @param index - index of chosen truck in session city trucks list
+     * @param request - request
+     * @return - addCargoes.jsp
+     * @throws MedragControllerException - throws MedragControllerException
      */
     @PostMapping
     public String assignTruck(@RequestParam Integer index, HttpServletRequest request) throws MedragControllerException {
@@ -83,6 +86,12 @@ public class AddingCargoesController {
         return "logistic/addCargoes";
     }
 
+    /**
+     * Step back in wizard.
+     *
+     * @param request - request
+     * @return - addCargoes.jsp
+     */
     @GetMapping
     public String stepBack(HttpServletRequest request){
         request.getSession().setAttribute("truckLoad", null);

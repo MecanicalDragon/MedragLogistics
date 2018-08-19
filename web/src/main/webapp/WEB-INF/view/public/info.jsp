@@ -38,7 +38,7 @@
                             </p>
 
                             <c:choose>
-                                <c:when test="${cargo.state.equals('DELIVERED')}">
+                                <c:when test="${cargo.state.toString().equals('DELIVERED')}">
                                     <div class="progress progress-striped active">
                                         <div class="progress-bar progress-bar-success" role="progressbar"
                                              aria-valuenow="100"
@@ -50,7 +50,7 @@
                                         </div>
                                     </div>
                                 </c:when>
-                                <c:when test="${cargo.state.equals('DESTINATION')}">
+                                <c:when test="${cargo.state.toString().equals('DESTINATION')}">
                                     <div class="progress progress-striped active">
                                         <div class="progress-bar progress-bar-primary" role="progressbar"
                                              aria-valuenow="90}"

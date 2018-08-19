@@ -17,6 +17,8 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,6 +52,15 @@ public class DTOServiceImplTest {
         when(entityDao.addEntity(any(Cargo.class))).thenReturn(10);
         int i = service.addDto(new CargoDto(), new Cargo());
         assertEquals(10, i);
+
+    }
+
+    @Test
+    public void removeDto() throws Exception {
+
+        doNothing().when(entityDao).removeEntity(any(Cargo.class));
+        service.removeDto(new CargoDto(), new Cargo());
+        verify(entityDao).removeEntity(any(Cargo.class));
 
     }
 

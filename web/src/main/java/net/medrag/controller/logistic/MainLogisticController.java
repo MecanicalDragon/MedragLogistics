@@ -32,6 +32,10 @@ public class MainLogisticController {
 
     /**
      * Getting list of cargoes from database ant passing it to main page. Nothing interesting.
+     *
+     * @param request - request
+     * @return - main.jsp
+     * @throws MedragControllerException - throws MedragControllerException
      */
     @GetMapping()
     public String returnView(HttpServletRequest request)throws MedragControllerException {

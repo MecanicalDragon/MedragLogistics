@@ -64,7 +64,7 @@ public class EmployeeIdentifierServiceImplTest {
 
         service.generateNewPassword(1);
 
-        verify(mailService).sendLoginPasswordEmail(anyString(), anyString(), anyString(), anyString());
+        verify(mailService,times(0)).sendLoginPasswordEmail(anyString(), anyString(), anyString(), anyString());
         verify(userService).updateUser(any(User.class));
         verify(userService).getUser(anyInt());
     }

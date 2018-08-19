@@ -18,8 +18,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -347,5 +345,9 @@ public class DriverHandlerServiceImplTest {
 
     }
 
+    @Test   //Testing post-construct periodical method.
+    public void nullWorkedHours() throws Exception {
+        service.nullWorkedHours();
+    }
 
 }

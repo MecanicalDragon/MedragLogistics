@@ -7,6 +7,7 @@ import net.medrag.domain.dto.TruckDto;
 import net.medrag.domain.dto.WaypointDto;
 import net.medrag.domain.entity.Cargo;
 import net.medrag.domain.entity.Waypoint;
+import net.medrag.domain.enums.Manageable;
 import net.medrag.service.api.DirectionsService;
 import net.medrag.service.api.DriverHandlerService;
 import net.medrag.service.MedragServiceException;
@@ -23,6 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This controller handles managing of cargoes in routed truck
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("mgr-rerouteTruck")
 public class ManageCargoesController {
@@ -55,13 +62,22 @@ public class ManageCargoesController {
         this.cargoService = cargoService;
     }
 
+    /**
+     * Getting and adding to the session cargoes in truck and cargoes in it's destination city.
+     *
+     * @param request - request
+     * @param index - index of manageable truck in session list of trucks
+     * @param model - model
+     * @return - addDrivers.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping
     public String getCargoes(HttpServletRequest request, @RequestParam Integer index, Model model) throws MedragControllerException {
 
         List<TruckDto> trucks = (List<TruckDto>) request.getSession().getAttribute("trucksInUse");
         TruckDto chosenTruck = trucks.get(index);
 
-        if (chosenTruck.getManageable().equals("TRUE")) {
+        if (chosenTruck.getManageable().equals(Manageable.TRUE)) {
             try {
                 List<CargoDto> cargoes = cargoService.getDtoList(new CargoDto(), new Cargo(), "CURRENT_CITY_ID",
                         chosenTruck.getDestinationId().toString(), "STATE", "'TRANSIENT'");

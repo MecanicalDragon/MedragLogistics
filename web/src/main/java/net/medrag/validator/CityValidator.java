@@ -11,7 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 
 /**
- * {@link}
+ * Class for validating {@link CityDto}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -26,6 +26,12 @@ public class CityValidator{
         this.cityService = cityService;
     }
 
+    /**
+     * Validating new city
+     * @param target - new city
+     * @param errors - {@link Errors}
+     * @throws MedragServiceException - throws.
+     */
     public void validate(@Nullable Object target, Errors errors)throws MedragServiceException {
         CityDto city = (CityDto) target;
 
@@ -56,6 +62,13 @@ public class CityValidator{
 
     }
 
+    /**
+     * Validating edits in existing city
+     * @param city - editable city
+     * @param errors - {@link Errors}
+     * @return validated city
+     * @throws MedragServiceException - throws.
+     */
     public CityDto validateEdits(CityDto city, Errors errors) throws MedragServiceException{
 
         CityDto dbCity = cityService.getDtoById(city, new City(), city.getId());

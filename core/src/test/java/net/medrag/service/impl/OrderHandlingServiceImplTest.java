@@ -164,4 +164,14 @@ public class OrderHandlingServiceImplTest {
         verify(rabbitService, times(1)).sendCargo(any(CargoDto.class));
     }
 
+    @Test
+    public void clearCompletedOrders() throws Exception {
+
+//        List<OrderrDto> orders = Stream.of(new OrderrDto(), new OrderrDto(), new OrderrDto()).collect(Collectors.toList());
+//        when(orderService.getDtoList(any(OrderrDto.class), any(Orderr.class))).thenReturn(orders);
+//        doNothing().when(orderService).removeDto(any(OrderrDto.class), any(Orderr.class));
+
+        orderHandler.clearCompletedOrders();
+    }
+
 }

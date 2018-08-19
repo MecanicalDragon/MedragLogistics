@@ -8,7 +8,6 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -18,8 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -64,6 +66,31 @@ public class EntityDaoImplTest {
         when(session.save(cargo)).thenReturn(10);
         int i = dao.addEntity(cargo);
         assertEquals(i, 10);
+    }
+
+    @Test
+    public void updateEntityStatus() throws Exception {
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(session.merge(any(Cargo.class))).thenReturn(new Object());
+        dao.updateEntityStatus(cargo);
+        verify(session).merge(cargo);
+    }
+
+    @Test
+    public void refreshEntity() throws Exception {
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        doNothing().when(session).refresh(any(Cargo.class));
+        Cargo refreshedCargo = dao.refreshEntity(cargo);
+        verify(session).refresh(cargo);
+        assertEquals(refreshedCargo, cargo);
+    }
+
+    @Test
+    public void removeEntity() throws Exception {
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        doNothing().when(session).remove(any(Cargo.class));
+        dao.removeEntity(cargo);
+        verify(session).remove(cargo);
     }
 
     @Test

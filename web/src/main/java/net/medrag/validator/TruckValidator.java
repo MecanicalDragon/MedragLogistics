@@ -38,6 +38,12 @@ public class TruckValidator{
         this.truckService = truckService;
     }
 
+    /**
+     * Validating new Truck
+     * @param target - new truck
+     * @param errors - {@link Errors}
+     * @throws MedragServiceException - throws.
+     */
     public void validate(@Nullable Object target, Errors errors) throws MedragServiceException {
         TruckDto truck = (TruckDto) target;
 
@@ -99,7 +105,13 @@ public class TruckValidator{
         }
     }
 
-
+    /**
+     * Validating existing truck
+     * @param truck - editable truck
+     * @param errors - {@link Errors}
+     * @return - validated truck
+     * @throws MedragServiceException - throws.
+     */
     public TruckDto validateEdits(TruckDto truck, Errors errors)throws MedragServiceException {
 
         TruckDto dbTruck = truckService.getDtoById(new TruckDto(), new Truck(), truck.getId());

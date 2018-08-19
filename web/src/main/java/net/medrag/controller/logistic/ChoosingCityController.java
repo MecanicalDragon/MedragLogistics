@@ -24,6 +24,10 @@ public class ChoosingCityController {
     /**
      * Third step - adding compiled truck load  and cities list to the session.
      * Next step - {@link AddingDriversController}
+     *
+     * @param cargoesList - list of chosen cargoes
+     * @param request - request
+     * @return - chooseCity.jsp
      */
     @PostMapping()
     public String addCargoes(@RequestParam("cargoesList") String cargoesList, HttpServletRequest request){
@@ -45,6 +49,12 @@ public class ChoosingCityController {
         return "logistic/chooseCity";
     }
 
+    /**
+     * Step back in wizard
+     *
+     * @param request - request
+     * @return chooseCity.jsp
+     */
     @GetMapping
     public String stepBack(HttpServletRequest request){
         request.getSession().setAttribute("destinationCity", null);

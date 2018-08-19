@@ -51,7 +51,6 @@ public class WatcherServiceImplTest {
     public void setUp() throws Exception {
         watcher = new WatcherServiceImpl();
         watcher.setRabbit(rabbit);
-        doNothing().when(rabbit).run();
 
     }
 

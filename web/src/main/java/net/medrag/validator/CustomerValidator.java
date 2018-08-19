@@ -26,6 +26,12 @@ public class CustomerValidator{
         this.customerService = customerService;
     }
 
+    /**
+     * Validating new customer
+     * @param target - new customer
+     * @param errors - {@link Errors}
+     * @throws MedragServiceException - throws.
+     */
     public void validate(@Nullable Object target, Errors errors) throws MedragServiceException {
 
         CustomerDto customer = (CustomerDto) target;

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * This controller handles addDrivers.jsp
+ * This controller handles requests to addDrivers.jsp
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -41,6 +41,12 @@ public class AddingDriversController {
     /**
      * Fourth step: getting and assigning drivers to the route.
      * Finish it with the {@link RouteController}
+     *
+     * @param index - index of chosen city in session.cities list
+     * @param request - request
+     * @param model - model
+     * @return addDrivers.jsp
+     * @throws MedragControllerException - throws MedragControllerException
      */
     @PostMapping
     public String addDrivers(@RequestParam Integer index, HttpServletRequest request, Model model) throws MedragControllerException {

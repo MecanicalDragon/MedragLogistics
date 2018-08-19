@@ -18,7 +18,7 @@ import java.time.Instant;
 import java.util.Random;
 
 /**
- * {@link}
+ * Class for validating {@link DriverDto}
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -40,6 +40,12 @@ public class DriverValidator {
         this.driverService = driverService;
     }
 
+    /**
+     * Validating new driver
+     * @param target - new driver
+     * @param errors - {@link Errors}
+     * @throws MedragServiceException - throws.
+     */
     public void validate(@Nullable Object target, Errors errors)throws MedragServiceException {
         DriverDto driverDto = (DriverDto) target;
 
@@ -90,6 +96,13 @@ public class DriverValidator {
         }
     }
 
+    /**
+     * Validating existing driver
+     * @param driver - editable driver
+     * @param errors - {@link Errors}
+     * @return validated driver
+     * @throws MedragServiceException - throws.
+     */
     public DriverDto validateEdits(DriverDto driver, Errors errors)throws MedragServiceException {
 
         DriverDto dbDriver = driverService.getDtoById(driver, new Driver(), driver.getId());

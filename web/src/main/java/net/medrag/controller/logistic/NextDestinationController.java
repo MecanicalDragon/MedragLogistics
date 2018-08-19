@@ -1,6 +1,5 @@
 package net.medrag.controller.logistic;
 
-
 import net.medrag.controller.advice.MedragControllerException;
 import net.medrag.domain.entity.City;
 import net.medrag.domain.dto.CargoDto;

@@ -105,11 +105,7 @@ public class RouteServiceImpl implements RouteService {
 
 //        Setting new statuses to truck and drivers
         for (DriverDto driver : brigade) {
-            driver.setState(DriverState.PORTER);
-            driver.setCurrentTruck(assignedTruck);
-            driver.setDestinationId(destination.getId());
-            driver.setDestinationName(destination.getName());
-            driverService.updateDtoStatus(driver, new Driver());
+            setNewDriverDestination(driver, destination.getId(), destination.getName(), assignedTruck);
             new Thread(() -> {
                 try {
                     mailService.sendCompiledRouteMesaage(driver, destination.getName());
@@ -119,6 +115,7 @@ public class RouteServiceImpl implements RouteService {
                 }
             }).start();
         }
+
         assignedTruck.setStatus(TruckStatus.IN_USE);
         assignedTruck.setManageable(Manageable.TRUE);
         assignedTruck.setBrigade(brigade);
@@ -141,79 +138,19 @@ public class RouteServiceImpl implements RouteService {
     @Transactional
     public Boolean completeWaypoint(WaypointDto completedWP) throws MedragServiceException {
 
-        Boolean firstWpInCity = false;
         completedWP = waypointService.refreshDto(completedWP, new Waypoint());
         completedWP.setComplete("true");
 
-//            Setting new current city to truck, if it's a first waypoint in this city:
-        if (!completedWP.getCurrentTruck().getCityId().equals(completedWP.getCity().getId())) {
-            completedWP.getCurrentTruck().setCityId(completedWP.getCity().getId());
-            completedWP.getCurrentTruck().setCityName(completedWP.getCity().getName());
+//        Setting new current city to truck brigade and truckload, if it's a first waypoint in this city:
+        Boolean firstWpInCity = IsThisAFirstWaypointInTheCity(completedWP);
 
-//            If city of waypoint is also destination city for the truck
-            if (completedWP.getCurrentTruck().getDestinationId().equals(completedWP.getCurrentTruck().getCityId())) {
-                completedWP.getCurrentTruck().setDestinationId(null);
-                completedWP.getCurrentTruck().setDestinationName(null);
-                completedWP.getCurrentTruck().setManageable(Manageable.FALSE);
-            } else {
-
-//                If truck was "UNCOMPLETED"
-                if (completedWP.getCurrentTruck().getManageable().equals(Manageable.UNCOMPLETED)) {
-                    completedWP.getCurrentTruck().setManageable(Manageable.NEED_TO_COMPLETE);
-                } else {
-
-//                    If it was a try to save current brigade for the next route
-                    if (completedWP.getCurrentTruck().getManageable().equals(Manageable.SAVE_BRIGADE)) {
-                        CityDto destination = cityService.getDtoById(new CityDto(), new City(), completedWP.getCurrentTruck().getDestinationId());
-                        CityDto departure = completedWP.getCity();
-                        Integer[] tripTime = directionsService.getTripTime(departure, destination);
-                        List<DriverDto> brigade = driverHandlerService.getReadyDrivers(tripTime[1], completedWP.getCurrentTruck().getBrigade());
-
-//                        If success
-                        if (brigade.size() == Integer.valueOf(completedWP.getCurrentTruck().getBrigadeStr())) {
-                            compileRouteForTruck(completedWP.getCurrentTruck(), brigade);
-                        } else {
-
-//                            If not
-                            completedWP.getCurrentTruck().setManageable(Manageable.NEED_TO_COMPLETE);
-                        }
-                    }
-                }
-            }
-
-//             Setting new current city for brigade:
-            for (DriverDto driver : completedWP.getCurrentTruck().getBrigade()) {
-                driver.setCityId(completedWP.getCity().getId());
-                driver.setCityName(completedWP.getCity().getName());
-                driver.setState(DriverState.PORTER);
-
-//                Nulling destination, if driver is on it
-                if (driver.getDestinationId() != null && driver.getDestinationId().equals(driver.getCityId())) {
-                    driver.setDestinationId(null);
-                    driver.setDestinationName(null);
-                }
-                driverService.updateDtoStatus(driver, new Driver());
-            }
-
-//            Set new current city for all transit cargoes
-            List<WaypointDto> wps = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "WP_TYPE",
-                    "'LOAD'", "COMPLETE", "true", "TRUCK_ID", completedWP.getCurrentTruck().getId().toString());
-            for (WaypointDto wp : wps) {
-                if (!wp.getCargo().getState().equals(CargoState.DESTINATION)) {
-                    wp.getCargo().setCurrentCityId(completedWP.getCity().getId());
-                    waypointService.updateDtoStatus(wp, new Waypoint());
-                }
-            }
-
-            firstWpInCity = true;
-        }
-
+//        Completing waypoint part
         completeWaypointCargoPart(completedWP);
 
-//        update waypoint status
+//        Update waypoint status
         waypointService.updateDtoStatus(completedWP, new Waypoint());
 
-//        send update to watcher
+//        Send update to Watcher
         rabbitService.sendCargo(completedWP.getCargo());
 
         return firstWpInCity;
@@ -222,10 +159,10 @@ public class RouteServiceImpl implements RouteService {
     /**
      * Method from logistics. Compiles route for truck, that's already in use.
      *
-     * @param departure - current destination city.
-     * @param destination - new destination city.
-     * @param truckLoad - cargoes in truck.
-     * @param assignedTruck - managed truck.
+     * @param departure      - current destination city.
+     * @param destination    - new destination city.
+     * @param truckLoad      - cargoes in truck.
+     * @param assignedTruck  - managed truck.
      * @param currentBrigade - current brigade.
      * @throws MedragServiceException - looks like it cans.
      */
@@ -233,12 +170,13 @@ public class RouteServiceImpl implements RouteService {
     @Transactional
     public void compileUncompletedRoute(CityDto departure, CityDto destination, List<CargoDto> truckLoad, TruckDto assignedTruck, Boolean currentBrigade) throws MedragServiceException {
 
+//        Updating truck status
         assignedTruck.setManageable(currentBrigade ? Manageable.SAVE_BRIGADE : Manageable.UNCOMPLETED);
         assignedTruck.setDestinationId(destination.getId());
         assignedTruck.setDestinationName(destination.getName());
         truckService.updateDtoStatus(assignedTruck, new Truck());
 
-//        Adding waypoints for every cargo in truckload
+//        Adding waypoints for cargoes in transfer point city
         for (CargoDto cargo : truckLoad) {
             if (cargo.getCurrentCityId().equals(departure.getId())) {
                 innerCompileWaypoint(departure, destination, assignedTruck, cargo);
@@ -250,7 +188,6 @@ public class RouteServiceImpl implements RouteService {
         for (WaypointDto wp : wps) {
             if (truckLoad.contains(wp.getCargo())) {
                 wp.setCity(destination);
-//                wp.setBrigade(null);
                 waypointService.updateDtoStatus(wp, new Waypoint());
             }
         }
@@ -260,7 +197,7 @@ public class RouteServiceImpl implements RouteService {
      * Method assigns truck brigade for a new route: changes statuses of current drivers and sets to new.
      *
      * @param assignedTruck - managed truck.
-     * @param brigade - new brigade.
+     * @param brigade       - new brigade.
      * @throws MedragServiceException - don't know.
      */
     @Override
@@ -270,21 +207,13 @@ public class RouteServiceImpl implements RouteService {
 //        Setting new statuses to old brigade
         for (DriverDto driver : assignedTruck.getBrigade()) {
             if (!brigade.contains(driver)) {
-                driver.setDestinationId(null);
-                driver.setDestinationName(null);
-                driver.setCurrentTruck(assignedTruck);
-                driver.setState(DriverState.PORTER);
-                driverService.updateDtoStatus(driver, new Driver());
+                setNewDriverDestination(driver, null, null, assignedTruck);
             }
         }
 
 //        Setting new statuses to new brigade
         for (DriverDto driver : brigade) {
-            driver.setDestinationId(assignedTruck.getDestinationId());
-            driver.setDestinationName(assignedTruck.getDestinationName());
-            driver.setCurrentTruck(assignedTruck);
-            driver.setState(DriverState.PORTER);
-            driverService.updateDtoStatus(driver, new Driver());
+            setNewDriverDestination(driver, assignedTruck.getDestinationId(), assignedTruck.getDestinationName(), assignedTruck);
             new Thread(() -> {
                 try {
                     mailService.sendCompiledRouteMesaage(driver, assignedTruck.getDestinationName());
@@ -303,12 +232,29 @@ public class RouteServiceImpl implements RouteService {
     }
 
     /**
+     * Driver new destination process handler.
+     *
+     * @param driver          - handled driver.
+     * @param destinationId   - destination id.
+     * @param destinationName - destination name.
+     * @param assignedTruck   - assigned truck.
+     * @throws MedragServiceException - hope, not.
+     */
+    private void setNewDriverDestination(DriverDto driver, Integer destinationId, String destinationName, TruckDto assignedTruck) throws MedragServiceException {
+        driver.setState(DriverState.PORTER);
+        driver.setCurrentTruck(assignedTruck);
+        driver.setDestinationId(destinationId);
+        driver.setDestinationName(destinationName);
+        driverService.updateDtoStatus(driver, new Driver());
+    }
+
+    /**
      * Separated method, that compiles pair of waypoints.
      *
-     * @param departure - city of LOAD waypoint.
-     * @param destination - city of UNLOAD waypoint.
+     * @param departure     - city of LOAD waypoint.
+     * @param destination   - city of UNLOAD waypoint.
      * @param assignedTruck - assigned truck.
-     * @param cargo - waypoint's cargo.
+     * @param cargo         - waypoint's cargo.
      * @throws MedragServiceException - i'm afraid to print "be sure"
      */
     private void innerCompileWaypoint(CityDto departure, CityDto destination, TruckDto assignedTruck, CargoDto cargo) throws MedragServiceException {
@@ -364,7 +310,7 @@ public class RouteServiceImpl implements RouteService {
                             mailService.sendDeliveredCargoEmail(completedWP.getCargo());
                         } catch (MessagingException e) {
                             LOGGER.error("Could not send email with cargo 'DELIVERED' state to customer with document {}. {}"
-                            , completedWP.getCargo().getOwner().getPassport(), e);
+                                    , completedWP.getCargo().getOwner().getPassport(), e);
                         }
                     }).start();
                 }
@@ -374,5 +320,80 @@ public class RouteServiceImpl implements RouteService {
                 completedWP.getCargo().setState(CargoState.TRANSIENT);
             }
         }
+    }
+
+    /**
+     * This method is being called, if completed waypoind is the first waypoint in city for truck. It sets this city
+     * data to truck, it's cargoes and brigade or just returns 'false'.
+     *
+     * @param completedWP - current handled waypoint.
+     * @return - Is it a first waypoint in city.
+     * @throws MedragServiceException - it cans.
+     */
+    private Boolean IsThisAFirstWaypointInTheCity(WaypointDto completedWP) throws MedragServiceException {
+
+        if (!completedWP.getCurrentTruck().getCityId().equals(completedWP.getCity().getId())) {
+            completedWP.getCurrentTruck().setCityId(completedWP.getCity().getId());
+            completedWP.getCurrentTruck().setCityName(completedWP.getCity().getName());
+
+//            If city of waypoint is also destination city for the truck
+            if (completedWP.getCurrentTruck().getDestinationId().equals(completedWP.getCurrentTruck().getCityId())) {
+                completedWP.getCurrentTruck().setDestinationId(null);
+                completedWP.getCurrentTruck().setDestinationName(null);
+                completedWP.getCurrentTruck().setManageable(Manageable.FALSE);
+            } else {
+
+//                If truck was "UNCOMPLETED"
+                if (completedWP.getCurrentTruck().getManageable().equals(Manageable.UNCOMPLETED)) {
+                    completedWP.getCurrentTruck().setManageable(Manageable.NEED_TO_COMPLETE);
+                } else {
+
+//                    If it was a try to save current brigade for the next route
+                    if (completedWP.getCurrentTruck().getManageable().equals(Manageable.SAVE_BRIGADE)) {
+                        CityDto destination = cityService.getDtoById(new CityDto(), new City(), completedWP.getCurrentTruck().getDestinationId());
+                        CityDto departure = completedWP.getCity();
+                        Integer[] tripTime = directionsService.getTripTime(departure, destination);
+                        List<DriverDto> brigade = driverHandlerService.getReadyDrivers(tripTime[1], completedWP.getCurrentTruck().getBrigade());
+
+//                        If success
+                        if (brigade.size() == Integer.valueOf(completedWP.getCurrentTruck().getBrigadeStr())) {
+                            compileRouteForTruck(completedWP.getCurrentTruck(), brigade);
+                        } else {
+
+//                            If not
+                            completedWP.getCurrentTruck().setManageable(Manageable.NEED_TO_COMPLETE);
+                        }
+                    }
+                }
+            }
+
+//             Setting new current city for brigade:
+            for (DriverDto driver : completedWP.getCurrentTruck().getBrigade()) {
+                driver.setCityId(completedWP.getCity().getId());
+                driver.setCityName(completedWP.getCity().getName());
+                driver.setState(DriverState.PORTER);
+
+//                Nulling destination, if driver is on it
+                if (driver.getDestinationId() != null && driver.getDestinationId().equals(driver.getCityId())) {
+                    driver.setDestinationId(null);
+                    driver.setDestinationName(null);
+                }
+                driverService.updateDtoStatus(driver, new Driver());
+            }
+
+//            Set new current city for all transit cargoes
+            List<WaypointDto> wps = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "WP_TYPE",
+                    "'LOAD'", "COMPLETE", "true", "TRUCK_ID", completedWP.getCurrentTruck().getId().toString());
+
+            for (WaypointDto wp : wps) {
+                if (wp.getCargo().getCurrentTruck() != null &&
+                        wp.getCargo().getCurrentTruck().getId().equals(completedWP.getCurrentTruck().getId())) {
+                    wp.getCargo().setCurrentCityId(completedWP.getCity().getId());
+                    waypointService.updateDtoStatus(wp, new Waypoint());
+                }
+            }
+
+            return true;
+        } else return false;
     }
 }

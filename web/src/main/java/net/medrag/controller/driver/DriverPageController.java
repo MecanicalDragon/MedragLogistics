@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * {@link}
+ * Controller for handling requests to driverPage.jsp
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -58,6 +58,14 @@ public class DriverPageController {
         this.securityService = securityService;
     }
 
+    /**
+     * First request to driverPage.
+     *
+     * @param model - model
+     * @param request - request
+     * @return - driverPage.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @GetMapping()
     public String returnView(Model model, HttpServletRequest request) throws MedragControllerException {
 
@@ -84,6 +92,15 @@ public class DriverPageController {
         return "driver/driverPage";
     }
 
+    /**
+     * Changing driver's state post request
+     *
+     * @param option - new state
+     * @param request - request
+     * @param redirect - 'returnView' method
+     * @return - driverPage.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping()
     public String changeState(@RequestParam String option, HttpServletRequest request, RedirectAttributes redirect) throws MedragControllerException {
 
