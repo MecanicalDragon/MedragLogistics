@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * {@link}
+ * Handling order page
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -31,6 +31,14 @@ public class OrderController {
         this.orderHandlingService = orderHandlingService;
     }
 
+    /**
+     * Compile new order
+     *
+     * @param request - request
+     * @param model - model
+     * @return compiledOrder page
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("compile")
     public String compileOrder(HttpServletRequest request, Model model)throws MedragControllerException {
 
@@ -52,6 +60,14 @@ public class OrderController {
         return "warehouse/compiledOrder";
     }
 
+    /**
+     * Deliver cargo
+     *
+     * @param index - index of delivered cargo in session cargoes list
+     * @param request - request
+     * @return - redirects to main warehouse page
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("deliver")
     public String deliver(@RequestParam Integer index, HttpServletRequest request) throws MedragControllerException{
         List<CargoDto> cargoes = (List<CargoDto>) request.getSession().getAttribute("globalCargoes");
@@ -61,7 +77,7 @@ public class OrderController {
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
-        return "redirect: ../../whm-main";
+        return "redirect: ../whm-main";
     }
 
 }

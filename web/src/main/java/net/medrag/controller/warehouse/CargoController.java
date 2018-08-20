@@ -30,6 +30,16 @@ public class CargoController {
         this.cargoValidator = cargoValidator;
     }
 
+    /**
+     * Adding new cargo method
+     *
+     * @param newCargo - new cargo
+     * @param bindingResult - errors in cargo fields
+     * @param request - request
+     * @param model - model
+     * @return - the same page
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("addCargo")
     public String addCargo(@ModelAttribute("cargo") CargoDto newCargo, BindingResult bindingResult,
                            HttpServletRequest request, Model model) throws MedragControllerException {

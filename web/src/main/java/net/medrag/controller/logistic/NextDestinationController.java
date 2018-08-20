@@ -18,6 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This controller handles next destination city request in rerouted truck
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("mgr-nextDestination")
 public class NextDestinationController {
@@ -29,6 +35,15 @@ public class NextDestinationController {
         this.cityService = cityService;
     }
 
+    /**
+     * Rerouting truck post method
+     *
+     * @param request - request
+     * @param cargoesList - cargoes, that must be loaded into truck in destination city
+     * @param model - model
+     * @return - chooseCity.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping
     public String getNextDestination(HttpServletRequest request, @RequestParam String cargoesList, Model model) throws MedragControllerException{
 

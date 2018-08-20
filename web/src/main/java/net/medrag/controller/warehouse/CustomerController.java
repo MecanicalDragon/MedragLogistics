@@ -32,12 +32,28 @@ public class CustomerController {
         this.customerValidator = customerValidator;
     }
 
+    /**
+     * Getting customer page
+     *
+     * @param model - model
+     * @return - customer.jsp
+     */
     @GetMapping()
     public String newCustomer(Model model) {
         model.addAttribute("newCustomer", new CustomerDto());
         return "warehouse/customer";
     }
 
+    /**
+     * Adding new customer or gettig existing from the database
+     *
+     * @param customer - customer
+     * @param bindingResult - errors in validating
+     * @param model - model
+     * @param request - request
+     * @return - order.jsp, if all is correct, or the same page, if validation has errors
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("clarify")
     public String addNewCustomer(@ModelAttribute("newCustomer") CustomerDto customer, BindingResult bindingResult,
                                  Model model, HttpServletRequest request) throws MedragControllerException {

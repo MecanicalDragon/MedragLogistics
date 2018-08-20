@@ -69,7 +69,7 @@
 
                             <tr class="odd gradeX">
                                 <td>${wp.currentTruck.regNumber}<span hidden>XXX${index.index}XXX</span></td>
-                                <td>${wp.cargo.index}</td>
+                                <td>${wp.wayPointType.toString().equals("CHECK") ? "CHECKPOINT" : wp.cargo.index}</td>
                                 <td>${wp.wayPointType.toString()}</td>
                                 <td>
                                     <button class="btn btn-success btn-xs btn-wp"
@@ -85,11 +85,6 @@
             </div>
         </div>
     </div>
-
-    <div class="footer">
-        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
-    </div>
-
 </div>
 
 <form action="${contextPath}/whm-wp" method="POST" id="completeWP">
@@ -113,7 +108,7 @@
 <script src="/resources/js/stomp.js"></script>
 <script>
     $(document).ready(function () {
-        var ch = ${changed};
+        var ch = ${changed == null ? false : changed};
         if (ch === true) {
             var socket = new SockJS('/waypoints');
             var stompClient = Stomp.over(socket);

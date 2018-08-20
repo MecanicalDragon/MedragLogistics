@@ -151,7 +151,9 @@ public class RouteServiceImpl implements RouteService {
         waypointService.updateDtoStatus(completedWP, new Waypoint());
 
 //        Send update to Watcher
-        rabbitService.sendCargo(completedWP.getCargo());
+        if (!completedWP.getWayPointType().equals(WaypointType.CHECK)) {
+            rabbitService.sendCargo(completedWP.getCargo());
+        }
 
         return firstWpInCity;
     }
@@ -177,12 +179,26 @@ public class RouteServiceImpl implements RouteService {
         truckService.updateDtoStatus(assignedTruck, new Truck());
 
 //        Adding waypoints for cargoes in transfer point city
+        int departureCargoes = 0;
         for (CargoDto cargo : truckLoad) {
             if (cargo.getCurrentCityId().equals(departure.getId())) {
                 innerCompileWaypoint(departure, destination, assignedTruck, cargo);
+                departureCargoes++;
             }
         }
 
+        if (departureCargoes == 0) {
+//            Creating checkpoint in transfer point city
+            WaypointDto checkpoint = new WaypointDto();
+            checkpoint.setCargo(truckLoad.get(0));
+            checkpoint.setCity(departure);
+            checkpoint.setCurrentTruck(assignedTruck);
+            checkpoint.setComplete("false");
+            checkpoint.setWayPointType(WaypointType.CHECK);
+            waypointService.addDto(checkpoint, new Waypoint());
+        }
+
+//        Setting new UNLOAD waypoints to cargoes in truck
         List<WaypointDto> wps = waypointService.getDtoList(new WaypointDto(), new Waypoint(), "TRUCK_ID",
                 assignedTruck.getId().toString(), "WP_TYPE", "'UNLOAD'", "CITY_ID", departure.getId().toString());
         for (WaypointDto wp : wps) {
@@ -289,6 +305,13 @@ public class RouteServiceImpl implements RouteService {
      */
     private void completeWaypointCargoPart(WaypointDto completedWP) {
 
+//        If waypoint is CHECK type
+        if (completedWP.getWayPointType().equals(WaypointType.CHECK)) {
+            completedWP.getCargo().setCurrentCityId(completedWP.getCity().getId());
+            completedWP.getCargo().setCurrentCityName(completedWP.getCity().getName());
+            return;
+        }
+
 //        If waypoint is LOAD type - setting cargo state 'ON_BOARD', and that's all
         if (completedWP.getWayPointType().equals(WaypointType.LOAD)) {
             completedWP.getCargo().setState(CargoState.ON_BOARD);
@@ -389,7 +412,9 @@ public class RouteServiceImpl implements RouteService {
                 if (wp.getCargo().getCurrentTruck() != null &&
                         wp.getCargo().getCurrentTruck().getId().equals(completedWP.getCurrentTruck().getId())) {
                     wp.getCargo().setCurrentCityId(completedWP.getCity().getId());
+                    wp.getCargo().setCurrentCityName(completedWP.getCity().getName());
                     waypointService.updateDtoStatus(wp, new Waypoint());
+                    rabbitService.sendCargo(wp.getCargo());
                 }
             }
 

@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Controller for servicing waypoints.jsp
+ * Controller for handling waypoints.jsp
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -53,6 +53,9 @@ public class WarehouseController {
      * Method gets from database and adds to session actual waypoints in chosen city
      *
      * @param city - name of chosen city
+     * @param request - request
+     * @return - warehouse.jsp
+     * @throws MedragControllerException - throws MedragControllerException
      */
     @GetMapping()
     public String returnView(@RequestParam String city, HttpServletRequest request) throws MedragControllerException {
@@ -82,6 +85,15 @@ public class WarehouseController {
         return "warehouse/warehouse";
     }
 
+    /**
+     * Complete waypoint mathod
+     *
+     * @param index - index of completed waypoint in session waypoint list
+     * @param request - request
+     * @param redirect - boolean parameter, needed for websockets
+     * @return - the same page
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping()
     public String completeWaypoint(@RequestParam Integer index, HttpServletRequest request, RedirectAttributes redirect) throws MedragControllerException {
 

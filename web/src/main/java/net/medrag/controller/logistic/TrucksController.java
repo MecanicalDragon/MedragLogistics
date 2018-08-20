@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Controller, that handles trucks.jsp
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("mgr-route")
 public class TrucksController {
@@ -23,6 +29,13 @@ public class TrucksController {
         this.truckService = truckService;
     }
 
+    /**
+     * Getting the trucks managing page
+     *
+     * @param request - request
+     * @return - trucks.jsp
+     * @throws MedragServiceException - throws MedragControllerException
+     */
     @GetMapping
     public String getTrucks(HttpServletRequest request) throws MedragServiceException{
 

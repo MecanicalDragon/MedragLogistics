@@ -39,10 +39,6 @@
             <a href="${contextPath}/whm-main">To the main warehouse page</a>
         </div>
     </div>
-
-    <div class="footer">
-        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
-    </div>
 </div>
 </body>
 </html>

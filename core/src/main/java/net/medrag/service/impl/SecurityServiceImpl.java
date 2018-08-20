@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Security service. Works with SecurityContextHolder.
@@ -24,12 +24,8 @@ public class SecurityServiceImpl implements SecurityService {
      */
     @Override
     public String getRoleOfSignedInUser() {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        String role = null;
-        for (GrantedAuthority authority : authorities) {
-            role = authority.getAuthority();
-        }
-        return role;
+        List<? extends GrantedAuthority> authorities = (List)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return authorities.get(0).getAuthority();
     }
 
     /**

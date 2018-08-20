@@ -79,8 +79,6 @@
                                     class="form-control"/>
                     </div>
                 </div>
-
-
                 <br>
                 <div class="row justify-content-center">
                     <div class="btn-group">
@@ -94,12 +92,7 @@
 
                 </div>
             </form:form>
-
-
         </div>
-    </div>
-    <div class="footer">
-        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 </div>
 

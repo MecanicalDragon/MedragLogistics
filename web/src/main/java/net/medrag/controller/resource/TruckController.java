@@ -40,6 +40,14 @@ public class TruckController {
         this.truckValidator = truckValidator;
     }
 
+    /**
+     * Getting the trucks page
+     *
+     * @param request - request
+     * @param model   - model
+     * @return - trucks.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @GetMapping()
     public String returnView(HttpServletRequest request, Model model) throws MedragControllerException {
         List<TruckDto> trucks = null;
@@ -54,6 +62,15 @@ public class TruckController {
         return "resource/trucks";
     }
 
+    /**
+     * Edit chosen truck post method
+     *
+     * @param truck        - edited truck
+     * @param bindingResult - errors in edits
+     * @param model         - model
+     * @return - trucks.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("editTruck")
     public String editTruck(@ModelAttribute("editableTruck") TruckDto truck, BindingResult bindingResult, Model model) throws MedragControllerException {
 
@@ -80,6 +97,15 @@ public class TruckController {
         return "redirect: ../rsm-truck";
     }
 
+    /**
+     * Adding new truck post method
+     *
+     * @param truck        - new driver
+     * @param bindingResult - errors in edits
+     * @param model         - model
+     * @return - trucks.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("addTruck")
     public String addTruck(@ModelAttribute("truck") TruckDto truck, BindingResult bindingResult, Model model) throws MedragControllerException {
 
@@ -104,6 +130,14 @@ public class TruckController {
         return "redirect: ../rsm-truck";
     }
 
+    /**
+     * Removing chosen truck post method
+     *
+     * @param index - index of chosen truck in session trucks list
+     * @param request - request
+     * @return - trucks.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("remove")
     public String removeTruck(@RequestParam Integer index, HttpServletRequest request) throws MedragControllerException {
 
@@ -117,6 +151,15 @@ public class TruckController {
         return "redirect: ../rsm-truck";
     }
 
+    /**
+     * Changing truck status method
+     *
+     * @param index   - index of chosen truck in session trucks list
+     * @param state   - new status
+     * @param request - request
+     * @return - trucks.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("changeState")
     public String changeState(@RequestParam Integer index, @RequestParam String state, HttpServletRequest request) throws MedragControllerException {
         List<TruckDto> truckList = (List<TruckDto>) request.getSession().getAttribute("truckList");

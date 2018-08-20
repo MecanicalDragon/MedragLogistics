@@ -14,7 +14,7 @@ import java.util.List;
 
 
 /**
- * {@link}
+ * RestController for Watcher App.
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -30,6 +30,11 @@ public class WatcherController {
         this.watcherService = watcherService;
     }
 
+    /**
+     * Getting last 10 cargoes list
+     * @return last 10 cargoes list
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @GetMapping("cargoes")
     public List<CargoForm> getLastOrders() throws MedragControllerException{
         try {
@@ -40,6 +45,11 @@ public class WatcherController {
         }
     }
 
+    /**
+     * Getting drivers and trucks info
+     * @return drivers and trucks info
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @GetMapping("stats")
     public Integer[] getStats() throws MedragControllerException{
         try {

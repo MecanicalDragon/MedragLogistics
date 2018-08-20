@@ -60,9 +60,9 @@
                         <c:forEach items="${sessionScope.trucksInUse}" var="truck" varStatus="index">
                             <tr class="odd gradeX">
                                 <td>
-                                    <button class="btn ${truck.manageable.equals('NEED_TO_COMPLETE') ? 'btn-danger' : 'btn-success'} btn-xs btn-target-go"
+                                    <button class="btn ${truck.manageable.toString().equals('NEED_TO_COMPLETE') ? 'btn-danger' : 'btn-success'} btn-xs btn-target-go"
                                             form="targetForm" style="width:70px;"
-                                            id="XXX${index.index}XXX">${truck.manageable.equals('NEED_TO_COMPLETE') ? 'Staff' : 'Reroute'}
+                                            id="XXX${index.index}XXX">${truck.manageable.toString().equals('NEED_TO_COMPLETE') ? 'Staff' : 'Reroute'}
                                     </button>
                                 </td>
                                 <td>${truck.regNumber}</td>
@@ -77,9 +77,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="footer">
-        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
     </div>
 </div>
 

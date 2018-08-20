@@ -121,11 +121,6 @@
             </div>
         </div>
     </div>
-
-    <div class="footer">
-        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
-    </div>
-
 </div>
 
 <!-- Modal window New Password-->

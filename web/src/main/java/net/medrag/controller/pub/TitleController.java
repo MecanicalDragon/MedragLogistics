@@ -23,6 +23,12 @@ public class TitleController {
         this.securityService = securityService;
     }
 
+    /**
+     * Getting title page
+     * @param model - model
+     * @param error - login error parameter
+     * @return - title.jsp
+     */
     @GetMapping
     public String login(Model model, String error) {
         if (error != null) {
@@ -31,6 +37,10 @@ public class TitleController {
         return "public/title";
     }
 
+    /**
+     * Identifying user by his role, using spring security roles
+     * @return user's main page (depends on user's role)
+     */
     @GetMapping("identify")
     public String identify() {
         String role = securityService.getRoleOfSignedInUser();
@@ -48,11 +58,19 @@ public class TitleController {
         }
     }
 
+    /**
+     * Error page
+     * @return error.jsp
+     */
     @GetMapping("error")
     public String getError(){
         return "public/error";
     }
 
+    /**
+     * Access denied page
+     * @return 403.jsp
+     */
     @GetMapping("403")
     public String get403(){
         return "public/403";

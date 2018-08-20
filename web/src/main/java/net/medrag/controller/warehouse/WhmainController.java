@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Controller, that handles warehousePage
+ * Controller, that handles warehouse main page
  *
  * @author Stanislav Tretyakov
  * @version 1.0
@@ -29,6 +29,13 @@ public class WhmainController {
         this.cargoService = cargoService;
     }
 
+    /**
+     * etting main page
+     *
+     * @param request - request
+     * @return - main.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @GetMapping()
     public String returnView(HttpServletRequest request) throws MedragControllerException {
 

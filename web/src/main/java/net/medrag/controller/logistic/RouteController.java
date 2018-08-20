@@ -37,6 +37,9 @@ public class RouteController {
      * the database waypoints for chosen cargoes
      *
      * @param drivers - indexes of assigned drivers in the session attribute list drivers.
+     * @param request - request
+     * @return - redirects to mgr-main
+     * @throws MedragControllerException - throws MedragControllerException
      */
     @PostMapping
     public String compileWP(@RequestParam("drivers") String drivers, HttpServletRequest request) throws MedragControllerException {
@@ -66,6 +69,15 @@ public class RouteController {
 
     }
 
+    /**
+     * Compiling new route for rerouted truck
+     *
+     * @param index - index of destination city in session city list
+     * @param currentBrigade - trying to save current brigade boolean
+     * @param request - request
+     * @return - redirects to mgr-route
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("uncompleted")
     public String compileUncompleted(@RequestParam Integer index, @RequestParam Boolean currentBrigade, HttpServletRequest request) throws MedragControllerException {
 
@@ -87,6 +99,14 @@ public class RouteController {
 
     }
 
+    /**
+     * Assigning new brigade to earlier rerouted truck
+     *
+     * @param drivers - new brigade
+     * @param request - request
+     * @return - redirects to mgr-route
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("complete")
     public String completeRoute(@RequestParam("drivers") String drivers, HttpServletRequest request) throws MedragControllerException {
 

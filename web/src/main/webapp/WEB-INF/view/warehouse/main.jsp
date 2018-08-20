@@ -138,11 +138,6 @@
             </div>
         </div>
     </div>
-
-    <%--Footer--%>
-    <div class="footer">
-        <p><a href="${contextPath}/dbfs">&copy; Medrag Logistics 20!8</a></p>
-    </div>
 </div>
 
 <form action="${contextPath}/whm-order/deliver" method="POST" id="targetForm">

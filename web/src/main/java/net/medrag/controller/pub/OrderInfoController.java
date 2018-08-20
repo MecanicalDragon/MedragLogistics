@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller, that handles info.jsp
+ *
+ * @author Stanislav Tretyakov
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("orderInfo")
 public class OrderInfoController {
@@ -35,6 +41,15 @@ public class OrderInfoController {
         this.orderService = orderService;
     }
 
+    /**
+     * Method uses directionsService to calculate a percent of delivery completeness for every cargo of order and show
+     * it on the target page
+     *
+     * @param index - order index
+     * @param model - model
+     * @return - info.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @GetMapping("{index}")
     public String getInfo(@PathVariable String index, Model model) throws MedragControllerException {
 

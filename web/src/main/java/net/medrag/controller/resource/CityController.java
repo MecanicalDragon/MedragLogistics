@@ -48,6 +48,14 @@ public class CityController {
         this.cityService = cityService;
     }
 
+    /**
+     * Getting the city page
+     *
+     * @param request - request
+     * @param model   - model
+     * @return - city.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @GetMapping()
     public String returnView(HttpServletRequest request, Model model) throws MedragControllerException {
         List<CityDto> cities = null;
@@ -62,6 +70,15 @@ public class CityController {
         return "resource/cities";
     }
 
+    /**
+     * Edit chosen city post method
+     *
+     * @param city          - edited city
+     * @param bindingResult - errors in edits
+     * @param model         - model
+     * @return - city.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("editCity")
     public String editCity(@ModelAttribute("editingCity") CityDto city, BindingResult bindingResult, Model model) throws MedragControllerException {
 
@@ -88,6 +105,15 @@ public class CityController {
         return "redirect: ../rsm-city";
     }
 
+    /**
+     * Adding new city post method
+     *
+     * @param city          - tdited city
+     * @param bindingResult - errors in edits
+     * @param model         - model
+     * @return - city.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("addCity")
     public String addCity(@ModelAttribute("city") CityDto city, BindingResult bindingResult, Model model) throws MedragControllerException {
 
@@ -111,6 +137,15 @@ public class CityController {
         return "redirect: ../rsm-city";
     }
 
+    /**
+     * Removing chosen city post method
+     *
+     * @param index - index of chosen city in session city list
+     * @param request - request
+     * @param model - model
+     * @return - city.jsp
+     * @throws MedragControllerException - throws MedragControllerException
+     */
     @PostMapping("remove")
     public String removeCity(@RequestParam Integer index, HttpServletRequest request, Model model) throws MedragControllerException {
         List<CityDto> cities = (List<CityDto>) request.getSession().getAttribute("cities");

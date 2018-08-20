@@ -11,5 +11,6 @@ import net.medrag.domain.entity.Waypoint;
  */
 public enum WaypointType {
     LOAD,
-    UNLOAD
+    UNLOAD,
+    CHECK
 }

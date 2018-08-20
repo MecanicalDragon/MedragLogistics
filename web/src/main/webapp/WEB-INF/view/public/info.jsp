@@ -63,7 +63,7 @@
                                     </div>
                                 </c:when>
                                 <c:when test="${cargo.currentCityId.equals(cargo.departureId) &&
-                                    cargo.state.equals('ON_BOARD')}">
+                                    cargo.state.toString().equals('ON_BOARD')}">
                                     <div class="progress progress-striped active">
                                         <div class="progress-bar progress-bar-warning" role="progressbar"
                                              aria-valuenow="15}"
