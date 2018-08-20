@@ -61,7 +61,7 @@ public class DriverPageController {
     /**
      * First request to driverPage.
      *
-     * @param model - model
+     * @param model   - model
      * @param request - request
      * @return - driverPage.jsp
      * @throws MedragControllerException - throws MedragControllerException
@@ -95,8 +95,8 @@ public class DriverPageController {
     /**
      * Changing driver's state post request
      *
-     * @param option - new state
-     * @param request - request
+     * @param option   - new state
+     * @param request  - request
      * @param redirect - 'returnView' method
      * @return - driverPage.jsp
      * @throws MedragControllerException - throws MedragControllerException
@@ -105,6 +105,24 @@ public class DriverPageController {
     public String changeState(@RequestParam String option, HttpServletRequest request, RedirectAttributes redirect) throws MedragControllerException {
 
         DriverDto driver = (DriverDto) request.getSession().getAttribute("sessionDriver");
+        try {
+            DriverState temp = driver.getState();
+            int dest = 0;
+            if (driver.getDestinationId() != null){
+                dest = driver.getDestinationId();
+            }
+            driver = driverService.refreshDto(driver, new Driver());
+            int newdest = 0;
+            if (driver.getDestinationId() != null){
+                newdest = driver.getDestinationId();
+            }
+            if (!temp.equals(driver.getState()) || dest != newdest) {
+                redirect.addFlashAttribute("newState", true);
+                return "redirect:/drv-main";
+            }
+        } catch (MedragServiceException e) {
+            throw new MedragControllerException(e);
+        }
         driver.setState(DriverState.valueOf(option));
 
         if (driver.getCurrentTruck() != null &&

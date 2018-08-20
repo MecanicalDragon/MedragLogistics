@@ -116,6 +116,13 @@
                 stompClient.send("/medrag/waypoints", {}, "arrival");
             });
         }
+//        var socketR = new SockJS('/routing');
+//        var stompClientR = Stomp.over(socketR);
+//        stompClientR.connect({}, function (frame) {
+//            stompClientR.subscribe('/changes/inRoutes', function () {
+//                location.reload(true);
+//            });
+//        });
     });
 </script>
 

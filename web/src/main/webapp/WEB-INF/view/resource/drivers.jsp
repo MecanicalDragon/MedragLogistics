@@ -415,6 +415,13 @@
                     location.reload(true);
             });
         });
+//        var socketWP = new SockJS('/waypoints');
+//        var stompClientWP = Stomp.over(socketWP);
+//        stompClientWP.connect({}, function (frame) {
+//            stompClientWP.subscribe('/changes/inWaypoints', function () {
+//                location.reload(true);
+//            });
+//        });
     });
 </script>
 

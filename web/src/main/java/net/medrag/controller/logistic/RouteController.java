@@ -10,6 +10,7 @@ import net.medrag.service.api.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -42,7 +43,8 @@ public class RouteController {
      * @throws MedragControllerException - throws MedragControllerException
      */
     @PostMapping
-    public String compileWP(@RequestParam("drivers") String drivers, HttpServletRequest request) throws MedragControllerException {
+    public String compileWP(@RequestParam("drivers") String drivers, HttpServletRequest request,
+                            RedirectAttributes redirect) throws MedragControllerException {
 
 //        Getting attributes from session
         List<DriverDto> driverList = (List<DriverDto>) request.getSession().getAttribute("drivers");
@@ -61,11 +63,12 @@ public class RouteController {
 //        Transactional method in waypoint service
         try {
             routeService.compileRoute(departureCity, destinationCity, truckLoad, assignedTruck, brigade);
+            redirect.addFlashAttribute("newRoute", true);
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
 
-        return "redirect: mgr-main";
+        return "redirect:/mgr-main";
 
     }
 
@@ -79,7 +82,8 @@ public class RouteController {
      * @throws MedragControllerException - throws MedragControllerException
      */
     @PostMapping("uncompleted")
-    public String compileUncompleted(@RequestParam Integer index, @RequestParam Boolean currentBrigade, HttpServletRequest request) throws MedragControllerException {
+    public String compileUncompleted(@RequestParam Integer index, @RequestParam Boolean currentBrigade,
+                                     HttpServletRequest request, RedirectAttributes redirect) throws MedragControllerException {
 
         List<CityDto> cities = (List<CityDto>) request.getSession().getAttribute("cities");
         CityDto destinationCity = cities.get(index);
@@ -92,10 +96,11 @@ public class RouteController {
 //        Transactional method in waypoint service
         try {
             routeService.compileUncompletedRoute(departureCity, destinationCity, truckLoad, assignedTruck, currentBrigade);
+            redirect.addFlashAttribute("newRoute", true);
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
-        return "redirect: ../mgr-route";
+        return "redirect:/../mgr-route";
 
     }
 
@@ -108,7 +113,8 @@ public class RouteController {
      * @throws MedragControllerException - throws MedragControllerException
      */
     @PostMapping("complete")
-    public String completeRoute(@RequestParam("drivers") String drivers, HttpServletRequest request) throws MedragControllerException {
+    public String completeRoute(@RequestParam("drivers") String drivers, HttpServletRequest request,
+                                RedirectAttributes redirect) throws MedragControllerException {
 
 //        Getting attributes from session
         TruckDto assignedTruck = (TruckDto) request.getSession().getAttribute("chosenTruck");
@@ -124,11 +130,12 @@ public class RouteController {
 //        Transactional method in waypoint service
         try {
             routeService.compileRouteForTruck(assignedTruck, brigade);
+            redirect.addFlashAttribute("newRoute", true);
         } catch (MedragServiceException e) {
             throw new MedragControllerException(e);
         }
 
-        return "redirect: ../mgr-route";
+        return "redirect:/../mgr-route";
     }
 
 }

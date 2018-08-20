@@ -1,6 +1,7 @@
 package net.medrag.service;
 
 import net.medrag.dao.MedragRepositoryException;
+import net.medrag.domain.dto.DriverDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;

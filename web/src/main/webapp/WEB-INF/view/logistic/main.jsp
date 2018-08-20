@@ -91,5 +91,21 @@
 <script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="/resources/js/dt-base.js"></script>
 
+<%--&lt;%&ndash;Websockets state notifier&ndash;%&gt;--%>
+<%--<script src="/resources/js/sockjs.js"></script>--%>
+<%--<script src="/resources/js/stomp.js"></script>--%>
+<%--<script>--%>
+    <%--$(document).ready(function () {--%>
+        <%--var ch = ${newRoute == null ? false : newRoute};--%>
+        <%--if (ch === true) {--%>
+            <%--var socketR = new SockJS('/routing');--%>
+            <%--var stompClientR = Stomp.over(socketR);--%>
+            <%--stompClientR.connect({}, function (frame) {--%>
+                <%--stompClientR.send("/medrag/routing", {}, "newRoute");--%>
+            <%--});--%>
+        <%--}--%>
+    <%--});--%>
+<%--</script>--%>
+
 </body>
 </html>

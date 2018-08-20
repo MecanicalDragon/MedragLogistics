@@ -358,5 +358,20 @@
 <script src="/resources/js/rsm-tables-handler.js"></script>
 <script src="/resources/js/wasnt-added.js"></script>
 
+<%--Websockets status changer--%>
+<script src="/resources/js/sockjs.js"></script>
+<script src="/resources/js/stomp.js"></script>
+<script>
+    $(document).ready(function () {
+        var socketWP = new SockJS('/waypoints');
+        var stompClientWP = Stomp.over(socketWP);
+        stompClientWP.connect({}, function (frame) {
+            stompClientWP.subscribe('/changes/inWaypoints', function () {
+                location.reload(true);
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

@@ -101,7 +101,7 @@ public class WarehouseController {
         WaypointDto completedWP = waypoints.get(index);
 
         try {
-            Boolean firstWp = routeService.completeWaypoint(completedWP);
+            boolean firstWp = routeService.completeWaypoint(completedWP);
             waypoints.remove(index.intValue());
             redirect.addFlashAttribute("changed", firstWp);
         } catch (MedragServiceException e) {

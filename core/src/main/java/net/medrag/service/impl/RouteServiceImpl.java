@@ -414,7 +414,7 @@ public class RouteServiceImpl implements RouteService {
                     wp.getCargo().setCurrentCityId(completedWP.getCity().getId());
                     wp.getCargo().setCurrentCityName(completedWP.getCity().getName());
                     waypointService.updateDtoStatus(wp, new Waypoint());
-                    rabbitService.sendCargo(wp.getCargo());
+//                    rabbitService.sendCargo(wp.getCargo());
                 }
             }
 

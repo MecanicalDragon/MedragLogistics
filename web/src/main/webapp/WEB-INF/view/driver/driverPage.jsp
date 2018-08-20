@@ -63,6 +63,9 @@
                                             <c:if test="${standalone != null && standalone == true}">
                                                 <span class="redtext">You can't leave truck now, wait for shift change or call operator.</span>
                                             </c:if>
+                                            <c:if test="${newState != null && newState == true}">
+                                                <span class="redtext">Your status has been changed. Watch it and keep in mind.</span>
+                                            </c:if>
                                             <div class="row">
                                                 <div class="text-left col-xs-4">
                                                     <c:set var="hours"
@@ -94,9 +97,12 @@
                                                         </button>
                                                         <ul class="dropdown-menu pull-right" role="menu">
                                                             <c:choose>
-                                                                <%--<c:when test="${wps.size() == 0 || wps == null}">--%>
+                                                                <%--<c:when test="${(driver.destinationId != null && --%>
+                                                                <%--driver.currentTruck != null &&--%>
+                                                                <%--driver.currentTruck.destinationId == null) || --%>
+                                                                <%--driver.destinationId == null || --%>
+                                                                <%--driver.destinationId.equals(driver.cityId)}">--%>
                                                                 <c:when test="${driver.destinationId == null || driver.destinationId.equals(driver.cityId)}">
-
                                                                     <li>
                                                                         <a id="REST" role="button" class="changeState">Go
                                                                             to rest</a>
@@ -106,7 +112,6 @@
                                                                            class="changeState">Ready to route</a>
                                                                     </li>
                                                                 </c:when>
-                                                                <%--<c:when test="${driver.currentTruck != null}">--%>
                                                                 <c:otherwise>
                                                                     <li>
                                                                         <a id="ON_SHIFT" role="button"
@@ -189,16 +194,26 @@
                                         <div class="panel-body">
                                             <c:choose>
                                                 <c:when test="${wps != null && wps.size() != 0}">
-                                                    <c:if test="${driver.destinationId != null}">
-                                                        <div class="row">
-                                                            <div class="text-left col-xs-6">
-                                                                <h2>Current destination:</h2>
+                                                    <c:choose>
+                                                        <c:when test="${driver.destinationId != null}">
+                                                            <div class="row">
+                                                                <div class="text-left col-xs-6">
+                                                                    <h2>Current destination:</h2>
+                                                                </div>
+                                                                <div class="text-right col-xs-6">
+                                                                    <h2>${driver.destinationName}</h2>
+                                                                </div>
                                                             </div>
-                                                            <div class="text-right col-xs-6">
-                                                                <h2>${driver.destinationName}</h2>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <div class="row">
+                                                                <div class="text-left col-xs-6">
+                                                                    <h2 class="redtext">You are not assigned to this
+                                                                        route for a while</h2>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </c:if>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                     <table width="100%"
                                                            class="table table-striped table-bordered table-hover"
                                                            id="dto-Table">
@@ -300,6 +315,20 @@
                 stompClient.send("/medrag/drivers", {}, "stateChanged");
             });
         }
+        var socketWP = new SockJS('/waypoints');
+        var stompClientWP = Stomp.over(socketWP);
+        stompClientWP.connect({}, function (frame) {
+            stompClientWP.subscribe('/changes/inWaypoints', function () {
+                location.reload(true);
+            });
+        });
+//        var socketR = new SockJS('/routing');
+//        var stompClientR = Stomp.over(socketR);
+//        stompClientR.connect({}, function (frame) {
+//            stompClientR.subscribe('/changes/inRoutes', function () {
+//                location.reload(true);
+//            });
+//        });
     });
 </script>
 

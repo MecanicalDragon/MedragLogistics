@@ -317,7 +317,7 @@ public class RouteServiceImplTest {
         boolean verdict = routeService.completeWaypoint(waypoint);
 
         verify(waypointService, times(2)).updateDtoStatus(any(WaypointDto.class), any(Waypoint.class));
-        verify(rabbitService, times(2)).sendCargo(any(CargoDto.class));
+        verify(rabbitService, times(1)).sendCargo(any(CargoDto.class));
         verify(driverService, times(2)).updateDtoStatus(any(DriverDto.class), any(Driver.class));
         assertTrue(verdict);
     }
