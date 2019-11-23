@@ -1,0 +1,276 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<h:head>
+    <title>Watcher</title>
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Bootstrap Core CSS -->
+    <h:outputStylesheet name="css/bootstrap.min.css"/>
+    <h:outputStylesheet name="css/palitre.css"/>
+
+</h:head>
+
+<h:body>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
+
+                    <div class="panel-heading">
+                        <h3 id="id">Last taken orders information</h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <h:dataTable value="#{Main.cargoes}" var="cargo" width="100%"
+                                     class="table table-striped table-bordered table-hover" id="dto-Table">
+                            <h:column>
+                                <f:facet name="header">Order</f:facet>
+                                <h:outputText rendered="#{cargo.orderrComplete.equals('true')}" value="Completed"
+                                              class="supergreentext"/>
+                                <h:outputText rendered="#{cargo.orderrComplete.equals('false')}" value="In process"
+                                              class="redtext"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Order index</f:facet>
+                                <h:outputText rendered="#{cargo.orderrComplete.equals('true')}"
+                                              value="#{cargo.orderrIndex}" class="supergreentext"/>
+                                <h:outputText rendered="#{cargo.orderrComplete.equals('false')}"
+                                              value="#{cargo.orderrIndex}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Cargo index</f:facet>
+                                <h:outputText value="#{cargo.index}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Owner</f:facet>
+                                <h:outputText value="#{cargo.ownerPassport}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Current city</f:facet>
+                                <h:outputText rendered="#{cargo.state.equals('DELIVERED')}"
+                                              value="#{cargo.currentCityName}" class="supergreentext"/>
+                                <h:outputText rendered="#{cargo.state.equals('DESTINATION')}"
+                                              value="#{cargo.currentCityName}" class="greentext"/>
+                                <h:outputText
+                                        rendered="#{!(cargo.state.equals('DESTINATION') || cargo.state.equals('DELIVERED'))}"
+                                        value="#{cargo.currentCityName}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Destination</f:facet>
+                                <h:outputText rendered="#{cargo.state.equals('DELIVERED')}"
+                                              value="#{cargo.destinationName}" class="supergreentext"/>
+                                <h:outputText rendered="#{cargo.state.equals('DESTINATION')}"
+                                              value="#{cargo.destinationName}" class="greentext"/>
+                                <h:outputText
+                                        rendered="#{!(cargo.state.equals('DESTINATION') || cargo.state.equals('DELIVERED'))}"
+                                        value="#{cargo.destinationName}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">State</f:facet>
+                                <h:outputText rendered="#{cargo.state.equals('DELIVERED')}" value="Delivered"
+                                              class="supergreentext"/>
+                                <h:outputText rendered="#{cargo.state.equals('DESTINATION')}" value="Destination"
+                                              class="greentext"/>
+                                <h:outputText rendered="#{cargo.state.equals('PREPARED')}" value="Prepared"
+                                              class="bluetext"/>
+                                <h:outputText rendered="#{cargo.state.equals('TRANSIENT')}" value="Transient"
+                                              class="purpletext"/>
+                                <h:outputText rendered="#{cargo.state.equals('ON_BOARD')}" value="En route"
+                                              class="orangetext"/>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="text-left col-xs-4">
+                                <h4 class="purpletext">Drivers on shift: <h:outputText id="driversOnShift"
+                                                                                       value="#{Main.stats.get(0)}"/>
+                                </h4>
+                            </div>
+                            <div class="text-center col-xs-4">
+                                <h4 class="greentext">Drivers ready to shift: <h:outputText id="driversReady"
+                                                                                            value="#{Main.stats.get(1)}"/>
+                                </h4>
+                            </div>
+                            <div class="text-right col-xs-4">
+                                <h4 class="redtext">Drivers resting: <h:outputText id="driversRest"
+                                                                                   value="#{Main.stats.get(2)}"/>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="text-left col-xs-4">
+                                <h4 class="purpletext">Trucks in use: <h:outputText id="trucksInUse"
+                                                                                    value="#{Main.stats.get(3)}"/>
+                                </h4>
+                            </div>
+                            <div class="text-center col-xs-4">
+                                <h4 class="greentext">Trucks ready to use: <h:outputText id="trucksReady"
+                                                                                         value="#{Main.stats.get(4)}"/>
+                                </h4>
+                            </div>
+                            <div class="text-right col-xs-4">
+                                <h4 class="redtext">Trucks in service: <h:outputText id="trucksInService"
+                                                                                     value="#{Main.stats.get(5)}"/></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <f:websocket channel="statsChanges" onmessage="getStatsChanges"/>
+    <f:websocket channel="cargoesChanges" onmessage="getCargoesChanges"/>
+
+    <h:outputScript name="js/jquery.min.js"/>
+    <script>
+        function getStatsChanges(message, channel, event) {
+            let changeable = {
+                name: message.split('->')[0],
+                previousState: message.split('->')[1],
+                currentState: message.split('->')[2]
+            };
+
+//                        if changeable is driver
+            if (changeable.name === 'driver') {
+                changeDriver(changeable);
+            }
+//                        if changeable is truck
+            if (changeable.name === 'truck') {
+                changeTruck(changeable);
+            }
+
+
+//        function for changing trucks data
+            function changeTruck(truck) {
+
+                let trucksInUse = parseInt($("#trucksInUse").text(), 10);
+                let trucksInService = parseInt($("#trucksInService").text(), 10);
+                let trucksReady = parseInt($("#trucksReady").text(), 10);
+
+//            decrement previous state trucks count
+                if (truck.previousState === 'STAY_IDLE') {
+                    $("#trucksReady").text(--trucksReady);
+                } else if (truck.previousState === 'IN_USE') {
+                    $("#trucksInUse").text(--trucksInUse);
+                } else if (truck.previousState === 'IN_SERVICE') {
+                    $("#trucksInService").text(--trucksInService);
+                }
+//            increment current state trucks count
+                if (truck.currentState === 'STAY_IDLE') {
+                    $("#trucksReady").text(++trucksReady);
+                } else if (truck.currentState === 'IN_USE') {
+                    $("#trucksInUse").text(++trucksInUse);
+                } else if (truck.currentState === 'IN_SERVICE') {
+                    $("#trucksInService").text(++trucksInService);
+                }
+            }
+
+//        function for changing drivers data
+            function changeDriver(driver) {
+
+                let driversOnShift = parseInt($("#driversOnShift").text(), 10);
+                let driversRest = parseInt($("#driversRest").text(), 10);
+                let driversReady = parseInt($("#driversReady").text(), 10);
+
+//            decrement previous state drivers count
+                if (driver.previousState === 'REST') {
+                    $("#driversRest").text(--driversRest);
+                } else if (driver.previousState === 'READY_TO_ROUTE') {
+                    $("#driversReady").text(--driversReady);
+                } else if (driver.previousState === 'DRIVING' || driver.previousState === 'ON_SHIFT' || driver.previousState === 'PORTER') {
+                    $("#driversOnShift").text(--driversOnShift);
+                }
+//            increment current state drivers count
+                if (driver.currentState === 'REST') {
+                    $("#driversRest").text(++driversRest);
+                } else if (driver.currentState === 'READY_TO_ROUTE') {
+                    $("#driversReady").text(++driversReady);
+                } else if (driver.currentState === 'DRIVING' || driver.currentState === 'ON_SHIFT' || driver.currentState === 'PORTER') {
+                    $("#driversOnShift").text(++driversOnShift);
+                }
+            }
+        }
+
+    </script>
+    <script>
+        function getCargoesChanges(message, channel, event) {
+            var changedCargo = JSON.parse(message);
+            var table = document.getElementById("dto-Table");
+
+//            Searching if cargo from message exists in the table and removing it
+            var rows = table.rows;
+            for (var i = 0; i+1 !== rows.length; i++) {
+                if (rows[i].cells[2].innerHTML === changedCargo.index) {
+                    table.deleteRow(i);
+                    break;
+                }
+            }
+
+//            Removing last row, if it is extra
+            if (rows.length !== 10) {
+                table.deleteRow(10);
+            }
+
+//            Create new row
+            var row = table.insertRow(1);
+
+//            Initialize cells
+            var orderComplete = row.insertCell(0);
+            var orderIndex = row.insertCell(1);
+            var cargoIndex = row.insertCell(2);
+            var owner = row.insertCell(3);
+            var city = row.insertCell(4);
+            var destination = row.insertCell(5);
+            var state = row.insertCell(6);
+
+//            Define and paint cells
+            if (changedCargo.orderrComplete === "false") {
+                orderComplete.style.color = "red";
+                orderComplete.innerHTML = "In process";
+            } else {
+                orderComplete.style.color = "green";
+                orderComplete.innerHTML = "Completed";
+                orderIndex.style.color = "green";
+            }
+
+            orderIndex.innerHTML = changedCargo.orderrIndex;
+            cargoIndex.innerHTML = changedCargo.index;
+            owner.innerHTML = changedCargo.ownerPassport;
+
+            if (changedCargo.state === "DELIVERED") {
+                city.style.color = "green";
+                destination.style.color = "green";
+                state.style.color = "green";
+                state.innerHTML = "Delivered";
+
+            } else if (changedCargo.state === "DESTINATION") {
+                city.style.color = "darkseagreen";
+                destination.style.color = "darkseagreen";
+                state.style.color = "darkseagreen";
+                state.innerHTML = "Destination";
+            }
+
+            city.innerHTML = changedCargo.currentCityName;
+            destination.innerHTML = changedCargo.destinationName;
+
+            if (changedCargo.state === "PREPARED") {
+                state.style.color = "cornflowerblue";
+                state.innerHTML = "Prepared";
+            } else if (changedCargo.state === "TRANSIENT") {
+                state.style.color = "royalblue";
+                state.innerHTML = "Transient";
+            } else if (changedCargo.state === "ON_BOARD") {
+                state.style.color = "coral";
+                state.innerHTML = "En route";
+            }
+        }
+    </script>
+
+</h:body>
+</html>

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="
@@ -6,20 +5,21 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.megrag</groupId>
+
+    <groupId>net.medrag</groupId>
     <artifactId>MedragLogistics</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <name>MedragLogistics</name>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>database</module>
-        <module>core</module>
-        <module>web</module>
+        <module>PrimaryApp</module>
+        <module>Watcher</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <application.version>1.0-SNAPSHOT</application.version>
+        <application.version>1.0</application.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
@@ -28,23 +28,16 @@
         <hibernate.version>5.2.17.Final</hibernate.version>
         <jackson.version>2.9.6</jackson.version>
         <jaxb-api.version>2.2.11</jaxb-api.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <slf4j.version>1.7.12</slf4j.version>
         <logback.version>1.2.3</logback.version>
+        <jstl.version>1.2</jstl.version>
+        <servletapi.version>2.5</servletapi.version>
+        <jsp.api.version>2.1</jsp.api.version>
+        <rabbitmq.version>LATEST</rabbitmq.version>
     </properties>
 
     <build>
         <finalName>MedragLogistics</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
 </project>
