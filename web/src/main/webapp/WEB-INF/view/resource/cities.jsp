@@ -137,7 +137,7 @@
                                    action="${contextPath}/rsm-city/addCity">
 
                             <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
+                                <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
                                     <spring:bind path="name">
                                         <form:input name="name" placeholder="City" path="name" autofocus="true"
                                                     class="form-control col-8"/>
@@ -149,7 +149,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
+                                <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
                                     <spring:bind path="index">
                                         <form:input name="index" placeholder="index" path="index"
                                                     class="form-control col-8"/>
@@ -161,7 +161,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
+                                <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
                                     <spring:bind path="coordinatesX">
                                         <form:input name="x" placeholder="latitude" path="coordinatesX"
                                                     class="form-control col-8"/>
@@ -173,7 +173,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
+                                <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
                                     <spring:bind path="coordinatesY">
                                         <form:input name="y" placeholder="longitude" path="coordinatesY"
                                                     class="form-control col-8"/>
@@ -217,7 +217,7 @@
                             </spring:bind>
 
                             <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
+                                <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
                                     <spring:bind path="name">
                                         <form:input name="name" placeholder="City name" path="name"
                                                     class="form-control col-8"/>
@@ -229,7 +229,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
+                                <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
                                     <spring:bind path="index">
                                         <form:input name="index" placeholder="index" path="index"
                                                     class="form-control col-8"/>
@@ -241,7 +241,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
+                                <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
                                     <spring:bind path="coordinatesX">
                                         <form:input name="x" placeholder="latitude" path="coordinatesX"
                                                     class="form-control col-8"/>
@@ -253,7 +253,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-6 col-xs-offset-3">
+                                <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
                                     <spring:bind path="coordinatesY">
                                         <form:input name="y" placeholder="longitude" path="coordinatesY"
                                                     class="form-control col-8"/>
@@ -286,7 +286,12 @@
                 <h4 class="modal-title" id="deldtoLabel"></h4>
             </div>
             <div class="modal-body">
-                <h2 id="deletingdtoQuestion"></h2>
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
+                        <h2 id="deletingdtoQuestion"></h2>
+                    </div>
+                </div>
+
             </div>
             <form action="${contextPath}/rsm-city/remove" method="POST" id="targetForm">
                 <input type="hidden" id="targetField" name="index" value="">
@@ -340,7 +345,7 @@
 
 <script>
     <c:if test="${active != null && active == true}">
-    $(window).on('load',function(){
+    $(window).on('load', function () {
         $('#notSoFast').modal('show');
     });
     </c:if>

@@ -81,7 +81,7 @@ public class EmployeeIdentifierServiceImplTest {
 
         UserDto user = new UserDto();
         user.setUsername("user");
-        user.setRole(UserRole.ROLE_WAREHOUSEMAN);
+        user.setRole("ROLE_WAREHOUSEMAN");
         user.setEmail("example@example.com");
 
         when(userService.getUserByUsername(anyString())).thenReturn(null);

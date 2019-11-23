@@ -206,11 +206,9 @@
                                                             </div>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <div class="row">
-                                                                <div class="text-left col-xs-6">
-                                                                    <h2 class="redtext">You are not assigned to this
+                                                            <div class="row text-center">
+                                                                    <h2 class="redtext">You are not assigned for the further
                                                                         route for a while</h2>
-                                                                </div>
                                                             </div>
                                                         </c:otherwise>
                                                     </c:choose>

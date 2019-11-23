@@ -87,7 +87,9 @@
                         <c:forEach items="${sessionScope.userList}" var="userUnit" varStatus="index">
 
                             <tr class="odd gradeX">
-                                <td>${userUnit.username}<span hidden>XXX${userUnit.id}XXX${userUnit.username}XXX${userUnit.email}XXX${index.index}XXX</span></td>
+                                <td>${userUnit.username}<span
+                                        hidden>XXX${userUnit.id}XXX${userUnit.username}XXX${userUnit.email}XXX${index.index}XXX</span>
+                                </td>
                                 <td>${userUnit.email}</td>
                                 <td>
                                     <c:if test="${userUnit.role.equals('ROLE_DRIVER')}">
@@ -133,17 +135,16 @@
                 <h4 class="modal-title" id="editdtoLabel">New password</h4>
             </div>
             <div class="modal-body">
-                <h2 id="newPasswordQuestion"></h2>
-
-                <form class="form" id="newPasswordForm" method="post"
-                      action="${contextPath}/rsm-user/generate">
-
-                    <input type="hidden" name="id" value="" id="newPasswordId"/>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
-
-                </form>
-
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
+                        <h2 id="newPasswordQuestion"></h2>
+                        <form class="form" id="newPasswordForm" method="post"
+                              action="${contextPath}/rsm-user/generate">
+                            <input type="hidden" name="id" value="" id="newPasswordId"/>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -163,24 +164,33 @@
                 <h4 class="modal-title" id="myModalLabel">Add new user</h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
+                        <form:form class="form" id="addNewUserForm" method="post" modelAttribute="newUser"
+                                   action="${contextPath}/rsm-user/addUser">
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <spring:bind path="email">
+                                        <form:input name="email" placeholder="email" path="email"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                            </div>
 
-                <form:form class="form" id="addNewUserForm" method="post" modelAttribute="newUser"
-                           action="${contextPath}/rsm-user/addUser">
-
-                    <spring:bind path="email">
-                        <form:input name="email" placeholder="email" path="email" class="form-control col-8"/>
-                    </spring:bind>
-
-                    <spring:bind path="role">
-                        <form:select path="role" placeholder="User Role" class="form-control">
-                            <option value="rsm" id="rsm">Resource manager</option>
-                            <option value="whm" id="whm">Warehouseman</option>
-                            <option value="mgr" id="mgr">Logistican</option>
-                        </form:select>
-                    </spring:bind>
-
-                </form:form>
-
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <spring:bind path="role">
+                                        <form:select path="role" placeholder="User Role" class="form-control">
+                                            <option value="rsm" id="rsm">Resource manager</option>
+                                            <option value="whm" id="whm">Warehouseman</option>
+                                            <option value="mgr" id="mgr">Logistican</option>
+                                        </form:select>
+                                    </spring:bind>
+                                </div>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -200,16 +210,19 @@
                 <h4 class="modal-title" id="deldtoLabel">Removing user</h4>
             </div>
             <div class="modal-body">
-                <h2 id="deletingdtoQuestion"></h2>
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
+                        <h2 id="deletingdtoQuestion"></h2>
 
-                <form class="form" id="removableUserForm" method="post"
-                           action="${contextPath}/rsm-user/remove">
+                        <form class="form" id="removableUserForm" method="post"
+                              action="${contextPath}/rsm-user/remove">
 
-                    <input type="hidden" name="index" value="" id="userIndex"/>
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <input type="hidden" name="index" value="" id="userIndex"/>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                </form>
-
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

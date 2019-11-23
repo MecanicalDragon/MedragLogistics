@@ -158,6 +158,8 @@
                 <h4 class="modal-title" id="editdtoLabel"></h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
 
                 <form:form class="form" id="editTruckForm" method="post" modelAttribute="editableTruck"
                            action="${contextPath}/rsm-truck/editTruck">
@@ -166,8 +168,8 @@
                         <form:input type="hidden" name="id" value="" path="id" id="editeddtoId"/>
                     </spring:bind>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
                             <spring:bind path="regNumber">
                                 <form:input name="regNumber" placeholder="Registration Number" path="regNumber"
                                             class="form-control col-8"/>
@@ -180,8 +182,8 @@
                         </div>
                     </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
                             <spring:bind path="brigadeStr">
                                 <form:input name="brigadeStr" placeholder="Brigade strength" path="brigadeStr"
                                             class="form-control col-8"/>
@@ -194,8 +196,8 @@
                         </div>
                     </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
                             <spring:bind path="capacity">
                                 <form:input name="capacity" placeholder="capacity" path="capacity"
                                             class="form-control col-8"/>
@@ -208,8 +210,8 @@
                         </div>
                     </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
                             <spring:bind path="cityName">
                                 <form:input name="cityName" placeholder="current city" path="cityName"
                                             class="form-control col-8"/>
@@ -223,6 +225,8 @@
                     </div>
 
                 </form:form>
+            </div>
+        </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -242,12 +246,14 @@
                 <h4 class="modal-title" id="truckLabel">Add new Truck</h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
 
                 <form:form class="form" id="addNewTruckForm" method="post" modelAttribute="truck"
                            action="${contextPath}/rsm-truck/addTruck">
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
                             <spring:bind path="regNumber">
                                 <form:input name="regNumber" placeholder="Truck register number" path="regNumber"
                                             autofocus="true"
@@ -261,8 +267,8 @@
                         </div>
                     </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
                             <spring:bind path="brigadeStr">
                                 <form:input name="brigadeStr" placeholder="Brigade strength" path="brigadeStr"
                                             class="form-control col-8"/>
@@ -275,8 +281,8 @@
                         </div>
                     </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
                             <spring:bind path="capacity">
                                 <form:input name="capacity" placeholder="capacity" path="capacity"
                                             class="form-control col-8"/>
@@ -289,8 +295,8 @@
                         </div>
                     </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
                             <spring:bind path="cityName">
                                 <form:input name="cityName" placeholder="current city" path="cityName"
                                             class="form-control col-8"/>
@@ -304,6 +310,8 @@
                     </div>
 
                 </form:form>
+            </div>
+        </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -323,7 +331,11 @@
                 <h4 class="modal-title" id="deldtoLabel"></h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
                 <h2 id="deletingdtoQuestion"></h2>
+                    </div>
+                </div>
             </div>
             <form action="${contextPath}/rsm-truck/remove" method="POST" id="targetForm">
                 <input type="hidden" id="targetField" name="index" value="">

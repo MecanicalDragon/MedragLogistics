@@ -213,66 +213,72 @@
                 <h4 class="modal-title" id="myModalLabel">Add new driver</h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
 
-                <form:form class="form" id="addNewDriverForm" method="post" modelAttribute="driver"
-                           action="${contextPath}/rsm-driver/addDriver">
+                        <form:form class="form" id="addNewDriverForm" method="post" modelAttribute="driver"
+                                   action="${contextPath}/rsm-driver/addDriver">
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="name">
-                                <form:input name="name" placeholder="name" path="name" autofocus="true"
-                                            class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="name"/>
+                            <div class="row">
+                                <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
+                                    <spring:bind path="name">
+                                        <form:input name="name" placeholder="name" path="name" autofocus="true"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <div class="font-italic">
+                                        <form:errors path="name"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="surname">
-                                <form:input name="surname" placeholder="surname" path="surname"
-                                            class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="surname"/>
+                            <div class="row">
+                                <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
+                                    <spring:bind path="surname">
+                                        <form:input name="surname" placeholder="surname" path="surname"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <div class="font-italic">
+                                        <form:errors path="surname"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="email">
-                                <form:input name="email" placeholder="email" path="email" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="email"/>
+                            <div class="row">
+                                <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
+                                    <spring:bind path="email">
+                                        <form:input name="email" placeholder="email" path="email"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <div class="font-italic">
+                                        <form:errors path="email"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="cityName">
-                                <form:input name="cityName" placeholder="dislocation city" path="cityName"
-                                            class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="cityName"/>
+                            <div class="row">
+                                <div class="col-xs-6 ${err ? '' : 'col-xs-offset-3'}">
+                                    <spring:bind path="cityName">
+                                        <form:input name="cityName" placeholder="dislocation city" path="cityName"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <div class="font-italic">
+                                        <form:errors path="cityName"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                </form:form>
+                        </form:form>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -292,69 +298,75 @@
                 <h4 class="modal-title" id="editdtoLabel">Edit driver ${editableDriver.personalNumber}</h4>
             </div>
             <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
 
-                <form:form class="form" id="editDriverForm" method="post" modelAttribute="editableDriver"
-                           action="${contextPath}/rsm-driver/editDriver">
+                        <form:form class="form" id="editDriverForm" method="post" modelAttribute="editableDriver"
+                                   action="${contextPath}/rsm-driver/editDriver">
 
-                    <spring:bind path="id">
-                        <form:input type="hidden" name="id" value="" path="id" id="editeddtoId"/>
-                    </spring:bind>
-
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="name">
-                                <form:input name="name" placeholder="name" path="name" class="form-control col-8"/>
+                            <spring:bind path="id">
+                                <form:input type="hidden" name="id" value="" path="id" id="editeddtoId"/>
                             </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="name"/>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="surname">
-                                <form:input name="surname" placeholder="surname" path="surname"
-                                            class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="surname"/>
+                            <div class="row">
+                                <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
+                                    <spring:bind path="name">
+                                        <form:input name="name" placeholder="name" path="name"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <div class="font-italic">
+                                        <form:errors path="name"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="email">
-                                <form:input name="email" placeholder="email" path="email" class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="email"/>
+                            <div class="row">
+                                <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
+                                    <spring:bind path="surname">
+                                        <form:input name="surname" placeholder="surname" path="surname"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <div class="font-italic">
+                                        <form:errors path="surname"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row row-justify-content-center">
-                        <div class="col-sm-6">
-                            <spring:bind path="cityName">
-                                <form:input name="cityName" placeholder="current city name" path="cityName"
-                                            class="form-control col-8"/>
-                            </spring:bind>
-                        </div>
-                        <div class="secondary-text text-center text-danger">
-                            <div class="font-italic">
-                                <form:errors path="cityName"/>
+                            <div class="row">
+                                <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
+                                    <spring:bind path="email">
+                                        <form:input name="email" placeholder="email" path="email"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <div class="font-italic">
+                                        <form:errors path="email"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                </form:form>
+                            <div class="row">
+                                <div class="col-xs-6 ${editErr ? '' : 'col-xs-offset-3'}">
+                                    <spring:bind path="cityName">
+                                        <form:input name="cityName" placeholder="current city name" path="cityName"
+                                                    class="form-control col-8"/>
+                                    </spring:bind>
+                                </div>
+                                <div class="secondary-text text-center text-danger">
+                                    <div class="font-italic">
+                                        <form:errors path="cityName"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form:form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -374,7 +386,11 @@
                 <h4 class="modal-title" id="deldtoLabel"></h4>
             </div>
             <div class="modal-body">
-                <h2 id="deletingdtoQuestion"></h2>
+                <div class="container-fluid">
+                    <div class="jumbotron" style="margin-bottom: 2px;">
+                        <h2 id="deletingdtoQuestion"></h2>
+                    </div>
+                </div>
             </div>
             <form action="${contextPath}/rsm-driver/remove" method="POST" id="targetForm">
                 <input type="hidden" id="targetField" name="index" value="">
@@ -412,16 +428,16 @@
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             stompClient.subscribe('/changes/inDrivers', function () {
-                    location.reload(true);
+                location.reload(true);
             });
         });
-//        var socketWP = new SockJS('/waypoints');
-//        var stompClientWP = Stomp.over(socketWP);
-//        stompClientWP.connect({}, function (frame) {
-//            stompClientWP.subscribe('/changes/inWaypoints', function () {
-//                location.reload(true);
-//            });
-//        });
+        var socketWP = new SockJS('/waypoints');
+        var stompClientWP = Stomp.over(socketWP);
+        stompClientWP.connect({}, function (frame) {
+            stompClientWP.subscribe('/changes/inWaypoints', function () {
+                location.reload(true);
+            });
+        });
     });
 </script>
 

@@ -2,6 +2,7 @@ package net.medrag.service.impl;
 
 import net.medrag.domain.dto.UserDto;
 import net.medrag.domain.entity.User;
+import net.medrag.domain.enums.UserRole;
 import net.medrag.service.MedragServiceException;
 import net.medrag.service.api.EmployeeIdentifierService;
 import net.medrag.service.api.MailService;
@@ -85,7 +86,7 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
     public void identifyEmployee(UserDto user) throws MedragServiceException {
 
         String prefix;
-        switch (user.getRole().toString()) {
+        switch (user.getRole()) {
             case "ROLE_WAREHOUSEMAN":
                 prefix = warehousePrefix;
                 break;
@@ -105,7 +106,7 @@ public class EmployeeIdentifierServiceImpl implements EmployeeIdentifierService 
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setUsername(user.getUsername());
-        newUser.setRole(user.getRole());
+        newUser.setRole(UserRole.valueOf(user.getRole()));
         String password = generatePassword();
         newUser.setPassword(encoder.encode(password));
 

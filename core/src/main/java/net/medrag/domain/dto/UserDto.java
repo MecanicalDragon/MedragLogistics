@@ -17,7 +17,7 @@ public class UserDto implements Dto {
 
     private String email;
 
-    private UserRole role;
+    private String role;
 
     private Integer driverId;
 
@@ -54,11 +54,11 @@ public class UserDto implements Dto {
         this.email = email;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

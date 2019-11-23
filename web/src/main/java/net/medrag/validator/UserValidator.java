@@ -34,18 +34,18 @@ public class UserValidator implements Validator {
             errors.rejectValue("email", "not.email");
         }
 
-        switch (newUser.getRole().toString()) {
+        switch (newUser.getRole()) {
             case "rsm":
-                newUser.setRole(UserRole.ROLE_RESOURCE);
+                newUser.setRole("ROLE_RESOURCE");
                 break;
             case "whm":
-                newUser.setRole(UserRole.ROLE_WAREHOUSEMAN);
+                newUser.setRole("ROLE_WAREHOUSEMAN");
                 break;
             case "mgr":
-                newUser.setRole(UserRole.ROLE_MANAGER);
+                newUser.setRole("ROLE_MANAGER");
                 break;
             default:
-                newUser.setRole(UserRole.ROLE_RESOURCE);
+                newUser.setRole("ROLE_RESOURCE");
         }
     }
 }
