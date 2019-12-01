@@ -1,5 +1,5 @@
 body {
-    background: url(/resources/vendor/images/back403.jpg);
+    background: url(../../resources/vendor/images/back403.jpg);
     -moz-background-size: 100%; /* Firefox 3.6+ */
     -webkit-background-size: 100%; /* Safari 3.1+ и Chrome 4.0+ */
     -o-background-size: 100%; /* Opera 9.6+ */
@@ -22,7 +22,7 @@ body {
     border-radius: 2px;
     margin: 90px auto;
     padding: 20px;
-    background: url(/resources/vendor/images/403.jpg);
+    background: url(../../resources/vendor/images/403.jpg);
 / / Blue Grey 50 box-shadow: 0 10 px 20 px rgba(0, 0, 0, .19),
 0 6 px 6 px rgba(0, 0, 0, .23);
 / / shadow depth 3

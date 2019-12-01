@@ -4,8 +4,8 @@
 <html>
 <head>
     <title>Ooops...</title>
-    <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
-    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="resources/vendor/images/favicon.ico" rel="shortcut icon">
+    <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <c:set var="msg" value="${msg == null ? 'Something went wrong' : msg}"/>

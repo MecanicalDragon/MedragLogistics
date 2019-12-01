@@ -13,9 +13,9 @@
         Choose city
     </title>
 
-    <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
+    <link href="resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
-    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
     <style>
         #map {
@@ -121,9 +121,9 @@
 </form>
 
 <!-- jQuery -->
-<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="resources/vendor/jquery/jquery.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
-<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -155,7 +155,7 @@
             lat: ${sessionScope.departureCity.coordinatesX},
             lng: ${sessionScope.departureCity.coordinatesY}
         };
-        var image = '/resources/vendor/images/marker.png';
+        var image = 'resources/vendor/images/marker.png';
         var map = new google.maps.Map(
             document.getElementById('map'), {zoom: 6, center: departure, disableDefaultUI: true});
         map.setOptions({styles: style});
