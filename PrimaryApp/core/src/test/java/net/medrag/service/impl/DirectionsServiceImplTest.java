@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.lang.reflect.Field;
+
 import static org.junit.Assert.*;
 
 import static org.mockito.Mockito.*;
@@ -35,6 +37,9 @@ public class DirectionsServiceImplTest {
 
         directionsService = new DirectionsServiceImpl();
         directionsService.setCityService(cityService);
+        Field useGoogle = directionsService.getClass().getDeclaredField("useGoogle");
+        useGoogle.setAccessible(true);
+        useGoogle.set(directionsService, false);
 
         departure = new CityDto();
         departure.setCoordinatesX("58.5562984");

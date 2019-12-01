@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.mail.internet.MimeMessage;
 
+import java.lang.reflect.Field;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,6 +37,9 @@ public class MailServiceImplTest {
     public void setUp() throws Exception {
         mailService = new MailServiceImpl();
         mailService.setMailSender(mailSender);
+        Field sendEmails = mailService.getClass().getDeclaredField("sendEmails");
+        sendEmails.setAccessible(true);
+        sendEmails.set(mailService, true);
         doNothing().when(mailSender).send(any(MimeMessage.class));
         when(mailSender.createMimeMessage()).thenReturn(message);
     }
