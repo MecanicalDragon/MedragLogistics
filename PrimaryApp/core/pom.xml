@@ -72,7 +72,7 @@
         <dependency>
             <groupId>com.rabbitmq</groupId>
             <artifactId>amqp-client</artifactId>
-            <version>LATEST</version>
+            <version>${rabbitmq.version}</version>
         </dependency>
 
         <!--Model Mapper-->
@@ -107,12 +107,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
-            <version>4.2.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
-            <version>4.2.4.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!--Modules-->

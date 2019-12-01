@@ -33,7 +33,7 @@
         <jstl.version>1.2</jstl.version>
         <servletapi.version>2.5</servletapi.version>
         <jsp.api.version>2.1</jsp.api.version>
-        <rabbitmq.version>LATEST</rabbitmq.version>
+        <rabbitmq.version>5.3.0</rabbitmq.version>
     </properties>
 
     <build>

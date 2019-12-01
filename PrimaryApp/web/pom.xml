@@ -15,7 +15,7 @@
     <artifactId>web</artifactId>
     <name>MedragLogistics-web</name>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <dependencies>
         <!-- Unit Tests -->
@@ -92,7 +92,7 @@
     </dependencies>
 
     <build>
-        <finalName>MedragLogistics-web</finalName>
+        <finalName>MedragLogistics</finalName>
     </build>
 
 </project>
