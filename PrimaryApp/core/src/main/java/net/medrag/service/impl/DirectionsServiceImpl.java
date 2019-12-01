@@ -10,12 +10,13 @@ import net.medrag.service.MedragServiceException;
 import net.medrag.service.api.DirectionsService;
 import net.medrag.service.dto.api.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Arrays;
 
 /**
  * This service is responsible for cooperation with google directions api.
@@ -30,7 +31,8 @@ public class DirectionsServiceImpl implements DirectionsService {
     private static final String KEY = "&key=AIzaSyDGfoBub9yxLqFtIVYk_bwSE7Kn8SSvkdI";
 
     private CityService<CityDto, City> cityService;
-    private Boolean useGoogle = false;
+    @Value("${medrag.use.google.for.routing}")
+    private Boolean useGoogle;
 
     @Autowired
     public void setCityService(CityService<CityDto, City> cityService) {

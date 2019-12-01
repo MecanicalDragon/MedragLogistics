@@ -14,11 +14,11 @@
     <title>
         Drivers Page
     </title>
-    <link href="resources/vendor/images/favicon.ico" rel="shortcut icon">
+    <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
-    <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <!-- DataTables CSS -->
-    <link href="resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -110,18 +110,18 @@
 </div>
 
 <!-- jQuery -->
-<script src="resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- DataTables JavaScript -->
-<script src="resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
-<script src="resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-<script src="resources/js/dt-base.js"></script>
+<script src="/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="/resources/js/dt-base.js"></script>
 
 <%--Drivers assigning script--%>
-<script src="resources/js/drivers-assigning.js"></script>
+<script src="/resources/js/drivers-assigning.js"></script>
 
 <script>
     var neededDrivers = parseInt("${sessionScope.brigade}", 10);

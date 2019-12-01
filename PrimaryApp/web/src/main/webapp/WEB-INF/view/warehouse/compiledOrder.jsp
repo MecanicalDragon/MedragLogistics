@@ -10,11 +10,11 @@
         Order compiled
     </title>
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
-    <link href="resources/vendor/images/favicon.ico" rel="shortcut icon">
+    <link href="/resources/vendor/images/favicon.ico" rel="shortcut icon">
     <!-- Bootstrap Core CSS -->
-    <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <!-- My palitre -->
-    <link href="resources/css/palitre.css" rel="stylesheet" type="text/css">
+    <link href="/resources/css/palitre.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
