@@ -219,8 +219,8 @@ public class CargoDto implements Dto {
                 ", name='" + name + '\'' +
                 ", weight='" + weight + '\'' +
                 ", state='" + state + '\'' +
-                ", owner=" + owner.getPassport() +
-                ", order=" + orderr.getIndex() +
+                ", owner=" + (owner == null ? "lazy" : owner.getPassport()) +
+                ", order=" + (orderr == null ? "lazy" : orderr.getIndex()) +
                 ", departureName='" + departureName + '\'' +
                 ", destinationName='" + destinationName + '\'' +
                 ", currentCityName='" + currentCityName + '\'' +

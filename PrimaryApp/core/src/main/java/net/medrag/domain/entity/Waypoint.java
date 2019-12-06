@@ -12,26 +12,26 @@ import javax.persistence.Entity;
  * @version 1.0
  */
 @Entity
-@Table(name = "waypoint")
+@Table(name = "WAYPOINT")
 public class Waypoint extends Identifier{
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "cargo_id", nullable = false)
+    @JoinColumn(name = "CARGO_ID", nullable = false)
     private Cargo cargo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "city_id", nullable = false)
+    @JoinColumn(name = "CITY_ID", nullable = false)
     private City city;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "wp_type", columnDefinition = "enum('load', 'unload')")
+    @Column(name = "WP_TYPE", columnDefinition = "ENUM('LOAD', 'UNLOAD')")
     private WaypointType wayPointType;
 
-    @Column(name = "complete")
+    @Column(name = "COMPLETE")
     private Boolean complete;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "truck_id")
+    @JoinColumn(name = "TRUCK_ID")
     private Truck currentTruck;
 
 //    @ManyToMany(fetch = FetchType.LAZY)

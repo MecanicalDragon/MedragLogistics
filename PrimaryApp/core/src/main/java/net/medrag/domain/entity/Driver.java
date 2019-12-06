@@ -13,52 +13,52 @@ import javax.persistence.Entity;
  * @version 1.0
  */
 @Entity
-@Table(name = "driver")
+@Table(name = "DRIVER")
 public class Driver extends Identifier {
 
     @NaturalId
-    @Column(name = "personal_number")
+    @Column(name = "PERSONAL_NUMBER")
     private String personalNumber;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "surname")
+    @Column(name = "SURNAME")
     private String surname;
 
-    @Column(name = "email")
+    @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "worked_time")
+    @Column(name = "WORKED_TIME")
     private Integer workedTime;
 
-    @Column(name = "paid_time")
+    @Column(name = "PAID_TIME")
     private Integer paidTime;
 
     @Column(name = "HOURS_LAST_MONTH")
     private Integer hoursLastMonth;
 
-    @Column(name = "last_status_change")
+    @Column(name = "LAST_STATUS_CHANGE")
     private Long lastChange;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state", columnDefinition = "enum('rest', 'on_shift', 'driving', 'porter', 'ready_to_route)")
+    @Column(name = "STATE", columnDefinition = "ENUM('REST', 'ON_SHIFT', 'DRIVING', 'PORTER', 'READY_TO_ROUTE)")
     private DriverState state;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "previous_state", columnDefinition = "enum('rest', 'on_shift', 'driving', 'porter', 'ready_to_route)")
+    @Column(name = "PREVIOUS_STATE", columnDefinition = "ENUM('REST', 'ON_SHIFT', 'DRIVING', 'PORTER', 'READY_TO_ROUTE)")
     private DriverState previousState;
 
     @ManyToOne
-    @JoinColumn(name = "current_city_id")
+    @JoinColumn(name = "CURRENT_CITY_ID")
     private City city;
 
     @ManyToOne
-    @JoinColumn(name = "destination_city_id")
+    @JoinColumn(name = "DESTINATION_CITY_ID")
     private City destination;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "current_truck_id")
+    @JoinColumn(name = "CURRENT_TRUCK_ID")
     private Truck currentTruck;
 
 //    @ManyToMany(mappedBy = "brigade", fetch = FetchType.LAZY)

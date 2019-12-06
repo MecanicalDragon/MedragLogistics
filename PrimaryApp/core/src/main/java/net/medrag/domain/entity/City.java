@@ -12,25 +12,21 @@ import javax.persistence.Entity;
  * @version 1.0
  */
 @Entity
-@Table(name = "city")
+@Table(name = "CITY")
 public class City extends Identifier {
 
     @NaturalId(mutable = true)
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "coordinates_X")
+    @Column(name = "COORDINATES_X")
     private Double coordinatesX;
 
-    @Column(name = "coordinates_Y")
+    @Column(name = "COORDINATES_Y")
     private Double coordinatesY;
 
-    @Column(name = "city_index")
+    @Column(name = "CITY_INDEX")
     private String index;
-
-
-
-
 
     public String getIndex() {
         return index;

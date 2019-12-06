@@ -15,33 +15,33 @@ import java.util.Set;
  * @version 1.0
  */
 @Entity
-@Table(name = "truck")
+@Table(name = "TRUCK")
 public class Truck extends Identifier{
 
     @NaturalId(mutable = true)
-    @Column(name = "reg_number")
+    @Column(name = "REG_NUMBER")
     private String regNumber;
 
-    @Column(name = "brigade_str")
+    @Column(name = "BRIGADE_STR")
     private Integer brigadeStr;
 
-    @Column(name = "capacity")
+    @Column(name = "CAPACITY")
     private Integer capacity;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", columnDefinition = "enum('in_use', 'in_service', 'stay_idle')")
+    @Column(name = "STATUS", columnDefinition = "ENUM('IN_USE', 'IN_SERVICE', 'STAY_IDLE')")
     private TruckStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "previous_status", columnDefinition = "enum('in_use', 'in_service', 'stay_idle')")
+    @Column(name = "PREVIOUS_STATUS", columnDefinition = "ENUM('IN_USE', 'IN_SERVICE', 'STAY_IDLE')")
     private TruckStatus prevStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "manageable", columnDefinition = "enum('true', 'false', 'uncompleted', 'need_to_complete', 'save_brigade')")
+    @Column(name = "MANAGEABLE", columnDefinition = "ENUM('TRUE', 'FALSE', 'UNCOMPLETED', 'NEED_TO_COMPLETE', 'SAVE_BRIGADE')")
     private Manageable manageable;
 
     @ManyToOne
-    @JoinColumn(name = "current_city_id")
+    @JoinColumn(name = "CURRENT_CITY_ID")
     private City city;
 
     @ManyToOne

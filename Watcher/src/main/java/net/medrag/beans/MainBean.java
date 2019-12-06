@@ -63,7 +63,7 @@ public class MainBean implements Serializable {
     public void init() {
 
 //        Initialize and fill the cargoes
-        try (InputStream is = new URL("http://localhost:8080/watch/cargoes").openStream()) {
+        try (InputStream is = new URL("http://primary-app:8080/watch/cargoes").openStream()) {
             JsonNode response = new ObjectMapper().readTree(is);
             cargoes = new ArrayList<>();
             if (response.isArray()) {
@@ -78,7 +78,7 @@ public class MainBean implements Serializable {
         }
 
 //        Initialize and fill the stats
-        try (InputStream is = new URL("http://localhost:8080/watch/stats").openStream()) {
+        try (InputStream is = new URL("http://primary-app:8080/watch/stats").openStream()) {
             JsonNode response = new ObjectMapper().readTree(is);
             stats = new ArrayList<>();
             if (response.isArray()) {
@@ -95,7 +95,7 @@ public class MainBean implements Serializable {
 //        Initialize rabbits
         if (rabbit == null) {
             rabbit = new ConnectionFactory();
-            rabbit.setHost("localhost");
+            rabbit.setHost("rabbitmq");
             initializeRabbit(RESOURCES, statsChanges);
             initializeRabbit(DELIVERY, cargoesChanges);
         }

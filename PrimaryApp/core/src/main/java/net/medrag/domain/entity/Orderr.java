@@ -15,18 +15,18 @@ import java.util.List;
  * @version 1.0
  */
 @Entity
-@Table(name = "orderr")
+@Table(name = "ORDERR")
 public class Orderr extends Identifier {
 
     @NaturalId
-    @Column(name = "order_index")
+    @Column(name = "ORDER_INDEX")
     private String index;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "OWNER_ID", nullable = false)
     private Customer owner;
 
-    @Column(name = "complete")
+    @Column(name = "COMPLETE")
     private Boolean complete;
 
     @OneToMany(mappedBy = "orderr", cascade = CascadeType.REMOVE)

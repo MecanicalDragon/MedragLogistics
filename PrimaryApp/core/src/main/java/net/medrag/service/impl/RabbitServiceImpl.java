@@ -41,7 +41,7 @@ public class RabbitServiceImpl implements RabbitService {
 
         if (rabbit == null) {
             rabbit = new ConnectionFactory();
-            rabbit.setHost("localhost");
+            rabbit.setHost("rabbitmq");
         }
     }
 
@@ -59,7 +59,6 @@ public class RabbitServiceImpl implements RabbitService {
 
                 channel.exchangeDeclare(RESOURCES, BuiltinExchangeType.FANOUT);
                 channel.basicPublish(RESOURCES, "", null, message.getBytes("UTF-8"));
-//                System.out.println(" [x] Sent '" + message + "'");
             } catch (IOException | TimeoutException e) {
                 throw new MedragServiceException(e);
             }
@@ -83,7 +82,6 @@ public class RabbitServiceImpl implements RabbitService {
                 String message = new ObjectMapper().writeValueAsString(cargoForm);
 
                 channel.basicPublish(DELIVERY, "", null, message.getBytes("UTF-8"));
-//                System.out.println(" [x] Sent '" + message + "'");
             } catch (IOException | TimeoutException e) {
                 throw new MedragServiceException(e);
             }

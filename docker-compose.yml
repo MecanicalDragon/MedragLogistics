@@ -1,0 +1,53 @@
+version: "2.1"
+services:
+  medragdb:
+    image: mysql/mysql-server:5.7.28
+    container_name: medragdb
+    #    ports:
+    #      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: medrag_logistics_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    #    volumes:
+    #      - D:/dockervolumes/medrag_db_files/:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
+    networks:
+      - medrag
+  rabbitmq:
+    image: rabbitmq:3.8.2
+    container_name: rabbitmq
+    networks:
+      - medrag
+  primary-app:
+    depends_on:
+      medragdb:
+        condition: service_healthy
+    build: PrimaryApp
+    container_name: medrag_logistics_primary
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/title"]
+    volumes:
+      - D:/dockervolumes/medrag_logs/:/usr/local/tomcat/logs
+    networks:
+      - medrag
+  watcher:
+    depends_on:
+      primary-app:
+        condition: service_healthy
+    build: Watcher
+    container_name: medrag_logistics_watcher
+    ports:
+      - "8090:8080"
+#    command: ["/opt/jboss/wildfly/bin/standalone.sh", "-c", "standalone-ee8.xml"]
+    networks:
+      - medrag
+networks:
+  medrag:
+    driver: bridge

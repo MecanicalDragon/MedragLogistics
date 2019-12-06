@@ -99,7 +99,7 @@ public class RouteServiceImplTest {
 
         doNothing().when(driverService).updateDtoStatus(any(DriverDto.class), any(Driver.class));
         doNothing().when(truckService).updateDtoStatus(any(TruckDto.class), any(Truck.class));
-        doNothing().when(mailService).sendCompiledRouteMesaage(any(DriverDto.class), anyString());
+        lenient().doNothing().when(mailService).sendCompiledRouteMesaage(any(DriverDto.class), anyString());
 
         CityDto departure = new CityDto();
         CityDto destination = new CityDto();
@@ -172,7 +172,7 @@ public class RouteServiceImplTest {
         waypoint.setWayPointType(WaypointType.UNLOAD);
 
         when(waypointService.refreshDto(any(WaypointDto.class), any(Waypoint.class))).thenReturn(waypoint);
-        doNothing().when(mailService).sendDeliveredCargoEmail(any(CargoDto.class));
+        lenient().doNothing().when(mailService).sendDeliveredCargoEmail(any(CargoDto.class));
 
         boolean verdict = routeService.completeWaypoint(waypoint);
 

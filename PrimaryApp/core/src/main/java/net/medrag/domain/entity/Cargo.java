@@ -15,48 +15,48 @@ import java.util.Set;
  * @version 1.0
  */
 @Entity
-@Table(name = "cargo")
+@Table(name = "CARGO")
 public class Cargo extends Identifier {
 
     @NaturalId
-    @Column(name = "cargo_index")
+    @Column(name = "CARGO_INDEX")
     private String index;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "weight")
+    @Column(name = "WEIGHT")
     private Integer weight;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "state", columnDefinition = "enum('prepared', 'on_board', 'delivered', 'transient', 'destination')")
+    @Column(name = "STATE", columnDefinition = "ENUM('PREPARED', 'ON_BOARD', 'DELIVERED', 'TRANSIENT', 'DESTINATION')")
     private CargoState state;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "OWNER_ID")
     private Customer owner;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "ORDER_ID")
     private Orderr orderr;
 
     @ManyToOne
-    @JoinColumn(name = "departure_id")
+    @JoinColumn(name = "DEPARTURE_ID")
     private City departure;
 
     @ManyToOne
-    @JoinColumn(name = "destination_id")
+    @JoinColumn(name = "DESTINATION_ID")
     private City destination;
 
     @ManyToOne
-    @JoinColumn(name = "current_city_id")
+    @JoinColumn(name = "CURRENT_CITY_ID")
     private City currentCity;
 
     @OneToMany(mappedBy = "cargo", fetch = FetchType.LAZY)
     private List<Waypoint> route;
 
     @ManyToOne
-    @JoinColumn(name = "current_truck_id")
+    @JoinColumn(name = "CURRENT_TRUCK_ID")
     private Truck currentTruck;
 
 

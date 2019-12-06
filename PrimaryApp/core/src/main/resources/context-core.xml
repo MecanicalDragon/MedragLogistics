@@ -56,8 +56,16 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
+    <bean id="flywayConfig" class="org.flywaydb.core.api.configuration.ClassicConfiguration">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
+        <constructor-arg ref="flywayConfig"/>
+    </bean>
+
     <!--SessionFactory-->
-    <bean id="hibernate5AnnotatedSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <bean id="hibernate5AnnotatedSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" depends-on="flyway">
         <property name="dataSource" ref="dataSource"/>
         <property name="annotatedClasses">
             <list>

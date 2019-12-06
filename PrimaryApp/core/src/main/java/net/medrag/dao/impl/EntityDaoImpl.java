@@ -139,7 +139,8 @@ public class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
      */
     @Override
     public Integer getEntityCount(E entity, String... args) throws MedragRepositoryException {
-        String fromTable = String.format("select count(*) from %s", entity.getClass().getSimpleName().toLowerCase());
+        //  Here we use native SQL query, therefore query should be in uppercase
+        String fromTable = String.format("select count(*) from %s", entity.getClass().getSimpleName().toUpperCase());
         if (args.length > 1) {
             StringBuilder sb = new StringBuilder(fromTable);
             sb.append(" where ");
@@ -203,6 +204,7 @@ public class EntityDaoImpl<E extends Entity> implements EntityDao<E> {
      */
     @Override
     public List<E> getLastEntities(E entity, Integer count) throws MedragRepositoryException {
+        //  Here we use HQL instead of SQL, therefore query is not in uppercase
         String fromTable = String.format("from %s ORDER BY id DESC", entity.getClass().getSimpleName());
         try {
             Session session = sessionFactory.getCurrentSession();

@@ -13,25 +13,25 @@ import javax.persistence.Entity;
  * @version 1.0
  */
 @Entity
-@Table(name = "user")
+@Table(name = "USER")
 public class User extends Identifier{
 
     @NaturalId
-    @Column(name = "username")
+    @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "EMAIL")
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", columnDefinition = "enum('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE')")
+    @Column(name = "ROLE", columnDefinition = "ENUM('ROLE_DRIVER', 'ROLE_MANAGER', 'ROLE_WAREHOUSEMAN', 'ROLE_RESOURCE')")
     private UserRole role;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JoinColumn(name = "driver_id")
+    @JoinColumn(name = "DRIVER_ID")
     private Driver driver;
 
     public Driver getDriver() {

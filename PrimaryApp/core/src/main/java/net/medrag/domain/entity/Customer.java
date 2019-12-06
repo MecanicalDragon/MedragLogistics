@@ -13,23 +13,23 @@ import java.util.Set;
  * @version 1.0
  */
 @Entity
-@Table(name = "customer")
+@Table(name = "CUSTOMER")
 public class Customer extends Identifier{
 
     @NaturalId
-    @Column(name = "passport")
+    @Column(name = "PASSPORT")
     private String passport;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "surname")
+    @Column(name = "SURNAME")
     private String surname;
 
-    @Column(name = "phone")
+    @Column(name = "PHONE")
     private String phone;
 
-    @Column(name = "email")
+    @Column(name = "EMAIL")
     private String email;
 
     @OneToMany(mappedBy = "owner")
